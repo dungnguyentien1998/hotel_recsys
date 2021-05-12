@@ -1,0 +1,51 @@
+import formUtil from '@/utils/form-data-utils'
+import {api} from "@/api"
+
+
+export default {
+    // Reset state status
+    resetStatus: context => {
+        context.commit('resetStatus');
+    },
+    // Api list hotels
+    listHotels: context => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get('hotels').then(res => {
+            context.commit('listHotels', res)
+        })
+    },
+    // Api create hotel
+    createHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let form = formUtil(payload)
+        return api.post('hotels', form).then(res => {
+            // context.commit('createHotel', res)
+        })
+    },
+    // Api update booking
+    updateHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let uuid = payload.uuid
+        delete payload.uuid
+        let form = formUtil(payload)
+        return api.put(`hotels/${uuid}`, form).then(res => {
+            context.commit('updateHotel', res)
+        })
+    },
+    // Api delete booking
+    deleteHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.delete(`hotels/${payload}`).then(res => {
+            context.commit('deleteHotel', res)
+        })
+    },
+    approveHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token')
+        let uuid = payload.uuid
+        delete payload.uuid
+        let form = formUtil(payload)
+        return api.put(`admin/hotels/${uuid}`, form).then(res => {
+            context.commit('updateUser', res)
+        })
+    }
+}

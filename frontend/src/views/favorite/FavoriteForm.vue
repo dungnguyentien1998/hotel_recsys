@@ -1,0 +1,318 @@
+<template>
+    <div>
+        <b-form>
+            <!--  Hotel name      -->
+            <h3 class="p-inline">
+                <span class="font-weight-bolder">
+                    {{ hotel.name }}
+                </span>
+            </h3>
+            <p class="p-inline">
+                <b-form-rating
+                    v-model="hotel.star"
+                    variant="warning"
+                    no-border
+                    inline
+                    readonly
+                />
+            </p>
+            <b-form-group
+                id="image-group"
+                label=""
+                label-for="image"
+            >
+                <b-card-img
+                    :src="hotelImage(hotel.image)"
+                />
+            </b-form-group>
+            <!--  Hotel city      -->
+            <p>
+                <span class="font-weight-bolder">
+                    {{ $t('hotel.hotel.address') }}
+                </span>
+                <span class="text-secondary">
+                    {{ getAddress(hotel.address, hotel.ward, hotel.district, hotel.city) }}
+                </span>
+            </p>
+            <!--  Hotel amenities      -->
+            <p>
+                <span class="font-weight-bolder">
+                    {{ $t('hotel.hotel.amenities') }}
+                </span>
+                <b-list-group horizontal="md">
+                    <b-list-group-item
+                        v-for="(amenity, index) in hotel.amenities"
+                        :key="`${hotel.uuid}-amenity-${index}`"
+                        style="margin: 5px; border: none"
+                    >
+                        <img
+                            :src="getSrc(amenity)"
+                            :alt="amenity"
+                            class="icon"
+                        >
+                        {{ amenity }}
+                    </b-list-group-item>
+                </b-list-group>
+            </p>
+            <div class="mt-3">
+                <b-button
+                    v-if="roleUser"
+                    v-model="myToggle"
+                    :disabled="myToggle === true"
+                    variant="primary"
+                    @click="onSubmit"
+                >
+                    {{ $t('hotel.hotel.favoriteBtn') }}
+                </b-button>
+                <b-button
+                    v-if="roleUser"
+                    v-model="myToggle"
+                    :disabled="myToggle === false"
+                    variant="danger"
+                    @click="onDelete"
+                >
+                    {{ $t('hotel.hotel.removeBtn') }}
+                </b-button>
+                <b-button
+                    v-if="roleHotelier"
+                    variant="primary"
+                    href="#"
+                    @click="$bvModal.show(`modal-${hotel.uuid}-update`)"
+                >
+                    {{ $t('hotel.hotel.updateBtn') }}
+                </b-button>
+                <!--         Delete hotel button                   -->
+                <b-button
+                    v-if="roleHotelier"
+                    class="ml-2"
+                    variant="danger"
+                    href="#"
+                    @click="$bvModal.show(`modal-${hotel.uuid}-delete`)"
+                >
+                    {{ $t('hotel.hotel.deleteBtn') }}
+                </b-button>
+            </div>
+            <!--         Update hotel form                   -->
+            <b-modal
+                :id="`modal-${hotel.uuid}-update`"
+                :title="$t('hotel.hotel.updateTitle')"
+                size="lg"
+                hide-footer
+            >
+                <hotel-form :hotel="hotel" />
+            </b-modal>
+            <!--         Delete hotel form                   -->
+            <b-modal
+                :id="`modal-${hotel.uuid}-delete`"
+                :title="$t('hotel.hotel.deleteTitle')"
+                size="lg"
+                :ok-title="$t('button.submit')"
+                :cancel-title="$t('button.unsubmit')"
+                @ok="deleteHotel(hotel.uuid)"
+            >
+                {{ $t('hotel.hotel.confirmDelete') }}
+            </b-modal>
+        </b-form>
+        <hr>
+        <div
+            v-if="roleUser"
+            class="align-items-center d-flex"
+        >
+            <h2 class="flex-grow-1">
+                {{ $t('hotel.hotel.recommendedLabel') }}
+            </h2>
+        </div>
+        <br>
+        <div
+            v-if="roleUser"
+            class="row"
+        >
+            <!--  Recommendation list      -->
+            <div
+                v-for="recommendation in recommendations"
+                :key="recommendation.uuid"
+                class="col-md-4 col-sm-10"
+                @dblclick="$router.push({name: 'createFavorite', params: {uuid: recommendation.uuid}})"
+            >
+                <!--    Recommendation hotel info        -->
+                <b-card
+                    img-top
+                    class="p-1 mb-2"
+                    tag="article"
+                >
+                    <b-card-img
+                        :src="hotelImage(recommendation.image)"
+                        class="mb-2"
+                        style="height: 200px; width: 100%"
+                    />
+                    <b-card-title
+                        :title="recommendation.name"
+                        title-tag="h2"
+                        class="p-inline"
+                    />
+                    <p class="p-inline">
+                        <b-form-rating
+                            v-model="recommendation.star"
+                            variant="warning"
+                            no-border
+                            inline
+                            readonly
+                        />
+                    </p>
+                    <p>
+                        <span class="font-weight-bolder">
+                            {{ $t('hotel.hotel.rating') }}:
+                        </span>
+                        <b-badge
+                            pill
+                            variant="info"
+                            class="badge-size"
+                        >
+                            {{ recommendation.rating }} / 5
+                        </b-badge>
+                    </p>
+                    <p>
+                        <span class="font-weight-bolder">
+                            {{ $t('hotel.hotel.address') }}
+                        </span>
+                        <span class="text-secondary">
+                            {{ getAddress(recommendation.address, recommendation.ward, recommendation.district, recommendation.city) }}
+                        </span>
+                    </p>
+                </b-card>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import HotelForm from '@/components/HotelForm';
+import {validationMixin} from 'vuelidate';
+import formMixin from '@/mixin/form-mixin'
+import addressMixin from '@/mixin/address-mixin'
+
+
+export default {
+    name: "FavoriteForm",
+    components: {HotelForm},
+    mixins: [validationMixin, formMixin, addressMixin],
+    data: function () {
+        return {
+            // Toggle data
+            myToggle: false,
+            // Hotel data
+            hotel: this.$store.getters['hotel/hotels'].filter(hotel => hotel.uuid === this.$route.params.uuid)[0],
+            // Favorite data
+            favorites: [],
+            favorite: [],
+            recommendations: []
+        }
+    },
+    computed: {
+        roleUser: function () {
+            return (this.$store.getters['user/user'].role === 'user')
+        },
+        // Check if role hotelier
+        roleHotelier: function () {
+            return (this.$store.getters['user/user'].role === 'hotelier')
+        },
+    },
+    created() {
+        // Handle toggle data
+        this.$store.dispatch('favorite/listFavorites', this.$route.params.uuid)
+            .then(() => {
+                this.favorites = this.$store.getters['favorite/favorites']
+                this.favorite = this.favorites.filter(favorite => favorite.hotelid === this.$route.params.uuid)
+                if (this.favorite.length > 0) {
+                    this.myToggle = true
+                } else {
+                    this.myToggle = false
+                }
+            })
+        this.$store.dispatch('type/listTypes', this.$route.params.uuid)
+        this.$store.dispatch('recommendation/listRecommendations', this.$route.params.uuid).then(() => {
+            this.recommendations = this.$store.getters['recommendation/recommendations']
+        })
+    },
+    methods: {
+        getAddress: function (address, ward, district, city) {
+            if (address == null || address === "") {
+                return ward + ", " + district + ", " + city
+            } else {
+                return address + ", " + ward + ", " + district + ", " + city
+            }
+        },
+        // Get hotel image
+        hotelImage: function (uri) {
+            return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+        },
+        getSrc: function (amenity) {
+            let images = require.context('../../assets/', false, /\.png$/)
+            return images('./' + amenity + ".png")
+        },
+        // Handle save to favorite
+        onSubmit: function () {
+            this.myToggle = !this.myToggle
+            if (this.myToggle === true) {
+                this.$store.dispatch('favorite/createFavorite', this.$route.params.uuid)
+                // Alert for success
+                this.$bvToast.toast(this.$t('favorite.favorite.success.saveMessage'), {
+                    title: this.$t('favorite.favorite.success.saveTitle'),
+                    autoHideDelay: 5000,
+                    variant: 'success'
+                })
+            }
+        },
+        // Handle remove from favorite
+        onDelete: function () {
+            this.myToggle = !this.myToggle
+            if (this.myToggle === false) {
+                this.$store.dispatch('favorite/resetStatus')
+                this.$store.dispatch('favorite/deleteFavorite', {hotelId: this.$route.params.uuid, favoriteId: this.favorite[0].uuid})
+                    .then(() => {
+                        // Alert for failed api call
+                        if (this.$store.getters['favorite/status'] === 'FAILED') {
+                            this.makeToast(this.$t('favorite.favorite.errors.removeTitle'), this.$t('favorite.favorite.errors.exceptionOccurred'))
+                        } else {
+                            this.$bvToast.toast(this.$t('favorite.favorite.success.removeMessage'), {
+                                title: this.$t('favorite.favorite.success.removeTitle'),
+                                autoHideDelay: 5000,
+                                variant: 'success'
+                            })
+                        }
+                    })
+            }
+        },
+        deleteHotel: function (uuid) {
+            this.$store.dispatch('hotel/resetStatus')
+            this.$store.dispatch('hotel/deleteHotel', uuid)
+                .then(() => {
+                    if (this.$store.getters['hotel/status'] === 'FAILED') {
+                        // Alert for failed api call
+                        this.makeToast(this.$t('hotel.hotel.errors.title'), this.$t('hotel.hotel.errors.exceptionOccurred'))
+                    } else {
+                        this.$router.push('/dashboard/hotels')
+                    }
+                })
+        }
+    }
+}
+</script>
+
+<style
+    lang="scss"
+    scoped
+>
+.card-img {
+    height: 50%;
+    width: 50%;
+    object-fit: cover;
+}
+.icon {
+    height: 30px;
+    width: 30px;
+}
+.p-inline {
+    display: inline-block;
+}
+</style>

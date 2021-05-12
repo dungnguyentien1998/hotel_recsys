@@ -1,0 +1,7 @@
+#: hotelrecsys/settings/base.py:143
+msgid "English"
+msgstr ""
+
+#: hotelrecsys/settings/base.py:144
+msgid "Vietnamese"
+msgstr ""
