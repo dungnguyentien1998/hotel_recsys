@@ -116,7 +116,7 @@
                                 variant="primary"
                                 href="#"
                                 size="sm"
-                                @click="onHandle(booking.created)"
+                                @click="onHandle(booking.uuid)"
                             >
                                 {{ $t('booking.booking.viewBtn') }}
                             </b-button>
@@ -179,7 +179,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('booking/listBookings')
+        this.$store.dispatch('booking/newListBookings')
             .then(() => {
                 this.bookings = this.$store.getters['booking/bookings']
                 this.bookings.sort(function (a,b) {
@@ -196,9 +196,9 @@ export default {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
-        onHandle: function(created) {
-            localStorage.setItem("created", created)
-            this.$router.push({name: 'bookingsDetail', params: {created: created}})
+        onHandle: function(uuid) {
+            localStorage.setItem("uuid", uuid)
+            this.$router.push({name: 'bookingsDetail', params: {uuid: uuid}})
         },
         // Handle delete booking
         // deleteBooking: function(uuid) {
@@ -214,10 +214,10 @@ export default {
         //         })
         // }
         // Handle delete multiple bookings
-        deleteBooking: function(created) {
+        deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
-            this.form.created = created
-            this.$store.dispatch('booking/deleteBooking', this.form)
+            // this.form.created = created
+            this.$store.dispatch('booking/newDeleteBooking', uuid)
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
                         // Alert for failed api call

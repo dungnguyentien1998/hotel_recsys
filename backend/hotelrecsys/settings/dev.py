@@ -36,10 +36,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.setdefault('DB_HOST', 'localhost'),
-        'USER': os.environ.setdefault('DB_USER', 'postgres'),
+        'USER': os.environ.setdefault('DB_USER', 'tiendung'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'NAME': os.environ.setdefault('DB_NAME', 'hotelrecsys')
-    }
+    },
+    'recsys': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.setdefault('DB_HOST', 'localhost'),
+        'USER': os.environ.setdefault('DB_USER', 'tiendung'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'NAME': os.environ.setdefault('DB_NAME', 'recsys')
+    },
 }
 
 SERVER_HOST = 'localhost:8000'

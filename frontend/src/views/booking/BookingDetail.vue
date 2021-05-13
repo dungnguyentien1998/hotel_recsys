@@ -170,7 +170,7 @@ export default {
         const created = localStorage.getItem("created")
         return {
             types: [],
-            booking: this.$store.getters['booking/bookings'].filter(booking => booking.created === created)[0],
+            booking: this.$store.getters['booking/bookings'].filter(booking => booking.uuid === this.$route.params.uuid)[0],
             form: {
                 created: null
             }
@@ -269,10 +269,10 @@ export default {
             }
             return total_price
         },
-        deleteBooking: function(created) {
+        deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
-            this.form.created = created
-            this.$store.dispatch('booking/deleteBooking', this.form)
+            // this.form.created = created
+            this.$store.dispatch('booking/newDeleteBooking', uuid)
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
                         // Alert for failed api call

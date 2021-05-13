@@ -1,96 +1,30 @@
 import json
 
-from app.models import Booking, Room, Type
+from app.models import Booking, Room, Type, BookingRoom
 from app.exceptions import ValidationError, BookingError
 from rest_framework import serializers
 from datetime import datetime
 
+# from app.serializers import RoomSerializer
+# from app.serializers.booking_room import BookingRoomSerializer
+
 
 # Booking crud
+from app.serializers.room import RoomSerializer
+
+
 class BookingSerializer(serializers.Serializer):
     # Booking data
     check_in_time = serializers.DateTimeField(required=False)
     check_out_time = serializers.DateTimeField(required=False)
-    # room_id = serializers.CharField(required=False)
-
-    # hotel_id = serializers.CharField(required=False)
-    # room_type = serializers.CharField(required=False)
-    # booking_count = serializers.IntegerField(required=False)
 
     hotel_id = serializers.CharField(required=False)
     room_types = serializers.ListField(required=False)
     booking_counts = serializers.ListField(required=False, child=serializers.IntegerField())
 
-    # Create one booking, without booking_count
-    # def create(self, validated_data):
-    #     # Get user id and room
-    #     validated_data['user_id'] = self.context['request'].user.uuid
-    #     rooms = Room.objects.filter(room_type=validated_data['room_type'], hotel_id=validated_data['hotel_id'])
-    #     # room = Room.objects.get(uuid=validated_data['room_id'])
-    #     check = True
-    #     for room in rooms:
-    #         current_bookings = Booking.objects.filter(room_id=room.uuid)
-    #         # Check is used to validate new booking
-    #         check = True
-    #         for current_booking in current_bookings:
-    #             if current_booking.check_in_time < validated_data['check_out_time'] <= current_booking.check_out_time:
-    #                 check = False
-    #                 break
-    #             if validated_data['check_out_time'] > current_booking.check_out_time > validated_data['check_in_time']:
-    #                 check = False
-    #                 break
-    #
-    #         if check:
-    #             validated_data.pop('room_type')
-    #             validated_data.pop('hotel_id')
-    #             validated_data['room_id'] = room.uuid
-    #             booking = Booking.objects.create(**validated_data)
-    #             # Update room booked count attribute and create booking
-    #             room.booked_count += 1
-    #             room.save()
-    #             return booking
-    #
-    #     if not check:
-    #         raise ValidationError('Room booked')
-
-    # Create multiple booking, with one room type
-    # def create(self, validated_data):
-    #     # Get user id and room
-    #     validated_data['user_id'] = self.context['request'].user.uuid
-    #     rooms = Room.objects.filter(room_type=validated_data['room_type'], hotel_id=validated_data['hotel_id'])
-    #     count = 0
-    #     room_ids = []
-    #     for room in rooms:
-    #         current_bookings = Booking.objects.filter(room_id=room.uuid)
-    #         # Check is used to validate new booking
-    #         check = True
-    #         for current_booking in current_bookings:
-    #             if current_booking.check_in_time < validated_data['check_out_time'] <= current_booking.check_out_time:
-    #                 check = False
-    #                 break
-    #             if validated_data['check_out_time'] > current_booking.check_out_time > validated_data['check_in_time']:
-    #                 check = False
-    #                 break
-    #
-    #         if check:
-    #             count += 1
-    #             room_ids.append(room.uuid)
-    #
-    #         if count == validated_data['booking_count']:
-    #             break
-    #
-    #     if count < validated_data['booking_count']:
-    #         raise ValidationError('Room booked')
-    #
-    #     validated_data.pop('room_type')
-    #     validated_data.pop('hotel_id')
-    #     validated_data.pop('booking_count')
-    #     bookings = []
-    #     for room_id in room_ids:
-    #         validated_data['room_id'] = room_id
-    #         booking = Booking.objects.create(**validated_data)
-    #         bookings.append(booking)
-    #     return bookings
+    # def get_rooms(self, booking):
+    #     query_set = BookingRoom.objects.filter(booking=booking)
+    #     return [BookingRoomSerializer(item).data for item in query_set]
 
     # Create multiple booking, with multiple room type
     def create(self, validated_data):
@@ -119,10 +53,12 @@ class BookingSerializer(serializers.Serializer):
             rooms = Room.objects.filter(type_id=room_type.uuid)
             count = 0
             for room in rooms:
-                current_bookings = Booking.objects.filter(room_id=room.uuid)
+                # current_bookings = Booking.objects.filter(room_id=room.uuid)
+                current_booking_rooms = BookingRoom.objects.filter(room_id=room.uuid)
                 # Check is used to validate new booking
                 check = True
-                for current_booking in current_bookings:
+                for current_booking_room in current_booking_rooms:
+                    current_booking = Booking.objects.get(uuid=current_booking_room.booking_id)
                     if current_booking.check_in_time < validated_data['check_out_time'] <= current_booking.check_out_time:
                         check = False
                         break
@@ -173,16 +109,16 @@ class BookingSerializer(serializers.Serializer):
         microsecond = microsecond[0:4]
         code = year + month + day + hour + minute + second + microsecond
         now_string = now.strftime("%Y-%m-%d %H:%M:%S")
-        for room_id in room_ids:
-            validated_data['room_id'] = room_id
-            # booking = Booking.objects.create(**validated_data)
-            booking = Booking(check_in_time=validated_data['check_in_time'], check_out_time=validated_data['check_out_time'],
-                              user_id=validated_data['user_id'], room_id=validated_data['room_id'],
-                              created=now, updated=now, code=code)
-            bookings.append(booking)
-            booking.save()
 
-        return bookings
+        booking = Booking(check_in_time=validated_data['check_in_time'], check_out_time=validated_data['check_out_time'],
+                          user_id=validated_data['user_id'], created=now, updated=now, code=code)
+        booking.save()
+        booking_id = booking.uuid
+        for room_id in room_ids:
+            booking_room = BookingRoom(booking_id=booking_id, room_id=room_id)
+            booking_room.save()
+
+        return booking
 
     def update(self, instance, validated_data):
         # Update booking
@@ -203,8 +139,9 @@ class BookingDetailSerializer(serializers.ModelSerializer):
     hotelid = serializers.ReadOnlyField()
     user_email = serializers.ReadOnlyField()
     user_tel = serializers.ReadOnlyField()
+    rooms = RoomSerializer(many=True)
 
     class Meta:
         model = Booking
         fields = [*Booking.get_fields(), 'user_name', 'hotel_name', 'room_number', 'address', 'room_type', 'price',
-                  'image', 'hotelid', 'user_email', 'user_tel']
+                  'image', 'hotelid', 'user_email', 'user_tel', 'rooms']

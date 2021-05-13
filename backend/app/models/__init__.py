@@ -7,6 +7,7 @@ from .booking import Booking
 from .favorite import Favorite
 from .recommendation import Recommendation
 from .type import Type, RoomAmenity
+from .booking_room import BookingRoom
 # from app.models.booking import Booking
 # from app.models.complaint import Complaint
 # from app.models.hotel import Hotel, HotelAmenity

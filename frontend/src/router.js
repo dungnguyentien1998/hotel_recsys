@@ -192,7 +192,7 @@ let routes = [
         }
     },
     {
-        path: '/bookings/detail',
+        path: '/bookings/:uuid',
         name: 'bookingsDetail',
         component: BookingDetail,
         meta: {

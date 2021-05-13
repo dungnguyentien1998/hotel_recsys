@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from app import models
-from app.serializers import BookingSerializer, BookingDetailSerializer
+from app.serializers.booking import BookingSerializer, BookingDetailSerializer
 from app.permissions.booking import BookingPermission
 from app.utils.serializer_validator import validate_serializer
 
@@ -179,4 +179,44 @@ class HotelierBooking(APIView):
         return Response({
             'success': True,
             'bookings': BookingDetailSerializer(bookings, many=True).data
+        })
+
+
+class NewBooking(APIView):
+    def get(self, request):
+        user = request.user
+        bookings = models.Booking.objects.filter(user_id=user.uuid)
+        return Response({
+            'success': True,
+            'bookings': BookingDetailSerializer(bookings, many=True).data
+        })
+
+    def post(self, request):
+        serializer = BookingSerializer(data=request.data, context={'request': request})
+        validate_serializer(serializer=serializer)
+        booking = serializer.save()
+        return Response({
+            'success': True,
+            'booking': BookingDetailSerializer(booking).data
+            # 'bookings': BookingDetailSerializer(bookings, many=True).data
+        })
+
+
+class NewBookingDetail(APIView):
+    def get(self, request, booking_id):
+        booking = models.Booking.objects.get(uuid=booking_id)
+        return Response({
+            'success': True,
+            'booking': BookingDetailSerializer(booking).data
+        })
+
+    def delete(self, request, booking_id):
+        booking = models.Booking.objects.get(uuid=booking_id)
+        booking.delete()
+        booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
+        for booking_room in booking_rooms:
+            booking_room.delete()
+        return Response({
+            'success': True,
+            'bookings': BookingDetailSerializer(booking).data
         })
