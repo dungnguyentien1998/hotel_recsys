@@ -65,7 +65,13 @@ export default {
             loginLink: 'Login',
             errors: {
                 title: 'Register failed',
-                invalidData: 'Invalid data',
+                invalidData: 'Invalid email format',
+                email: 'You have to fill email',
+                name: 'You have to fill name',
+                password: 'You have to fill password',
+                passwordConfirm: 'You have to fill password confirm',
+                passwordLength: 'Password minimum length is 6',
+                passwordSame: 'Password and password are not similar',
                 missing: 'You must fill all required information',
                 emailUsed: 'Email has been used',
                 exceptionOccurred: 'An exception occurred'
@@ -143,6 +149,12 @@ export default {
             confirmDelete: 'Are you sure to delete this hotel?',
             confirmApprove: 'Do you want to approve this form?',
             confirmReject: 'Do you want to reject this form?',
+            success: {
+                approveTitle: 'Approve success',
+                approveMessage: 'You have approved this hotel',
+                rejectTitle: 'Reject success',
+                rejectMessage: 'You have reject this request'
+            },
             errors: {
                 title: 'Delete hotel failed',
                 exceptionOccurred: 'An exception occurred',
@@ -167,8 +179,10 @@ export default {
             createBtn: 'Create',
             updateBtn: 'Update',
             success: {
-                title: 'Making form success',
+                title: 'Request success',
                 message: 'You have sent request to admin',
+                updateTitle: 'Update success',
+                updateMessage: 'You have updated hotel info'
             },
             errors: {
                 title: 'Action failed',
@@ -339,8 +353,10 @@ export default {
             createBtn: 'Create',
             updateBtn: 'Update',
             success: {
-                title: '',
-                message: '',
+                title: 'Create success',
+                message: 'You have created new room type',
+                updateTitle: 'Update success',
+                updateMessage: 'You have updated this room type'
             },
             errors: {
                 title: 'Action failed',
@@ -393,6 +409,12 @@ export default {
             images: 'Image for room',
             createBtn: 'Create',
             updateBtn: 'Update',
+            success: {
+                title: 'Create success',
+                message: 'You have created new rooms',
+                updateTitle: 'Update success',
+                updateMessage: 'You have updated this room'
+            },
             errors: {
                 title: 'Action failed',
                 invalidData: 'Invalid data',

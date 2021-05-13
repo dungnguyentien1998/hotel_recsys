@@ -168,10 +168,10 @@ export default {
                 } else {
                     this.$bvToast.toast(this.$t('user.user.success.unlockMessage'), {
                         title: this.$t('user.user.success.unlockTitle'),
-                        autoHideDelay: 4000,
+                        autoHideDelay: 3000,
                         variant: 'success'
                     })
-                    window.location.reload()
+                    setTimeout(location.reload.bind(location), 3000)
                 }
             })
         },
@@ -186,10 +186,10 @@ export default {
                 } else {
                     this.$bvToast.toast(this.$t('user.user.success.lockMessage'), {
                         title: this.$t('user.user.success.lockTitle'),
-                        autoHideDelay: 5000,
+                        autoHideDelay: 3000,
                         variant: 'success'
                     })
-                    window.location.reload()
+                    setTimeout(location.reload.bind(location), 3000)
                 }
             })
         }

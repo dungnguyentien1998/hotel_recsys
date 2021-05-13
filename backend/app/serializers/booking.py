@@ -5,14 +5,8 @@ from app.exceptions import ValidationError, BookingError
 from rest_framework import serializers
 from datetime import datetime
 
-# from app.serializers import RoomSerializer
-# from app.serializers.booking_room import BookingRoomSerializer
-
 
 # Booking crud
-from app.serializers.room import RoomSerializer
-
-
 class BookingSerializer(serializers.Serializer):
     # Booking data
     check_in_time = serializers.DateTimeField(required=False)
@@ -128,7 +122,6 @@ class BookingSerializer(serializers.Serializer):
 
 
 class BookingDetailSerializer(serializers.ModelSerializer):
-    # Booking data used to represent
     user_name = serializers.ReadOnlyField()
     hotel_name = serializers.ReadOnlyField()
     room_number = serializers.ReadOnlyField()
@@ -139,9 +132,8 @@ class BookingDetailSerializer(serializers.ModelSerializer):
     hotelid = serializers.ReadOnlyField()
     user_email = serializers.ReadOnlyField()
     user_tel = serializers.ReadOnlyField()
-    rooms = RoomSerializer(many=True)
 
     class Meta:
         model = Booking
         fields = [*Booking.get_fields(), 'user_name', 'hotel_name', 'room_number', 'address', 'room_type', 'price',
-                  'image', 'hotelid', 'user_email', 'user_tel', 'rooms']
+                  'image', 'hotelid', 'user_email', 'user_tel']

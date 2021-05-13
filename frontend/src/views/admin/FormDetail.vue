@@ -150,7 +150,13 @@ export default {
                     this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
                 } else {
                     // window.location.reload()
-                    this.$router.push('/admin/hotels')
+                    // this.$router.push('/admin/hotels')
+                    this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
+                        title: this.$t('hotel.hotel.success.approveTitle'),
+                        autoHideDelay: 3000,
+                        variant: 'success'
+                    })
+                    setTimeout(() => this.$router.push('/admin/hotels'), 3000)
                 }
             })
         },
@@ -163,7 +169,12 @@ export default {
                         // Alert for failed api call
                         this.makeToast(this.$t('hotel.hotel.errors.rejectTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
                     } else {
-                        this.$router.push('/admin/hotels')
+                        this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
+                            title: this.$t('hotel.hotel.success.rejectTitle'),
+                            autoHideDelay: 3000,
+                            variant: 'success'
+                        })
+                        setTimeout(() => this.$router.push('/admin/hotels'), 3000)
                     }
                 })
         },

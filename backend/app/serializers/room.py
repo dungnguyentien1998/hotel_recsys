@@ -54,7 +54,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class RoomDetailSerializer(serializers.ModelSerializer):
     # Room data used to represent
-    # from app.serializers.booking import BookingDetailSerializer
+    # from .booking import BookingDetailSerializer
     # bookings = BookingDetailSerializer(many=True)
     room_type = serializers.ReadOnlyField()
     capacity = serializers.ReadOnlyField()
@@ -63,4 +63,4 @@ class RoomDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = [*Room.get_fields(), 'bookings', 'room_type', 'capacity', 'price', 'amenities']
+        fields = [*Room.get_fields(), 'room_type', 'capacity', 'price', 'amenities']

@@ -14,7 +14,7 @@ export default {
             context.commit('listBookings', res)
         })
     },
-    newListBooking: context => {
+    newListBookings: context => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         return api.get('new_bookings').then(res => {
             context.commit('listBookings', res)

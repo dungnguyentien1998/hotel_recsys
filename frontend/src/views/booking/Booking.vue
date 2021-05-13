@@ -11,28 +11,9 @@
             <b-list-group>
                 <b-list-group-item
                     v-for="booking in bookings"
-                    :key="booking.created"
+                    :key="booking.uuid"
                     class="list-item"
                 >
-                    <!--                    <div>-->
-                    <!--                        <b-button-->
-                    <!--                            href="#"-->
-                    <!--                            style="right: 20px"-->
-                    <!--                            variant="danger"-->
-                    <!--                            class="position-absolute"-->
-                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                        </b-button>-->
-                    <!--                        <b-modal-->
-                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                    <!--                            title="Cancel booking"-->
-                    <!--                            size="lg"-->
-                    <!--                            @ok="deleteBooking(booking.uuid)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('hotel.hotel.confirmDelete') }}-->
-                    <!--                        </b-modal>-->
-                    <!--                    </div>-->
                     <div>
                         <b-img
                             :src="hotelImage(booking.image)"
@@ -120,24 +101,24 @@
                             >
                                 {{ $t('booking.booking.viewBtn') }}
                             </b-button>
-                            <!--                            <b-button-->
-                            <!--                                href="#"-->
-                            <!--                                variant="danger"-->
-                            <!--                                size="sm"-->
-                            <!--                                @click="$bvModal.show(`modal-${booking.created}-delete`)"-->
-                            <!--                            >-->
-                            <!--                                {{ $t('booking.booking.cancelBtn') }}-->
-                            <!--                            </b-button>-->
-                            <!--                            <b-modal-->
-                            <!--                                :id="`modal-${booking.created}-delete`"-->
-                            <!--                                :title="$t('booking.booking.cancelTitle')"-->
-                            <!--                                size="lg"-->
-                            <!--                                :ok-title="$t('button.submit')"-->
-                            <!--                                :cancel-title="$t('button.unsubmit')"-->
-                            <!--                                @ok="deleteBooking(booking.created)"-->
-                            <!--                            >-->
-                            <!--                                {{ $t('booking.booking.confirmDelete') }}-->
-                            <!--                            </b-modal>-->
+                            <b-button
+                                href="#"
+                                variant="danger"
+                                size="sm"
+                                @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                            >
+                                {{ $t('booking.booking.cancelBtn') }}
+                            </b-button>
+                            <b-modal
+                                :id="`modal-${booking.uuid}-delete`"
+                                :title="$t('booking.booking.cancelTitle')"
+                                size="lg"
+                                :ok-title="$t('button.submit')"
+                                :cancel-title="$t('button.unsubmit')"
+                                @ok="deleteBooking(booking.uuid)"
+                            >
+                                {{ $t('booking.booking.confirmDelete') }}
+                            </b-modal>
                             <!--                            <b-modal-->
                             <!--                                :id="`modal-${booking.created}-view`"-->
                             <!--                                title="View booking"-->
@@ -173,9 +154,6 @@ export default {
         return {
             // Booking data
             bookings: [],
-            form: {
-                created: null
-            }
         }
     },
     created() {
@@ -197,26 +175,10 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
         onHandle: function(uuid) {
-            localStorage.setItem("uuid", uuid)
             this.$router.push({name: 'bookingsDetail', params: {uuid: uuid}})
         },
-        // Handle delete booking
-        // deleteBooking: function(uuid) {
-        //     this.$store.dispatch('booking/resetStatus')
-        //     this.$store.dispatch('booking/deleteBooking', uuid)
-        //         .then(() => {
-        //             if (this.$store.getters['booking/status'] === 'FAILED') {
-        //                 // Alert for failed api call
-        //                 this.makeToast('Cancel booking failed', this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //             } else {
-        //                 window.location.reload()
-        //             }
-        //         })
-        // }
-        // Handle delete multiple bookings
         deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
-            // this.form.created = created
             this.$store.dispatch('booking/newDeleteBooking', uuid)
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {

@@ -118,25 +118,25 @@
                             <!--                            </template>-->
                         </b-table>
                     </div>
-                    <!--                    <div>-->
-                    <!--                        <b-button-->
-                    <!--                            href="#"-->
-                    <!--                            variant="danger"-->
-                    <!--                            @click="$bvModal.show(`modal-${booking.created}-delete`)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                        </b-button>-->
-                    <!--                        <b-modal-->
-                    <!--                            :id="`modal-${booking.created}-delete`"-->
-                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                    <!--                            size="lg"-->
-                    <!--                            :ok-title="$t('button.submit')"-->
-                    <!--                            :cancel-title="$t('button.unsubmit')"-->
-                    <!--                            @ok="deleteBooking(booking.created)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                    <!--                        </b-modal>-->
-                    <!--                    </div>-->
+                    <div>
+                        <b-button
+                            href="#"
+                            variant="danger"
+                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                        >
+                            {{ $t('booking.booking.cancelBtn') }}
+                        </b-button>
+                        <b-modal
+                            :id="`modal-${booking.uuid}-delete`"
+                            :title="$t('booking.booking.cancelTitle')"
+                            size="lg"
+                            :ok-title="$t('button.submit')"
+                            :cancel-title="$t('button.unsubmit')"
+                            @ok="deleteBooking(booking.uuid)"
+                        >
+                            {{ $t('booking.booking.confirmDelete') }}
+                        </b-modal>
+                    </div>
                 </b-form>
             </div>
         </template>
@@ -167,13 +167,9 @@ export default {
     //     }
     // },
     data: function () {
-        const created = localStorage.getItem("created")
         return {
             types: [],
             booking: this.$store.getters['booking/bookings'].filter(booking => booking.uuid === this.$route.params.uuid)[0],
-            form: {
-                created: null
-            }
         }
     },
     computed: {
@@ -271,7 +267,6 @@ export default {
         },
         deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
-            // this.form.created = created
             this.$store.dispatch('booking/newDeleteBooking', uuid)
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {

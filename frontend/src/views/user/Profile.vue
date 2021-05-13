@@ -363,10 +363,10 @@ export default {
                         // Alert for success update profile
                         this.$bvToast.toast(this.$t('user.user.success.message'), {
                             title: this.$t('user.user.success.title'),
-                            autoHideDelay: 4000,
+                            autoHideDelay: 2000,
                             variant: 'success'
                         })
-                        window.location.reload()
+                        setTimeout(location.reload.bind(location), 2000)
                     }
                 }).catch(() => {
                     this.makeToast(this.$t('user.user.errors.title'), this.$t('user.user.errors.exceptionOccurred'))

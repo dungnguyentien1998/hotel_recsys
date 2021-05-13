@@ -219,8 +219,15 @@ export default {
                                 this.makeToast(this.$t('room.roomForm.errors.updateTitle'),
                                     this.$t('room.roomForm.errors.exceptionOccurred'))
                             } else {
-                                this.$bvModal.hide(`modal-${this.room.uuid}-update`)
-                                window.location.reload()
+                                // this.$bvModal.hide(`modal-${this.room.uuid}-update`)
+                                // window.location.reload()
+                                this.$bvToast.toast(this.$t('room.roomForm.success.updateMessage'), {
+                                    title: this.$t('room.roomForm.success.updateTitle'),
+                                    autoHideDelay: 3000,
+                                    variant: 'success'
+                                })
+                                // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
+                                setTimeout(location.reload.bind(location), 3000)
                             }
                         })
                     }
@@ -242,8 +249,13 @@ export default {
                                     // Alert for failed api calls
                                     this.makeToast(this.$t('room.roomForm.errors.createTitle'), message)
                                 } else {
-                                    this.$bvModal.hide(`modal-create`)
-                                    window.location.reload()
+                                    this.$bvToast.toast(this.$t('room.roomForm.success.message'), {
+                                        title: this.$t('room.roomForm.success.title'),
+                                        autoHideDelay: 3000,
+                                        variant: 'success'
+                                    })
+                                    // this.$bvModal.hide(`modal-create`)
+                                    setTimeout(location.reload.bind(location), 3000)
                                 }
                             })
                     }

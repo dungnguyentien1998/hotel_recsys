@@ -193,8 +193,15 @@ export default {
                             // Alert for failed api calls
                             this.makeToast(this.$t('type.typeForm.errors.updateTitle'), this.$t('type.typeForm.errors.exceptionOccurred'))
                         } else {
-                            this.$bvModal.hide(`modal-${this.type.uuid}-update`)
-                            window.location.reload()
+                            // this.$bvModal.hide(`modal-${this.type.uuid}-update`)
+                            // window.location.reload()
+                            this.$bvToast.toast(this.$t('type.typeForm.success.updateMessage'), {
+                                title: this.$t('type.typeForm.success.updateTitle'),
+                                autoHideDelay: 3000,
+                                variant: 'success'
+                            })
+                            // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
+                            setTimeout(location.reload.bind(location), 3000)
                         }
                     })
                 } else {
@@ -206,8 +213,15 @@ export default {
                                 // Alert for failed api calls
                                 this.makeToast(this.$t('type.typeForm.errors.createTitle'), this.$t('type.typeForm.errors.exceptionOccurred'))
                             } else {
-                                this.$bvModal.hide(`modal-create`)
-                                window.location.reload()
+                                // this.$bvModal.hide(`modal-create`)
+                                // window.location.reload()
+                                this.$bvToast.toast(this.$t('type.typeForm.success.message'), {
+                                    title: this.$t('type.typeForm.success.title'),
+                                    autoHideDelay: 3000,
+                                    variant: 'success'
+                                })
+                                // this.$bvModal.hide(`modal-create`)
+                                setTimeout(location.reload.bind(location), 3000)
                             }
                         })
                 }

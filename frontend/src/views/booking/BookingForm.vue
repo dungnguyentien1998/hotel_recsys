@@ -146,7 +146,6 @@ export default {
         for (let i = 0; i < types_length; i++) {
             booking_counts.push(0)
             room_types.push(types[i].roomType)
-            // localStorage.setItem(types[i].roomType, '0')
             availables.push(0)
         }
         let check_in_time = null
@@ -185,7 +184,7 @@ export default {
             opts.push({value: null, text: '-----'})
             for (let option in this.$store.getters['type/types']) {
                 const room_type = types[option].roomType
-                opts.push({value: room_type, text: room_type.charAt(0).toUpperCase() + room_type.slice(1)})
+                opts.push({value: room_type, text: room_type})
             }
             return opts
         },
@@ -268,12 +267,6 @@ export default {
                 return localStorage.getItem(roomType)
             }
         },
-        // getCheckIn: function () {
-        //     return localStorage.getItem("checkIn")
-        // },
-        // getCheckOut: function () {
-        //     return localStorage.getItem("checkOut")
-        // },
         getSrc: function (amenity) {
             let images = require.context('../../assets/', false, /\.png$/)
             return images('./' + amenity + ".png")
@@ -308,7 +301,7 @@ export default {
                 localStorage.setItem("checkIn", this.form.check_in_time)
                 localStorage.setItem("checkOut", this.form.check_out_time)
                 this.$store.dispatch('booking/resetStatus')
-                this.$store.dispatch('booking/createBooking', this.form).then(() => {
+                this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
                         localStorage.setItem("save", "0")
                         // Alert for failed api calls
@@ -370,7 +363,7 @@ export default {
                     localStorage.setItem("checkOut", this.form.check_out_time)
                     // Handle create booking
                     this.$store.dispatch('booking/resetStatus')
-                    this.$store.dispatch('booking/createBooking', this.form).then(() => {
+                    this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                         if (this.$store.getters['booking/status'] === 'FAILED') {
                             localStorage.setItem("save", "0")
                             // Alert for failed api calls

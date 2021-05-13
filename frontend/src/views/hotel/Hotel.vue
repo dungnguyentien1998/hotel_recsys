@@ -53,9 +53,9 @@
                     <b-card>
                         <b-form>
                             <b-form-group
-                                id="city-group"
+                                id="star-group"
                                 :label="$t('hotel.hotelForm.star')"
-                                label-for="city"
+                                label-for="star"
                                 label-cols-sm="4"
                                 label-cols-lg="3"
                                 content-cols-sm="7"

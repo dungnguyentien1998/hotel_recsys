@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from app import models
-from app.serializers.booking import BookingSerializer, BookingDetailSerializer
+from app.serializers import BookingSerializer, BookingDetailSerializer
 from app.permissions.booking import BookingPermission
 from app.utils.serializer_validator import validate_serializer
 

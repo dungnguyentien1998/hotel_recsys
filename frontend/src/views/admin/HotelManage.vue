@@ -40,6 +40,24 @@
                     <b-card>
                         <b-form>
                             <b-form-group
+                                id="star-group"
+                                :label="$t('hotel.hotelForm.star')"
+                                label-for="star"
+                                label-cols-sm="4"
+                                label-cols-lg="3"
+                                content-cols-sm="7"
+                                content-cols-lg="7"
+                            >
+                                <b-form-rating
+                                    v-model="$v.form.star.$model"
+                                    :state="validateState('star')"
+                                    variant="warning"
+                                    size="sm"
+                                    inline
+                                    no-border
+                                />
+                            </b-form-group>
+                            <b-form-group
                                 id="city-group"
                                 :label="$t('hotel.hotelForm.city')"
                                 label-for="city"
@@ -332,6 +350,7 @@ export default {
                 city: null,
                 district: null,
                 ward: null,
+                star: null
             },
             updateForm: {
                 is_active: null
@@ -368,6 +387,9 @@ export default {
             ward: {
                 // required,
             },
+            star: {
+
+            }
         }
     },
     created() {
@@ -436,6 +458,12 @@ export default {
                     amenities_list.every(amenity => hotel.amenities.includes(amenity))
                 )
             }
+            if (!!this.form.star) {
+                this.filterHotels = this.filterHotels.filter(hotel =>
+                    hotel.star === this.form.star
+                )
+            }
+            this.form.star = null
         },
         approveHotel: function (uuid) {
             this.$store.dispatch('hotel/resetStatus')
@@ -446,7 +474,14 @@ export default {
                     // Alert for failed api calls
                     this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
                 } else {
-                    window.location.reload()
+                    // window.location.reload()
+                    this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
+                        title: this.$t('hotel.hotel.success.approveTitle'),
+                        autoHideDelay: 3000,
+                        variant: 'success'
+                    })
+                    // this.$bvModal.hide(`modal-create`)
+                    setTimeout(location.reload.bind(location), 3000)
                 }
             })
         },
@@ -459,7 +494,14 @@ export default {
                         // Alert for failed api call
                         this.makeToast(this.$t('hotel.hotel.errors.rejectTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
                     } else {
-                        window.location.reload()
+                        // window.location.reload()
+                        this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
+                            title: this.$t('hotel.hotel.success.rejectTitle'),
+                            autoHideDelay: 3000,
+                            variant: 'success'
+                        })
+                        // this.$bvModal.hide(`modal-create`)
+                        setTimeout(location.reload.bind(location), 3000)
                     }
                 })
         },

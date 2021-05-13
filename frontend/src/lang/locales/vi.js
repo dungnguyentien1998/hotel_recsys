@@ -65,7 +65,13 @@ export default {
             loginLink: 'Đăng nhập',
             errors: {
                 title: 'Lỗi đăng ký',
-                invalidData: 'Thông tin không chính xác',
+                invalidData: 'Sai định dạng email',
+                email: 'Bạn phải điền email',
+                name: 'Bạn phải điền tên',
+                password: 'Bạn phải điền mật khẩu',
+                passwordConfirm: 'Bạn phải xác nhận mật khẩu',
+                passwordLength: 'Độ dài mật khẩu tối thiểu là 6',
+                passwordSame: 'Mật khẩu và mật khẩu xác nhận khác nhau',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
                 emailUsed: 'Email đã được sử dụng',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình đăng ký'
@@ -143,6 +149,12 @@ export default {
             confirmDelete: 'Bạn có chắc chắn xóa khách sạn này?',
             confirmApprove: 'Bạn có muốn phê duyệt khách sạn này?',
             confirmReject: 'Bạn có muốn từ chối?',
+            success: {
+                approveTitle: 'Phê duyệt thành công',
+                approveMessage: 'Bạn đã phê duyệt khách sạn này',
+                rejectTitle: 'Từ chối thành công',
+                rejectMessage: 'Bạn đã từ chối yêu cầu tạo khách sạn'
+            },
             errors: {
                 title: 'Xóa khách sạn không thành công',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
@@ -169,6 +181,8 @@ export default {
             success: {
                 title: 'Gửi yêu cầu thành công',
                 message: 'Bạn đã gửi yêu cầu tới quản trị viên',
+                updateTitle: 'Cập nhật thành công',
+                updateMessage: 'Bạn đã cập nhật thông tin khách sạn'
             },
             errors: {
                 title: 'Thao tác không thành công',
@@ -339,8 +353,10 @@ export default {
             createBtn: 'Tạo',
             updateBtn: 'Cập nhật',
             success: {
-                title: '',
-                message: '',
+                title: 'Tạo kiểu phòng thành công',
+                message: 'Bạn đã tạo kiểu phòng mới',
+                updateTitle: 'Cập nhật thành công',
+                updateMessage: 'Bạn đã cập nhật kiểu phòng thành công'
             },
             errors: {
                 title: 'Thao tác không thành công',
@@ -393,6 +409,12 @@ export default {
             images: 'Ảnh phòng',
             createBtn: 'Tạo',
             updateBtn: 'Cập nhật',
+            success: {
+                title: 'Tạo phòng thành công',
+                message: 'Bạn đã tạo phòng mới',
+                updateTitle: 'Cập nhật thành công',
+                updateMessage: 'Bạn đã cập nhật phòng thành công'
+            },
             errors: {
                 title: 'Thao tác không thành công',
                 invalidData: 'Thông tin không chính xác',

@@ -355,7 +355,26 @@ export default {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validate, need to add more message
-                this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.invalidData'))
+                if (this.form.email === '' || this.form.email == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.email'))
+                } else
+                if (this.form.name === '' || this.form.name == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.name'))
+                } else
+                if (this.form.password === '' || this.form.password == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.password'))
+                } else
+                if (this.form.password_confirm === '' || this.form.password_confirm == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordConfirm'))
+                } else
+                if (this.form.password.length < 6) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordLength'))
+                } else
+                if (this.form.password !== this.form.password_confirm) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordSame'))
+                } else {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.invalidData'))
+                }
             } else {
                 // Change city district ward code to name
                 const city_code = this.form.city
