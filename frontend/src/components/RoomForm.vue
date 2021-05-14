@@ -223,11 +223,11 @@ export default {
                                 // window.location.reload()
                                 this.$bvToast.toast(this.$t('room.roomForm.success.updateMessage'), {
                                     title: this.$t('room.roomForm.success.updateTitle'),
-                                    autoHideDelay: 3000,
+                                    autoHideDelay: 2000,
                                     variant: 'success'
                                 })
                                 // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
-                                setTimeout(location.reload.bind(location), 3000)
+                                setTimeout(location.reload.bind(location), 2000)
                             }
                         })
                     }
@@ -251,11 +251,11 @@ export default {
                                 } else {
                                     this.$bvToast.toast(this.$t('room.roomForm.success.message'), {
                                         title: this.$t('room.roomForm.success.title'),
-                                        autoHideDelay: 3000,
+                                        autoHideDelay: 2000,
                                         variant: 'success'
                                     })
                                     // this.$bvModal.hide(`modal-create`)
-                                    setTimeout(location.reload.bind(location), 3000)
+                                    setTimeout(location.reload.bind(location), 2000)
                                 }
                             })
                     }

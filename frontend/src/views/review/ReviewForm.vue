@@ -118,11 +118,11 @@ export default {
                             // Alert for success created
                             this.$bvToast.toast(this.$t('review.reviewForm.success.message'), {
                                 title: this.$t('review.reviewForm.success.title'),
-                                autoHideDelay: 3000,
+                                autoHideDelay: 2000,
                                 variant: 'success'
                             })
                             // this.resetForm()
-                            setTimeout(location.reload.bind(location), 3000)
+                            setTimeout(location.reload.bind(location), 2000)
                             // window.location.reload()
                         }
                     })

@@ -20,7 +20,6 @@
                     <b-form-input
                         id="name"
                         v-model="$v.form.name.$model"
-                        :state="validateState('name')"
                         :placeholder="$t('hotel.hotelForm.namePlaceholder')"
                         type="text"
                     />
@@ -50,7 +49,6 @@
                             >
                                 <b-form-rating
                                     v-model="$v.form.star.$model"
-                                    :state="validateState('star')"
                                     variant="warning"
                                     size="sm"
                                     inline
@@ -70,7 +68,6 @@
                                     id="city"
                                     v-model="$v.form.city.$model"
                                     :options="cities"
-                                    :state="validateState('city')"
                                     @change="onChangeCity"
                                 />
                             </b-form-group>
@@ -87,7 +84,6 @@
                                     id="district"
                                     v-model="$v.form.district.$model"
                                     :options="districts"
-                                    :state="validateState('district')"
                                     @change="onChangeDistrict"
                                 />
                             </b-form-group>
@@ -104,7 +100,6 @@
                                     id="ward"
                                     v-model="$v.form.ward.$model"
                                     :options="wards"
-                                    :state="validateState('ward')"
                                 />
                             </b-form-group>
                             <b-form-group
@@ -477,11 +472,11 @@ export default {
                     // window.location.reload()
                     this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
                         title: this.$t('hotel.hotel.success.approveTitle'),
-                        autoHideDelay: 3000,
+                        autoHideDelay: 2000,
                         variant: 'success'
                     })
                     // this.$bvModal.hide(`modal-create`)
-                    setTimeout(location.reload.bind(location), 3000)
+                    setTimeout(location.reload.bind(location), 2000)
                 }
             })
         },
@@ -497,11 +492,11 @@ export default {
                         // window.location.reload()
                         this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
                             title: this.$t('hotel.hotel.success.rejectTitle'),
-                            autoHideDelay: 3000,
+                            autoHideDelay: 2000,
                             variant: 'success'
                         })
                         // this.$bvModal.hide(`modal-create`)
-                        setTimeout(location.reload.bind(location), 3000)
+                        setTimeout(location.reload.bind(location), 2000)
                     }
                 })
         },

@@ -86,7 +86,6 @@
                     id="type"
                     v-model="$v.form.room_type.$model"
                     :options="typeOptions"
-                    :state="validateState('room_type')"
                 />
             </b-form-group>
             <button

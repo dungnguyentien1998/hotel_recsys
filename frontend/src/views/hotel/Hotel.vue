@@ -31,10 +31,18 @@
                     <b-form-input
                         id="name"
                         v-model="$v.form.name.$model"
-                        :state="validateState('name')"
                         :placeholder="$t('hotel.hotelForm.namePlaceholder')"
-                        type="text"
+                        list="name-list-id"
+                        type="search"
                     />
+                    <datalist id="name-list-id">
+                        <option
+                            v-for="hotel in hotels"
+                            :key="hotel.uuid"
+                        >
+                            {{ hotel.name }}
+                        </option>
+                    </datalist>
                 </b-form-group>
             </b-form>
             <div
@@ -63,7 +71,6 @@
                             >
                                 <b-form-rating
                                     v-model="$v.form.star.$model"
-                                    :state="validateState('star')"
                                     variant="warning"
                                     size="sm"
                                     inline
@@ -83,7 +90,6 @@
                                     id="city"
                                     v-model="$v.form.city.$model"
                                     :options="cities"
-                                    :state="validateState('city')"
                                     @change="onChangeCity"
                                 />
                             </b-form-group>
@@ -100,7 +106,6 @@
                                     id="district"
                                     v-model="$v.form.district.$model"
                                     :options="districts"
-                                    :state="validateState('district')"
                                     @change="onChangeDistrict"
                                 />
                             </b-form-group>
@@ -117,7 +122,6 @@
                                     id="ward"
                                     v-model="$v.form.ward.$model"
                                     :options="wards"
-                                    :state="validateState('ward')"
                                 />
                             </b-form-group>
                             <b-form-group
@@ -186,6 +190,9 @@
                 @click="onSubmit"
             >
                 {{ $t('hotel.hotel.searchBtn') }}
+                <font-awesome-icon
+                    :icon="['fas', 'search']"
+                />
             </button>
             <hr>
             <!--   Hotel list         -->
@@ -331,7 +338,7 @@
                 class="align-items-center d-flex"
             >
                 <h2 class="flex-grow-1">
-                    {{ $t('hotel.hotel.recommended') }}
+                    {{ (recommendationsLogin.length > 0) ? $t('hotel.hotel.recommended') : '' }}
                 </h2>
             </div>
             <br>
@@ -414,6 +421,10 @@ import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import {Carousel, Slide} from 'vue-carousel'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSearch} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSearch)
 
 export default {
     name: "Hotel",

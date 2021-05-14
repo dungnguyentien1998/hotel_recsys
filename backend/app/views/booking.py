@@ -213,10 +213,11 @@ class NewBookingDetail(APIView):
     def delete(self, request, booking_id):
         booking = models.Booking.objects.get(uuid=booking_id)
         booking.delete()
+        response_data = BookingDetailSerializer(booking).data
         booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
         for booking_room in booking_rooms:
             booking_room.delete()
         return Response({
             'success': True,
-            'bookings': BookingDetailSerializer(booking).data
+            'booking': response_data
         })

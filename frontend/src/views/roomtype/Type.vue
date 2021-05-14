@@ -22,7 +22,7 @@
                         v-if="roleHotelier"
                         href="#"
                         style="right: 110px"
-                        class="btn btn-primary position-absolute"
+                        class="btn btn-sm btn-primary position-absolute"
                         @click="$bvModal.show(`modal-${type.uuid}-update`)"
                     >
                         {{ $t('type.type.updateBtn') }}
@@ -39,6 +39,7 @@
                         v-if="roleHotelier"
                         href="#"
                         style="right: 20px; width: 80px"
+                        size="sm"
                         variant="danger"
                         class="position-absolute"
                         @click="$bvModal.show(`modal-${type.uuid}-delete`)"

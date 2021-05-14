@@ -340,11 +340,11 @@ export default {
                         } else {
                             this.$bvToast.toast(this.$t('hotel.hotelForm.success.updateMessage'), {
                                 title: this.$t('hotel.hotelForm.success.updateTitle'),
-                                autoHideDelay: 3000,
+                                autoHideDelay: 2000,
                                 variant: 'success'
                             })
                             // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
-                            setTimeout(location.reload.bind(location), 3000)
+                            setTimeout(location.reload.bind(location), 2000)
                         }
                     })
                 } else {
@@ -358,11 +358,11 @@ export default {
                             } else {
                                 this.$bvToast.toast(this.$t('hotel.hotelForm.success.message'), {
                                     title: this.$t('hotel.hotelForm.success.title'),
-                                    autoHideDelay: 3000,
+                                    autoHideDelay: 2000,
                                     variant: 'success'
                                 })
                                 // this.resetForm()
-                                setTimeout(function() {$('#modal-create').modal('hide')}, 3000);
+                                setTimeout(function() {$('#modal-create').modal('hide')}, 2000);
                                 // this.$bvModal.hide(`modal-create`)
 
                             }

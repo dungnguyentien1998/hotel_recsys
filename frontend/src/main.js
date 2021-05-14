@@ -13,6 +13,7 @@ import i18n from '@/lang/i18n';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import contentmenu from 'v-contextmenu'
 import VueCarousel from 'vue-carousel'
+import Autocomplete from 'vuejs-auto-complete'
 
 
 // Disable production warning when run in development mode
@@ -37,6 +38,7 @@ Vue.use(IconsPlugin)
 Vue.use(responsive)
 Vue.use(Vuelidate)
 Vue.use(VueCarousel)
+Vue.use(Autocomplete)
 
 // Create Vue instance for App
 new Vue({

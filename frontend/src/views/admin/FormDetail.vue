@@ -153,10 +153,10 @@ export default {
                     // this.$router.push('/admin/hotels')
                     this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
                         title: this.$t('hotel.hotel.success.approveTitle'),
-                        autoHideDelay: 3000,
+                        autoHideDelay: 2000,
                         variant: 'success'
                     })
-                    setTimeout(() => this.$router.push('/admin/hotels'), 3000)
+                    setTimeout(() => this.$router.push('/admin/hotels'), 2000)
                 }
             })
         },
@@ -171,10 +171,10 @@ export default {
                     } else {
                         this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
                             title: this.$t('hotel.hotel.success.rejectTitle'),
-                            autoHideDelay: 3000,
+                            autoHideDelay: 2000,
                             variant: 'success'
                         })
-                        setTimeout(() => this.$router.push('/admin/hotels'), 3000)
+                        setTimeout(() => this.$router.push('/admin/hotels'), 2000)
                     }
                 })
         },

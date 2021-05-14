@@ -111,10 +111,10 @@ export default {
                     } else {
                         this.$bvToast.toast(this.$t('favorite.favorite.success.removeMessage'), {
                             title: this.$t('favorite.favorite.success.removeTitle'),
-                            autoHideDelay: 3000,
+                            autoHideDelay: 2000,
                             variant: 'success'
                         })
-                        setTimeout(location.reload.bind(location), 3000)
+                        setTimeout(location.reload.bind(location), 2000)
                     }
                 })
         }
