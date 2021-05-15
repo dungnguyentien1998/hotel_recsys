@@ -21,6 +21,9 @@ import BookingHotelier from "@/views/booking/BookingHotelier";
 import FormDetail from "@/views/admin/FormDetail";
 import BookingDetail from "@/views/booking/BookingDetail";
 import BookingHotelierDetail from "@/views/booking/BookingHotelierDetail";
+import ForgotPassword from "@/views/user/ForgotPassword";
+import ResetPassword from "@/views/user/ResetPassword";
+import ChangePassword from "@/views/user/ChangePassword";
 
 let routes = [
     // Login router
@@ -41,6 +44,33 @@ let routes = [
         meta: {
             title: 'Register',
             requireRoles: ['guest']
+        }
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgotPassword',
+        component: ForgotPassword,
+        meta: {
+            title: 'Forgot password',
+            requireRoles: ['guest']
+        }
+    },
+    {
+        path: '/reset-password',
+        name: 'resetPassword',
+        component: ResetPassword,
+        meta: {
+            title: 'Reset password',
+            requireRoles: ['guest']
+        }
+    },
+    {
+        path: '/change-password',
+        name: 'changePassword',
+        component: ChangePassword,
+        meta: {
+            title: 'Change password',
+            requireRoles: ['user', 'hotelier', 'admin']
         }
     },
     // Profile router

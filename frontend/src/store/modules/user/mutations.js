@@ -18,6 +18,14 @@ export default {
             state.status = 'FAILED'
         }
     },
+    forgotPassword: (state, payload) => {
+        let success = payload.data.success
+        if (success) {
+            state.status = ''
+        } else {
+            state.status = 'FAILED'
+        }
+    },
     // Create new user
     register: (state, payload) => {
         let success = payload.data.success

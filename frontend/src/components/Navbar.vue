@@ -121,6 +121,11 @@
                         >
                             {{ $t('navbar.profile') }}
                         </b-dropdown-item>
+                        <b-dropdown-item
+                            href="/change-password"
+                        >
+                            {{ $t('navbar.changePassword') }}
+                        </b-dropdown-item>
                         <!--    Logout button         -->
                         <b-dropdown-item
                             href="#"

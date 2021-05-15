@@ -29,6 +29,7 @@
                 <b-button
                     v-b-toggle.collapse-1
                     variant="secondary"
+                    class="btn-sm"
                 >
                     {{ $t('hotel.hotel.advancedSearch') }}
                 </b-button>
@@ -162,11 +163,14 @@
             </div>
             <br>
             <button
-                class="btn btn-primary"
+                class="btn btn-sm btn-primary"
                 type="button"
                 @click="onSubmit"
             >
                 {{ $t('hotel.hotel.searchBtn') }}
+                <font-awesome-icon
+                    :icon="['fas', 'search']"
+                />
             </button>
             <hr>
             <div class="align-items-center d-flex">
@@ -322,6 +326,10 @@ import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import FormDetail from "@/views/admin/FormDetail";
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSearch} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSearch)
 
 export default {
     name: "Hotel",

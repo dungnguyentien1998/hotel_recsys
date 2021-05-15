@@ -60,6 +60,7 @@
                     v-model="myToggle"
                     :disabled="myToggle === true"
                     variant="primary"
+                    size="sm"
                     @click="onSubmit"
                 >
                     {{ $t('hotel.hotel.favoriteBtn') }}
@@ -69,6 +70,7 @@
                     v-model="myToggle"
                     :disabled="myToggle === false"
                     variant="danger"
+                    size="sm"
                     @click="onDelete"
                 >
                     {{ $t('hotel.hotel.removeBtn') }}
@@ -77,6 +79,7 @@
                     v-if="roleHotelier"
                     variant="primary"
                     href="#"
+                    size="sm"
                     @click="$bvModal.show(`modal-${hotel.uuid}-update`)"
                 >
                     {{ $t('hotel.hotel.updateBtn') }}
@@ -87,6 +90,7 @@
                     class="ml-2"
                     variant="danger"
                     href="#"
+                    size="sm"
                     @click="$bvModal.show(`modal-${hotel.uuid}-delete`)"
                 >
                     {{ $t('hotel.hotel.deleteBtn') }}

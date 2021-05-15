@@ -58,7 +58,7 @@
             class="col-12"
         >
             <div class="form-row">
-                <label class="required col-sm-3 col-form-label">{{ $t('room.roomForm.image') }}</label>
+                <label class="col-sm-3 col-form-label">{{ $t('room.roomForm.image') }}</label>
                 <b-form-file
                     id="image"
                     v-model="$v.form.image.$model"
@@ -167,7 +167,7 @@ export default {
             opts.push({value: null, text: '-----'})
             for (let option in this.$store.getters['type/types']) {
                 const room_type = types[option].roomType
-                opts.push({value: room_type, text: room_type.charAt(0).toUpperCase() + room_type.slice(1)})
+                opts.push({value: room_type, text: room_type})
             }
             return opts
         }

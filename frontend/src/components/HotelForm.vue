@@ -107,7 +107,11 @@
             class="col-12"
         >
             <div class="form-row">
-                <label class="required col-sm-3 col-form-label">{{ $t('hotel.hotelForm.image') }}</label>
+                <label
+                    class="required col-sm-3 col-form-label"
+                    :class="[{'required': !hotelExist}]"
+                >
+                    {{ $t('hotel.hotelForm.image') }}</label>
                 <b-form-file
                     v-model="$v.form.image.$model"
                     class="form-control col-sm-9"

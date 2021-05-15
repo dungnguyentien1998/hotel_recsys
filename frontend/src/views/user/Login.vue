@@ -40,6 +40,12 @@
                             type="password"
                         />
                     </div>
+                    <router-link
+                        :to="{name: 'forgotPassword'}"
+                        class="text-secondary text-right small d-block"
+                    >
+                        {{ $t('user.login.forgotPassword') }}
+                    </router-link>
                 </b-form-group>
                 <b-form-group>
                     <b-button

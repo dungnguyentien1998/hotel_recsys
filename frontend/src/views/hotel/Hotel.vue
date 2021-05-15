@@ -9,6 +9,7 @@
                 <b-button
                     v-if="roleHotelier"
                     variant="success"
+                    size="sm"
                     @click="$bvModal.show('modal-create')"
                 >
                     {{ $t('hotel.hotel.createBtn') }}
@@ -51,6 +52,7 @@
                 <b-button
                     v-b-toggle.collapse-1
                     variant="secondary"
+                    class="btn-sm"
                 >
                     {{ $t('hotel.hotel.advancedSearch') }}
                 </b-button>
@@ -185,7 +187,7 @@
             <br>
             <button
                 v-if="roleUser"
-                class="btn btn-primary"
+                class="btn btn-sm btn-primary"
                 type="button"
                 @click="onSubmit"
             >
@@ -284,6 +286,7 @@
                                 v-if="roleHotelier"
                                 variant="primary"
                                 href="#"
+                                size="sm"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-update`)"
                             >
                                 {{ $t('hotel.hotel.updateBtn') }}
@@ -294,6 +297,7 @@
                                 class="ml-2"
                                 variant="danger"
                                 href="#"
+                                size="sm"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-delete`)"
                             >
                                 {{ $t('hotel.hotel.deleteBtn') }}

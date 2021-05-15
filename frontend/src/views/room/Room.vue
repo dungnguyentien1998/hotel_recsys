@@ -6,6 +6,7 @@
                 v-if="roleHotelier"
                 class="mb-2 text-right"
                 variant="success"
+                size="sm"
                 @click="$bvModal.show('modal-create')"
             >
                 {{ $t('room.room.createBtn') }}
@@ -89,11 +90,14 @@
                 />
             </b-form-group>
             <button
-                class="btn btn-primary"
+                class="btn btn-sm btn-primary"
                 type="button"
                 @click="onSubmit"
             >
                 {{ $t('room.room.searchBtn') }}
+                <font-awesome-icon
+                    :icon="['fas', 'search']"
+                />
             </button>
         </b-form>
         <br>
@@ -109,11 +113,11 @@
                     <b-card-img
                         :src="roomImage(room.image)"
                     />
-                    <div class="pt-3 btn-group">
+                    <div class="pt-3 btn-sm btn-group">
                         <!--      Update button for hotelier                  -->
                         <button
                             v-if="roleHotelier"
-                            class="btn btn-primary"
+                            class="btn btn-sm btn-primary"
                             @click="$bvModal.show(`modal-${room.uuid}-update`)"
                         >
                             {{ $t('room.room.updateBtn') }}
@@ -121,7 +125,7 @@
                         <!--      Delete button for hotelier                  -->
                         <button
                             v-if="roleHotelier"
-                            class="btn btn-danger"
+                            class="btn btn-sm btn-danger"
                             @click="$bvModal.show(`modal-${room.uuid}-delete`)"
                         >
                             {{ $t('room.room.deleteBtn') }}
@@ -344,6 +348,10 @@ import RoomForm from '@/components/RoomForm';
 import BookingForm from "@/views/booking/BookingForm";
 import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSearch} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSearch)
 
 
 export default {
@@ -392,7 +400,7 @@ export default {
             opts.push({value: null, text: '-----'})
             for (let option in this.$store.getters['type/types']) {
                 const room_type = types[option].roomType
-                opts.push({value: room_type, text: room_type.charAt(0).toUpperCase() + room_type.slice(1)})
+                opts.push({value: room_type, text: room_type})
             }
             return opts
         },

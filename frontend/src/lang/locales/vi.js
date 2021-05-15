@@ -14,7 +14,8 @@ export default {
         favorite: 'Danh sách ưa thích',
         booking: 'Danh sách đặt phòng',
         user: 'Quản lý tài khoản',
-        hotel: 'Phê duyệt khách sạn'
+        hotel: 'Phê duyệt khách sạn',
+        changePassword: 'Đổi mật khẩu'
     },
     // Translate for user object
     user: {
@@ -24,14 +25,27 @@ export default {
             emailPlaceholder: 'Nhập email',
             password: 'Mật khẩu',
             passwordPlaceholder: 'Nhập mật khẩu',
-            // forgotPassword: 'Quên mật khẩu',
+            token: 'Mã xác thực',
+            tokenPlaceholder: 'Nhập mã xác thực nhận từ email',
+            oldPassword: 'Mật khẩu cũ',
+            oldPasswordPlaceholder: 'Nhập mật khẩu cũ',
+            forgotPassword: 'Quên mật khẩu',
+            resetPassword: 'Đặt lại mật khẩu',
             submit: 'Đăng nhập',
+            sendBtn: 'Xác nhận',
             register: 'Tạo tài khoản mới',
             errors: {
                 title: 'Lỗi đăng nhập',
                 invalidData: 'Email hoặc mật khẩu không chính xác',
                 missing: 'Thiếu tài khoản hoặc mật khẩu',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình đăng nhập'
+            }
+        },
+        forgot: {
+            errors: {
+                title: 'Thao tác không thành công',
+                invalidData: 'Dữ liệu không chính xác',
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
             }
         },
         register: {
@@ -98,13 +112,16 @@ export default {
             unlock: 'Mở khóa',
             view: 'Chi tiết',
             viewUser: 'Chi tiết người dùng',
+            changePassword: 'Thay đổi mật khẩu',
             success: {
                 title: 'Cập nhật thành công',
                 message: 'Bạn đã cập nhật thông tin cá nhân',
                 lockTitle: 'Khóa tài khoản thành công',
                 unlockTitle: 'Mở khóa tài khoản thành công',
                 lockMessage: 'Bạn đã khóa tài khoản thành công',
-                unlockMessage: 'Bạn đã mở khóa tài khoản thành công'
+                unlockMessage: 'Bạn đã mở khóa tài khoản thành công',
+                passwordTitle: 'Thành công',
+                passwordMessage: 'Bạn đã đổi mật khẩu',
             },
             errors: {
                 title: 'Cập nhật không thành công',

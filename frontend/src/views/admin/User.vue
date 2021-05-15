@@ -22,11 +22,14 @@
                     />
                 </b-form-group>
                 <button
-                    class="btn btn-primary"
+                    class="btn btn-sm btn-primary"
                     type="button"
                     @click="onSubmit"
                 >
                     {{ $t('user.user.search') }}
+                    <font-awesome-icon
+                        :icon="['fas', 'search']"
+                    />
                 </button>
             </b-form>
             <hr>
@@ -112,6 +115,10 @@ import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import Layout from '@/components/layouts/Layout';
 import UserDetail from "@/views/admin/UserDetail";
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faSearch} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSearch)
 
 
 export default {

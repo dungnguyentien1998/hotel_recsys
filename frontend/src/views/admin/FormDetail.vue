@@ -97,6 +97,8 @@
                         {{ $t('hotel.hotel.confirmReject') }}
                     </b-modal>
                 </b-form>
+                <hr>
+                <br>
             </div>
         </template>
     </layout>

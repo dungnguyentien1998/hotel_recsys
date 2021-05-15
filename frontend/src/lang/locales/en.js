@@ -14,7 +14,8 @@ export default {
         favorite: 'Favorite list',
         booking: 'Booking list',
         user: 'Manage user',
-        hotel: 'Approve hotel'
+        hotel: 'Approve hotel',
+        changePassword: 'Change password'
     },
     // Translate for user object
     user: {
@@ -24,13 +25,26 @@ export default {
             emailPlaceholder: 'Enter email',
             password: 'Password',
             passwordPlaceholder: 'Enter password',
-            // forgotPassword: 'Forgot password',
+            token: 'Token',
+            tokenPlaceholder: 'Enter token from email',
+            oldPassword: 'Old password',
+            oldPasswordPlaceholder: 'Enter old password',
+            forgotPassword: 'Forgot password',
+            resetPassword: 'Reset password',
             submit: 'Login',
+            sendBtn: 'Submit',
             register: 'Create new account',
             errors: {
                 title: 'Login failed',
                 invalidData: 'Incorrect email or password',
                 missing: 'Missing email or password',
+                exceptionOccurred: 'An exception occurred'
+            }
+        },
+        forgot: {
+            errors: {
+                title: 'Failed',
+                invalidData: 'Invalid data',
                 exceptionOccurred: 'An exception occurred'
             }
         },
@@ -98,13 +112,16 @@ export default {
             unlock: 'Unlock',
             view: 'View',
             viewUser: 'User detail',
+            changePassword: 'Change password',
             success: {
                 title: 'Update profile success',
                 message: 'You have changed your profile',
                 lockTitle: 'Lock user success',
                 unlockTitle: 'Unlock user success',
                 lockMessage: 'You have locked user',
-                unlockMessage: 'You have unlock user'
+                unlockMessage: 'You have unlock user',
+                passwordTitle: 'Change password success',
+                passwordMessage: 'You have changed your password',
             },
             errors: {
                 title: 'Update profile failed',

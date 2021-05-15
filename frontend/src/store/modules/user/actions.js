@@ -61,5 +61,26 @@ export default {
         return api.put(`users/${uuid}`, form).then(res => {
             context.commit('updateUser', res)
         })
-    }
+    },
+    forgotPassword: (context, payload) => {
+        context.commit('submit')
+        return api.post('forgot-password', payload)
+            .then(res => {
+                context.commit('forgotPassword', res)
+            })
+    },
+    resetPassword: (context, payload) => {
+        context.commit('submit')
+        return api.put('forgot-password', payload)
+            .then(res => {
+                context.commit('forgotPassword', res)
+            })
+    },
+    changePassword: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token')
+        return api.put('users/change-password', payload)
+            .then(res => {
+                context.commit('forgotPassword', res)
+            })
+    },
 }
