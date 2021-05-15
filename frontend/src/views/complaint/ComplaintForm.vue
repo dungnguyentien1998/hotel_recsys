@@ -39,7 +39,7 @@
         <b-form-group
             id="image-group"
         >
-            <label class="required">{{ $t('complaint.complaintForm.image') }}</label>
+            <label>{{ $t('complaint.complaintForm.image') }}</label>
             <b-form-file
                 id="image"
                 v-model="$v.form.image.$model"

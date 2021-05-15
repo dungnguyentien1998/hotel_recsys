@@ -49,13 +49,13 @@
                         >
                             {{ $t('hotel.hotelDetail.complaints') }}
                         </b-nav-item>
-                        <!--                        <b-nav-item-->
-                        <!--                            :to="{name: 'bookingsHotelier'}"-->
-                        <!--                            class="b-nav-item"-->
-                        <!--                            exact-active-class="active"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('hotel.hotelDetail.bookings') }}-->
-                        <!--                        </b-nav-item>-->
+                        <b-nav-item
+                            :to="{name: 'bookingsHotelier'}"
+                            class="b-nav-item"
+                            exact-active-class="active"
+                        >
+                            {{ $t('hotel.hotelDetail.bookings') }}
+                        </b-nav-item>
                     </b-nav>
                     <!--      Tabs for user              -->
                     <b-nav

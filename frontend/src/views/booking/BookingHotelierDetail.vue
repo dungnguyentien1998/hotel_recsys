@@ -85,6 +85,11 @@
                                     </li>
                                 </ul>
                             </template>
+                            <template
+                                #cell(amount)="data"
+                            >
+                                {{ data.item.amount }} {{ $tc('hotel.hotel.room', data.item.amount) }}
+                            </template>
                             <!--                            <template-->
                             <!--                                #cell(room_number)="data"-->
                             <!--                            >-->
@@ -100,26 +105,26 @@
                             <!--                            </template>-->
                         </b-table>
                     </div>
-                <!--                    <div>-->
-                <!--                        <b-button-->
-                <!--                            href="#"-->
-                <!--                            variant="danger"-->
-                    <!--                        size="sm"-->
-                <!--                            @click="$bvModal.show(`modal-${booking.userId}-${booking.created}-delete`)"-->
-                <!--                        >-->
-                <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                <!--                        </b-button>-->
-                <!--                        <b-modal-->
-                <!--                            :id="`modal-${booking.userId}-${booking.created}-delete`"-->
-                <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                <!--                            size="lg"-->
-                <!--                            :ok-title="$t('button.submit')"-->
-                <!--                            :cancel-title="$t('button.unsubmit')"-->
-                <!--                            @ok="deleteBookingHotelier(booking.userId, booking.created)"-->
-                <!--                        >-->
-                <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                <!--                        </b-modal>-->
-                <!--                    </div>-->
+                    <div>
+                        <b-button
+                            href="#"
+                            variant="danger"
+                            size="sm"
+                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                        >
+                            {{ $t('booking.booking.cancelBtn') }}
+                        </b-button>
+                        <b-modal
+                            :id="`modal-${booking.uuid}-delete`"
+                            :title="$t('booking.booking.cancelTitle')"
+                            size="lg"
+                            :ok-title="$t('button.submit')"
+                            :cancel-title="$t('button.unsubmit')"
+                            @ok="deleteBookingHotelier(booking.uuid)"
+                        >
+                            {{ $t('booking.booking.confirmDelete') }}
+                        </b-modal>
+                    </div>
                 </b-form>
             </div>
         </template>
@@ -141,15 +146,15 @@ export default {
     name: "BookingHotelierDetail",
     components: {Layout},
     data: function () {
-        const created = localStorage.getItem("created")
-        const userId = localStorage.getItem("userId")
+        // const created = localStorage.getItem("created")
+        // const userId = localStorage.getItem("userId")
+        const bookingId = localStorage.getItem("bookingId")
         return {
             types: [],
-            booking: this.$store.getters['booking/bookings'].filter(
-                booking => (booking.created === created && booking.userId === userId))[0],
-            form: {
-                created: null
-            }
+            booking: this.$store.getters['booking/bookings'].filter(booking => (booking.uuid === bookingId))[0],
+            // form: {
+            //     created: null
+            // }
         }
     },
     computed: {
@@ -247,12 +252,9 @@ export default {
             }
             return total_price
         },
-        deleteBookingHotelier: function (userId, created) {
+        deleteBookingHotelier: function (uuid) {
             this.$store.dispatch('booking/resetStatus')
-            this.form.userId = userId
-            this.form.created = created
-            this.form.hotelId = this.$route.params.uuid
-            this.$store.dispatch('booking/deleteBookingHotelier', this.form)
+            this.$store.dispatch('booking/newDeleteBookingHotelier', {hotelId: this.$route.params.uuid, bookingId: uuid})
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
                         // Alert for failed api call

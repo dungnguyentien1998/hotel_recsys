@@ -327,7 +327,7 @@ export default {
                             failed_message = failed_message.slice(0, n - 2)
                             failed_message = "Chỉ còn " + failed_message + " có thể đặt"
                         }
-                        this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
+                        // this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
                         window.location.reload()
                     }
                 })
@@ -390,18 +390,19 @@ export default {
                                 failed_message = "Chỉ còn " + failed_message + " có thể đặt"
                             }
                             this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
-                            // window.location.reload()
+                            setTimeout(location.reload.bind(location), 2000)
                         } else {
                             // Alert for success
                             // this.$bvModal.hide(`modal-booking`)
                             localStorage.removeItem("save")
                             this.$bvToast.toast(this.$t('booking.bookingForm.success.message'), {
                                 title: this.$t('booking.bookingForm.success.title'),
-                                autoHideDelay: 5000,
+                                autoHideDelay: 2000,
                                 variant: 'success'
                             })
-                            this.resetForm()
-                            this.$bvModal.hide(`modal-booking`)
+                            setTimeout(location.reload.bind(location), 2000)
+                            // this.resetForm()
+                            // this.$bvModal.hide(`modal-booking`)
                             // window.location.reload()
                         }
                     })

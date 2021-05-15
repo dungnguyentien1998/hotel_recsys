@@ -258,6 +258,7 @@ export default {
         onSubmit: function () {
             this.myToggle = !this.myToggle
             if (this.myToggle === true) {
+                this.$store.dispatch('favorite/resetStatus')
                 this.$store.dispatch('favorite/createFavorite', this.$route.params.uuid)
                 // Alert for success
                 this.$bvToast.toast(this.$t('favorite.favorite.success.saveMessage'), {
@@ -272,7 +273,9 @@ export default {
             this.myToggle = !this.myToggle
             if (this.myToggle === false) {
                 this.$store.dispatch('favorite/resetStatus')
-                this.$store.dispatch('favorite/deleteFavorite', {hotelId: this.$route.params.uuid, favoriteId: this.favorite[0].uuid})
+                const favorites = this.$store.getters['favorite/favorites']
+                const favoriteId = favorites.filter(favorite => favorite.hotelid === this.$route.params.uuid)[0].uuid
+                this.$store.dispatch('favorite/deleteFavorite', {hotelId: this.$route.params.uuid, favoriteId: favoriteId})
                     .then(() => {
                         // Alert for failed api call
                         if (this.$store.getters['favorite/status'] === 'FAILED') {

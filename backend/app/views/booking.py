@@ -221,3 +221,39 @@ class NewBookingDetail(APIView):
             'success': True,
             'booking': response_data
         })
+
+
+class NewHotelierBooking(APIView):
+    def get(self, request, hotel_id):
+        rooms = models.Room.objects.filter(hotel_id=hotel_id)
+        booking_ids = []
+        for room in rooms:
+            temp = models.BookingRoom.objects.filter(room_id=room.uuid)
+            if len(temp) > 0:
+                for temp_booking_room in temp:
+                    booking_ids.append(temp_booking_room.booking_id)
+
+        unique_booking_ids = list(set(booking_ids))
+        bookings = []
+        for uuid in unique_booking_ids:
+            booking = models.Booking.objects.get(uuid=uuid)
+            bookings.append(booking)
+
+        return Response({
+            'success': True,
+            'bookings': BookingDetailSerializer(bookings, many=True).data
+        })
+
+
+class NewHotelierBookingDetail(APIView):
+    def delete(self, request, hotel_id, booking_id):
+        booking = models.Booking.objects.get(uuid=booking_id)
+        booking.delete()
+        response_data = BookingDetailSerializer(booking).data
+        booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
+        for booking_room in booking_rooms:
+            booking_room.delete()
+        return Response({
+            'success': True,
+            'booking': response_data
+        })

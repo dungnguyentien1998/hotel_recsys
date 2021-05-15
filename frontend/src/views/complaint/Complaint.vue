@@ -9,7 +9,7 @@
             <div>
                 <!--    Complaint image            -->
                 <b-img
-                    v-if="isNull(complaint.image)"
+                    v-if="isNotNull(complaint.image)"
                     :src="complaintImage(complaint.image)"
                     alt="Complaint image"
                     thumbnail
@@ -80,7 +80,7 @@ export default {
             })
     },
     methods: {
-        isNull: function (image) {
+        isNotNull: function (image) {
             return image != null;
         },
         // Handle send email

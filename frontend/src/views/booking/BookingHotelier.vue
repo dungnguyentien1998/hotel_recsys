@@ -2,7 +2,7 @@
     <b-list-group>
         <b-list-group-item
             v-for="booking in bookings"
-            :key="`${booking.userId}-${booking.created}`"
+            :key="`${booking.uuid}`"
             class="list-item"
         >
             <div>
@@ -76,28 +76,28 @@
                         variant="primary"
                         href="#"
                         size="sm"
-                        @click="onHandle(booking.created, booking.userId, booking.hotelid)"
+                        @click="onHandle(booking.uuid)"
                     >
                         {{ $t('booking.booking.viewBtn') }}
                     </b-button>
-                    <!--                    <b-button-->
-                    <!--                        href="#"-->
-                    <!--                        variant="danger"-->
-                    <!--                        size="sm"-->
-                    <!--                        @click="$bvModal.show(`modal-${booking.userId}-${booking.created}-delete`)"-->
-                    <!--                    >-->
-                    <!--                        {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                    </b-button>-->
-                    <!--                    <b-modal-->
-                    <!--                        :id="`modal-${booking.userId}-${booking.created}-delete`"-->
-                    <!--                        :title="$t('booking.booking.cancelTitle')"-->
-                    <!--                        size="lg"-->
-                    <!--                        :ok-title="$t('button.submit')"-->
-                    <!--                        :cancel-title="$t('button.unsubmit')"-->
-                    <!--                        @ok="deleteBookingHotelier(booking.userId, booking.created)"-->
-                    <!--                    >-->
-                    <!--                        {{ $t('booking.booking.confirmDelete') }}-->
-                    <!--                    </b-modal>-->
+                    <b-button
+                        href="#"
+                        variant="danger"
+                        size="sm"
+                        @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                    >
+                        {{ $t('booking.booking.cancelBtn') }}
+                    </b-button>
+                    <b-modal
+                        :id="`modal-${booking.uuid}-delete`"
+                        :title="$t('booking.booking.cancelTitle')"
+                        size="lg"
+                        :ok-title="$t('button.submit')"
+                        :cancel-title="$t('button.unsubmit')"
+                        @ok="deleteBookingHotelier(booking.uuid)"
+                    >
+                        {{ $t('booking.booking.confirmDelete') }}
+                    </b-modal>
                 </div>
             </div>
         </b-list-group-item>
@@ -120,14 +120,14 @@ export default {
         return {
             // Booking data
             bookings: [],
-            form: {
-                userId: null,
-                created: null
-            }
+            // form: {
+            //     userId: null,
+            //     created: null
+            // }
         }
     },
     created() {
-        this.$store.dispatch('booking/listBookingsHotelier', this.$route.params.uuid)
+        this.$store.dispatch('booking/newListBookingsHotelier', this.$route.params.uuid)
             .then(() => {
                 this.bookings = this.$store.getters['booking/bookings']
                 this.bookings.sort(function (a,b) {
@@ -141,17 +141,15 @@ export default {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
-        onHandle: function(created, userId, hotelid) {
-            localStorage.setItem("created", created)
-            localStorage.setItem("userId", userId)
-            this.$router.push({name: 'bookingsHotelierDetail', params: {created: created, userId: userId, uuid: hotelid}})
+        onHandle: function(booking_id) {
+            // localStorage.setItem("created", created)
+            // localStorage.setItem("userId", userId)
+            localStorage.setItem("bookingId", booking_id)
+            this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
         },
-        deleteBookingHotelier: function(userId, created) {
+        deleteBookingHotelier: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
-            this.form.userId = userId
-            this.form.created = created
-            this.form.hotelId = this.$route.params.uuid
-            this.$store.dispatch('booking/deleteBookingHotelier', this.form)
+            this.$store.dispatch('booking/newDeleteBookingHotelier', {hotelId: this.$route.params.uuid, bookingId: uuid})
                 .then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
                         // Alert for failed api call
