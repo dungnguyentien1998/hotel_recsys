@@ -7,7 +7,7 @@ from app.utils.serializer_validator import validate_serializer
 from app.serializers import LoginSerializer, RegisterSerializer, AccountSerializer, UserSerializer, ActiveSerializer, \
     ActivateAccountSerializer, ForgotPasswordSerializer, ResetPasswordSerializer, ChangePasswordSerializer
 from app.exceptions import Unauthorized
-from app.tasks import demo_task, process_tasks
+from app.tasks import demo_task, process_tasks, calculate_sim
 import datetime
 from django.db import connection
 
@@ -25,7 +25,8 @@ class Login(APIView):
         cursor.execute("Select * from background_task")
         row = cursor.fetchall()
         if not row:
-            demo_task(schedule=0, repeat=3600)
+            # demo_task(schedule=0, repeat=3600)
+            calculate_sim(schedule=0, repeat=3600)
         process_tasks()
         return Response({
             'success': True,

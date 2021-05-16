@@ -12,7 +12,6 @@ class Recommendation(APIView):
     def get(self, request):
         user = request.user
         favorites = models.Favorite.objects.filter(user_id=user.uuid, hotel__isnull=False)
-        hotel = None
         if not favorites.count():
             # reviews = models.Review.objects.filter(user_id=user.uuid, hotel__isnull=False)
             # if not reviews.count():
@@ -30,21 +29,49 @@ class Recommendation(APIView):
                 'success': True,
                 'recommendationsLogin': []
             })
-        else:
-            hotel = random.choice(favorites).hotel
 
         num_recommend = 6
+        favorites_ids = []
+        for favorite in favorites:
+            favorites_ids.append(favorite.hotel.uuid)
+
+        total_predictions = []
+        count = 0
+        for favorite in favorites:
+            hotel = favorite.hotel
+            single_predictions = []
+
+            first_recommend = models.Recommendation.objects.filter(hotel_id=hotel.uuid)
+            for tmp_recommend in first_recommend:
+                hotel_id = tmp_recommend.collation_hotel.uuid
+                if hotel_id not in favorites_ids:
+                    tup = [hotel_id, tmp_recommend.similarity]
+                    single_predictions.append(tup)
+                    if count == 0:
+                        total_tup = [hotel_id, 0]
+                        total_predictions.append(total_tup)
+
+            second_recommend = models.Recommendation.objects.filter(collation_hotel_id=hotel.uuid)
+            for tmp_recommend in second_recommend:
+                hotel_id = tmp_recommend.hotel.uuid
+                if hotel_id not in favorites_ids:
+                    tup = [hotel_id, tmp_recommend.similarity]
+                    single_predictions.append(tup)
+                    if count == 0:
+                        total_tup = [hotel_id, 0]
+                        total_predictions.append(total_tup)
+
+            for i in range(len(single_predictions)):
+                current_sum = total_predictions[i][1]
+                current_sum = current_sum + single_predictions[i][1]
+                total_predictions[i][1] = current_sum
+
+            count = count + 1
+
         predictions = []
-
-        first_recommend = models.Recommendation.objects.filter(hotel_id=hotel.uuid)
-        for tmp_recommend in first_recommend:
-            tup = (tmp_recommend.collation_hotel.uuid, tmp_recommend.similarity)
-            predictions.append(tup)
-
-        second_recommend = models.Recommendation.objects.filter(collation_hotel_id=hotel.uuid)
-        for tmp_recommend in second_recommend:
-            tup = (tmp_recommend.hotel.uuid, tmp_recommend.similarity)
-            predictions.append(tup)
+        for prediction in total_predictions:
+            temp = tuple(prediction)
+            predictions.append(temp)
 
         # Sorting based on similarity points
         predictions.sort(key=lambda tup: tup[1], reverse=True)

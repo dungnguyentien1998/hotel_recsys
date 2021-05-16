@@ -8,6 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import subprocess
 import shlex
 from app.models import Role
+from surprise import Reader, Dataset, KNNBasic
 
 
 # Calculate hotel similarity
@@ -118,6 +119,73 @@ def demo_task():
                     # Or update if existed
                     current_recommendation.similarity = tmp_data['similarity']
                     current_recommendation.save()
+
+
+@background(schedule=60)
+def calculate_sim():
+    reviews_list = []
+    reviews = models.Review.objects.filter(hotel__isnull=False, user__isnull=False)
+    # Save tuple of user id, hotel id and rating to a list
+    for review in reviews:
+        user_id = review.user.uuid
+        hotel_id = review.hotel.uuid
+        latest_created = review.created
+        temp_reviews = models.Review.objects.filter(user_id=user_id, hotel_id=hotel_id)
+        for temp in temp_reviews:
+            if latest_created < temp.created:
+                latest_created = temp.created
+        latest_review = models.Review.objects.filter(user_id=user_id, hotel_id=hotel_id, created=latest_created)[0]
+        tup = (user_id, hotel_id, latest_review.rating)
+        reviews_list.append(tup)
+
+    reviews_list = list(set(reviews_list))
+
+    if reviews_list:
+        # Change list to dataframe, and then to numpy array
+        ratings = pd.DataFrame(reviews_list, columns=['user_id', 'item_id', 'rating'])
+        reader = Reader()
+
+        data = Dataset.load_from_df(ratings[['user_id', 'item_id', 'rating']], reader)
+        trainset = data.build_full_trainset()
+
+        sim_options = {'name': 'pearson', 'user_based': False}
+        algo = KNNBasic(sim_options=sim_options)
+        algo.fit(trainset)
+        sim_matrix = algo.sim
+
+        null_hotels = models.Recommendation.objects.filter(hotel__isnull=True)
+        for null_hotel in null_hotels:
+            null_hotel.delete()
+
+        null_collation_hotels = models.Recommendation.objects.filter(collation_hotel__isnull=True)
+        for null_collation_hotel in null_collation_hotels:
+            null_collation_hotel.delete()
+
+        n_rows, n_cols = sim_matrix.shape
+        tmp_data = {}
+        for i in range(n_rows - 1):
+            for j in range(i + 1, n_cols):
+                tmp_data['hotel_id'] = algo.trainset.to_raw_iid(i)
+                tmp_data['collation_hotel_id'] = algo.trainset.to_raw_iid(j)
+                tmp_data['similarity'] = float(sim_matrix[i, j])
+                first_current_recommendation = models.Recommendation.objects.filter(
+                    Q(hotel_id=tmp_data['hotel_id']) & Q(collation_hotel_id=tmp_data['collation_hotel_id'])
+                ).first()
+                second_current_recommendation = models.Recommendation.objects.filter(
+                    Q(hotel_id=tmp_data['collation_hotel_id']) & Q(collation_hotel_id=tmp_data['hotel_id'])
+                ).first()
+                if (not first_current_recommendation) and (not second_current_recommendation):
+                    # Create similarity
+                    recommendation = models.Recommendation(**tmp_data)
+                    recommendation.save()
+                else:
+                    # Or update if existed
+                    if first_current_recommendation:
+                        first_current_recommendation.similarity = tmp_data['similarity']
+                        first_current_recommendation.save()
+                    else:
+                        second_current_recommendation.similarity = tmp_data['similarity']
+                        second_current_recommendation.save()
 
 
 # Run background task without command

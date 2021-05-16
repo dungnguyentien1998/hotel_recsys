@@ -20,14 +20,14 @@ class ReviewSeeder(BaseSeeder):
         hotels = Hotel.objects.all()
         users = User.objects.filter(role=Role.USER, is_active=True)
 
-        for i in range(self.OBJECT_NUMBER):
-            hotel = random.choice(hotels)
-            user = random.choice(users)
-            created = faker.date_time_between(hotel.created, 'now')
-            review = Review(title=faker.paragraph(), content=faker.text(), rating=random.randrange(5) + 1,
-                            user_id=user.uuid, hotel_id=hotel.uuid, created=created, updated=created)
-            review.save()
-            stdout.write(str(review))
+        # for i in range(self.OBJECT_NUMBER):
+        #     hotel = random.choice(hotels)
+        #     user = random.choice(users)
+        #     created = faker.date_time_between(hotel.created, 'now')
+        #     review = Review(title=faker.paragraph(), content=faker.text(), rating=random.randrange(5) + 1,
+        #                     user_id=user.uuid, hotel_id=hotel.uuid, created=created, updated=created)
+        #     review.save()
+        #     stdout.write(str(review))
 
     # def run(self, stdout, _):
     #     filename = 'data/ua.base.txt'
