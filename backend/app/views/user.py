@@ -21,13 +21,14 @@ class Login(APIView):
         validate_serializer(serializer=serializer)
         user = serializer.validated_data
         token = generate_token(obj=user.uuid, _type=TokenType.AUTHENTICATION)
-        cursor = connection.cursor()
-        cursor.execute("Select * from background_task")
-        row = cursor.fetchall()
-        if not row:
-            # demo_task(schedule=0, repeat=3600)
-            calculate_sim(schedule=0, repeat=3600)
-        process_tasks()
+        # cursor = connection.cursor()
+        # cursor.execute("Select * from background_task")
+        # row = cursor.fetchall()
+        # if not row:
+        #     # demo_task(schedule=0, repeat=3600)
+        #     calculate_sim(schedule=0, repeat=3600)
+        # process_tasks()
+        calculate_sim()
         return Response({
             'success': True,
             'token': token

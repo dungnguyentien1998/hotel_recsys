@@ -121,7 +121,7 @@ def demo_task():
                     current_recommendation.save()
 
 
-@background(schedule=60)
+# @background(schedule=60)
 def calculate_sim():
     reviews_list = []
     reviews = models.Review.objects.filter(hotel__isnull=False, user__isnull=False)
@@ -143,12 +143,51 @@ def calculate_sim():
     if reviews_list:
         # Change list to dataframe, and then to numpy array
         ratings = pd.DataFrame(reviews_list, columns=['user_id', 'item_id', 'rating'])
+
+        # Add for calculate pearson using cosine
+        train_data = ratings.to_numpy()
+        n_rows, n_cols = train_data.shape
+
+        # normalized_data = train_data.copy()
+        normalized_data = np.ndarray((n_rows, n_cols), dtype=object)
+        for r in range(n_rows):
+            normalized_data[r, 0] = train_data[r, 0]
+            normalized_data[r, 1] = train_data[r, 1]
+            normalized_data[r, 2] = float(train_data[r, 2])
+
+        # User mean, for adjust cosine
+        # users = train_data[:, 0]
+        # n_users = int(np.max(train_data[:, 0]))
+        # mean_rating_matrix = np.zeros((n_users + 1,))
+        # for u in range(1, n_users + 1):
+        #     indices = np.where(users == u)[0].astype(np.int32)
+        #     temp_ratings = train_data[indices, 2]
+        #     # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
+        #     mean_rating_matrix[u] = np.mean(temp_ratings) if indices.size > 0 else 0
+        #     normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[u]
+
+        # Item mean, for pearson
+        items = train_data[:, 1]
+        n_items = int(np.max(train_data[:, 1]))
+        mean_rating_matrix = np.zeros((n_items + 1,))
+        for i in range(1, n_items + 1):
+            indices = np.where(items == i)[0].astype(np.int32)
+            temp_ratings = train_data[indices, 2]
+            # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
+            mean_rating_matrix[i] = np.mean(temp_ratings) if indices.size > 0 else 0
+            normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[i]
+
+        new_ratings = pd.DataFrame(normalized_data, columns=['user_id', 'item_id', 'rating'])
+        # Add for calculate pearson using cosine
+
         reader = Reader()
 
-        data = Dataset.load_from_df(ratings[['user_id', 'item_id', 'rating']], reader)
+        # ratings --> new_ratings
+        data = Dataset.load_from_df(new_ratings[['user_id', 'item_id', 'rating']], reader)
         trainset = data.build_full_trainset()
 
-        sim_options = {'name': 'pearson', 'user_based': False}
+        # pearson --> cosine
+        sim_options = {'name': 'cosine', 'user_based': False}
         algo = KNNBasic(sim_options=sim_options)
         algo.fit(trainset)
         sim_matrix = algo.sim
