@@ -16,10 +16,6 @@ class BookingSerializer(serializers.Serializer):
     room_types = serializers.ListField(required=False)
     booking_counts = serializers.ListField(required=False, child=serializers.IntegerField())
 
-    # def get_rooms(self, booking):
-    #     query_set = BookingRoom.objects.filter(booking=booking)
-    #     return [BookingRoomSerializer(item).data for item in query_set]
-
     # Create multiple booking, with multiple room type
     def create(self, validated_data):
         # Get user id and room

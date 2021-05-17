@@ -16,7 +16,6 @@ class Booking(BaseModel):
     # user = models.ForeignKey(User, related_name='bookings', on_delete=models.SET_NULL, null=True)
     # room = models.ForeignKey(Room, related_name='bookings', on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, related_name='bookings', on_delete=models.DO_NOTHING, null=True)
-    # room = models.ForeignKey(Room, related_name='bookings', on_delete=models.DO_NOTHING, null=True)
     rooms = models.ManyToManyField(Room, through='BookingRoom')
     code = models.CharField(null=True, max_length=settings.CHAR_FIELD_MAX_LEN)
     created = models.DateTimeField(blank=True)

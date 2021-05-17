@@ -121,8 +121,24 @@ def demo_task():
                     current_recommendation.save()
 
 
-# @background(schedule=60)
+@background(schedule=60)
 def calculate_sim():
+    # Get user and hotel list
+    hotels = models.Hotel.objects.all()
+    users = models.User.objects.filter(role=Role.USER)
+    # Create dicts to mapping uuid to positive integer number
+    hotels_ids = dict()
+    users_ids = dict()
+    count = 0
+    for hotel in hotels:
+        count = count + 1
+        hotels_ids[hotel.uuid] = count
+
+    count = 0
+    for user in users:
+        count = count + 1
+        users_ids[user.uuid] = count
+
     reviews_list = []
     reviews = models.Review.objects.filter(hotel__isnull=False, user__isnull=False)
     # Save tuple of user id, hotel id and rating to a list
@@ -135,7 +151,8 @@ def calculate_sim():
             if latest_created < temp.created:
                 latest_created = temp.created
         latest_review = models.Review.objects.filter(user_id=user_id, hotel_id=hotel_id, created=latest_created)[0]
-        tup = (user_id, hotel_id, latest_review.rating)
+        # tup = (user_id, hotel_id, latest_review.rating)
+        tup = (users_ids[user_id], hotels_ids[hotel_id], latest_review.rating)
         reviews_list.append(tup)
 
     reviews_list = list(set(reviews_list))
@@ -176,6 +193,16 @@ def calculate_sim():
             # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
             mean_rating_matrix[i] = np.mean(temp_ratings) if indices.size > 0 else 0
             normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[i]
+
+        key_hotels_ids = list(hotels_ids.keys())
+        val_hotels_ids = list(hotels_ids.values())
+        key_users_ids = list(users_ids.keys())
+        val_users_ids = list(users_ids.values())
+        for r in range(n_rows):
+            pos = val_users_ids.index(normalized_data[r, 0])
+            normalized_data[r, 0] = key_users_ids[pos]
+            pos = val_hotels_ids.index(normalized_data[r, 1])
+            normalized_data[r, 1] = key_hotels_ids[pos]
 
         new_ratings = pd.DataFrame(normalized_data, columns=['user_id', 'item_id', 'rating'])
         # Add for calculate pearson using cosine
