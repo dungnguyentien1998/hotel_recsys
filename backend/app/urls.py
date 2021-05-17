@@ -36,4 +36,5 @@ urlpatterns = [
     path('new_bookings/<booking_id>', NewBookingDetail.as_view(), name='new_booking.detail'),
     path('hotels/<hotel_id>/new_bookings', NewHotelierBooking.as_view(), name='hotel.new_bookings'),
     path('hotels/<hotel_id>/new_bookings/<booking_id>', NewHotelierBookingDetail.as_view(), name='hotel.new_booking'),
+    path('hotels/<hotel_id>/arrange_room', BookingRoom.as_view(), name='hotel.arrange_room')
 ]

@@ -1,6 +1,6 @@
 import json
 
-from app.models import Booking, Room, Type, BookingRoom
+from app.models import Booking, Room, Type, BookingRoom, BookingType, Hotel
 from app.exceptions import ValidationError, BookingError
 from rest_framework import serializers
 from datetime import datetime
@@ -70,13 +70,14 @@ class BookingSerializer(serializers.Serializer):
                 # remains[room_types[i]] = count
                 # raise ValidationError('Room booked')
 
-        failed_message = ''
-        for key in remains.keys():
-            failed_message += str(remains[key]) + " " + key + ", "
+        # failed_message = ''
+        # for key in remains.keys():
+        #     failed_message += str(remains[key]) + " " + key + ", "
 
         if (not final) or get_avaiable:
             raise BookingError(json.dumps(remains))
 
+        # If there are enough rooms to book
         now = datetime.now()
         year = str(now.year)
         month = str(now.month)
@@ -98,15 +99,29 @@ class BookingSerializer(serializers.Serializer):
             second = "0" + second
         microsecond = microsecond[0:4]
         code = year + month + day + hour + minute + second + microsecond
-        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        # now_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        hotel = Hotel.objects.get(uuid=hotel_id)
+        total_price = 0
+        first_date = datetime.date(validated_data['check_in_time'])
+        last_date = datetime.date(validated_data['check_out_time'])
+        delta = last_date - first_date
+        for i in range(len(room_types)):
+            room_type = Type.objects.filter(room_type=room_types[i], hotel_id=hotel_id)[0]
+            total_price = total_price + room_type.price * booking_counts[i] * delta.days
 
         booking = Booking(check_in_time=validated_data['check_in_time'], check_out_time=validated_data['check_out_time'],
-                          user_id=validated_data['user_id'], created=now, updated=now, code=code)
+                          user_id=validated_data['user_id'], created=now, updated=now, code=code, total_price=total_price)
         booking.save()
         booking_id = booking.uuid
-        for room_id in room_ids:
-            booking_room = BookingRoom(booking_id=booking_id, room_id=room_id)
-            booking_room.save()
+        # for room_id in room_ids:
+        #     booking_room = BookingRoom(booking_id=booking_id, room_id=room_id)
+        #     booking_room.save()
+
+        for i in range(len(room_types)):
+            room_type = Type.objects.filter(room_type=room_types[i], hotel_id=hotel_id)[0]
+            booking_type = BookingType(booking_id=booking_id, type_id=room_type.uuid, count=booking_counts[i])
+            booking_type.save()
 
         return booking
 

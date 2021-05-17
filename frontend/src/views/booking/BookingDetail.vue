@@ -225,7 +225,7 @@ export default {
         },
         testDetails: function() {
             const types = this.booking.roomType
-            const numbers = this.booking.roomNumber
+            // const numbers = this.booking.roomNumber
             let unique_types = types.filter(this.onlyUnique)
             let temp = []
             for (let j=0; j<unique_types.length; j++) {
@@ -235,12 +235,12 @@ export default {
                         count += 1
                     }
                 }
-                let room_numbers = []
-                for (let i=0; i<numbers.length; i++) {
-                    if (types[i] === unique_types[j]) {
-                        room_numbers.push(numbers[i])
-                    }
-                }
+                // let room_numbers = []
+                // for (let i=0; i<numbers.length; i++) {
+                //     if (types[i] === unique_types[j]) {
+                //         room_numbers.push(numbers[i])
+                //     }
+                // }
                 let capacity = 0
                 let price = 0
                 let amenities = []
@@ -252,8 +252,8 @@ export default {
                         break
                     }
                 }
-                temp.push({'type' : unique_types[j], 'amount': count, 'room_number': room_numbers, 'capacity': capacity,
-                'price': price, 'amenities': amenities})
+                temp.push({'type' : unique_types[j], 'amount': count, 'capacity': capacity, 'price': price,
+                    'amenities': amenities})
             }
             return temp
         },
