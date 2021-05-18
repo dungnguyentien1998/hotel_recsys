@@ -90,4 +90,35 @@ export default {
             // context.commit('deleteBooking', res)
         })
     },
+    listTypes: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let hotelId = payload.hotelId
+        let bookingId = payload.bookingId
+        return api.get(`hotels/${hotelId}/new_bookings/${bookingId}`).then(res => {
+            context.commit('listTypes', res)
+        })
+    },
+    listBookingRooms: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let hotelId = payload.hotelId
+        delete payload.hotelId
+        // let bookingId = payload.bookingId
+        return api.get(`hotels/${hotelId}/arrange_room`, {
+            params: {
+                bookingId: payload.bookingId
+            }
+        }).then(res => {
+            context.commit('listBookingRooms', res)
+        })
+    },
+    arrangeRoom: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let hotelId = payload.hotelId
+        delete payload.hotelId
+        let form = formUtil(payload)
+        return api.post(`hotels/${hotelId}/arrange_room`, form)
+            .then(res => {
+                context.commit('arrangeRoom', res)
+            })
+    },
 }

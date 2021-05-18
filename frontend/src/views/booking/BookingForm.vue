@@ -53,6 +53,7 @@
         <!--            </div>-->
         <!--        </b-form-group>-->
         <button
+            v-if="!showAvailable()"
             class="btn btn-primary"
             type="button"
             @click="onGetAvailable"
@@ -60,8 +61,9 @@
             {{ $t('booking.bookingForm.getAvailable') }}
         </button>
         <br>
-        <br>
-        <div>
+        <div
+            v-if="showAvailable()"
+        >
             <!--      Users table         -->
             <b-table
                 id="users-table"
@@ -115,6 +117,7 @@
             </p>
         </div>
         <button
+            v-if="showAvailable()"
             class="btn btn-primary"
             type="button"
             @click="onSubmit"
@@ -174,6 +177,7 @@ export default {
             ],
             types: types,
             room_types: room_types,
+            // available rooms for each type
             availables: availables,
         }
     },
@@ -285,6 +289,10 @@ export default {
                 hotel_id: null
             }
         },
+        showAvailable: function () {
+            return localStorage.getItem("save") != null;
+        },
+        // Get available rooms with each types
         onGetAvailable: function () {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {

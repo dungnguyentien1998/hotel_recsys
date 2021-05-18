@@ -23,3 +23,12 @@ class BookingRoomSerializer(serializers.Serializer):
         [setattr(instance, field, value) for field, value in validated_data.items()]
         instance.save()
         return instance
+
+
+class BookingRoomDetailSerializer(serializers.ModelSerializer):
+    booking_id = serializers.ReadOnlyField()
+    room_id = serializers.ReadOnlyField()
+
+    class Meta:
+        model = BookingRoom
+        fields = [*BookingRoom.get_fields(), 'booking_id', 'room_id']

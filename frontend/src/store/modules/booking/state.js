@@ -2,5 +2,7 @@ export default {
     // Booking status and list
     status: '',
     bookings: [],
-    message: ''
+    message: '',
+    types: [],
+    booking_rooms: []
 }

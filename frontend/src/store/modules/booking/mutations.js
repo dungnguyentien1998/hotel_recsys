@@ -27,5 +27,19 @@ export default {
         } else {
             state.status = 'FAILED'
         }
+    },
+    listTypes: (state, payload) => {
+        state.types = payload.data.types
+    },
+    listBookingRooms: (state, payload) => {
+        state.booking_rooms = payload.data.bookingRooms
+    },
+    arrangeRoom: (state, payload) => {
+        let success = payload.data.success
+        if (success) {
+            state.status = ''
+        } else {
+            state.status = 'FAILED'
+        }
     }
 }

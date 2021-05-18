@@ -59,7 +59,55 @@
                         ({{ $t('booking.booking.description') }})
                     </div>
                     <br>
-                    <div>
+                    <!--                    <div>-->
+                    <!--                        <b-form-group>-->
+                    <!--                            <div-->
+                    <!--                                v-for="(item, index) in getItem()"-->
+                    <!--                                :key="`${item}-${index}`"-->
+                    <!--                            >-->
+                    <!--                                <label>-->
+                    <!--                                    {{ item.type }}-->
+                    <!--                                </label>-->
+                    <!--                            </div>-->
+                    <!--                        </b-form-group>-->
+                    <!--                    </div>-->
+                    <div
+                        v-if="!showTableAfter()"
+                    >
+                        <b-table
+                            id="arrange-table"
+                            :items="getItem()"
+                            :fields="arrange_fields"
+                            :responsive="true"
+                            hover
+                            striped
+                        >
+                            <template
+                                #cell(room_number)="data"
+                            >
+                                <b-form-checkbox-group
+                                    v-model="room_numbers[getIndex(data.item.type)]"
+                                    :options="getAvailableOptions(data.item.room_number)"
+                                    class="mb-3"
+                                    :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount)"
+                                ></b-form-checkbox-group>
+                            </template>
+                        </b-table>
+                    </div>
+                    <div
+                        v-if="!showTableAfter()"
+                    >
+                        <button
+                            class="btn btn-sm btn-success"
+                            type="button"
+                            @click="onSubmit"
+                        >
+                            {{ $t('booking.bookingForm.submit') }}
+                        </button>
+                    </div>
+                    <div
+                        v-if="showTableAfter()"
+                    >
                         <b-table
                             id="booking-table"
                             :items="testDetails()"
@@ -105,7 +153,9 @@
                             <!--                            </template>-->
                         </b-table>
                     </div>
-                    <div>
+                    <div
+                        v-if="showTableAfter()"
+                    >
                         <b-button
                             href="#"
                             variant="danger"
@@ -136,6 +186,7 @@ import Layout from "@/components/layouts/Layout";
 import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
+import booking from "../../store/modules/booking/booking";
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -149,12 +200,19 @@ export default {
         // const created = localStorage.getItem("created")
         // const userId = localStorage.getItem("userId")
         const bookingId = localStorage.getItem("bookingId")
+        const types = this.$store.getters['booking/types']
+        let room_numbers = []
+        for (let i = 0; i < types.length; i++) {
+            room_numbers.push([])
+        }
         return {
             types: [],
+            booking_types: [],
             booking: this.$store.getters['booking/bookings'].filter(booking => (booking.uuid === bookingId))[0],
-            // form: {
-            //     created: null
-            // }
+            room_numbers: room_numbers,
+            form: {
+
+            }
         }
     },
     computed: {
@@ -185,12 +243,36 @@ export default {
                 //     label: this.$t('booking.bookingForm.roomNumber'),
                 // }
             ]
+        },
+        arrange_fields: function () {
+            return [
+                {
+                    key: 'type',
+                    label: this.$t('booking.bookingForm.roomType'),
+                },
+                {
+                    key: 'amount',
+                    label: this.$t('booking.bookingForm.rooms'),
+                },
+                {
+                    key: 'room_number',
+                    label: this.$t('booking.bookingForm.roomNumber'),
+                }
+            ]
         }
     },
     created() {
         this.$store.dispatch('type/listTypes', this.booking.hotelid)
             .then(() => {
                 this.types = this.$store.getters['type/types']
+            })
+        this.$store.dispatch('booking/listTypes', {hotelId: this.$route.params.uuid, bookingId: this.booking.uuid})
+            .then(() => {
+                this.booking_types = this.$store.getters['booking/types']
+            })
+        this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: this.booking.uuid})
+            .then(() => {
+                this.booking_rooms = this.$store.getters['booking/booking_rooms']
             })
     },
     methods: {
@@ -201,12 +283,52 @@ export default {
         hotelImage: function (uri) {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },
+        showTableAfter: function() {
+            const booking_rooms = this.$store.getters['booking/booking_rooms']
+            return booking_rooms.length > 0;
+        },
+        getIndex: function(room_type) {
+            let index = 0
+            const types = this.$store.getters['booking/types']
+            for (let i=0; i<types.length; i++) {
+                if (types[i].roomType === room_type) {
+                    return index
+                }
+                index = index + 1
+            }
+            return index
+        },
+        onDisable: function (room_numbers, amount) {
+            const temp1 = room_numbers
+            const temp2 = amount
+            // return room_numbers.length >= amount
+            return false
+        },
+        onHandle: function (checked, amount) {
+            const temp = checked
+            const number = amount
+        },
         toDate: function (datetime) {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
         onlyUnique: function (value, index, self) {
             return self.indexOf(value) === index
+        },
+        getAvailableOptions: function(room_number) {
+            let options = []
+            for (let i = 0; i < room_number.length; i++) {
+                options.push({text: room_number[i], value: room_number[i]})
+            }
+            return options
+        },
+        getItem: function () {
+            let temp = []
+            for (let i = 0; i < this.booking_types.length; i++) {
+                temp.push({'type': this.booking_types[i].roomType, 'room_number': this.booking_types[i].roomNumber,
+                'amount': this.booking_types[i].amount})
+            }
+            return temp
         },
         testDetails: function () {
             const types = this.booking.roomType
@@ -263,6 +385,42 @@ export default {
                         this.$router.push({name: 'bookingsHotelier', params: {uuid: this.$route.params.uuid}})
                     }
                 })
+        },
+        onSubmit: function () {
+            const bookingId = this.booking.uuid
+            let check = true
+            for (let i = 0; i < this.booking_types.length; i++) {
+                if (this.room_numbers[i].length > this.booking_types[i].amount) {
+                    check = false
+                    break
+                }
+            }
+            if (check === false) {
+                this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
+            } else {
+                let flat_room_numbers = []
+                for (let i = 0; i < this.booking_types.length; i++) {
+                    for (let j = 0; j < this.room_numbers[i].length; j++) {
+                        flat_room_numbers.push(this.room_numbers[i][j])
+                    }
+                }
+                if (flat_room_numbers.length === 0) {
+                    this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), this.$t('booking.bookingForm.errors.missing'))
+                } else {
+                    this.form.booking_id = bookingId
+                    this.form.room_numbers = flat_room_numbers
+                    this.form.hotelId = this.$route.params.uuid
+                    this.$store.dispatch('booking/resetStatus')
+                    this.$store.dispatch('booking/arrangeRoom', this.form).then(() => {
+                        if (this.$store.getters['booking/status'] === 'FAILED') {
+                            this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
+                        } else {
+                            // this.$router.push({name: 'bookingsHotelier', params: {uuid: this.$route.params.uuid}})
+                            window.location.reload()
+                        }
+                    })
+                }
+            }
         }
     }
 }

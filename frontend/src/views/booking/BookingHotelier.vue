@@ -120,10 +120,6 @@ export default {
         return {
             // Booking data
             bookings: [],
-            // form: {
-            //     userId: null,
-            //     created: null
-            // }
         }
     },
     created() {
@@ -146,6 +142,13 @@ export default {
             // localStorage.setItem("userId", userId)
             localStorage.setItem("bookingId", booking_id)
             this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
+        },
+        IsNotArrange: function (uuid) {
+            this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: uuid})
+                .then(() => {
+                    const booking_rooms = this.$store.getters['booking/booking_rooms']
+                    return booking_rooms.length === 0;
+                })
         },
         deleteBookingHotelier: function(uuid) {
             this.$store.dispatch('booking/resetStatus')

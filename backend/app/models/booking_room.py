@@ -9,5 +9,13 @@ class BookingRoom(BaseModel):
     booking = models.ForeignKey(Booking, on_delete=models.DO_NOTHING, null=True)
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING, null=True)
 
+    # @property
+    # def booking_id(self):
+    #     return self.booking.uuid
+    #
+    # @property
+    # def room_id(self):
+    #     return self.room.uuid
+
     class Meta:
         db_table = 'booking_room'

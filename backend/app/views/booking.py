@@ -242,13 +242,14 @@ class NewBookingDetail(APIView):
 
 class NewHotelierBooking(APIView):
     def get(self, request, hotel_id):
-        rooms = models.Room.objects.filter(hotel_id=hotel_id)
+        # rooms = models.Room.objects.filter(hotel_id=hotel_id)
+        types = models.Type.objects.filter(hotel_id=hotel_id)
         booking_ids = []
-        for room in rooms:
-            temp = models.BookingRoom.objects.filter(room_id=room.uuid)
+        for room_type in types:
+            temp = models.BookingType.objects.filter(type_id=room_type.uuid)
             if len(temp) > 0:
-                for temp_booking_room in temp:
-                    booking_ids.append(temp_booking_room.booking_id)
+                for temp_booking_type in temp:
+                    booking_ids.append(temp_booking_type.booking_id)
 
         unique_booking_ids = list(set(booking_ids))
         bookings = []
@@ -263,6 +264,42 @@ class NewHotelierBooking(APIView):
 
 
 class NewHotelierBookingDetail(APIView):
+    # Get the available rooms from all room type in user booking
+    def get(self, request, hotel_id, booking_id):
+        booking = models.Booking.objects.get(uuid=booking_id)
+        check_in_time = booking.check_in_time
+        check_out_time = booking.check_out_time
+
+        booking_types = models.BookingType.objects.filter(booking_id=booking_id)
+        room_types = []
+        for booking_type in booking_types:
+            temp_dict = {'room_type': '', 'room_number': [], 'amount': 0}
+            room_type = models.Type.objects.get(uuid=booking_type.type_id)
+            temp_dict['room_type'] = room_type.room_type
+            temp_dict['amount'] = booking_type.count
+            rooms = models.Room.objects.filter(type_id=room_type.uuid)
+            for room in rooms:
+                current_booking_rooms = models.BookingRoom.objects.filter(room_id=room.uuid)
+                check = True
+                for current_booking_room in current_booking_rooms:
+                    current_booking = models.Booking.objects.get(uuid=current_booking_room.booking_id)
+                    if current_booking.check_in_time < check_out_time <= current_booking.check_out_time:
+                        check = False
+                        break
+                    if check_out_time > current_booking.check_out_time > check_in_time:
+                        check = False
+                        break
+
+                if check:
+                    temp_dict['room_number'].append(room.room_number)
+
+            room_types.append(temp_dict)
+
+        return Response({
+            'success': True,
+            'types': room_types
+        })
+
     def delete(self, request, hotel_id, booking_id):
         booking = models.Booking.objects.get(uuid=booking_id)
         booking.delete()
