@@ -135,6 +135,9 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            ownerName: 'Chủ khách sạn: ',
+            ownerTel: 'Điện thoại: ',
+            ownerEmail: 'Email: ',
             title: 'Danh sách khách sạn',
             approveLabel: 'Danh sách khách sạn cần phê duyệt',
             searchHotel: 'Tìm khách sạn',

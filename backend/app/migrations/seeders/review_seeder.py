@@ -17,7 +17,7 @@ class ReviewSeeder(BaseSeeder):
     def run(self, stdout, _):
         faker = Faker()
         faker.add_provider(EnumProvider)
-        hotels = Hotel.objects.all()
+        hotels = Hotel.objects.filter(is_active=True)
         users = User.objects.filter(role=Role.USER, is_active=True)
 
         for i in range(self.OBJECT_NUMBER):

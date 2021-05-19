@@ -24,11 +24,12 @@ class HotelSeeder(BaseSeeder):
             hotelier = random.choice(hoteliers)
             created = faker.date_time_between(hotelier.created, 'now')
             address = random.choice(addresses)
-            hotel = Hotel(name=faker.name(), star=random.randrange(5) + 1, city=address['city'],
+            hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=address['city'],
                           district=address['district'], ward=address['ward'], address=address['address'],
                           amenities=[amenity[0] for amenity in
                                      random.sample(HotelAmenity.choices, k=random.randrange(len(HotelAmenity.choices)) + 1)],
-                          user_id=hotelier.uuid, is_active=True, created=created, updated=created)
+                          user_id=hotelier.uuid, created=created, updated=created,
+                          is_active=random.choices(population=[True, False], weights=(90, 10)))
             hotel.save()
             # hotel.image.save(f'{faker.word()}.png', self.image_maker())
             self.image_maker(name=f'{faker.word()}.png', obj=hotel)

@@ -224,6 +224,14 @@
                                 {{ getAddress(hotel.address, hotel.ward, hotel.district, hotel.city) }}
                             </span>
                         </p>
+                        <p>
+                            <span class="font-weight-bolder">
+                                {{ $t('hotel.hotel.ownerName') }}
+                            </span>
+                            <span class="text-secondary">
+                                {{ hotel.ownerName }}
+                            </span>
+                        </p>
                         <!--                        <p>-->
                         <!--                            <span class="font-weight-bolder">-->
                         <!--                                {{ $t('hotel.hotel.amenities') }}-->

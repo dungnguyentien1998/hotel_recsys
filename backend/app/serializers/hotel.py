@@ -41,10 +41,14 @@ class HotelDetailSerializer(serializers.ModelSerializer):
     num_complaints = serializers.ReadOnlyField()
     num_reviews = serializers.ReadOnlyField()
     rating = serializers.ReadOnlyField()
+    owner_name = serializers.ReadOnlyField()
+    owner_tel = serializers.ReadOnlyField()
+    owner_email = serializers.ReadOnlyField()
 
     class Meta:
         model = Hotel
-        fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating']
+        fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating', 'owner_name',
+                  'owner_tel', 'owner_email']
 
 
 class HotelActiveSerializer(serializers.ModelSerializer):

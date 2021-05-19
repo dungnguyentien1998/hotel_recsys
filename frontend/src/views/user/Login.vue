@@ -39,6 +39,15 @@
                             :placeholder="$t('user.login.passwordPlaceholder')"
                             type="password"
                         />
+                        <button
+                            class="btn password"
+                            type="button"
+                            @click="showPassword"
+                        >
+                            <font-awesome-icon
+                                :icon="['fas', 'eye']"
+                            />
+                        </button>
                     </div>
                     <router-link
                         :to="{name: 'forgotPassword'}"
@@ -75,6 +84,10 @@ import formMixin from '@/mixin/form-mixin'
 import {required, email, minLength} from 'vuelidate/lib/validators'
 import snakecaseKeys from 'snakecase-keys'
 import AuthLayout from '@/components/layouts/AuthLayout'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faEye} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faEye)
 
 
 export default {
@@ -115,6 +128,14 @@ export default {
             this.form = {
                 email: this.form.email,
                 password: ''
+            }
+        },
+        showPassword: function () {
+            let x = document.getElementById("password")
+            if (x.type === "password") {
+                x.type = "text"
+            } else {
+                x.type = "password"
             }
         },
         // Handle login
@@ -161,5 +182,13 @@ export default {
 .required:after {
     content: " *";
     color: red;
+}
+.password {
+    position: absolute;
+    border-radius: 5px;
+    right: 5px;
+    z-index: 2;
+    border: none;
+    top: 2px;
 }
 </style>

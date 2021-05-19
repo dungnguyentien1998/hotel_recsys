@@ -16,7 +16,7 @@ class RoomSeeder(BaseSeeder):
     def run(self, stdout, _):
         faker = Faker()
         faker.add_provider(EnumProvider)
-        hotels = Hotel.objects.all()
+        hotels = Hotel.objects.filter(is_active=True)
 
         for hotel in hotels:
             room_types = Type.objects.filter(hotel_id=hotel.uuid)

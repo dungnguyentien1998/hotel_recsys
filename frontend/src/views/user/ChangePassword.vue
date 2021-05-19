@@ -40,6 +40,15 @@
                             :placeholder="$t('user.login.passwordPlaceholder')"
                             type="password"
                         />
+                        <button
+                            class="btn password"
+                            type="button"
+                            @click="showPassword"
+                        >
+                            <font-awesome-icon
+                                :icon="['fas', 'eye']"
+                            />
+                        </button>
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -56,6 +65,15 @@
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
+                        <button
+                            class="btn password"
+                            type="button"
+                            @click="showPasswordConfirm"
+                        >
+                            <font-awesome-icon
+                                :icon="['fas', 'eye']"
+                            />
+                        </button>
                     </div>
                 </b-form-group>
                 <b-form-group>
@@ -79,6 +97,10 @@ import formMixin from '@/mixin/form-mixin'
 import {required, email, minLength, sameAs} from 'vuelidate/lib/validators'
 import snakecaseKeys from 'snakecase-keys'
 import Layout from '@/components/layouts/Layout'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {faEye} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faEye)
 
 export default {
     name: "ChangePassword",
@@ -118,6 +140,22 @@ export default {
                 password_confirm: ''
             }
         },
+        showPassword: function () {
+            let x = document.getElementById("password")
+            if (x.type === "password") {
+                x.type = "text"
+            } else {
+                x.type = "password"
+            }
+        },
+        showPasswordConfirm: function () {
+            let x = document.getElementById("confirm-password")
+            if (x.type === "password") {
+                x.type = "text"
+            } else {
+                x.type = "password"
+            }
+        },
         onSubmit: function () {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
@@ -152,5 +190,13 @@ export default {
 .required:after {
     content: " *";
     color: red;
+}
+.password {
+    position: absolute;
+    border-radius: 5px;
+    right: 5px;
+    z-index: 2;
+    border: none;
+    top: 2px;
 }
 </style>

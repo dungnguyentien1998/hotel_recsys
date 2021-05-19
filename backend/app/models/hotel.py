@@ -27,6 +27,18 @@ class Hotel(BaseModel):
     is_active = models.BooleanField(default=False)
 
     @property
+    def owner_name(self):
+        return self.user.name
+
+    @property
+    def owner_tel(self):
+        return self.user.tel
+
+    @property
+    def owner_email(self):
+        return self.user.email
+
+    @property
     def num_rooms(self):
         return len(self.rooms.all())
 

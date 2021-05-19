@@ -53,6 +53,41 @@
                             </b-list-group-item>
                         </b-list-group>
                     </p>
+                    <p>
+                        <span class="font-weight-bolder">
+                            {{ $t('hotel.hotel.ownerName') }}
+                        </span>
+                        <span class="text-secondary">
+                            {{ hotel.ownerName }}
+                        </span>
+                    </p>
+                    <p>
+                        <!--                        <span class="font-weight-bolder">-->
+                        <!--                            {{ $t('hotel.hotel.ownerTel') }}-->
+                        <!--                        </span>-->
+                        <img
+                            src="../../assets/phone.png"
+                            alt="phone"
+                            class="icon"
+                            style="height:20px; width:20px"
+                        >
+                        <span class="text-secondary">
+                            {{ hotel.ownerTel }}
+                        </span>
+                        -
+                        <!--                        <span class="font-weight-bolder">-->
+                        <!--                            {{ $t('hotel.hotel.ownerEmail') }}-->
+                        <!--                        </span>-->
+                        <img
+                            src="../../assets/email.png"
+                            alt="email"
+                            class="icon"
+                            style="height:20px; width:20px"
+                        >
+                        <span class="text-secondary">
+                            {{ hotel.ownerEmail }}
+                        </span>
+                    </p>
                     <div class="mt-2">
                         <b-button
                             :disabled="hotel.isActive === true"

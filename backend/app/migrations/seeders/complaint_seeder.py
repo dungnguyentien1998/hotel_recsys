@@ -17,7 +17,7 @@ class ComplaintSeeder(BaseSeeder):
         faker = Faker()
         faker.add_provider(EnumProvider)
         users = User.objects.filter(role=Role.USER, is_active=True)
-        hotels = Hotel.objects.all()
+        hotels = Hotel.objects.filter(is_active=True)
 
         for i in range(self.OBJECT_NUMBER):
             user = random.choice(users)

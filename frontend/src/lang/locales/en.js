@@ -135,6 +135,9 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            ownerName: 'Owner: ',
+            ownerTel: 'Tel: ',
+            ownerEmail: 'Email: ',
             title: 'Hotel list',
             approveLabel: 'List of hotels to approve',
             searchHotel: 'Search hotel',
