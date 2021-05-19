@@ -250,6 +250,8 @@ export default {
             }
         },
         bookingForm: {
+            title: 'Select rooms for user booking',
+            description: 'Number of rooms to select',
             checkIn: 'Check in date',
             checkOut: 'Check out date',
             roomType: 'Room type',

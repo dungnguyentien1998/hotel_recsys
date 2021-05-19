@@ -81,9 +81,52 @@
                     <!--                            </div>-->
                     <!--                        </b-form-group>-->
                     <!--                    </div>-->
+                    <!--                    <div-->
+                    <!--                        v-if="!showTableAfter()"-->
+                    <!--                    >-->
+                    <!--                        <hr>-->
+                    <!--                        <h3>-->
+                    <!--                            {{ $t('booking.bookingForm.title') }}-->
+                    <!--                        </h3>-->
+                    <!--                        <br>-->
+                    <!--                        <ul style="padding: 0; list-style-type: none">-->
+                    <!--                            <li-->
+                    <!--                                v-for="(item, index) in getItem()"-->
+                    <!--                                :key="`number-${index}`"-->
+                    <!--                                style="list-style-type: none"-->
+                    <!--                            >-->
+                    <!--                                <span class="font-weight-bolder">-->
+                    <!--                                    {{ $t('booking.bookingForm.roomType') }}-->
+                    <!--                                </span>-->
+                    <!--                                : {{ item.type }}-->
+                    <!--                                - -->
+                    <!--                                <span>-->
+                    <!--                                    ({{ $t('booking.bookingForm.description') }}: {{ item.amount }})-->
+                    <!--                                </span>-->
+                    <!--                                <br>-->
+                    <!--                                <b-form-group>-->
+                    <!--                                    <b-form-checkbox-->
+                    <!--                                        v-for="option in getAvailableOptions(item.room_number)"-->
+                    <!--                                        :key="option.value"-->
+                    <!--                                        v-model="room_numbers[getIndex(item.type)]"-->
+                    <!--                                        :value="option.value"-->
+                    <!--                                        :disabled="onDisable(room_numbers[getIndex(item.type)], item.amount, option)"-->
+                    <!--                                        inline-->
+                    <!--                                    >-->
+                    <!--                                        {{ option.text }}-->
+                    <!--                                    </b-form-checkbox>-->
+                    <!--                                </b-form-group>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <div
                         v-if="!showTableAfter()"
                     >
+                        <hr>
+                        <h3>
+                            {{ $t('booking.bookingForm.title') }}
+                        </h3>
+                        <br>
                         <b-table
                             id="arrange-table"
                             :items="getItem()"
@@ -93,14 +136,31 @@
                             striped
                         >
                             <template
+                                #cell(amount)="data"
+                            >
+                                {{ data.item.amount }} {{ $tc('hotel.hotel.room', data.item.amount) }}
+                            </template>
+                            <template
                                 #cell(room_number)="data"
                             >
-                                <b-form-checkbox-group
-                                    v-model="room_numbers[getIndex(data.item.type)]"
-                                    :options="getAvailableOptions(data.item.room_number)"
-                                    class="mb-3"
-                                    :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount)"
-                                ></b-form-checkbox-group>
+                                <!--                                <b-form-checkbox-group-->
+                                <!--                                    v-model="room_numbers[getIndex(data.item.type)]"-->
+                                <!--                                    :options="getAvailableOptions(data.item.room_number)"-->
+                                <!--                                    class="mb-3"-->
+                                <!--                                    :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount)"-->
+                                <!--                                />-->
+                                <b-form-group>
+                                    <b-form-checkbox
+                                        v-for="option in getAvailableOptions(data.item.room_number)"
+                                        :key="option.value"
+                                        v-model="room_numbers[getIndex(data.item.type)]"
+                                        :value="option.value"
+                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option)"
+                                        inline
+                                    >
+                                        {{ option.text }}
+                                    </b-form-checkbox>
+                                </b-form-group>
                             </template>
                         </b-table>
                     </div>
@@ -120,8 +180,8 @@
                     >
                         <b-table
                             id="booking-table"
-                            :items="testDetails()"
-                            :fields="fields"
+                            :items="getItem()"
+                            :fields="arrange_fields_after"
                             :responsive="true"
                             hover
                             striped
@@ -148,19 +208,19 @@
                             >
                                 {{ data.item.amount }} {{ $tc('hotel.hotel.room', data.item.amount) }}
                             </template>
-                            <!--                            <template-->
-                            <!--                                #cell(room_number)="data"-->
-                            <!--                            >-->
-                            <!--                                <ul style="padding: 0; list-style-type: none">-->
-                            <!--                                    <li-->
-                            <!--                                        v-for="(number, index) in data.item.room_number"-->
-                            <!--                                        :key="`${data.item.uuid}-number-${index}`"-->
-                            <!--                                        class="number"-->
-                            <!--                                    >-->
-                            <!--                                        {{ number }}-->
-                            <!--                                    </li>-->
-                            <!--                                </ul>-->
-                            <!--                            </template>-->
+                            <template
+                                #cell(room_booked)="data"
+                            >
+                                <ul style="padding: 0; list-style-type: none">
+                                    <li
+                                        v-for="(number, index) in data.item.room_booked"
+                                        :key="`number-${index}`"
+                                        class="number"
+                                    >
+                                        {{ number }}
+                                    </li>
+                                </ul>
+                            </template>
                         </b-table>
                     </div>
                     <!--                    <div-->
@@ -197,7 +257,6 @@ import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
 import formMixin from '@/mixin/form-mixin'
-import booking from "../../store/modules/booking/booking";
 import {validationMixin} from "vuelidate";
 
 library.add(faHotel)
@@ -210,8 +269,6 @@ export default {
     components: {Layout},
     mixins: [validationMixin, formMixin],
     data: function () {
-        // const created = localStorage.getItem("created")
-        // const userId = localStorage.getItem("userId")
         const bookingId = localStorage.getItem("bookingId")
         const types = this.$store.getters['booking/types']
         let room_numbers = []
@@ -251,10 +308,6 @@ export default {
                     key: 'amount',
                     label: this.$t('booking.bookingForm.rooms'),
                 },
-                // {
-                //     key: 'room_number',
-                //     label: this.$t('booking.bookingForm.roomNumber'),
-                // }
             ]
         },
         arrange_fields: function () {
@@ -269,6 +322,22 @@ export default {
                 },
                 {
                     key: 'room_number',
+                    label: this.$t('booking.bookingForm.roomNumber'),
+                }
+            ]
+        },
+        arrange_fields_after: function () {
+            return [
+                {
+                    key: 'type',
+                    label: this.$t('booking.bookingForm.roomType'),
+                },
+                {
+                    key: 'amount',
+                    label: this.$t('booking.bookingForm.rooms'),
+                },
+                {
+                    key: 'room_booked',
                     label: this.$t('booking.bookingForm.roomNumber'),
                 }
             ]
@@ -311,15 +380,11 @@ export default {
             }
             return index
         },
-        onDisable: function (room_numbers, amount) {
+        onDisable: function (room_numbers, amount, option) {
             const temp1 = room_numbers
             const temp2 = amount
-            // return room_numbers.length >= amount
+            // return room_numbers.length >= amount && room_numbers.indexOf(option) === -1
             return false
-        },
-        onHandle: function (checked, amount) {
-            const temp = checked
-            const number = amount
         },
         toDate: function (datetime) {
             let date = new Date(datetime);
@@ -339,7 +404,7 @@ export default {
             let temp = []
             for (let i = 0; i < this.booking_types.length; i++) {
                 temp.push({'type': this.booking_types[i].roomType, 'room_number': this.booking_types[i].roomNumber,
-                'amount': this.booking_types[i].amount})
+                'amount': this.booking_types[i].amount, 'room_booked': this.booking_types[i].roomBooked})
             }
             return temp
         },
@@ -401,15 +466,34 @@ export default {
         },
         onSubmit: function () {
             const bookingId = this.booking.uuid
-            let check = true
+            let check_higher = ''
+            let check_lower = ''
             for (let i = 0; i < this.booking_types.length; i++) {
                 if (this.room_numbers[i].length > this.booking_types[i].amount) {
-                    check = false
+                    check_higher = this.booking_types[i].roomType
+                    break
+                }
+                if (this.room_numbers[i].length < this.booking_types[i].amount) {
+                    check_lower = this.booking_types[i].roomType
                     break
                 }
             }
-            if (check === false) {
-                this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
+            if (check_higher !== '') {
+                let failed_message = ''
+                if (localStorage.getItem("language") === "en") {
+                    failed_message = 'The number of ' + check_higher + ' rooms that you choose is greater than the number of rooms that customer books'
+                } else {
+                    failed_message = 'Số lượng phòng ' + check_higher + ' mà bạn chọn lớn hơn số lượng phòng mà khách hàng đặt'
+                }
+                this.makeToast(this.$t('booking.booking.errors.title'), failed_message)
+            } else if (check_lower !== '') {
+                let failed_message = ''
+                if (localStorage.getItem("language") === "en") {
+                    failed_message = 'The number of ' + check_lower + ' rooms that you choose is smaller than the number of rooms that customer books'
+                } else {
+                    failed_message = 'Số lượng phòng ' + check_higher + ' mà bạn chọn nhỏ hơn số lượng phòng mà khách hàng đặt'
+                }
+                this.makeToast(this.$t('booking.booking.errors.title'), failed_message)
             } else {
                 let flat_room_numbers = []
                 for (let i = 0; i < this.booking_types.length; i++) {
@@ -451,7 +535,7 @@ export default {
     padding: 0;
 }
 #time li {
-    display: inline;
+    display: inline-block;
     list-style-type: none;
     float: left;
     margin: 0 10px 0 0;
@@ -471,5 +555,5 @@ li.number {
     padding: 0 10px;
     margin-bottom: 5px;
 }
-li.number:nth-child(odd) {clear: left}
+//li.number:nth-child(4n) {clear: left}
 </style>

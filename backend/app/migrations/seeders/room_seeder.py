@@ -21,15 +21,16 @@ class RoomSeeder(BaseSeeder):
         for hotel in hotels:
             room_types = Type.objects.filter(hotel_id=hotel.uuid)
             for room_type in room_types:
-                room_number = exrex.getone(r'\d{3}')
-                while Room.objects.filter(room_number=room_number, hotel_id=hotel.uuid):
-                    room_number = exrex.getone(r'\d{3}')
-                created = faker.date_time_between(hotel.created, 'now')
-                room = Room(room_number=room_number, hotel_id=hotel.uuid, type_id=room_type.uuid,
-                            created=created, updated=created)
-                room.save()
-                self.image_maker(name=f'{faker.word()}.png', obj=room, folder='room')
-                stdout.write(str(room))
+                for i in range(5):
+                    room_number = exrex.getone(r'[1-9]\d[1-9]')
+                    while Room.objects.filter(room_number=room_number, hotel_id=hotel.uuid):
+                        room_number = exrex.getone(r'[1-9]\d[1-9]')
+                    created = faker.date_time_between(hotel.created, 'now')
+                    room = Room(room_number=room_number, hotel_id=hotel.uuid, type_id=room_type.uuid,
+                                created=created, updated=created)
+                    room.save()
+                    self.image_maker(name=f'{faker.word()}.png', obj=room, folder='room')
+                    stdout.write(str(room))
 
         # for i in range(self.OBJECT_NUMBER):
         #     hotel = random.choice(hotels)

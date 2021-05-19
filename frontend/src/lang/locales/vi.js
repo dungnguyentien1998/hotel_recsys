@@ -250,6 +250,8 @@ export default {
             }
         },
         bookingForm: {
+            title: 'Sắp xếp phòng cho khách hàng',
+            description: 'Số phòng khách hàng đặt',
             checkIn: 'Ngày nhận phòng',
             checkOut: 'Ngày trả phòng',
             roomType: 'Kiểu phòng',
@@ -261,7 +263,7 @@ export default {
             price: 'Giá phòng (VND)',
             amenities: 'Tiện nghi',
             available: 'Có thể đặt',
-            rooms: 'Số lượng muốn đặt',
+            rooms: 'Số lượng khách đặt',
             roomNumber: 'Lựa chọn phòng cho khách hàng',
             totalPrice: 'Tổng tiền',
             getAvailable: 'Xem phòng trống',

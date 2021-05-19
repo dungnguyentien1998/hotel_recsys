@@ -273,9 +273,10 @@ class NewHotelierBookingDetail(APIView):
         check_out_time = booking.check_out_time
 
         booking_types = models.BookingType.objects.filter(booking_id=booking_id)
+        booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
         room_types = []
         for booking_type in booking_types:
-            temp_dict = {'room_type': '', 'room_number': [], 'amount': 0}
+            temp_dict = {'room_type': '', 'room_number': [], 'amount': 0, 'room_booked': []}
             room_type = models.Type.objects.get(uuid=booking_type.type_id)
             temp_dict['room_type'] = room_type.room_type
             temp_dict['amount'] = booking_type.count
@@ -294,6 +295,11 @@ class NewHotelierBookingDetail(APIView):
 
                 if check:
                     temp_dict['room_number'].append(room.room_number)
+
+            for booking_room in booking_rooms:
+                room = models.Room.objects.get(uuid=booking_room.room_id)
+                if room.room_type == room_type.room_type:
+                    temp_dict['room_booked'].append(room.room_number)
 
             room_types.append(temp_dict)
 
