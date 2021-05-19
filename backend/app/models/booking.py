@@ -22,6 +22,7 @@ class Booking(BaseModel):
     created = models.DateTimeField(blank=True)
     updated = models.DateTimeField(blank=True)
     total_price = models.PositiveBigIntegerField(null=True)
+    hotel_id = models.CharField(null=True, max_length=settings.CHAR_FIELD_MAX_LEN)
 
     @property
     def user_name(self):
@@ -34,15 +35,15 @@ class Booking(BaseModel):
         room_type = Type.objects.get(uuid=booking_type.type_id)
         return room_type.hotel.name
 
-    # @property
-    # def room_number(self):
-    #     from app.models.booking_room import BookingRoom
-    #     room_number = []
-    #     booking_rooms = BookingRoom.objects.filter(booking_id=self.uuid)
-    #     for booking_room in booking_rooms:
-    #         room = Room.objects.get(uuid=booking_room.room_id)
-    #         room_number.append(room.room_number)
-    #     return room_number
+    @property
+    def room_number(self):
+        from app.models.booking_room import BookingRoom
+        room_number = []
+        booking_rooms = BookingRoom.objects.filter(booking_id=self.uuid)
+        for booking_room in booking_rooms:
+            room = Room.objects.get(uuid=booking_room.room_id)
+            room_number.append(room.room_number)
+        return room_number
 
     @property
     def address(self):

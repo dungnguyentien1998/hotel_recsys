@@ -8,14 +8,24 @@
                             {{ $t('booking.booking.userName') }}: {{ booking.userName }}
                         </h5>
                         <p>
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.userTel') }}:
-                            </span>
+                            <!--                        <span class="font-weight-bolder">-->
+                            <!--                            {{ $t('booking.booking.userTel') }}:-->
+                            <!--                        </span>-->
+                            <img
+                                src="../../assets/phone.png"
+                                alt="phone"
+                                class="icon"
+                            >
                             {{ booking.userTel }}
                             -
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.userEmail') }}:
-                            </span>
+                            <!--                        <span class="font-weight-bolder">-->
+                            <!--                            {{ $t('booking.booking.userEmail') }}:-->
+                            <!--                        </span>-->
+                            <img
+                                src="../../assets/email.png"
+                                alt="email"
+                                class="icon"
+                            >
                             {{ booking.userEmail }}
                         </p>
                         <p>
@@ -153,28 +163,28 @@
                             <!--                            </template>-->
                         </b-table>
                     </div>
-                    <div
-                        v-if="showTableAfter()"
-                    >
-                        <b-button
-                            href="#"
-                            variant="danger"
-                            size="sm"
-                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
-                        >
-                            {{ $t('booking.booking.cancelBtn') }}
-                        </b-button>
-                        <b-modal
-                            :id="`modal-${booking.uuid}-delete`"
-                            :title="$t('booking.booking.cancelTitle')"
-                            size="lg"
-                            :ok-title="$t('button.submit')"
-                            :cancel-title="$t('button.unsubmit')"
-                            @ok="deleteBookingHotelier(booking.uuid)"
-                        >
-                            {{ $t('booking.booking.confirmDelete') }}
-                        </b-modal>
-                    </div>
+                    <!--                    <div-->
+                    <!--                        v-if="showTableAfter()"-->
+                    <!--                    >-->
+                    <!--                        <b-button-->
+                    <!--                            href="#"-->
+                    <!--                            variant="danger"-->
+                    <!--                            size="sm"-->
+                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
+                    <!--                        </b-button>-->
+                    <!--                        <b-modal-->
+                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
+                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
+                    <!--                            size="lg"-->
+                    <!--                            :ok-title="$t('button.submit')"-->
+                    <!--                            :cancel-title="$t('button.unsubmit')"-->
+                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
+                    <!--                        </b-modal>-->
+                    <!--                    </div>-->
                 </b-form>
             </div>
         </template>
@@ -186,7 +196,9 @@ import Layout from "@/components/layouts/Layout";
 import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
+import formMixin from '@/mixin/form-mixin'
 import booking from "../../store/modules/booking/booking";
+import {validationMixin} from "vuelidate";
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -196,6 +208,7 @@ library.add(faMoneyBillAlt)
 export default {
     name: "BookingHotelierDetail",
     components: {Layout},
+    mixins: [validationMixin, formMixin],
     data: function () {
         // const created = localStorage.getItem("created")
         // const userId = localStorage.getItem("userId")

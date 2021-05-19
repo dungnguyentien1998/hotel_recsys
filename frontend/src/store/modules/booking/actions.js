@@ -8,31 +8,31 @@ export default {
         context.commit('resetStatus');
     },
     // Api list bookings for user
-    listBookings: context => {
+    // listBookings: context => {
+    //     api.defaults.headers.common.Authorization = localStorage.getItem('token');
+    //     return api.get('bookings').then(res => {
+    //         context.commit('listBookings', res)
+    //     })
+    // },
+    newListBookings: context => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         return api.get('bookings').then(res => {
             context.commit('listBookings', res)
         })
     },
-    newListBookings: context => {
-        api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        return api.get('new_bookings').then(res => {
-            context.commit('listBookings', res)
-        })
-    },
     // Api create booking
-    createBooking: (context, payload) => {
-        api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        let form = formUtil(payload)
-        return api.post('bookings', form)
-            .then(res => {
-                context.commit('createBooking', res)
-            })
-    },
+    // createBooking: (context, payload) => {
+    //     api.defaults.headers.common.Authorization = localStorage.getItem('token');
+    //     let form = formUtil(payload)
+    //     return api.post('bookings', form)
+    //         .then(res => {
+    //             context.commit('createBooking', res)
+    //         })
+    // },
     newCreateBooking: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         let form = formUtil(payload)
-        return api.post('new_bookings', form)
+        return api.post('bookings', form)
             .then(res => {
                 context.commit('createBooking', res)
             })
@@ -45,48 +45,53 @@ export default {
     //     })
     // }
     // Api delete multiple bookings for user
-    deleteBooking: (context, payload) => {
-        api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        // let form = formUtil(payload)
-        return api.delete('bookings', {data: payload}).then(res => {
-            // context.commit('deleteBooking', res)
-        })
-    },
+    // deleteBooking: (context, payload) => {
+    //     api.defaults.headers.common.Authorization = localStorage.getItem('token');
+    //     // let form = formUtil(payload)
+    //     return api.delete('bookings', {data: payload}).then(res => {
+    //         // context.commit('deleteBooking', res)
+    //     })
+    // },
     newDeleteBooking: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        // let form = formUtil(payload)
-        return api.delete(`new_bookings/${payload}`).then(res => {
+        return api.delete(`bookings/${payload}`).then(res => {
             // context.commit('deleteBooking', res)
         })
     },
     // Api list bookings for hotelier
-    listBookingsHotelier: (context, payload) => {
+    // listBookingsHotelier: (context, payload) => {
+    //     api.defaults.headers.common.Authorization = localStorage.getItem('token');
+    //     return api.get(`hotels/${payload}/bookings`).then(res => {
+    //         context.commit('listBookings', res)
+    //     })
+    // },
+    newListBookingsHotelier: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         return api.get(`hotels/${payload}/bookings`).then(res => {
             context.commit('listBookings', res)
         })
     },
-    newListBookingsHotelier: (context, payload) => {
+    listNewBookings: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         return api.get(`hotels/${payload}/new_bookings`).then(res => {
-            context.commit('listBookings', res)
+            context.commit('listNewBookings', res)
         })
     },
-    deleteBookingHotelier: (context, payload) => {
-        api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        let hotelId = payload.hotelId
-        delete payload.hotelId
-        // let form = formUtil(payload)
-        return api.delete(`hotels/${hotelId}/bookings`, {data: payload}).then(res => {
-            // context.commit('deleteBooking', res)
-        })
-    },
+    // deleteBookingHotelier: (context, payload) => {
+    //     api.defaults.headers.common.Authorization = localStorage.getItem('token');
+    //     let hotelId = payload.hotelId
+    //     delete payload.hotelId
+    //     // let form = formUtil(payload)
+    //     return api.delete(`hotels/${hotelId}/bookings`, {data: payload}).then(res => {
+    //         // context.commit('deleteBooking', res)
+    //     })
+    // },
     newDeleteBookingHotelier: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         let hotelId = payload.hotelId
         let bookingId = payload.bookingId
         // let form = formUtil(payload)
-        return api.delete(`hotels/${hotelId}/new_bookings/${bookingId}`).then(res => {
+        return api.delete(`hotels/${hotelId}/bookings/${bookingId}`).then(res => {
             // context.commit('deleteBooking', res)
         })
     },
@@ -94,7 +99,7 @@ export default {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         let hotelId = payload.hotelId
         let bookingId = payload.bookingId
-        return api.get(`hotels/${hotelId}/new_bookings/${bookingId}`).then(res => {
+        return api.get(`hotels/${hotelId}/bookings/${bookingId}`).then(res => {
             context.commit('listTypes', res)
         })
     },

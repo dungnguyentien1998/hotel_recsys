@@ -226,6 +226,8 @@ export default {
     booking: {
         booking: {
             title: 'Danh sách đặt phòng',
+            newTitle: 'Danh sách đặt phòng mới',
+            oldTitle: 'Những yêu cầu đặt phòng đã được xử lý',
             cancelBtn: 'Hủy',
             hotelName: 'Khách sạn',
             roomNumber: 'Số phòng',
@@ -259,8 +261,8 @@ export default {
             price: 'Giá phòng (VND)',
             amenities: 'Tiện nghi',
             available: 'Có thể đặt',
-            rooms: 'Số lượng',
-            roomNumber: 'Phòng số',
+            rooms: 'Số lượng muốn đặt',
+            roomNumber: 'Lựa chọn phòng cho khách hàng',
             totalPrice: 'Tổng tiền',
             getAvailable: 'Xem phòng trống',
             success: {

@@ -226,6 +226,8 @@ export default {
     booking: {
         booking: {
             title: 'Booking list',
+            newTitle: 'New bookings',
+            oldTitle: 'Bookings that were arranged',
             cancelBtn: 'Cancel',
             hotelName: 'Hotel',
             roomNumber: 'Room number',
@@ -260,7 +262,7 @@ export default {
             amenities: 'Amenities',
             available: 'Available',
             rooms: 'Amount',
-            roomNumber: 'Room numbers',
+            roomNumber: 'Arrange rooms for customer',
             totalPrice: 'Total price',
             getAvailable: 'Get available',
             success: {

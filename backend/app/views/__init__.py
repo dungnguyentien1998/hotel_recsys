@@ -7,4 +7,4 @@ from .user import *
 from .favorite import *
 from .recommendation import *
 from .type import *
-from .booking_room import BookingRoom
+from .booking_room import BookingRoomDetail, BookingRoom

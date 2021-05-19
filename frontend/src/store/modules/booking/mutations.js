@@ -8,6 +8,9 @@ export default {
     listBookings: (state, payload) => {
         state.bookings = payload.data.bookings
     },
+    listNewBookings: (state, payload) => {
+        state.new_bookings = payload.data.bookings
+    },
     // Save new booking
     createBooking: (state, payload) => {
         let success = payload.data.success

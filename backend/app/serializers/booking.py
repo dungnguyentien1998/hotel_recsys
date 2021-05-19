@@ -99,7 +99,6 @@ class BookingSerializer(serializers.Serializer):
         microsecond = microsecond[0:4]
         code = year + month + day + hour + minute + second + microsecond
 
-        hotel = Hotel.objects.get(uuid=hotel_id)
         total_price = 0
         first_date = datetime.date(validated_data['check_in_time'])
         last_date = datetime.date(validated_data['check_out_time'])
@@ -109,7 +108,8 @@ class BookingSerializer(serializers.Serializer):
             total_price = total_price + room_type.price * booking_counts[i] * delta.days
 
         booking = Booking(check_in_time=validated_data['check_in_time'], check_out_time=validated_data['check_out_time'],
-                          user_id=validated_data['user_id'], created=now, updated=now, code=code, total_price=total_price)
+                          user_id=validated_data['user_id'], created=now, updated=now, code=code,
+                          total_price=total_price, hotel_id=hotel_id)
         booking.save()
         booking_id = booking.uuid
 

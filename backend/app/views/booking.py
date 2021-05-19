@@ -243,19 +243,21 @@ class NewBookingDetail(APIView):
 class NewHotelierBooking(APIView):
     def get(self, request, hotel_id):
         # rooms = models.Room.objects.filter(hotel_id=hotel_id)
-        types = models.Type.objects.filter(hotel_id=hotel_id)
-        booking_ids = []
-        for room_type in types:
-            temp = models.BookingType.objects.filter(type_id=room_type.uuid)
-            if len(temp) > 0:
-                for temp_booking_type in temp:
-                    booking_ids.append(temp_booking_type.booking_id)
+        # types = models.Type.objects.filter(hotel_id=hotel_id)
+        # booking_ids = []
+        # for room_type in types:
+        #     temp = models.BookingType.objects.filter(type_id=room_type.uuid)
+        #     if len(temp) > 0:
+        #         for temp_booking_type in temp:
+        #             booking_ids.append(temp_booking_type.booking_id)
+        #
+        # unique_booking_ids = list(set(booking_ids))
+        # bookings = []
+        # for uuid in unique_booking_ids:
+        #     booking = models.Booking.objects.get(uuid=uuid)
+        #     bookings.append(booking)
 
-        unique_booking_ids = list(set(booking_ids))
-        bookings = []
-        for uuid in unique_booking_ids:
-            booking = models.Booking.objects.get(uuid=uuid)
-            bookings.append(booking)
+        bookings = models.Booking.objects.filter(hotel_id=hotel_id)
 
         return Response({
             'success': True,
@@ -264,7 +266,7 @@ class NewHotelierBooking(APIView):
 
 
 class NewHotelierBookingDetail(APIView):
-    # Get the available rooms from all room type in user booking
+    # Get the available rooms from all room type in an user booking
     def get(self, request, hotel_id, booking_id):
         booking = models.Booking.objects.get(uuid=booking_id)
         check_in_time = booking.check_in_time
