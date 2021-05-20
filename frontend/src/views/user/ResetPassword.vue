@@ -26,13 +26,13 @@
                     class="col-12"
                 >
                     <div class="form-row">
-                        <label class="required col-sm-4 col-form-label">{{ $t('user.login.password') }}</label>
+                        <label class="required col-sm-4 col-form-label">{{ $t('user.login.newPassword') }}</label>
                         <b-form-input
                             id="password"
                             v-model="$v.form.password.$model"
                             class="form-control col-sm-8"
                             :state="validateState('password')"
-                            :placeholder="$t('user.login.passwordPlaceholder')"
+                            :placeholder="$t('user.login.newPasswordPlaceholder')"
                             type="password"
                         />
                         <button

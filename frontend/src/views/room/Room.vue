@@ -27,8 +27,8 @@
             <!--                id="capacity-group"-->
             <!--                :label="$t('room.room.minCapacity')"-->
             <!--                label-for="capacity"-->
-            <!--                label-cols-sm="4"-->
-            <!--                label-cols-lg="3"-->
+            <!--                label-cols-sm="2"-->
+            <!--                label-cols-lg="2"-->
             <!--                content-cols-sm="7"-->
             <!--                content-cols-lg="7"-->
             <!--            >-->
@@ -44,8 +44,8 @@
             <!--                id="min-price-group"-->
             <!--                :label="$t('room.room.minPrice')"-->
             <!--                label-for="min-price"-->
-            <!--                label-cols-sm="4"-->
-            <!--                label-cols-lg="3"-->
+            <!--                label-cols-sm="2"-->
+            <!--                label-cols-lg="2"-->
             <!--                content-cols-sm="7"-->
             <!--                content-cols-lg="7"-->
             <!--            >-->
@@ -61,8 +61,8 @@
             <!--                id="max-price-group"-->
             <!--                :label="$t('room.room.maxPrice')"-->
             <!--                label-for="max-price"-->
-            <!--                label-cols-sm="4"-->
-            <!--                label-cols-lg="3"-->
+            <!--                label-cols-sm="2"-->
+            <!--                label-cols-lg="2"-->
             <!--                content-cols-sm="7"-->
             <!--                content-cols-lg="7"-->
             <!--            >-->
@@ -78,8 +78,8 @@
                 id="type-group"
                 :label="$t('room.room.roomType')"
                 label-for="type"
-                label-cols-sm="4"
-                label-cols-lg="3"
+                label-cols-sm="2"
+                label-cols-lg="2"
                 content-cols-sm="7"
                 content-cols-lg="7"
             >

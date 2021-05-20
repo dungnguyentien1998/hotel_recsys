@@ -98,7 +98,7 @@
                     class="form-row"
                 >
                     <label class="required col-sm-3 col-form-label">
-                        {{ $t('room.roomForm.images') }} {{ room_number }}
+                        {{ $t('room.roomForm.images') }} {{ room_number }}:
                     </label>
                     <b-form-file
                         v-model="form.images[index]"

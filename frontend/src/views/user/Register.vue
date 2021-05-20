@@ -104,7 +104,6 @@
                             id="tel"
                             v-model="$v.form.tel.$model"
                             class="form-control col-sm-8"
-                            :state="validateState('tel')"
                             :placeholder="$t('user.register.telPlaceholder')"
                             type="text"
                         />
@@ -121,7 +120,6 @@
                             id="birthday"
                             v-model="$v.form.birthday.$model"
                             class="form-control col-sm-8"
-                            :state="validateState('birthday')"
                             :placeholder="$t('user.register.birthdayPlaceholder')"
                         />
                     </div>
@@ -137,7 +135,6 @@
                             id="avatar"
                             v-model="$v.form.image.$model"
                             class="form-control col-sm-8"
-                            :state="validateState('image')"
                             :placeholder="$t('user.register.imagePlaceholder')"
                             :drop-placeholder="$t('user.register.imageDropPlaceholder')"
                         />
@@ -155,7 +152,6 @@
                             v-model="$v.form.city.$model"
                             class="form-control col-sm-8"
                             :options="cities"
-                            :state="validateState('city')"
                             @change="onChangeCity"
                         />
                     </div>
@@ -172,7 +168,6 @@
                             v-model="$v.form.district.$model"
                             class="form-control col-sm-8"
                             :options="districts"
-                            :state="validateState('district')"
                             @change="onChangeDistrict"
                         />
                     </div>
@@ -189,7 +184,6 @@
                             v-model="$v.form.ward.$model"
                             class="form-control col-sm-8"
                             :options="wards"
-                            :state="validateState('ward')"
                         />
                     </div>
                 </b-form-group>
@@ -204,7 +198,6 @@
                             id="address"
                             v-model="$v.form.address.$model"
                             class="form-control col-sm-8"
-                            :state="validateState('address')"
                             :placeholder="$t('user.register.addressPlaceholder')"
                             type="text"
                         />
@@ -379,6 +372,14 @@ export default {
             } else {
                 x.type = "password"
             }
+        },
+        validatePassword: function () {
+            let x = document.getElementById("password")
+            let invalid = false
+            if (x.value === "") {
+                invalid = true
+            }
+            return invalid
         },
         showPasswordConfirm: function () {
             let x = document.getElementById("confirm-password")

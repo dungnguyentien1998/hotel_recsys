@@ -12,8 +12,8 @@
                     id="name-group"
                     :label="$t('hotel.hotelForm.name')"
                     label-for="name"
-                    label-cols-sm="4"
-                    label-cols-lg="3"
+                    label-cols-sm="2"
+                    label-cols-lg="2"
                     content-cols-sm="7"
                     content-cols-lg="7"
                 >
@@ -43,8 +43,8 @@
                                 id="star-group"
                                 :label="$t('hotel.hotelForm.star')"
                                 label-for="star"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
                                 content-cols-sm="7"
                                 content-cols-lg="7"
                             >
@@ -60,8 +60,8 @@
                                 id="city-group"
                                 :label="$t('hotel.hotelForm.city')"
                                 label-for="city"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
                                 content-cols-sm="7"
                                 content-cols-lg="7"
                             >
@@ -76,8 +76,8 @@
                                 id="district-group"
                                 :label="$t('hotel.hotelForm.district')"
                                 label-for="district"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
                                 content-cols-sm="7"
                                 content-cols-lg="7"
                             >
@@ -92,8 +92,8 @@
                                 id="ward-group"
                                 :label="$t('hotel.hotelForm.ward')"
                                 label-for="ward"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
                                 content-cols-sm="7"
                                 content-cols-lg="7"
                             >
@@ -107,8 +107,8 @@
                                 id="amenities-group"
                                 :label="$t('hotel.hotelForm.amenities')"
                                 label-for="amenities"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
                                 content-cols-sm="7"
                                 content-cols-lg="7"
                             >
@@ -143,6 +143,7 @@
                                             v-bind="inputAttrs"
                                             :options="availableOptions"
                                             :disabled="disabled || availableOptions.length === 0"
+                                            size="md"
                                             v-on="inputHandlers"
                                         >
                                             <template #first>

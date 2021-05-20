@@ -13,6 +13,10 @@
                     id="role-group"
                     :label="$t('user.register.role')"
                     label-for="role"
+                    label-cols-sm="2"
+                    label-cols-lg="2"
+                    content-cols-sm="7"
+                    content-cols-lg="7"
                 >
                     <b-form-select
                         id="role"
@@ -21,17 +25,68 @@
                         :state="validateState('role')"
                     />
                 </b-form-group>
-                <button
-                    class="btn btn-sm btn-primary"
-                    type="button"
-                    @click="onSubmit"
-                >
-                    {{ $t('user.user.search') }}
-                    <font-awesome-icon
-                        :icon="['fas', 'search']"
-                    />
-                </button>
             </b-form>
+            <div>
+                <b-button
+                    v-b-toggle.collapse-1
+                    variant="secondary"
+                    class="btn-sm"
+                >
+                    {{ $t('hotel.hotel.advancedSearch') }}
+                </b-button>
+                <b-collapse
+                    id="collapse-1"
+                    class="mt-2"
+                >
+                    <b-card>
+                        <b-form>
+                            <b-form-group
+                                id="name-group"
+                                :label="$t('user.register.name')"
+                                label-for="name"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="7"
+                                content-cols-lg="7"
+                            >
+                                <b-form-input
+                                    id="name"
+                                    v-model="$v.form.name.$model"
+                                    :placeholder="$t('user.register.namePlaceholder')"
+                                    type="text"
+                                />
+                            </b-form-group>
+                            <b-form-group
+                                id="email-group"
+                                :label="$t('user.register.email')"
+                                label-for="email"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="7"
+                                content-cols-lg="7"
+                            >
+                                <b-form-input
+                                    id="email"
+                                    v-model="$v.form.email.$model"
+                                    :placeholder="$t('user.register.emailPlaceholder')"
+                                    type="email"
+                                />
+                            </b-form-group>
+                        </b-form>
+                    </b-card>
+                </b-collapse>
+            </div>
+            <br>
+            <button
+                class="btn btn-sm btn-primary"
+                type="button"
+                @click="onSubmit"
+            >
+                {{ $t('user.user.search') }}
+                <font-awesome-icon
+                    :icon="['fas', 'search']"
+                />
+            </button>
             <hr>
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
@@ -130,12 +185,12 @@ export default {
             // Search form data
             form: {
                 role: null,
+                name: null,
+                email: null
             },
             updateForm: {
                 is_active: null
             },
-            // Role options
-
             // Pagination data
             currentPage: 1,
             perPage: 50,
@@ -194,6 +249,12 @@ export default {
             role: {
 
             },
+            name: {
+
+            },
+            email: {
+
+            }
         }
     },
     created() {
@@ -219,6 +280,16 @@ export default {
             if (!!this.form.role) {
                 this.filterUsers = this.filterUsers.filter(user =>
                     user.role === this.form.role
+                )
+            }
+            if (!!this.form.name) {
+                this.filterUsers = this.filterUsers.filter(user =>
+                    user.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
+                )
+            }
+            if (!!this.form.email) {
+                this.filterUsers = this.filterUsers.filter(user =>
+                    user.email.toLowerCase().indexOf(this.form.email.toLowerCase()) > -1
                 )
             }
         },

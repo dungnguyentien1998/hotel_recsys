@@ -20,10 +20,18 @@
                             id="old-password"
                             v-model="$v.form.old_password.$model"
                             class="form-control col-sm-9"
-                            :state="validateState('old_password')"
                             :placeholder="$t('user.login.oldPasswordPlaceholder')"
                             type="password"
                         />
+                        <button
+                            class="btn password"
+                            type="button"
+                            @click="showOldPassword"
+                        >
+                            <font-awesome-icon
+                                :icon="['fas', 'eye']"
+                            />
+                        </button>
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -31,13 +39,12 @@
                     class="col-12"
                 >
                     <div class="form-row">
-                        <label class="required col-sm-3 col-form-label">{{ $t('user.login.password') }}</label>
+                        <label class="required col-sm-3 col-form-label">{{ $t('user.login.newPassword') }}</label>
                         <b-form-input
                             id="password"
                             v-model="$v.form.password.$model"
                             class="form-control col-sm-9"
-                            :state="validateState('password')"
-                            :placeholder="$t('user.login.passwordPlaceholder')"
+                            :placeholder="$t('user.login.newPasswordPlaceholder')"
                             type="password"
                         />
                         <button
@@ -61,7 +68,6 @@
                             id="confirm-password"
                             v-model="$v.form.password_confirm.$model"
                             class="form-control col-sm-9"
-                            :state="validateState('password_confirm')"
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
@@ -94,7 +100,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
-import {required, email, minLength, sameAs} from 'vuelidate/lib/validators'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 import snakecaseKeys from 'snakecase-keys'
 import Layout from '@/components/layouts/Layout'
 import {library} from '@fortawesome/fontawesome-svg-core'
@@ -105,7 +111,7 @@ library.add(faEye)
 export default {
     name: "ChangePassword",
     components: {Layout},
-    mixins: [validationMixin, formMixin],
+    mixins: [formMixin],
     data: function () {
         return {
             // Form data
@@ -140,6 +146,14 @@ export default {
                 password_confirm: ''
             }
         },
+        showOldPassword: function () {
+            let x = document.getElementById("old-password")
+            if (x.type === "password") {
+                x.type = "text"
+            } else {
+                x.type = "password"
+            }
+        },
         showPassword: function () {
             let x = document.getElementById("password")
             if (x.type === "password") {
@@ -160,7 +174,7 @@ export default {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validate
-                this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
+                this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
                 this.$store.dispatch('user/changePassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
