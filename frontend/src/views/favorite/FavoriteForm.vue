@@ -24,6 +24,10 @@
                 <b-card-img
                     :src="hotelImage(hotel.image)"
                 />
+                <!--                <div-->
+                <!--                    id="map"-->
+                <!--                    style="float: right"-->
+                <!--                />-->
             </b-form-group>
             <!--  Hotel city      -->
             <p>
@@ -194,6 +198,8 @@ import HotelForm from '@/components/HotelForm';
 import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
+import mapboxgl from "mapbox-gl";
+import mapboxSdk from "@mapbox/mapbox-sdk/umd/mapbox-sdk";
 
 
 export default {
@@ -209,7 +215,7 @@ export default {
             // Favorite data
             favorites: [],
             favorite: [],
-            recommendations: []
+            recommendations: [],
         }
     },
     computed: {
@@ -221,17 +227,58 @@ export default {
             return (this.$store.getters['user/user'].role === 'hotelier')
         },
     },
+    mounted() {
+        const plugin = document.createElement("script")
+        plugin.setAttribute("src", "https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js")
+        document.head.appendChild(plugin)
+        const style = document.createElement("link")
+        style.setAttribute("href", "https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css")
+        style.setAttribute("rel", "stylesheet")
+        document.head.appendChild(style)
+        const plugin1 = document.createElement("script")
+        plugin1.setAttribute("src", "https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js")
+        document.head.appendChild(plugin1)
+        const plugin2 = document.createElement("script")
+        plugin2.setAttribute("src", "https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js")
+        document.head.appendChild(plugin2)
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZ250MjEzIiwiYSI6ImNrb3d5d3hoajA5ZGozMG1qZHlydXR0bmMifQ.PDS9TCnddZ0b0XuaxRW7yg';
+        let mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+        mapboxClient.geocoding
+            .forwardGeocode({
+                query: this.hotel.ward + ", " + this.hotel.district + ", " + this.hotel.city,
+                autocomplete: false,
+                limit: 1
+            })
+            .send()
+            .then(function (response) {
+                if (
+                    response &&
+                    response.body &&
+                    response.body.features &&
+                    response.body.features.length
+                ) {
+                    let feature = response.body.features[0];
+
+                    let map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: feature.center,
+                        zoom: 15
+                    });
+
+                    // Create a marker and add it to the map.
+                    new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
+                }
+            });
+    },
     created() {
         // Handle toggle data
         this.$store.dispatch('favorite/listFavorites', this.$route.params.uuid)
             .then(() => {
                 this.favorites = this.$store.getters['favorite/favorites']
                 this.favorite = this.favorites.filter(favorite => favorite.hotelid === this.$route.params.uuid)
-                if (this.favorite.length > 0) {
-                    this.myToggle = true
-                } else {
-                    this.myToggle = false
-                }
+                this.myToggle = this.favorite.length > 0;
             })
         this.$store.dispatch('type/listTypes', this.$route.params.uuid)
         this.$store.dispatch('recommendation/listRecommendations', this.$route.params.uuid).then(() => {
@@ -310,6 +357,7 @@ export default {
     lang="scss"
     scoped
 >
+//@import "https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css";
 .card-img {
     height: 50%;
     width: 50%;
@@ -321,5 +369,13 @@ export default {
 }
 .p-inline {
     display: inline-block;
+}
+#map {
+    position: absolute;
+    top: 150px;
+    right: 30px;
+    //bottom: 0;
+    width: 25%;
+    height: 15%;
 }
 </style>
