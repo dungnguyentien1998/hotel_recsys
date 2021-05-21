@@ -21,6 +21,7 @@ class HotelTestCase(APITestCase, URLPatternsTestCase):
         )
         self.hotel = Hotel.objects.create(
             name='test',
+            star=2,
             city='test',
             district='test',
             ward='test',
@@ -52,7 +53,7 @@ class HotelTestCase(APITestCase, URLPatternsTestCase):
     def test_get_hotel_api(self):
         self.client.force_authenticate(self.user)
         url = reverse('app:hotel.detail', args=[Hotel.objects.get(name='test').uuid])
-        response = self.client.get(url)
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_put_hotel_api(self):
@@ -74,4 +75,13 @@ class HotelTestCase(APITestCase, URLPatternsTestCase):
         self.client.force_authenticate(self.user)
         url = reverse('app:hotel.detail', args=[Hotel.objects.get(name='test').uuid])
         response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_activate_hotel(self):
+        self.client.force_authenticate(self.user)
+        url = reverse('app:hotel.manage', args=[Hotel.objects.get(name='test').uuid])
+        hotel_data = {
+            'is_active': True
+        }
+        response = self.client.put(url, hotel_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

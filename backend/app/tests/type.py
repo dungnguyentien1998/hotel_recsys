@@ -1,10 +1,10 @@
 from rest_framework import status
 from rest_framework.test import APITestCase, URLPatternsTestCase, APIClient
 from django.urls import reverse, include, path
-from app.models import Hotel, User, Room, Type
+from app.models import Hotel, Type, User
 
 
-class RoomTestCase(APITestCase, URLPatternsTestCase):
+class TypeTestCase(APITestCase, URLPatternsTestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = User.objects.create(
@@ -16,7 +16,7 @@ class RoomTestCase(APITestCase, URLPatternsTestCase):
             district='test',
             ward='test',
             address='test',
-            role='hotelier',
+            role='user',
             birthday='2004-12-26'
         )
         self.hotel = Hotel.objects.create(
@@ -28,7 +28,6 @@ class RoomTestCase(APITestCase, URLPatternsTestCase):
             address='test',
             amenities=['free parking'],
             image='test',
-            user=self.user
         )
         self.type = Type.objects.create(
             room_type='test',
@@ -37,54 +36,44 @@ class RoomTestCase(APITestCase, URLPatternsTestCase):
             amenities=['personal care'],
             hotel=self.hotel
         )
-        self.room = Room.objects.create(
-            room_number='123',
-            image='test',
-            hotel=self.hotel,
-            type=self.type
-        )
 
     urlpatterns = [
         path('api/', include('app.urls')),
     ]
 
-    def test_create_room_api(self):
+    def test_create_type_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:room', args=[Hotel.objects.get(name='test').uuid])
-        room_data = {
-            'room_type': 'test',
-            'room_numbers': ['123', '456'],
-            'images': ['test', 'test']
+        url = reverse('app:type', args=[Hotel.objects.get(name='test').uuid])
+        type_data = {
+            'room_type': 'test1',
+            'capacity': 2,
+            'price': 2,
+            'amenities': 'personal care'
         }
-        response = self.client.post(url, room_data, format='json')
+        response = self.client.post(url, type_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_rooms_api(self):
+    def test_get_types_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:room', args=[Hotel.objects.get(name='test').uuid])
+        url = reverse('app:type', args=[Hotel.objects.get(name='test').uuid])
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_room_api(self):
+    def test_put_type_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:room.detail', args=[Hotel.objects.get(name='test').uuid, Room.objects.get(room_number='123').uuid])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_put_room_api(self):
-        self.client.force_authenticate(self.user)
-        url = reverse('app:room.detail', args=[Hotel.objects.get(name='test').uuid, Room.objects.get(room_number='123').uuid])
-        room_data = {
-            'room_type': 'single',
-            'room_number': '456',
-            'image': 'test',
+        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(room_type='test').uuid])
+        type_data = {
+            'room_type': 'new_test',
+            'capacity': 3,
+            'price': 3,
+            'amenities': 'personal care'
         }
-        response = self.client.put(url, room_data)
+        response = self.client.put(url, type_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # self.assertEqual(response.data, {'name': 'new_test'})
 
-    def test_delete_room_api(self):
+    def test_delete_type_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:room.detail', args=[Hotel.objects.get(name='test').uuid, Room.objects.get(room_number='123').uuid])
+        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(room_type='test').uuid])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

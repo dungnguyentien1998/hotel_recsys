@@ -49,8 +49,10 @@ def send_new_account_email(user):
     receiver = user.email
     token = generate_token(obj=user.uuid, _type=TokenType.NEW_ACCOUNT)
     # body = token
-    link = "http://localhost:8000/api/activate?token=" + token
-    body = "<form name='submitform' method='post' action='" + link + "'>"
+    link = "http://localhost:8000/api/activate?token=" + token + "&email=" + receiver
+    body = "<form id='test' method='post' action='" + link + "'>" + "<a href='javascript:;' " \
+                                                                    "onclick='document.getElementById(" \
+                                                                    "'test').submit();'>Activate</a>" + "</form>"
     yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
     yag.send(
         to=receiver,

@@ -21,6 +21,7 @@ class ReviewTestCase(APITestCase, URLPatternsTestCase):
         )
         self.hotel = Hotel.objects.create(
             name='test',
+            star=2,
             city='test',
             district='test',
             ward='test',

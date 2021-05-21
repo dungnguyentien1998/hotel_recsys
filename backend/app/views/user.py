@@ -106,8 +106,8 @@ class ActivateAccount(APIView):
     permission_classes = (AllowAny,)
 
     # Activate account for new user
-    def put(self, request):
-        serializer = ActivateAccountSerializer(data=request.data)
+    def post(self, request):
+        serializer = ActivateAccountSerializer(data=request.query_params)
         validate_serializer(serializer=serializer)
         # Update is_active property
         serializer.update(instance=serializer.validated_data)

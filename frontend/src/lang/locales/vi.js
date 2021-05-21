@@ -36,6 +36,7 @@ export default {
             submit: 'Đăng nhập',
             sendBtn: 'Xác nhận',
             register: 'Tạo tài khoản mới',
+            showPassword: 'Hiện mật khẩu',
             errors: {
                 title: 'Lỗi đăng nhập',
                 invalidData: 'Email hoặc mật khẩu không chính xác',

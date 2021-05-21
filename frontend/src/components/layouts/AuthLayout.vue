@@ -51,7 +51,7 @@ export default {
         background: linear-gradient(to right, #ef8e38, #3784aa);
 
         .form-layout {
-            border-radius: 21px;
+            //border-radius: 21px;
             background-color: #fcfafa;
 
             .title {
@@ -61,8 +61,8 @@ export default {
             .form {
                 padding: 31px 31px;
                 width: 37%;
-                min-width: 701px;
-                max-height: 751px;
+                min-width: 700px;
+                max-height: 700px;
                 overflow-y: auto;
             }
         }

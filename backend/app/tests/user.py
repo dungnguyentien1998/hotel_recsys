@@ -10,7 +10,7 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
         self.user = User.objects.create(
             email='danielnorman@hotmail.com',
             password='123456',
-            name='Peggy Holt',
+            name='test',
             tel='0750014613',
             city='test',
             district='test',
@@ -77,3 +77,28 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_get_user_detail(self):
+        self.client.force_authenticate(self.user)
+        url = reverse('app:user.detail', args=[User.objects.get(name='test').uuid])
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_activate_user(self):
+        self.client.force_authenticate(self.user)
+        url = reverse('app:user.detail', args=[User.objects.get(name='test').uuid])
+        user_data = {
+            'is_active': True
+        }
+        response = self.client.put(url, user_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_change_password(self):
+        self.client.force_authenticate(self.user)
+        url = reverse('app:user.change_password')
+        user_data = {
+            'old_password': '123456',
+            'password': '123456',
+            'password_confirm': '123456'
+        }
+        response = self.client.put(url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

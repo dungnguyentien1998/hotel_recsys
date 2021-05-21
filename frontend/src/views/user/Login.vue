@@ -49,6 +49,23 @@
                             />
                         </button>
                     </div>
+                    <!--                    <div-->
+                    <!--                        style="margin-top: 10px"-->
+                    <!--                    >-->
+                    <!--                        <b-form-checkbox-->
+                    <!--                            style="display: inline-block"-->
+                    <!--                            @change="showPassword"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('user.login.showPassword') }}-->
+                    <!--                        </b-form-checkbox>-->
+                    <!--                        <router-link-->
+                    <!--                            :to="{name: 'forgotPassword'}"-->
+                    <!--                            style="display: inline-block; float: right"-->
+                    <!--                            class="text-secondary text-right small"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('user.login.forgotPassword') }}-->
+                    <!--                        </router-link>-->
+                    <!--                    </div>-->
                     <router-link
                         :to="{name: 'forgotPassword'}"
                         class="text-secondary text-right small d-block"

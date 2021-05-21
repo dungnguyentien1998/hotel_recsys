@@ -36,6 +36,7 @@ export default {
             submit: 'Login',
             sendBtn: 'Submit',
             register: 'Create new account',
+            showPassword: 'Show password',
             errors: {
                 title: 'Login failed',
                 invalidData: 'Incorrect email or password',

@@ -33,6 +33,7 @@ class ComplaintTestCase(APITestCase, URLPatternsTestCase):
         )
         self.hotel = Hotel.objects.create(
             name='test',
+            star=2,
             city='test',
             district='test',
             ward='test',
@@ -74,18 +75,6 @@ class ComplaintTestCase(APITestCase, URLPatternsTestCase):
         url = reverse('app:complaint.detail', args=[Hotel.objects.get(name='test').uuid, Complaint.objects.get(title='test').uuid])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    # def test_put_complaint_api(self):
-    #     self.client.force_authenticate(self.hotelier)
-    #     url = reverse('app:complaint.detail', args=[Hotel.objects.get(name='test').uuid, Complaint.objects.get(title='test').uuid])
-    #     complaint_data = {
-    #         'title': 'new_test',
-    #         'content': 'new_test',
-    #         'image': 'new_test'
-    #     }
-    #     response = self.client.put(url, complaint_data)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     # self.assertEqual(response.data, {'name': 'new_test'})
 
     def test_delete_complaint_api(self):
         self.client.force_authenticate(self.hotelier)
