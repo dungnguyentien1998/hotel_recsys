@@ -2,6 +2,10 @@
     <layout>
         <template #content>
             <div>
+                <h3>
+                    {{ $t('booking.booking.detail') }}
+                </h3>
+                <br>
                 <b-form>
                     <div>
                         <h5 class="m-0 font-weight-bolder">
@@ -12,12 +16,17 @@
                             <!--                            {{ $t('booking.booking.userTel') }}:-->
                             <!--                        </span>-->
                             <img
+                                v-if="isNotNull(booking.userTel)"
                                 src="../../assets/phone.png"
                                 alt="phone"
                                 class="icon"
                             >
                             {{ booking.userTel }}
-                            -
+                            <span
+                                v-if="isNotNull(booking.userTel)"
+                            >
+                                -
+                            </span>
                             <!--                        <span class="font-weight-bolder">-->
                             <!--                            {{ $t('booking.booking.userEmail') }}:-->
                             <!--                        </span>-->
@@ -155,7 +164,7 @@
                                         :key="option.value"
                                         v-model="room_numbers[getIndex(data.item.type)]"
                                         :value="option.value"
-                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option)"
+                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option.value)"
                                         inline
                                     >
                                         {{ option.text }}
@@ -380,11 +389,8 @@ export default {
             }
             return index
         },
-        onDisable: function (room_numbers, amount, option) {
-            const temp1 = room_numbers
-            const temp2 = amount
-            // return room_numbers.length >= amount && room_numbers.indexOf(option) === -1
-            return false
+        onDisable: function (room_numbers, amount, value) {
+            return room_numbers.length >= amount && room_numbers.indexOf(value) === -1
         },
         toDate: function (datetime) {
             let date = new Date(datetime);
@@ -451,6 +457,9 @@ export default {
                 total_price += prices[price]
             }
             return total_price
+        },
+        isNotNull: function(tel) {
+            return tel != null && tel !== "";
         },
         deleteBookingHotelier: function (uuid) {
             this.$store.dispatch('booking/resetStatus')

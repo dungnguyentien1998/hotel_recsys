@@ -26,7 +26,7 @@ export default {
             password: 'Mật khẩu:',
             passwordPlaceholder: 'Nhập mật khẩu',
             token: 'Mã xác thực:',
-            tokenPlaceholder: 'Nhập mã xác thực nhận từ email',
+            tokenPlaceholder: 'Nhập mã xác thực nhận từ email để đặt lại mật khẩu',
             oldPassword: 'Mật khẩu cũ:',
             oldPasswordPlaceholder: 'Nhập mật khẩu cũ',
             newPassword: 'Mật khẩu mới:',
@@ -53,6 +53,8 @@ export default {
             }
         },
         register: {
+            activateAccount: 'Kích hoạt tài khoản',
+            tokenPlaceholder: 'Nhập mã xác thực nhận từ email để kích hoạt tài khoản',
             title: 'Đăng ký',
             email: 'Email:',
             emailPlaceholder: 'Nhập email',
@@ -233,6 +235,7 @@ export default {
     booking: {
         booking: {
             title: 'Danh sách đặt phòng',
+            detail: 'Chi tiết đặt phòng',
             newTitle: 'Danh sách đặt phòng mới',
             oldTitle: 'Những yêu cầu đặt phòng đã được xử lý',
             cancelBtn: 'Hủy',

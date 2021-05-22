@@ -24,6 +24,9 @@ import BookingHotelierDetail from "@/views/booking/BookingHotelierDetail";
 import ForgotPassword from "@/views/user/ForgotPassword";
 import ResetPassword from "@/views/user/ResetPassword";
 import ChangePassword from "@/views/user/ChangePassword";
+import ActivateAccount from "@/views/user/ActivateAccount";
+import OrderSuccess from "@/components/OrderSuccess";
+import OrderCanceled from "@/components/OrderCanceled";
 
 let routes = [
     // Login router
@@ -43,6 +46,15 @@ let routes = [
         component: Register,
         meta: {
             title: 'Register',
+            requireRoles: ['guest']
+        }
+    },
+    {
+        path: '/activate',
+        name: 'activate',
+        component: ActivateAccount,
+        meta: {
+            title: 'Activate account',
             requireRoles: ['guest']
         }
     },
@@ -237,6 +249,24 @@ let routes = [
         component: Hotel,
         meta: {
             title: 'Dashboard hotels',
+            requireRoles: ['user']
+        }
+    },
+    {
+        path: '/success',
+        name: 'OrderSuccess',
+        component: OrderSuccess,
+        meta: {
+            title: 'Order success',
+            requireRoles: ['user']
+        }
+    },
+    {
+        path: '/canceled',
+        name: 'OrderCanceled',
+        component: OrderCanceled,
+        meta: {
+            title: 'Order canceled',
             requireRoles: ['user']
         }
     },

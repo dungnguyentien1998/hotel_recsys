@@ -161,6 +161,9 @@ CHANNEL_LAYERS = {
     },
 }
 
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51ItvFvFGVTjHBXQ5Eihr6KmSi4FBceDHhDSGTOwKoNyVoeB39N5YIxtOk5E8ylWNm9j4CkrzQWOQ4nnSNMo7gp8X00SrcmAzBy'
+STRIPE_SECRET_KEY = 'sk_test_51ItvFvFGVTjHBXQ5DIrdwer1x4EmNvkto0tjJoxhKyyIyhzBcnv1kp7fR4KwVsY6ciFDzAA3epAKeLft2IVzRJTM00m2WXYvP5'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 

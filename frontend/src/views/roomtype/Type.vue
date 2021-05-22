@@ -174,7 +174,8 @@ export default {
     scoped
 >
 .list-item {
-    margin: 10px 0
+    margin: 10px 0;
+    border-radius: 10px;
 }
 .p-inline {
     display: inline-block;

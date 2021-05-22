@@ -26,7 +26,7 @@ export default {
             password: 'Password:',
             passwordPlaceholder: 'Enter password',
             token: 'Token:',
-            tokenPlaceholder: 'Enter token from email',
+            tokenPlaceholder: 'Enter token from email to reset password',
             oldPassword: 'Old password:',
             oldPasswordPlaceholder: 'Enter old password',
             newPassword: 'New password:',
@@ -53,6 +53,8 @@ export default {
             }
         },
         register: {
+            activateAccount: 'Activate account',
+            tokenPlaceholder: 'Enter token from email to activate account',
             title: 'Register',
             email: 'Email:',
             emailPlaceholder: 'Enter email',
@@ -233,6 +235,7 @@ export default {
     booking: {
         booking: {
             title: 'Booking list',
+            detail: 'Booking detail',
             newTitle: 'New bookings',
             oldTitle: 'Bookings that were arranged',
             cancelBtn: 'Cancel',

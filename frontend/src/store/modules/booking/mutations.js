@@ -16,6 +16,7 @@ export default {
         let success = payload.data.success
         if (success) {
             state.bookings.push(payload.data.booking)
+            state.booking = payload.data.booking
             state.status = ''
         } else {
             state.status = 'FAILED'

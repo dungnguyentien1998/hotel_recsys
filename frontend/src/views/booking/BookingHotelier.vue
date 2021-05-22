@@ -18,12 +18,17 @@
                         <!--                            {{ $t('booking.booking.userTel') }}:-->
                         <!--                        </span>-->
                         <img
+                            v-if="isNotNull(booking.userTel)"
                             src="../../assets/phone.png"
                             alt="phone"
                             class="icon"
                         >
                         {{ booking.userTel }}
-                        -
+                        <span
+                            v-if="isNotNull(booking.userTel)"
+                        >
+                            -
+                        </span>
                         <!--                        <span class="font-weight-bolder">-->
                         <!--                            {{ $t('booking.booking.userEmail') }}:-->
                         <!--                        </span>-->
@@ -132,14 +137,29 @@
                         {{ $t('booking.booking.userName') }}: {{ booking.userName }}
                     </h5>
                     <p>
-                        <span class="font-weight-bolder">
-                            {{ $t('booking.booking.userTel') }}:
-                        </span>
+                        <!--                        <span class="font-weight-bolder">-->
+                        <!--                            {{ $t('booking.booking.userTel') }}:-->
+                        <!--                        </span>-->
+                        <img
+                            v-if="isNotNull(booking.userTel)"
+                            src="../../assets/phone.png"
+                            alt="phone"
+                            class="icon"
+                        >
                         {{ booking.userTel }}
-                        -
-                        <span class="font-weight-bolder">
-                            {{ $t('booking.booking.userEmail') }}:
+                        <span
+                            v-if="isNotNull(booking.userTel)"
+                        >
+                            -
                         </span>
+                        <!--                        <span class="font-weight-bolder">-->
+                        <!--                            {{ $t('booking.booking.userEmail') }}:-->
+                        <!--                        </span>-->
+                        <img
+                            src="../../assets/email.png"
+                            alt="email"
+                            class="icon"
+                        >
                         {{ booking.userEmail }}
                     </p>
                     <p>
@@ -288,6 +308,9 @@ export default {
             })
             return old_bookings
         },
+        isNotNull: function(tel) {
+            return tel != null && tel !== "";
+        },
         deleteBookingHotelier: function(uuid) {
             this.$store.dispatch('booking/resetStatus')
             this.$store.dispatch('booking/newDeleteBookingHotelier', {hotelId: this.$route.params.uuid, bookingId: uuid})
@@ -311,6 +334,7 @@ export default {
 .list-item {
     margin: 10px 0;
     height: 210px;
+    border-radius: 10px;
 }
 #time li {
     display: inline;

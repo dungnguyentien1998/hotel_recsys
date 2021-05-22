@@ -200,6 +200,7 @@ export default {
 .list-item {
     margin: 10px 0;
     height: 225px;
+    border-radius: 10px;
 }
 #time li {
     display: inline;

@@ -51,7 +51,7 @@ export default {
         background: linear-gradient(to right, #ef8e38, #3784aa);
 
         .form-layout {
-            //border-radius: 21px;
+            border-radius: 10px;
             background-color: #fcfafa;
 
             .title {

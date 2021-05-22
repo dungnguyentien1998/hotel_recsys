@@ -147,7 +147,7 @@ export default {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validate
-                this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
+                this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
                 this.$store.dispatch('user/resetPassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {

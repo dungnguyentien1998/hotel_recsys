@@ -14,6 +14,7 @@ class BookingRoomDetail(APIView):
             'booking_rooms': BookingRoomDetailSerializer(booking_rooms, many=True).data
         })
 
+    # Assign rooms
     def post(self, request, hotel_id):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
         serializer = BookingRoomSerializer(data=request.data, context={'hotel': hotel})

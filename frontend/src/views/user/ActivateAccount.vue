@@ -1,23 +1,23 @@
 <template>
     <auth-layout>
         <template #title>
-            {{ $t('user.login.forgotPassword') }}
+            {{ $t('user.register.activateAccount') }}
         </template>
         <template #form>
             <b-form>
                 <b-form-group
-                    id="email-group"
+                    id="token-group"
                     class="col-12"
                 >
                     <div class="form-row">
-                        <label class="required col-sm-3 col-form-label">{{ $t('user.login.email') }}</label>
+                        <label class="required col-sm-2 col-form-label">{{ $t('user.login.token') }}</label>
                         <b-form-input
-                            id="email"
-                            v-model="$v.form.email.$model"
-                            class="form-control col-sm-9"
-                            :state="validateState('email')"
-                            :placeholder="$t('user.login.emailPlaceholder')"
-                            type="email"
+                            id="token"
+                            v-model="$v.form.token.$model"
+                            class="form-control col-sm-10"
+                            :state="validateState('token')"
+                            :placeholder="$t('user.register.tokenPlaceholder')"
+                            type="text"
                         />
                     </div>
                 </b-form-group>
@@ -39,45 +39,44 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
-import {required, email, minLength} from 'vuelidate/lib/validators'
+import {required, email, minLength, sameAs} from 'vuelidate/lib/validators'
 import snakecaseKeys from 'snakecase-keys'
 import AuthLayout from '@/components/layouts/AuthLayout'
 
+
 export default {
-    name: "ForgotPassword",
+    name: "ActivateAccount",
     components: {AuthLayout},
     mixins: [validationMixin, formMixin],
     data: function () {
         return {
             // Form data
             form: {
-                email: '',
+                token: '',
             }
         }
     },
-    // Form validate
     validations: {
         form: {
-            email: {
+            token: {
                 required,
-                email
             },
         }
     },
     methods: {
         onSubmit: function () {
-            this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validate
                 this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
-                this.$store.dispatch('user/forgotPassword', this.form).then(() => {
+                this.form.email = localStorage.getItem("email")
+                this.$store.dispatch('user/activateAccount', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
                         // this.resetForm()
                     } else {
                         // Push to login if success, need to add success message
-                        this.$router.push('/reset-password')
+                        this.$router.push('/login')
                     }
                 }).catch(() => {
                     this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.exceptionOccurred'))
@@ -88,12 +87,6 @@ export default {
 }
 </script>
 
-<style
-    lang="scss"
-    scoped
->
-.required:after {
-    content: " *";
-    color: red;
-}
+<style scoped>
+
 </style>

@@ -83,4 +83,11 @@ export default {
                 context.commit('forgotPassword', res)
             })
     },
+    activateAccount: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token')
+        return api.post('activate', payload)
+            .then(res => {
+                context.commit('forgotPassword', res)
+            })
+    },
 }

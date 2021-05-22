@@ -5,5 +5,6 @@ export default {
     new_bookings: [],
     message: '',
     types: [],
-    booking_rooms: []
+    booking_rooms: [],
+    booking: {}
 }

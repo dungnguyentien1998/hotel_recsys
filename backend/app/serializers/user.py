@@ -46,7 +46,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User(**validated_data)
         user.set_password(password)
         user.save()
-        # send_new_account_email(user=user)
+        send_new_account_email(user=user)
         return user
 
 

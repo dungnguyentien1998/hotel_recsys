@@ -4,7 +4,7 @@
         <b-list-group-item
             v-for="complaint in complaints"
             :key="complaint.uuid"
-            style="margin: 10px 0"
+            class="list-item"
         >
             <div>
                 <!--    Complaint image            -->
@@ -107,5 +107,9 @@ export default {
 .img-thumbnail {
     object-fit: cover;
     height: 301px;
+}
+.list-item {
+    margin: 10px 0;
+    border-radius: 10px;
 }
 </style>

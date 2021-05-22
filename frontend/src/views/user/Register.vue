@@ -411,7 +411,11 @@ export default {
                 } else
                 if (this.form.password !== this.form.password_confirm) {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordSame'))
-                } else {
+                } else
+                if (this.form.role == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.missing'))
+                } else
+                {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.invalidData'))
                 }
             } else {
@@ -449,7 +453,8 @@ export default {
                         this.resetForm()
                     } else {
                         // Push to login if success, need to add success message
-                        this.$router.push('/login')
+                        localStorage.setItem("email", this.form.email)
+                        this.$router.push('/activate')
                     }
                 }).catch(() => {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.exceptionOccurred'))

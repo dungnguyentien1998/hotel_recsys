@@ -179,6 +179,7 @@ export default {
             room_types: room_types,
             // available rooms for each type
             availables: availables,
+            stripe: null
         }
     },
     computed: {
@@ -237,6 +238,9 @@ export default {
             ]
         }
     },
+    created() {
+        this.getStripePublishableKey();
+    },
     // Form validation
     validations: {
         form: {
@@ -249,6 +253,33 @@ export default {
         }
     },
     methods: {
+        getStripePublishableKey() {
+            fetch('http://localhost:8000/api/config')
+                .then((result) => result.json())
+                .then((data) => {
+                    // Initialize Stripe.js
+                    this.stripe = Stripe(data.publicKey); // eslint-disable-line no-undef
+                });
+        },
+        purchase(bookingId) {
+            // Get Checkout Session ID
+            fetch('http://localhost:8000/api/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ booking_id: bookingId }),
+            })
+                .then((result) => result.json())
+                .then((data) => {
+                    console.log(data);
+                    // Redirect to Stripe Checkout
+                    return this.stripe.redirectToCheckout({ sessionId: data.sessionId });
+                })
+                .then((res) => {
+                    console.log(res);
+                });
+        },
         getIndex: function(room_type) {
             let index = 0
             const types = this.$store.getters['type/types']
@@ -401,17 +432,15 @@ export default {
                             setTimeout(location.reload.bind(location), 2000)
                         } else {
                             // Alert for success
-                            // this.$bvModal.hide(`modal-booking`)
                             localStorage.removeItem("save")
+                            let bookingId = this.$store.getters['booking/booking'].uuid
+                            this.purchase(bookingId)
                             this.$bvToast.toast(this.$t('booking.bookingForm.success.message'), {
                                 title: this.$t('booking.bookingForm.success.title'),
                                 autoHideDelay: 2000,
                                 variant: 'success'
                             })
-                            setTimeout(location.reload.bind(location), 2000)
-                            // this.resetForm()
-                            // this.$bvModal.hide(`modal-booking`)
-                            // window.location.reload()
+                            // setTimeout(location.reload.bind(location), 2000)
                         }
                     })
                 }
