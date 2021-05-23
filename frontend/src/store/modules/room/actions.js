@@ -34,6 +34,9 @@ export default {
         delete payload.roomId
         delete payload.room_numbers
         delete payload.images
+        if (payload.image == null){
+            delete payload.image
+        }
         let form = formUtil(payload)
         return api.put(`hotels/${hotelId}/rooms/${roomId}`, form).then(res => {
             context.commit('updateRoom', res)

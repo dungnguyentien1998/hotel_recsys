@@ -70,14 +70,13 @@
                         {{ $t('navbar.hotel') }}
                     </b-nav-item>
                 </b-navbar-nav>
-                <!--    Dropdown to change languages            -->
+
                 <b-navbar-nav class="ml-auto align-items-center">
                     <b-nav-item-dropdown
                         :text="$t('navbar.languages')"
                         class="nav-lang"
                         right
                     >
-                        <!--    Change to english               -->
                         <b-dropdown-item
                             :active="isEn"
                             @click="localeToEn"
@@ -89,7 +88,7 @@
                             <!--                                {{ isEn ? '*' : '' }}-->
                             <!--                            </span>-->
                         </b-dropdown-item>
-                        <!--    Change to vietnamese            -->
+
                         <b-dropdown-item
                             :active="isVi"
                             @click="localeToVi"
@@ -108,14 +107,13 @@
                         class="nav-avatar"
                         right
                     >
-                        <!--    User avatar          -->
                         <template #button-content>
                             <b-avatar
                                 variant="info"
                                 :src="avatar"
                             />
                         </template>
-                        <!--    User profile          -->
+
                         <b-dropdown-item
                             href="/profile"
                         >
@@ -126,7 +124,7 @@
                         >
                             {{ $t('navbar.changePassword') }}
                         </b-dropdown-item>
-                        <!--    Logout button         -->
+
                         <b-dropdown-item
                             href="#"
                             @click="logout"
@@ -147,7 +145,6 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 library.add(faHotel)
 
 export default {
-    // Navigation bar component
     name: "Navbar",
     computed: {
         // Check if user logged in

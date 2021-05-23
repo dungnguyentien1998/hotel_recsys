@@ -1,6 +1,5 @@
 <template>
     <b-form>
-        <!--  Review title      -->
         <b-form-group
             id="title-group"
         >
@@ -13,7 +12,6 @@
                 type="text"
             />
         </b-form-group>
-        <!--  Review content      -->
         <b-form-group
             id="content-group"
         >
@@ -35,7 +33,6 @@
                 type="text"
             />
         </b-form-group>
-        <!--  Review rating      -->
         <b-form-group
             id="rating-group"
         >
@@ -121,12 +118,9 @@ export default {
                                 autoHideDelay: 2000,
                                 variant: 'success'
                             })
-                            // this.resetForm()
                             setTimeout(location.reload.bind(location), 2000)
-                            // window.location.reload()
                         }
                     })
-                // window.location.reload()
             }
 
         }

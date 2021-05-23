@@ -1,6 +1,5 @@
 <template>
     <b-form>
-        <!--   Room type     -->
         <b-form-group
             id="type-group"
             class="col-12"
@@ -16,7 +15,6 @@
                 />
             </div>
         </b-form-group>
-        <!--  Room number   -->
         <b-form-group
             v-if="roomExist"
             id="number-group"
@@ -180,7 +178,7 @@ export default {
                 numeric
             },
             image: {
-                required
+                // required
             },
             images: {
                 required
@@ -205,28 +203,26 @@ export default {
                 // Handle update form
                 this.$store.dispatch('room/resetStatus')
                 if (this.roomExist) {
-                    if (this.form.room_number == null || this.form.image == null) {
+                    if (this.form.room_number == null) {
                         this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.missing'))
                     } else {
                         this.form.hotelId = this.$route.params.uuid
                         this.form.roomId = this.room.uuid
-                        if (this.form.room_number === this.room.roomNumber) {
-                            this.form.room_number = null
-                        }
+                        // if (this.form.room_number === this.room.roomNumber) {
+                        //     this.form.room_number = null
+                        // }
                         this.$store.dispatch('room/updateRoom', this.form).then(() => {
                             if (this.$store.getters['room/status'] === 'FAILED') {
                                 // Alert for failed api calls
                                 this.makeToast(this.$t('room.roomForm.errors.updateTitle'),
                                     this.$t('room.roomForm.errors.exceptionOccurred'))
                             } else {
-                                // this.$bvModal.hide(`modal-${this.room.uuid}-update`)
-                                // window.location.reload()
                                 this.$bvToast.toast(this.$t('room.roomForm.success.updateMessage'), {
                                     title: this.$t('room.roomForm.success.updateTitle'),
                                     autoHideDelay: 2000,
                                     variant: 'success'
                                 })
-                                // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
+                                // this.$bvModal.hide(`modal-${this.room.uuid}-update`)
                                 setTimeout(location.reload.bind(location), 2000)
                             }
                         })

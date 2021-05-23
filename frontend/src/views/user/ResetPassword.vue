@@ -35,15 +35,15 @@
                             :placeholder="$t('user.login.newPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPassword"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPassword"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -60,15 +60,15 @@
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPasswordConfirm"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPasswordConfirm"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group>
@@ -89,8 +89,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
-import {required, email, minLength, sameAs} from 'vuelidate/lib/validators'
-import snakecaseKeys from 'snakecase-keys'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 import AuthLayout from '@/components/layouts/AuthLayout'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faEye} from '@fortawesome/free-solid-svg-icons'
@@ -152,7 +151,6 @@ export default {
                 this.$store.dispatch('user/resetPassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
-                        // this.resetForm()
                     } else {
                         // Push to login if success, need to add success message
                         this.$router.push('/login')

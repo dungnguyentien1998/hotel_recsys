@@ -1,6 +1,5 @@
 <template>
     <b-form>
-        <!--   Room type     -->
         <b-form-group
             id="type-group"
             class="col-12"
@@ -17,7 +16,6 @@
                 />
             </div>
         </b-form-group>
-        <!--  Room capacity      -->
         <b-form-group
             id="capacity-group"
             class="col-12"
@@ -34,7 +32,6 @@
                 />
             </div>
         </b-form-group>
-        <!--   Room price     -->
         <b-form-group
             id="price-group"
             class="col-12"
@@ -123,7 +120,6 @@ export default {
     name: "TypeForm",
     mixins: [validationMixin, formMixin],
     props: {
-        // Room data
         type: {
             type: Object,
             default: () => {
@@ -193,14 +189,12 @@ export default {
                             // Alert for failed api calls
                             this.makeToast(this.$t('type.typeForm.errors.updateTitle'), this.$t('type.typeForm.errors.exceptionOccurred'))
                         } else {
-                            // this.$bvModal.hide(`modal-${this.type.uuid}-update`)
-                            // window.location.reload()
                             this.$bvToast.toast(this.$t('type.typeForm.success.updateMessage'), {
                                 title: this.$t('type.typeForm.success.updateTitle'),
                                 autoHideDelay: 2000,
                                 variant: 'success'
                             })
-                            // this.$bvModal.hide(`modal-${this.hotel.uuid}-update`)
+                            // this.$bvModal.hide(`modal-${this.type.uuid}-update`)
                             setTimeout(location.reload.bind(location), 2000)
                         }
                     })
@@ -213,8 +207,6 @@ export default {
                                 // Alert for failed api calls
                                 this.makeToast(this.$t('type.typeForm.errors.createTitle'), this.$t('type.typeForm.errors.exceptionOccurred'))
                             } else {
-                                // this.$bvModal.hide(`modal-create`)
-                                // window.location.reload()
                                 this.$bvToast.toast(this.$t('type.typeForm.success.message'), {
                                     title: this.$t('type.typeForm.success.title'),
                                     autoHideDelay: 2000,

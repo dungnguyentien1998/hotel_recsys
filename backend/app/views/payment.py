@@ -16,7 +16,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request):
     if request.method == 'POST':
-        domain_url = 'http://localhost:8000/api/'
+        domain_url = 'http://localhost:8080/'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
             data = json.loads(request.body)

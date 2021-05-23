@@ -37,16 +37,20 @@ class RoomSerializer(serializers.ModelSerializer):
         return rooms
 
     def update(self, instance, validated_data):
-        # Update room
-        # Add type to context, room_type is missing after validate_serializer
-        if validated_data['room_number'] != 'null':
-            current_rooms = Room.objects.filter(hotel_id=self.context['hotel'].uuid, room_number=validated_data['room_number'])
+        room_number = self.context['room'].room_number
+        if room_number != validated_data['room_number']:
+            current_rooms = Room.objects.filter(hotel_id=self.context['hotel'].uuid,
+                                                room_number=validated_data['room_number'])
             if len(current_rooms) > 0:
                 raise ValidationError('Room number ' + validated_data['room_number'] + ' already exist')
-        else:
-            validated_data.pop('room_number')
+        # if validated_data['room_number'] != 'null':
+        #     current_rooms = Room.objects.filter(hotel_id=self.context['hotel'].uuid, room_number=validated_data['room_number'])
+        #     if len(current_rooms) > 0:
+        #         raise ValidationError('Room number ' + validated_data['room_number'] + ' already exist')
+        # else:
+        #     validated_data.pop('room_number')
         [setattr(instance, field, value) for field, value in validated_data.items()]
-        room_type = Type.objects.filter(room_type=self.context['type'])[0]
+        room_type = Type.objects.filter(room_type=self.context['type'], hotel_id=self.context['hotel'].uuid)[0]
         instance.type_id = room_type.uuid
         instance.save()
         return instance

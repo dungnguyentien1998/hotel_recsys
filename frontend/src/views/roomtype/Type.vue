@@ -123,7 +123,6 @@
 
 <script>
 import TypeForm from '@/components/TypeForm';
-import formMixin from '@/mixin/form-mixin'
 
 export default {
     name: "Type",
@@ -146,6 +145,9 @@ export default {
         this.$store.dispatch('type/listTypes', this.$route.params.uuid)
             .then(() => {
                 this.types = this.$store.getters['type/types']
+                this.types.sort(function (a,b) {
+                    return new Date(a.created) - new Date(b.created)
+                })
             })
     },
     methods: {

@@ -64,11 +64,9 @@
                 <!--            >-->
                 <!--                {{ toDate(review.created) }}-->
                 <!--            </p>-->
-                <!--   Review content         -->
                 <p class="m-0 text-secondary">
                     {{ review.content }}
                 </p>
-                <!--   Review user         -->
                 <small class="d-block text-right">
                     {{ review.userName }}
                 </small>
@@ -93,7 +91,6 @@ export default {
     components: {ReviewForm},
     data: function () {
         return {
-            // Review data
             reviews: []
         }
     },

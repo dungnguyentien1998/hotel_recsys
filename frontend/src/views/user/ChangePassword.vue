@@ -101,7 +101,6 @@
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
 import {required, minLength, sameAs} from 'vuelidate/lib/validators'
-import snakecaseKeys from 'snakecase-keys'
 import Layout from '@/components/layouts/Layout'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faEye} from '@fortawesome/free-solid-svg-icons'
@@ -179,7 +178,6 @@ export default {
                 this.$store.dispatch('user/changePassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
-                        // this.resetForm()
                     } else {
                         this.$bvToast.toast(this.$t('user.user.success.passwordMessage'), {
                             title: this.$t('user.user.success.passwordTitle'),

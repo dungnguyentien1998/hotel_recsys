@@ -1,6 +1,5 @@
 <template>
     <b-form>
-        <!--   Hotel name     -->
         <b-form-group
             id="name-group"
             class="col-12"
@@ -34,7 +33,6 @@
                 />
             </div>
         </b-form-group>
-        <!--   Hotel city     -->
         <b-form-group
             id="city-group"
             class="col-12"
@@ -51,7 +49,6 @@
                 />
             </div>
         </b-form-group>
-        <!--   Hotel district     -->
         <b-form-group
             id="district-group"
             class="col-12"
@@ -68,7 +65,6 @@
                 />
             </div>
         </b-form-group>
-        <!--  Hotel ward      -->
         <b-form-group
             id="ward-group"
             class="col-12"
@@ -84,7 +80,6 @@
                 />
             </div>
         </b-form-group>
-        <!--   Hotel address     -->
         <b-form-group
             id="address-group"
             class="col-12"
@@ -101,7 +96,6 @@
                 />
             </div>
         </b-form-group>
-        <!--   Hotel image     -->
         <b-form-group
             id="image-group"
             class="col-12"
@@ -121,7 +115,6 @@
                 />
             </div>
         </b-form-group>
-        <!--  Hotel amenities      -->
         <b-form-group
             id="amenities-group"
             class="col-12"
@@ -365,14 +358,11 @@ export default {
                                     autoHideDelay: 2000,
                                     variant: 'success'
                                 })
-                                // this.resetForm()
                                 setTimeout(function() {$('#modal-create').modal('hide')}, 2000);
                                 // this.$bvModal.hide(`modal-create`)
-
                             }
                         })
                 }
-
             }
         }
     }

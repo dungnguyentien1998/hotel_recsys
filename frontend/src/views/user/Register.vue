@@ -4,9 +4,7 @@
             {{ $t('user.register.title') }}
         </template>
         <template #form>
-            <!--   Register form         -->
             <b-form>
-                <!--   User email             -->
                 <b-form-group
                     id="email-group"
                     class="col-12"
@@ -23,8 +21,6 @@
                         />
                     </div>
                 </b-form-group>
-
-                <!--   User password             -->
                 <b-form-group
                     id="password-group"
                     class="col-12"
@@ -39,18 +35,17 @@
                             :placeholder="$t('user.register.passwordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPassword"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPassword"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
-                <!--   User password confirm           -->
                 <b-form-group
                     id="confirm-password-group"
                     class="col-12"
@@ -65,18 +60,17 @@
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPasswordConfirm"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPasswordConfirm"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
-                <!--   User name             -->
                 <b-form-group
                     id="name-group"
                     class="col-12"
@@ -93,117 +87,22 @@
                         />
                     </div>
                 </b-form-group>
-                <!--   User telephone             -->
                 <b-form-group
                     id="tel-group"
                     class="col-12"
                 >
                     <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.tel') }}</label>
+                        <label class="required col-sm-4 col-form-label">{{ $t('user.register.tel') }}</label>
                         <b-form-input
                             id="tel"
                             v-model="$v.form.tel.$model"
                             class="form-control col-sm-8"
+                            :state="validateState('tel')"
                             :placeholder="$t('user.register.telPlaceholder')"
                             type="text"
                         />
                     </div>
                 </b-form-group>
-                <!--   User birthday             -->
-                <b-form-group
-                    id="birthday-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.birthday') }}</label>
-                        <b-form-datepicker
-                            id="birthday"
-                            v-model="$v.form.birthday.$model"
-                            class="form-control col-sm-8"
-                            :placeholder="$t('user.register.birthdayPlaceholder')"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User image             -->
-                <b-form-group
-                    id="avatar-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.avatar') }}</label>
-                        <b-form-file
-                            id="avatar"
-                            v-model="$v.form.image.$model"
-                            class="form-control col-sm-8"
-                            :placeholder="$t('user.register.imagePlaceholder')"
-                            :drop-placeholder="$t('user.register.imageDropPlaceholder')"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User city             -->
-                <b-form-group
-                    id="city-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.city') }}</label>
-                        <b-form-select
-                            id="city"
-                            v-model="$v.form.city.$model"
-                            class="form-control col-sm-8"
-                            :options="cities"
-                            @change="onChangeCity"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User district             -->
-                <b-form-group
-                    id="district-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.district') }}</label>
-                        <b-form-select
-                            id="district"
-                            v-model="$v.form.district.$model"
-                            class="form-control col-sm-8"
-                            :options="districts"
-                            @change="onChangeDistrict"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User ward             -->
-                <b-form-group
-                    id="ward-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.ward') }}</label>
-                        <b-form-select
-                            id="ward"
-                            v-model="$v.form.ward.$model"
-                            class="form-control col-sm-8"
-                            :options="wards"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User address             -->
-                <b-form-group
-                    id="address-group"
-                    class="col-12"
-                >
-                    <div class="form-row">
-                        <label class="col-sm-4 col-form-label">{{ $t('user.register.address') }}</label>
-                        <b-form-input
-                            id="address"
-                            v-model="$v.form.address.$model"
-                            class="form-control col-sm-8"
-                            :placeholder="$t('user.register.addressPlaceholder')"
-                            type="text"
-                        />
-                    </div>
-                </b-form-group>
-                <!--   User role             -->
                 <b-form-group
                     id="role-group"
                     class="col-12"
@@ -219,7 +118,94 @@
                         />
                     </div>
                 </b-form-group>
-
+                <b-form-group
+                    id="birthday-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.birthday') }}</label>
+                        <b-form-datepicker
+                            id="birthday"
+                            v-model="$v.form.birthday.$model"
+                            class="form-control col-sm-8"
+                            :placeholder="$t('user.register.birthdayPlaceholder')"
+                        />
+                    </div>
+                </b-form-group>
+                <b-form-group
+                    id="avatar-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.avatar') }}</label>
+                        <b-form-file
+                            id="avatar"
+                            v-model="$v.form.image.$model"
+                            class="form-control col-sm-8"
+                            :placeholder="$t('user.register.imagePlaceholder')"
+                            :drop-placeholder="$t('user.register.imageDropPlaceholder')"
+                        />
+                    </div>
+                </b-form-group>
+                <b-form-group
+                    id="city-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.city') }}</label>
+                        <b-form-select
+                            id="city"
+                            v-model="$v.form.city.$model"
+                            class="form-control col-sm-8"
+                            :options="cities"
+                            @change="onChangeCity"
+                        />
+                    </div>
+                </b-form-group>
+                <b-form-group
+                    id="district-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.district') }}</label>
+                        <b-form-select
+                            id="district"
+                            v-model="$v.form.district.$model"
+                            class="form-control col-sm-8"
+                            :options="districts"
+                            @change="onChangeDistrict"
+                        />
+                    </div>
+                </b-form-group>
+                <b-form-group
+                    id="ward-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.ward') }}</label>
+                        <b-form-select
+                            id="ward"
+                            v-model="$v.form.ward.$model"
+                            class="form-control col-sm-8"
+                            :options="wards"
+                        />
+                    </div>
+                </b-form-group>
+                <b-form-group
+                    id="address-group"
+                    class="col-12"
+                >
+                    <div class="form-row">
+                        <label class="col-sm-4 col-form-label">{{ $t('user.register.address') }}</label>
+                        <b-form-input
+                            id="address"
+                            v-model="$v.form.address.$model"
+                            class="form-control col-sm-8"
+                            :placeholder="$t('user.register.addressPlaceholder')"
+                            type="text"
+                        />
+                    </div>
+                </b-form-group>
                 <b-form-group>
                     <b-button
                         variant="success"
@@ -231,7 +217,6 @@
                     </b-button>
                 </b-form-group>
             </b-form>
-            <!--   Link to login         -->
             <p class="text-center text-secondary d-block">
                 {{ $t('user.register.loginText') }}
                 <router-link
@@ -300,11 +285,10 @@ export default {
             },
             name: {
                 required,
-                // minLength: minLength(6)
             },
             tel: {
-                // required,
-                // minLength: minLength(8)
+                required,
+                minLength: minLength(10)
             },
             city: {
                 // required,

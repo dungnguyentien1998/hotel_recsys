@@ -2,13 +2,11 @@
     <div
         class="layout-wrapper"
     >
-        <!--  Navigation bar   -->
         <navbar />
         <div class="layout align-items-center d-flex justify-content-center">
             <div class="list-layout">
                 <scrollable>
                     <template #content>
-                        <!--   Web content    -->
                         <div class="content">
                             <slot name="content" />
                         </div>

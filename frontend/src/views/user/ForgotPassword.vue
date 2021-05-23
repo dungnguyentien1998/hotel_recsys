@@ -39,8 +39,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
-import {required, email, minLength} from 'vuelidate/lib/validators'
-import snakecaseKeys from 'snakecase-keys'
+import {required, email} from 'vuelidate/lib/validators'
 import AuthLayout from '@/components/layouts/AuthLayout'
 
 export default {
@@ -74,7 +73,6 @@ export default {
                 this.$store.dispatch('user/forgotPassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
-                        // this.resetForm()
                     } else {
                         // Push to login if success, need to add success message
                         this.$router.push('/reset-password')

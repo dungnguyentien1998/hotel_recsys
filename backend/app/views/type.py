@@ -33,7 +33,7 @@ class TypeDetail(APIView):
     def put(self, request, hotel_id, type_id):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
         room_type = models.Type.objects.get(uuid=type_id)
-        serializer = TypeSerializer(data=request.data, context={'hotel': hotel})
+        serializer = TypeSerializer(data=request.data, context={'hotel': hotel, 'type': room_type})
         validate_serializer(serializer=serializer)
         serializer.update(instance=room_type, validated_data=serializer.validated_data)
         return Response({

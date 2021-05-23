@@ -1,5 +1,4 @@
 <template>
-    <!-- Complaint list   -->
     <b-list-group>
         <b-list-group-item
             v-for="complaint in complaints"
@@ -7,7 +6,6 @@
             class="list-item"
         >
             <div>
-                <!--    Complaint image            -->
                 <b-img
                     v-if="isNotNull(complaint.image)"
                     :src="complaintImage(complaint.image)"
@@ -15,7 +13,6 @@
                     thumbnail
                     fluid
                 />
-                <!--  Send email              -->
                 <b-button
                     class="position-absolute"
                     variant="outline-secondary"
@@ -28,7 +25,6 @@
                     />
                 </b-button>
             </div>
-            <!--   Complaint info         -->
             <div>
                 <p
                     class="m-0 font-weight-bolder"

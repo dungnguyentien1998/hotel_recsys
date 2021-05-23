@@ -4,9 +4,7 @@
             {{ $t('user.login.title') }}
         </template>
         <template #form>
-            <!--   Login form         -->
             <b-form>
-                <!--   Email             -->
                 <b-form-group
                     id="email-group"
                     class="col-12"
@@ -23,8 +21,6 @@
                         />
                     </div>
                 </b-form-group>
-
-                <!--    Password            -->
                 <b-form-group
                     id="password-group"
                     class="col-12"
@@ -39,15 +35,15 @@
                             :placeholder="$t('user.login.passwordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPassword"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPassword"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                     <!--                    <div-->
                     <!--                        style="margin-top: 10px"-->
@@ -84,7 +80,6 @@
                     </b-button>
                 </b-form-group>
             </b-form>
-            <!--   Link to register         -->
             <router-link
                 :to="{name: 'register'}"
                 class="d-block text-secondary text-center"

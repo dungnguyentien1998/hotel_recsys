@@ -7,7 +7,6 @@
                 </h2>
             </div>
             <hr>
-            <!--   Favorite list         -->
             <div class="row">
                 <div
                     v-for="favorite in favorites"
@@ -15,7 +14,6 @@
                     class="col-md-6 col-sm-12"
                     @dblclick="$router.push({name: 'createFavorite', params: {uuid: favorite.hotelid}})"
                 >
-                    <!--      Hotel info              -->
                     <b-card
                         img-top
                         class="mb-2 p-1"
@@ -88,6 +86,9 @@ export default {
     created() {
         this.$store.dispatch('favorite/listFavorites').then(() => {
             this.favorites = this.$store.getters['favorite/favorites']
+            this.favorites.sort(function (a, b){
+                return a.name.localeCompare(b.name)
+            })
         })
     },
     methods: {

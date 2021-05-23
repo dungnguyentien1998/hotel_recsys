@@ -50,7 +50,8 @@ class RoomDetail(APIView):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
         room = models.Room.objects.get(uuid=room_id)
         [self.check_object_permissions(request=request, obj=obj) for obj in [hotel, room]]
-        serializer = RoomSerializer(data=request.data, context={'hotel': hotel, 'type': request.data['room_type']})
+        serializer = RoomSerializer(data=request.data, context={'hotel': hotel, 'type': request.data['room_type'],
+                                                                'room': room})
         validate_serializer(serializer=serializer)
         serializer.update(instance=room, validated_data=serializer.validated_data)
         return Response({

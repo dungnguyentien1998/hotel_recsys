@@ -1,7 +1,6 @@
 <template>
     <div>
         <b-form>
-            <!--  Hotel name      -->
             <h3 class="p-inline">
                 <span class="font-weight-bolder">
                     {{ hotel.name }}
@@ -29,7 +28,6 @@
                 <!--                    style="float: right"-->
                 <!--                />-->
             </b-form-group>
-            <!--  Hotel city      -->
             <p>
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.address') }}
@@ -38,7 +36,6 @@
                     {{ getAddress(hotel.address, hotel.ward, hotel.district, hotel.city) }}
                 </span>
             </p>
-            <!--  Hotel amenities      -->
             <p>
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.amenities') }}
@@ -88,7 +85,6 @@
                 >
                     {{ $t('hotel.hotel.updateBtn') }}
                 </b-button>
-                <!--         Delete hotel button                   -->
                 <b-button
                     v-if="roleHotelier"
                     class="ml-2"
@@ -100,7 +96,6 @@
                     {{ $t('hotel.hotel.deleteBtn') }}
                 </b-button>
             </div>
-            <!--         Update hotel form                   -->
             <b-modal
                 :id="`modal-${hotel.uuid}-update`"
                 :title="$t('hotel.hotel.updateTitle')"
@@ -109,7 +104,6 @@
             >
                 <hotel-form :hotel="hotel" />
             </b-modal>
-            <!--         Delete hotel form                   -->
             <b-modal
                 :id="`modal-${hotel.uuid}-delete`"
                 :title="$t('hotel.hotel.deleteTitle')"
@@ -135,14 +129,12 @@
             v-if="roleUser"
             class="row"
         >
-            <!--  Recommendation list      -->
             <div
                 v-for="recommendation in recommendations"
                 :key="recommendation.uuid"
                 class="col-md-4 col-sm-10"
                 @dblclick="$router.push({name: 'createFavorite', params: {uuid: recommendation.uuid}})"
             >
-                <!--    Recommendation hotel info        -->
                 <b-card
                     img-top
                     class="p-1 mb-2"
@@ -208,11 +200,9 @@ export default {
     mixins: [validationMixin, formMixin, addressMixin],
     data: function () {
         return {
-            // Toggle data
             myToggle: false,
-            // Hotel data
             hotel: this.$store.getters['hotel/hotels'].filter(hotel => hotel.uuid === this.$route.params.uuid)[0],
-            // Favorite data
+
             favorites: [],
             favorite: [],
             recommendations: [],

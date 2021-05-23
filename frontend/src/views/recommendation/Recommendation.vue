@@ -1,13 +1,11 @@
 <template>
     <div class="row">
-        <!--  Recommendation list      -->
         <div
             v-for="recommendation in recommendations"
             :key="recommendation.uuid"
             class="col-md-4 col-sm-10"
             @dblclick="$router.push({name: 'createFavorite', params: {uuid: recommendation.uuid}})"
         >
-            <!--    Recommendation hotel info        -->
             <b-card
                 img-top
                 class="p-1 mb-2"
@@ -62,14 +60,15 @@ export default {
     name: "Recommendation",
     data: function () {
         return {
-            // Recommendation data
             recommendations: []
         }
     },
     created() {
-        // Get recommendation data
         this.$store.dispatch('recommendation/listRecommendations', this.$route.params.uuid).then(() => {
             this.recommendations = this.$store.getters['recommendation/recommendations']
+            this.recommendations.sort(function (a,b) {
+                return new Date(b.created) - new Date(a.created)
+            })
         })
     },
     methods: {

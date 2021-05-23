@@ -34,7 +34,7 @@ import yagmail
 def send_new_account_email(user):
     receiver = user.email
     token = generate_token(obj=user.uuid, _type=TokenType.NEW_ACCOUNT)
-    body = token
+    body = "Token to activate account: " + token
     # link = "http://localhost:8000/api/activate?token=" + token + "&email=" + receiver
     # body = "<form id='test' method='post' action='" + link + "'>" + "<a href='javascript:;' " \
     #                                                                 "onclick='document.getElementById(" \
@@ -51,7 +51,7 @@ def send_new_account_email(user):
 def send_forgot_password(user):
     receiver = user.email
     token = generate_token(obj=user.uuid, _type=TokenType.FORGOT_PASSWORD)
-    body = token
+    body = "Token to reset password: " + token
     yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
     yag.send(
         to=receiver,

@@ -8,9 +8,7 @@
                     </h2>
                 </div>
                 <hr>
-                <!--   User profile             -->
                 <b-form>
-                    <!--     User email               -->
                     <b-form-group
                         id="email-group"
                         class="col-12"
@@ -26,7 +24,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User name               -->
                     <b-form-group
                         id="name-group"
                         class="col-12"
@@ -43,7 +40,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User telephone               -->
                     <b-form-group
                         id="tel-group"
                         class="col-12"
@@ -60,7 +56,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User birthday               -->
                     <b-form-group
                         id="birthday-group"
                         class="col-12"
@@ -76,7 +71,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User image               -->
                     <b-form-group
                         id="avatar-group"
                         class="col-12"
@@ -93,7 +87,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User city             -->
                     <b-form-group
                         id="city-group"
                         class="col-12"
@@ -110,7 +103,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User district              -->
                     <b-form-group
                         id="district-group"
                         class="col-12"
@@ -127,7 +119,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User ward               -->
                     <b-form-group
                         id="ward-group"
                         class="col-12"
@@ -143,7 +134,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User address              -->
                     <b-form-group
                         id="address-group"
                         class="col-12"
@@ -160,7 +150,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <!--     User role               -->
                     <b-form-group
                         id="role-group"
                         class="col-12"
@@ -275,11 +264,10 @@ export default {
         form: {
             name: {
                 required,
-                // minLength: minLength(6)
             },
             tel: {
-                // required,
-                // minLength: minLength(8)
+                required,
+                minLength: minLength(10)
             },
             image: {
                 // required,
@@ -321,13 +309,6 @@ export default {
                 // Alert for form validate
                 this.makeToast(this.$t('user.user.errors.title'), this.$t('user.user.errors.missing'))
             } else {
-                // if (!isNaN(this.form.city) && !isNaN(this.form.district) && !isNaN(this.form.ward)) {
-                //     const city_code = this.form.city
-                //     const district_code = this.form.district
-                //     this.form.city = this.citiesOptions().filter(option => option.code === this.form.city)[0].name
-                //     this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
-                //     this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
-                // }
                 const city_code = this.form.city
                 const district_code = this.form.district
                 if (this.form.city != null) {
@@ -371,7 +352,6 @@ export default {
                 }).catch(() => {
                     this.makeToast(this.$t('user.user.errors.title'), this.$t('user.user.errors.exceptionOccurred'))
                 })
-                // window.location.reload()
             }
         }
     }

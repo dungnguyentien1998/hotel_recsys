@@ -5,7 +5,6 @@
                 <h2 class="flex-grow-1">
                     {{ roleUser ? $t('hotel.hotel.searchHotel') : $t('hotel.hotel.title') }}
                 </h2>
-                <!--   Create button             -->
                 <b-button
                     v-if="roleHotelier"
                     variant="success"
@@ -16,7 +15,6 @@
                 </b-button>
             </div>
             <br>
-            <!--    Hotel search form        -->
             <b-form
                 v-if="roleUser"
             >
@@ -197,7 +195,6 @@
                 />
             </button>
             <hr>
-            <!--   Hotel list         -->
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
                     {{ roleUser ? $t('hotel.hotel.title') : '' }}
@@ -216,7 +213,6 @@
                     class="col-md-6 col-sm-12"
                     @dblclick="onHandle(hotel.uuid)"
                 >
-                    <!--    Hotel info                -->
                     <b-card
                         img-top
                         class="mb-2 p-1"
@@ -281,7 +277,6 @@
                             {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}
                         </b-badge>
                         <div class="mt-2">
-                            <!--         Update hotel button                   -->
                             <b-button
                                 v-if="roleHotelier"
                                 variant="primary"
@@ -291,7 +286,6 @@
                             >
                                 {{ $t('hotel.hotel.updateBtn') }}
                             </b-button>
-                            <!--         Delete hotel button                   -->
                             <b-button
                                 v-if="roleHotelier"
                                 class="ml-2"
@@ -303,7 +297,6 @@
                                 {{ $t('hotel.hotel.deleteBtn') }}
                             </b-button>
                         </div>
-                        <!--         Update hotel form                   -->
                         <b-modal
                             :id="`modal-${hotel.uuid}-update`"
                             :title="$t('hotel.hotel.updateTitle')"
@@ -312,7 +305,6 @@
                         >
                             <hotel-form :hotel="hotel" />
                         </b-modal>
-                        <!--         Delete hotel form                   -->
                         <b-modal
                             :id="`modal-${hotel.uuid}-delete`"
                             :title="$t('hotel.hotel.deleteTitle')"
@@ -326,7 +318,6 @@
                     </b-card>
                 </div>
             </div>
-            <!--  Pagination for hotel list          -->
             <b-pagination
                 v-model="currentPage"
                 :per-page="perPage"
@@ -336,7 +327,6 @@
             <hr
                 v-if="roleUser"
             >
-            <!--   Recommend hotels for user         -->
             <div
                 v-if="roleUser"
                 class="align-items-center d-flex"
@@ -404,7 +394,6 @@
                     </b-card>
                 </div>
             </div>
-            <!--         Create hotel form                   -->
             <b-modal
                 id="modal-create"
                 :title="$t('hotel.hotel.createTitle')"
@@ -438,16 +427,13 @@ export default {
         return {
             // Amenities options
             options: ['fitness center', 'free breakfast', 'free parking', 'swimming pool'],
-            // Hotel data
             hotels: [],
-            // Hotel data for search form
             filterHotels: [],
-            // Pagination data
+
             currentPage: 1,
             perPage: 6,
-            // Recommend hotels
+
             recommendationsLogin: [],
-            // Search form data
             form: {
                 name: null,
                 amenities: [],
@@ -461,9 +447,7 @@ export default {
         }
     },
     computed: {
-        // Get amenities options
         availableOptions() {
-            // return this.options.filter(opt => this.form.amenities.indexOf(opt.toLowerCase()) === -1)
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
         // Check if role hotelier
@@ -477,6 +461,7 @@ export default {
         // Get row for hotel list
         rows: function () {
             return this.hotels.length
+            // return this.filterHotels.length
         },
     },
     // Form validation
@@ -503,13 +488,12 @@ export default {
         }
     },
     created() {
-        // Get hotel and recommendation list
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
-            this.hotels.sort(function (a, b){
+            this.filterHotels = this.hotels
+            this.filterHotels.sort(function (a, b){
                 return a.name.localeCompare(b.name) || b.star - a.star
             })
-            this.filterHotels = this.hotels
         })
         this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
             this.recommendationsLogin = this.$store.getters['recommendation/recommendationsLogin']

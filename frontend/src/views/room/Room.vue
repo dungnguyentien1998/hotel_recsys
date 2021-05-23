@@ -11,17 +11,8 @@
             >
                 {{ $t('room.room.createBtn') }}
             </b-button>
-            <!--            <b-button-->
-            <!--                v-else-->
-            <!--                class="mb-2 text-right"-->
-            <!--                variant="primary"-->
-            <!--                @click="$bvModal.show(`modal-booking`)"-->
-            <!--            >-->
-            <!--                {{ $t('room.room.bookBtn') }}-->
-            <!--            </b-button>-->
         </div>
         <hr>
-        <!--  Search room form      -->
         <b-form>
             <!--            <b-form-group-->
             <!--                id="capacity-group"-->
@@ -101,7 +92,6 @@
             </button>
         </b-form>
         <br>
-        <!--  Room list      -->
         <b-card
             v-for="room in filterRooms"
             :key="room.uuid"
@@ -114,7 +104,6 @@
                         :src="roomImage(room.image)"
                     />
                     <div class="pt-3 btn-sm btn-group">
-                        <!--      Update button for hotelier                  -->
                         <button
                             v-if="roleHotelier"
                             class="btn btn-sm btn-primary"
@@ -122,7 +111,6 @@
                         >
                             {{ $t('room.room.updateBtn') }}
                         </button>
-                        <!--      Delete button for hotelier                  -->
                         <button
                             v-if="roleHotelier"
                             class="btn btn-sm btn-danger"
@@ -130,7 +118,6 @@
                         >
                             {{ $t('room.room.deleteBtn') }}
                         </button>
-                        <!--    Room update form                    -->
                         <b-modal
                             :id="`modal-${room.uuid}-update`"
                             :title="$t('room.room.updateTitle')"
@@ -139,7 +126,6 @@
                         >
                             <room-form :room="room" />
                         </b-modal>
-                        <!--    Room delete form                    -->
                         <b-modal
                             :id="`modal-${room.uuid}-delete`"
                             :title="$t('room.room.deleteTitle')"
@@ -152,7 +138,6 @@
                         </b-modal>
                     </div>
                 </div>
-                <!--   Room detail             -->
                 <div class="flex-grow-1">
                     <scrollable>
                         <template #content>
@@ -198,7 +183,7 @@
                                                 </p>
                                                 <p>
                                                     <span class="font-weight-bolder">
-                                                        {{ $t('room.room.roomType') }}:
+                                                        {{ $t('room.room.roomType') }}
                                                     </span>
                                                     <span class="text-secondary">
                                                         {{ room.roomType }}
@@ -270,59 +255,12 @@
                                         </b-collapse>
                                     </b-card>
                                 </div>
-                                <!--    Room booking list for hotelier                            -->
-                                <!--                                <div-->
-                                <!--                                    v-if="roleHotelier"-->
-                                <!--                                    role="tablist"-->
-                                <!--                                    class="accordion"-->
-                                <!--                                >-->
-                                <!--                                    <b-card-->
-                                <!--                                        class="mb-1"-->
-                                <!--                                        no-body-->
-                                <!--                                    >-->
-                                <!--                                        <b-card-header-->
-                                <!--                                            header-tag="header"-->
-                                <!--                                            role="tab"-->
-                                <!--                                            class="p-1"-->
-                                <!--                                        >-->
-                                <!--                                            <b-button-->
-                                <!--                                                v-b-toggle="`accordion-booking-${room.uuid}`"-->
-                                <!--                                                variant="secondary"-->
-                                <!--                                                block-->
-                                <!--                                            >-->
-                                <!--                                                {{ $t('room.room.bookings') }}-->
-                                <!--                                            </b-button>-->
-                                <!--                                        </b-card-header>-->
-                                <!--                                        <b-collapse-->
-                                <!--                                            :id="`accordion-booking-${room.uuid}`"-->
-                                <!--                                            role="tabpanel"-->
-                                <!--                                            :accordion="`group-booking-${roomAccordion(room.uuid)}`"-->
-                                <!--                                        >-->
-                                <!--                                            <b-card-body>-->
-                                <!--                                                <b-table-->
-                                <!--                                                    :items="room.bookings"-->
-                                <!--                                                    :fields="fields"-->
-                                <!--                                                    hover-->
-                                <!--                                                    striped-->
-                                <!--                                                >-->
-                                <!--                                                    <template #cell(checkInTime)="data">-->
-                                <!--                                                        {{ convertDate(data.item.checkInTime) }}-->
-                                <!--                                                    </template>-->
-                                <!--                                                    <template #cell(checkOutTime)="data">-->
-                                <!--                                                        {{ convertDate(data.item.checkOutTime) }}-->
-                                <!--                                                    </template>-->
-                                <!--                                                </b-table>-->
-                                <!--                                            </b-card-body>-->
-                                <!--                                        </b-collapse>-->
-                                <!--                                    </b-card>-->
-                                <!--                                </div>-->
                             </div>
                         </template>
                     </scrollable>
                 </div>
             </div>
         </b-card>
-        <!--  Create room form      -->
         <b-modal
             id="modal-create"
             :title="$t('room.room.createBtn')"
@@ -331,21 +269,12 @@
         >
             <room-form />
         </b-modal>
-        <!--        <b-modal-->
-        <!--            :id="`modal-booking`"-->
-        <!--            :title="$t('room.room.bookingRoom')"-->
-        <!--            size="lg"-->
-        <!--            hide-footer-->
-        <!--        >-->
-        <!--            <booking-form />-->
-        <!--        </b-modal>-->
     </div>
 </template>
 
 <script>
 import Scrollable from '@/components/Scrollable';
 import RoomForm from '@/components/RoomForm';
-import BookingForm from "@/views/booking/BookingForm";
 import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import {library} from '@fortawesome/fontawesome-svg-core'
@@ -360,13 +289,9 @@ export default {
     mixins: [validationMixin, formMixin],
     data: function () {
         return {
-            // Room amenities options
             options: ['personal care', 'coffee kit', 'tissue box', 'bathrobes', 'wifi'],
-            // Room data
             rooms: [],
-            // Room data for search
             filterRooms: [],
-            // Search form data
             form: {
                 capacity: null,
                 min_price: null,
@@ -374,19 +299,12 @@ export default {
                 room_type: null,
                 // amenities: []
             },
-            // Booking data
-            bookings: [],
-            // Booking fields
-            // fields: ['userName', 'checkInTime', 'checkOutTime']
         }
     },
     computed: {
-        // Get room amenities
         availableOptions() {
-            // return this.options.filter(opt => this.form.amenities.indexOf(opt.toLowerCase()) === -1)
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
-        // Check role hotelier
         roleHotelier: function () {
             return (this.$store.getters['user/user'].role === 'hotelier')
         },
@@ -404,22 +322,6 @@ export default {
             }
             return opts
         },
-        fields: function () {
-            return [
-                {
-                    key: 'userName',
-                    label: this.$t('room.room.userName'),
-                },
-                {
-                    key: 'checkInTime',
-                    label: this.$t('room.room.checkInTime'),
-                },
-                {
-                    key: 'checkOutTime',
-                    label: this.$t('room.room.checkOutTime'),
-                },
-            ]
-        }
     },
     // Form validate
     validations: {
@@ -450,6 +352,9 @@ export default {
             .then(() => {
                 this.rooms = this.$store.getters['room/rooms']
                 this.filterRooms = this.rooms
+                this.filterRooms.sort(function (a,b) {
+                    return new Date(a.created) - new Date(b.created)
+                })
             })
     },
     methods: {

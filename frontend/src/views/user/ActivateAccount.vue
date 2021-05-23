@@ -39,8 +39,7 @@
 <script>
 import {validationMixin} from 'vuelidate'
 import formMixin from '@/mixin/form-mixin'
-import {required, email, minLength, sameAs} from 'vuelidate/lib/validators'
-import snakecaseKeys from 'snakecase-keys'
+import {required} from 'vuelidate/lib/validators'
 import AuthLayout from '@/components/layouts/AuthLayout'
 
 
@@ -69,11 +68,11 @@ export default {
                 // Alert for form validate
                 this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
+                // local storage
                 this.form.email = localStorage.getItem("email")
                 this.$store.dispatch('user/activateAccount', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
-                        // this.resetForm()
                     } else {
                         // Push to login if success, need to add success message
                         this.$router.push('/login')
@@ -87,6 +86,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style
+    lang="scss"
+    scoped
+>
+.required:after {
+    content: " *";
+    color: red;
+}
 </style>

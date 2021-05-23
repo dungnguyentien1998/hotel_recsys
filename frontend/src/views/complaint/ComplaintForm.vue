@@ -1,6 +1,5 @@
 <template>
     <b-form>
-        <!--  Complaint title      -->
         <b-form-group
             id="title-group"
         >
@@ -13,7 +12,6 @@
                 type="text"
             />
         </b-form-group>
-        <!--  Complaint content      -->
         <b-form-group
             id="content-group"
         >
@@ -35,7 +33,6 @@
                 type="text"
             />
         </b-form-group>
-        <!--  Complaint image      -->
         <b-form-group
             id="image-group"
         >
@@ -124,7 +121,6 @@ export default {
                             this.resetForm()
                         }
                     })
-                // window.location.reload()
             }
 
         }

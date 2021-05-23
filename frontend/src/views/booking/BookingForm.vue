@@ -80,6 +80,7 @@
                         <li
                             v-for="(amenity, index) in data.item.amenities"
                             :key="`${data.item.uuid}-amenity-${index}`"
+                            class="list-order"
                         >
                             <img
                                 :src="getSrc(amenity)"
@@ -103,7 +104,7 @@
                 >
                     <b-form-select
                         v-model="form.booking_counts[getIndex(data.item.roomType)]"
-                        :options="numberOpts"
+                        :options="numberOpts(data.item.roomType, data.item.price)"
                     />
                 </template>
             </b-table>
@@ -167,7 +168,7 @@ export default {
             },
             first: minDate,
             last: minDate,
-            numberOpts: [
+            numberOptions: [
                 {value: 0, text: '-----'},
                 {value: 1, text: '1'},
                 {value: 2, text: '2'},
@@ -183,16 +184,16 @@ export default {
         }
     },
     computed: {
-        typeOptions() {
-            let opts = []
-            const types = this.$store.getters['type/types']
-            opts.push({value: null, text: '-----'})
-            for (let option in this.$store.getters['type/types']) {
-                const room_type = types[option].roomType
-                opts.push({value: room_type, text: room_type})
-            }
-            return opts
-        },
+        // typeOptions() {
+        //     let opts = []
+        //     const types = this.$store.getters['type/types']
+        //     opts.push({value: null, text: '-----'})
+        //     for (let option in this.$store.getters['type/types']) {
+        //         const room_type = types[option].roomType
+        //         opts.push({value: room_type, text: room_type})
+        //     }
+        //     return opts
+        // },
         totalPrice() {
             let sum = 0
             if (this.form.check_in_time === null || this.form.check_out_time === null) {
@@ -219,10 +220,10 @@ export default {
                     key: 'capacity',
                     label: this.$t('booking.bookingForm.capacity'),
                 },
-                {
-                    key: 'price',
-                    label: this.$t('booking.bookingForm.price'),
-                },
+                // {
+                //     key: 'price',
+                //     label: this.$t('booking.bookingForm.price'),
+                // },
                 {
                     key: 'amenities',
                     label: this.$t('booking.bookingForm.amenities'),
@@ -253,6 +254,15 @@ export default {
         }
     },
     methods: {
+        numberOpts(roomType, price) {
+            let opts = []
+            opts.push({value: 0, text: '-----'})
+            const n = this.getAvailable(roomType)
+            for (let i = 1; i <= n; i++) {
+                opts.push({value: i, text: i.toString() + " (" + (price*i).toString() + " VND)"})
+            }
+            return opts
+        },
         getStripePublishableKey() {
             fetch('http://localhost:8000/api/config')
                 .then((result) => result.json())
@@ -346,27 +356,10 @@ export default {
                         // Alert for failed api calls
                         const message = this.$store.getters['booking/message']
                         let data = JSON.parse(message)
-                        let failed_message = ""
-                        if (localStorage.getItem("language") === "en") {
-                            for (const [key, value] of Object.entries(data)) {
-                                this.availables[this.getIndex(key)] = value
-                                localStorage.setItem(key, value.toString())
-                                failed_message += value.toString() + " " + key + " rooms, "
-                            }
-                            const n = failed_message.length
-                            failed_message = failed_message.slice(0, n - 2)
-                            failed_message = "Only " + failed_message + " available right now"
-                        } else {
-                            for (const [key, value] of Object.entries(data)) {
-                                this.availables[this.getIndex(key)] = value
-                                localStorage.setItem(key, value.toString())
-                                failed_message += value.toString() + " phòng " + key + ", "
-                            }
-                            const n = failed_message.length
-                            failed_message = failed_message.slice(0, n - 2)
-                            failed_message = "Chỉ còn " + failed_message + " có thể đặt"
+                        for (const [key, value] of Object.entries(data)) {
+                            this.availables[this.getIndex(key)] = value
+                            localStorage.setItem(key, value.toString())
                         }
-                        // this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
                         window.location.reload()
                     }
                 })
@@ -465,4 +458,12 @@ export default {
 .th-class {
     max-width: 50px;
 }
+li.list-order {
+    list-style: none;
+    float: left;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+li.list-order:nth-child(odd) {clear: left}
 </style>

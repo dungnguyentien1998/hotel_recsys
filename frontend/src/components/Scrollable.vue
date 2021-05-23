@@ -6,7 +6,6 @@
 
 <script>
 export default {
-    // Scrollable component
     name: "Scrollable",
 }
 </script>

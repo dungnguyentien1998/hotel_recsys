@@ -2,17 +2,14 @@
     <div
         class="layout-wrapper"
     >
-        <!--  Navigation bar   -->
         <navbar />
         <div class="layout align-items-center d-flex justify-content-center">
             <div class="form-layout">
                 <h2 class="title">
-                    <!--    Form title   -->
                     <slot name="title" />
                 </h2>
                 <scrollable>
                     <template #content>
-                        <!--   Form content    -->
                         <div class="form">
                             <slot name="form" />
                         </div>
@@ -62,7 +59,7 @@ export default {
                 padding: 31px 31px;
                 width: 37%;
                 min-width: 700px;
-                max-height: 700px;
+                max-height: 550px;
                 overflow-y: auto;
             }
         }
