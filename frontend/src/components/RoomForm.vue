@@ -109,7 +109,7 @@
             </b-form-group>
         </div>
         <button
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary"
             type="button"
             @click="onSubmit"
         >
@@ -203,7 +203,7 @@ export default {
                 // Handle update form
                 this.$store.dispatch('room/resetStatus')
                 if (this.roomExist) {
-                    if (this.form.room_number == null) {
+                    if (this.form.room_number == null || this.form.room_number === '') {
                         this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.missing'))
                     } else {
                         this.form.hotelId = this.$route.params.uuid

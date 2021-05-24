@@ -102,10 +102,12 @@ export default {
 >
 .img-thumbnail {
     object-fit: cover;
-    height: 301px;
+    height: 300px;
 }
 .list-item {
     margin: 10px 0;
     border-radius: 10px;
+    border-style: solid;
+    //border-color: black;
 }
 </style>

@@ -20,18 +20,19 @@
                             id="old-password"
                             v-model="$v.form.old_password.$model"
                             class="form-control col-sm-9"
+                            :state="validateState('old_password')"
                             :placeholder="$t('user.login.oldPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showOldPassword"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showOldPassword"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -44,18 +45,19 @@
                             id="password"
                             v-model="$v.form.password.$model"
                             class="form-control col-sm-9"
+                            :state="validateState('password')"
                             :placeholder="$t('user.login.newPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPassword"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPassword"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -68,18 +70,19 @@
                             id="confirm-password"
                             v-model="$v.form.password_confirm.$model"
                             class="form-control col-sm-9"
+                            :state="validateState('password_confirm')"
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
-                        <button
-                            class="btn password"
-                            type="button"
-                            @click="showPasswordConfirm"
-                        >
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                            />
-                        </button>
+                        <!--                        <button-->
+                        <!--                            class="btn password"-->
+                        <!--                            type="button"-->
+                        <!--                            @click="showPasswordConfirm"-->
+                        <!--                        >-->
+                        <!--                            <font-awesome-icon-->
+                        <!--                                :icon="['fas', 'eye']"-->
+                        <!--                            />-->
+                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group>

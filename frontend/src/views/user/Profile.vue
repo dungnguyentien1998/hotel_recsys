@@ -45,7 +45,7 @@
                         class="col-12"
                     >
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label">{{ $t('user.register.tel') }}</label>
+                            <label class="required col-sm-3 col-form-label">{{ $t('user.register.tel') }}</label>
                             <b-form-input
                                 id="tel"
                                 v-model="$v.form.tel.$model"
@@ -53,6 +53,21 @@
                                 :state="validateState('tel')"
                                 :placeholder="$t('user.register.telPlaceholder')"
                                 type="text"
+                            />
+                        </div>
+                    </b-form-group>
+                    <b-form-group
+                        id="role-group"
+                        class="col-12"
+                    >
+                        <div class="form-row">
+                            <label class="required col-sm-3 col-form-label">{{ $t('user.register.role') }}</label>
+                            <b-form-select
+                                id="role"
+                                :value="user.role"
+                                class="form-control col-sm-9"
+                                :options="roles"
+                                disabled
                             />
                         </div>
                     </b-form-group>
@@ -150,22 +165,6 @@
                             />
                         </div>
                     </b-form-group>
-                    <b-form-group
-                        id="role-group"
-                        class="col-12"
-                    >
-                        <div class="form-row">
-                            <label class="required col-sm-3 col-form-label">{{ $t('user.register.role') }}</label>
-                            <b-form-select
-                                id="role"
-                                :value="user.role"
-                                class="form-control col-sm-9"
-                                :options="roles"
-                                disabled
-                            />
-                        </div>
-                    </b-form-group>
-
                     <b-form-group>
                         <b-button
                             variant="success"

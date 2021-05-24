@@ -21,7 +21,7 @@
                     <button
                         v-if="roleHotelier"
                         href="#"
-                        style="right: 110px"
+                        style="right: 110px; width: 80px"
                         class="btn btn-sm btn-primary position-absolute"
                         @click="$bvModal.show(`modal-${type.uuid}-update`)"
                     >
@@ -50,6 +50,7 @@
                         :id="`modal-${type.uuid}-delete`"
                         :title="$t('type.type.deleteTitle')"
                         size="lg"
+                        button-size="sm"
                         :ok-title="$t('button.submit')"
                         :cancel-title="$t('button.unsubmit')"
                         @ok="deleteType(type.uuid)"

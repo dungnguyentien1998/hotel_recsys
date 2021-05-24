@@ -102,7 +102,7 @@
             </div>
         </b-form-group>
         <button
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary"
             type="button"
             @click="onSubmit"
         >

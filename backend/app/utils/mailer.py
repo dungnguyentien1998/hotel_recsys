@@ -60,11 +60,11 @@ def send_forgot_password(user):
     )
 
 
-def send_notification_to_user(user, booking):
-    receiver = user.email
+def send_notification_to_user(sender, receiver, booking):
+    receiver = receiver.email
     temp = ''
     for room_number in booking.room_number:
-        temp = temp + room_number +  ", "
+        temp = temp + room_number + ", "
     temp = temp[:len(temp) - 2]
     body = "Hotel " + booking.hotel_name + " has process your booking created on " + booking.created \
            + "with room numbers " + temp

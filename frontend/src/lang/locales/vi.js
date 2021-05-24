@@ -196,7 +196,7 @@ export default {
             district: 'Quận/huyện:',
             ward: 'Xã/phường:',
             address: 'Địa chỉ:',
-            addressPlaceholder: 'Nhập địa chỉ',
+            addressPlaceholder: 'Nhập địa chỉ (Số ..., đường ...)',
             image: 'Ảnh:',
             imagePlaceholder: 'Chọn ảnh',
             imageDropPlaceholder: 'Kéo tệp vào đây',

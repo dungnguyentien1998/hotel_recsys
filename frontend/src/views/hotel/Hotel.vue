@@ -282,6 +282,7 @@
                                 variant="primary"
                                 href="#"
                                 size="sm"
+                                style="width: 80px"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-update`)"
                             >
                                 {{ $t('hotel.hotel.updateBtn') }}
@@ -292,6 +293,7 @@
                                 variant="danger"
                                 href="#"
                                 size="sm"
+                                style="width: 80px"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-delete`)"
                             >
                                 {{ $t('hotel.hotel.deleteBtn') }}
@@ -309,6 +311,7 @@
                             :id="`modal-${hotel.uuid}-delete`"
                             :title="$t('hotel.hotel.deleteTitle')"
                             size="lg"
+                            button-size="sm"
                             :ok-title="$t('button.submit')"
                             :cancel-title="$t('button.unsubmit')"
                             @ok="deleteHotel(hotel.uuid)"

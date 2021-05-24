@@ -48,7 +48,7 @@
             />
         </b-form-group>
         <button
-            class="btn btn-success"
+            class="btn btn-sm btn-success"
             type="button"
             @click="onSubmit"
         >
@@ -122,7 +122,6 @@ export default {
                         }
                     })
             }
-
         }
     }
 }

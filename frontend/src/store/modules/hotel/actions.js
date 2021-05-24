@@ -27,6 +27,9 @@ export default {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         let uuid = payload.uuid
         delete payload.uuid
+        if (payload.image == null){
+            delete payload.image
+        }
         let form = formUtil(payload)
         return api.put(`hotels/${uuid}`, form).then(res => {
             context.commit('updateHotel', res)

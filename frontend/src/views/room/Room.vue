@@ -130,6 +130,7 @@
                             :id="`modal-${room.uuid}-delete`"
                             :title="$t('room.room.deleteTitle')"
                             size="lg"
+                            button-size="sm"
                             :ok-title="$t('button.submit')"
                             :cancel-title="$t('button.unsubmit')"
                             @ok="deleteRoom(room.uuid)"

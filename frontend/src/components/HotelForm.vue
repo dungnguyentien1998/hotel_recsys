@@ -85,7 +85,7 @@
             class="col-12"
         >
             <div class="form-row">
-                <label class="col-sm-3 col-form-label">{{ $t('hotel.hotelForm.address') }}</label>
+                <label class="required col-sm-3 col-form-label">{{ $t('hotel.hotelForm.address') }}</label>
                 <b-form-input
                     id="address"
                     v-model="$v.form.address.$model"
@@ -102,14 +102,13 @@
         >
             <div class="form-row">
                 <label
-                    class="required col-sm-3 col-form-label"
+                    class="col-sm-3 col-form-label"
                     :class="[{'required': !hotelExist}]"
                 >
                     {{ $t('hotel.hotelForm.image') }}</label>
                 <b-form-file
                     v-model="$v.form.image.$model"
                     class="form-control col-sm-9"
-                    :state="validateState('image')"
                     :placeholder="$t('hotel.hotelForm.imagePlaceholder')"
                     :drop-placeholder="$t('hotel.hotelForm.imageDropPlaceholder')"
                 />
@@ -169,7 +168,7 @@
             </div>
         </b-form-group>
         <button
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary"
             type="button"
             @click="onSubmit"
         >
@@ -257,10 +256,10 @@ export default {
                 required,
             },
             address: {
-                // required,
+                required,
             },
             image: {
-                required
+                // required
             },
             amenities: {
                 required
@@ -316,7 +315,11 @@ export default {
             if (this.$v.form.$anyError) {
                 // Alert for form validation
                 this.makeToast(this.$t('hotel.hotelForm.errors.title'), this.$t('hotel.hotelForm.errors.missing'))
-            } else {
+            } else
+            if (!this.hotelExist && this.form.image == null) {
+                this.makeToast(this.$t('hotel.hotelForm.errors.title'), this.$t('hotel.hotelForm.errors.missing'))
+            } else
+            {
                 this.form.amenities = this.form.amenities.map(amenity => amenity.toLowerCase())
                 if (!isNaN(this.form.city) && !isNaN(this.form.district) && !isNaN(this.form.ward)) {
                     const city_code = this.form.city
@@ -325,6 +328,11 @@ export default {
                     this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
                     this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
                 }
+                // const city_code = this.form.city
+                // const district_code = this.form.district
+                // this.form.city = this.citiesOptions().filter(option => option.code === this.form.city)[0].name
+                // this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
+                // this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
                 // Handle update form
                 this.$store.dispatch('hotel/resetStatus')
                 if (this.hotelExist) {
@@ -358,7 +366,7 @@ export default {
                                     autoHideDelay: 2000,
                                     variant: 'success'
                                 })
-                                setTimeout(function() {$('#modal-create').modal('hide')}, 2000);
+                                setTimeout(function() {$('#modal-create').modal('hide');}, 2000);
                                 // this.$bvModal.hide(`modal-create`)
                             }
                         })

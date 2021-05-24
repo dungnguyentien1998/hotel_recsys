@@ -196,7 +196,7 @@ export default {
             district: 'District:',
             ward: 'Ward:',
             address: 'Address:',
-            addressPlaceholder: 'Enter address',
+            addressPlaceholder: 'Enter address (No and street)',
             image: 'Image:',
             imagePlaceholder: 'Choose a file',
             imageDropPlaceholder: 'Drop file here',
