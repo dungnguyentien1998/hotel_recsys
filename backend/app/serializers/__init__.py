@@ -7,3 +7,4 @@ from .user import *
 from .favorite import *
 from .type import *
 from .booking_room import *
+from .reply import *

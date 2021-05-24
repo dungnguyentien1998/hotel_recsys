@@ -36,9 +36,8 @@ def send_new_account_email(user):
     token = generate_token(obj=user.uuid, _type=TokenType.NEW_ACCOUNT)
     body = "Token to activate account: " + token
     # link = "http://localhost:8000/api/activate?token=" + token + "&email=" + receiver
-    # body = "<form id='test' method='post' action='" + link + "'>" + "<a href='javascript:;' " \
-    #                                                                 "onclick='document.getElementById(" \
-    #                                                                 "'test').submit();'>Activate</a>" + "</form>"
+    # body = "<form id='test' method='post' action='" + link + "'>" \
+    #        + "<a href='javascript:;' onclick='document.getElementById('test').submit();'>Activate</a>" + "</form>"
     yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
     yag.send(
         to=receiver,
@@ -60,8 +59,8 @@ def send_forgot_password(user):
     )
 
 
-def send_notification_to_user(sender, receiver, booking):
-    receiver = receiver.email
+def send_booking_notification_to_user(user, booking):
+    receiver = user.email
     temp = ''
     for room_number in booking.room_number:
         temp = temp + room_number + ", "
@@ -72,5 +71,17 @@ def send_notification_to_user(sender, receiver, booking):
     yag.send(
         to=receiver,
         subject="Notification about booking at hotel " + booking.hotel_name,
+        contents=body
+    )
+
+
+def send_complaint_notification_to_user(user, complaint):
+    receiver = user.email
+    body = "Hotel " + complaint.hotel.name + " has process your booking created on " + complaint.created \
+           + ". Login to view details"
+    yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
+    yag.send(
+        to=receiver,
+        subject="Notification about complaint at hotel " + complaint.hotel.name,
         contents=body
     )

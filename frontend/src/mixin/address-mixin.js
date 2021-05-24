@@ -1,8 +1,10 @@
-import {getProvinces, getDistrictsByProvinceCode, getWardsByDistrictCode} from 'sub-vn'
+import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from 'sub-vn'
+import json from './data/db_en.json'
 
 // Handle address, city, district, ward in Vietnam
 export default {
     data: function () {
+        const provinces = json.province
         return {
             // Address form
             form: {
@@ -15,7 +17,12 @@ export default {
             cities: [
                 {value: null, text: '-----'},
                 ...getProvinces().map(city => {
-                    return {value: city.code, text: city.name}
+                    let trans_text = city.name
+                    if (localStorage.getItem("language") === "en") {
+                        let province = provinces.filter(option => option.idProvince === city.code)[0]
+                        trans_text = province.name
+                    }
+                    return {value: city.code, text: trans_text}
                 })
             ],
             // Districts
@@ -27,10 +34,16 @@ export default {
     methods: {
         // Get districts by city
         onChangeCity: function (e) {
+            const dists = json.district
             this.districts = [
                 {value: null, text: '-----'},
                 ...getDistrictsByProvinceCode(e).map(district => {
-                    return {value: district.code, text: district.name}
+                    let trans_text = district.name
+                    if (localStorage.getItem("language") === "en") {
+                        let dist = dists.filter(option => option.idDistrict === district.code)[0]
+                        trans_text = dist.name
+                    }
+                    return {value: district.code, text: trans_text}
                 })
             ]
 
@@ -40,10 +53,16 @@ export default {
         },
         // Get wards by districts
         onChangeDistrict: function (e) {
+            const communes = json.commune
             this.wards = [
                 {value: null, text: '-----'},
                 ...getWardsByDistrictCode(e).map(ward => {
-                    return {value: ward.code, text: ward.name}
+                    let trans_text = ward.name
+                    if (localStorage.getItem("language") === "en") {
+                        let commune = communes.filter(option => option.idCoummune === ward.code)[0]
+                        trans_text = commune.name
+                    }
+                    return {value: ward.code, text: trans_text}
                 })
             ]
         },

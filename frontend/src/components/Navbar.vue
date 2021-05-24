@@ -197,11 +197,13 @@ export default {
         localeToVi: function () {
             this.$i18n.locale = 'vi'
             localStorage.setItem("language", "vi")
+            window.location.reload()
         },
         // Change to english
         localeToEn: function () {
             this.$i18n.locale = 'en'
             localStorage.setItem("language", "en")
+            window.location.reload()
         },
         // Logout function
         logout: function () {

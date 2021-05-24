@@ -217,7 +217,9 @@
                                 readonly
                             />
                         </p>
-                        <p>
+                        <p
+                            style="height: 48px"
+                        >
                             <span class="font-weight-bolder">
                                 {{ $t('hotel.hotel.address') }}
                             </span>
