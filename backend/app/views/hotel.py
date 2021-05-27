@@ -13,30 +13,20 @@ class Hotel(APIView):
     # List hotels
     def get(self, request):
         user = request.user
-        # hotels = models.Hotel.objects.filter(
-        #     user_id=user.uuid) if user.role == models.Role.HOTELIER else models.Hotel.objects.all()
-        # hotels = models.Hotel.objects.filter(
-        #     user_id=user.uuid, is_active=True) if user.role == models.Role.HOTELIER else models.Hotel.objects.filter(is_active=True)
-        hotels = models.Hotel.objects.filter(is_active=True)
+        # hotels = models.Hotel.objects.filter(is_active=True)
+        hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
         if user.role == models.Role.HOTELIER:
-            hotels = models.Hotel.objects.filter(user_id=user.uuid, is_active=True)
+            # hotels = models.Hotel.objects.filter(user_id=user.uuid, is_active=True)
+            hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
         if user.role == models.Role.ADMIN:
-            hotels = models.Hotel.objects.filter(is_active=False)
+            # hotels = models.Hotel.objects.filter(is_active=False)
+            hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
         return Response({
             'success': True,
             'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if user.role == models.Role.HOTELIER
             else HotelDetailSerializer(hotels, many=True).data,
             'count': len(hotels)
         })
-        # pusher = Pusher(app_id=u'1209674', key=u'5d873d3e35474aa76004', secret=u'ffcb966b2161f86209bc', cluster=u'ap1')
-        # message = {
-        #     'success': True,
-        #     'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if user.role == models.Role.HOTELIER
-        #     else HotelDetailSerializer(hotels, many=True).data,
-        #     'count': len(hotels)
-        # }
-        # pusher.trigger(u'a_channel', u'an_event', message)
-        # return Response(message)
 
     # Create hotel
     def post(self, request):
@@ -44,11 +34,8 @@ class Hotel(APIView):
         validate_serializer(serializer=serializer)
         hotel = serializer.save()
         user = request.user
-        hotels = models.Hotel.objects.filter(is_active=False)
-        # if user.role == models.Role.HOTELIER:
-        #     hotels = models.Hotel.objects.filter(user_id=user.uuid, is_active=True)
-        # if user.role == models.Role.ADMIN:
-        #     hotels = models.Hotel.objects.filter(is_active=False)
+        # hotels = models.Hotel.objects.filter(is_active=False)
+        hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
         pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
         message = {
             'success': True,
@@ -57,10 +44,6 @@ class Hotel(APIView):
         }
         pusher.trigger(u'a_channel', u'an_event', message)
         return Response(message)
-        # return Response({
-        #     'success': True,
-        #     'hotel': HotelDetailSerializer(hotel).data
-        # })
 
 
 class HotelDetail(APIView):

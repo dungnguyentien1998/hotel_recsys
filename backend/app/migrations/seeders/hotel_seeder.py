@@ -1,5 +1,5 @@
 import random
-from app.models import Hotel, HotelAmenity, User, Role
+from app.models import Hotel, HotelAmenity, User, Role, Status
 from app.migrations.seeders.user_seeder import UserSeeder
 from app.utils.seeder_maker import BaseSeeder
 from faker import Faker
@@ -22,6 +22,8 @@ class HotelSeeder(BaseSeeder):
 
         for i in range(self.OBJECT_NUMBER):
             hotelier = random.choice(hoteliers)
+            while hotelier.hotels.count() > 5:
+                hotelier = random.choice(hoteliers)
             created = faker.date_time_between(hotelier.created, 'now')
             address = random.choice(addresses)
             hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=address['city'],
@@ -29,7 +31,7 @@ class HotelSeeder(BaseSeeder):
                           amenities=[amenity[0] for amenity in
                                      random.sample(HotelAmenity.choices, k=random.randrange(len(HotelAmenity.choices)) + 1)],
                           user_id=hotelier.uuid, created=created, updated=created,
-                          is_active=random.choices(population=[True, False], weights=(90, 10))[0])
+                          status=random.choices(population=[Status.ACTIVE, Status.PENDING], weights=(90, 10))[0])
             hotel.save()
             # hotel.image.save(f'{faker.word()}.png', self.image_maker())
             self.image_maker(name=f'{faker.word()}.png', obj=hotel)

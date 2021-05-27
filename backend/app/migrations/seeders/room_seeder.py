@@ -1,6 +1,6 @@
 import random
 import exrex
-from app.models import Hotel, Room, Type
+from app.models import Hotel, Room, Type, Status
 from app.migrations.seeders.hotel_seeder import HotelSeeder
 from app.migrations.seeders.type_seeder import TypeSeeder
 from app.utils.seeder_maker import BaseSeeder
@@ -16,7 +16,8 @@ class RoomSeeder(BaseSeeder):
     def run(self, stdout, _):
         faker = Faker()
         faker.add_provider(EnumProvider)
-        hotels = Hotel.objects.filter(is_active=True)
+        # hotels = Hotel.objects.filter(is_active=True)
+        hotels = Hotel.objects.filter(status=Status.ACTIVE)
 
         for hotel in hotels:
             room_types = Type.objects.filter(hotel_id=hotel.uuid)

@@ -1,4 +1,4 @@
-from app.models import Hotel, RoomAmenity, Type
+from app.models import Hotel, RoomAmenity, Type, Status
 from app.migrations.seeders.hotel_seeder import HotelSeeder
 from app.utils.seeder_maker import BaseSeeder
 from faker import Faker
@@ -11,7 +11,8 @@ class TypeSeeder(BaseSeeder):
     def run(self, stdout, _):
         faker = Faker()
         faker.add_provider(EnumProvider)
-        hotels = Hotel.objects.filter(is_active=True)
+        # hotels = Hotel.objects.filter(is_active=True)
+        hotels = Hotel.objects.filter(status=Status.ACTIVE)
         capacity = {'single': '1', 'double': '2', 'twin': '3', 'double double': '4'}
         price = {'single': '1000000', 'double': '2000000', 'twin': '3000000', 'double double': '4000000'}
         amenities = {'single': [RoomAmenity.WIFI, RoomAmenity.BATHROBES],

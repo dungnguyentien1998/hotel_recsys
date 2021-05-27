@@ -54,7 +54,8 @@ class HotelDetailSerializer(serializers.ModelSerializer):
 class HotelActiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
-        fields = ['is_active']
+        # fields = ['is_active']
+        fields = ['status']
 
     def update(self, instance, validated_data):
         [setattr(instance, field, value) for field, value in validated_data.items()]

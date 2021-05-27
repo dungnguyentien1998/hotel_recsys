@@ -3,6 +3,7 @@ from django.db import models
 from app.models.user import User
 from app.utils.model_maker import BaseModel
 from django.contrib.postgres.fields import ArrayField
+from enum import Enum
 
 
 # Amenity model
@@ -11,6 +12,18 @@ class HotelAmenity(models.TextChoices):
     FITNESS_CENTER = 'fitness center'
     FREE_BREAKFAST = 'free breakfast'
     SWIMMING_POOL = 'swimming pool'
+
+
+class Status(models.TextChoices):
+    ACTIVE = 'active'
+    REJECT = 'reject'
+    PENDING = 'pending'
+
+    def __eq__(self, other):
+        if isinstance(other, Enum):
+            super.__eq__(self, other)
+        else:
+            return self.value == other
 
 
 # Hotel model
@@ -24,7 +37,8 @@ class Hotel(BaseModel):
     image = models.ImageField(blank=True)
     amenities = ArrayField(models.CharField(max_length=settings.CHAR_FIELD_MAX_LEN, choices=HotelAmenity.choices))
     user = models.ForeignKey(User, related_name='hotels', on_delete=models.SET_NULL, null=True)
-    is_active = models.BooleanField(default=False)
+    status = models.CharField(max_length=8, choices=Status.choices, default=Status.PENDING)
+    reject_reason = models.CharField(null=True, max_length=settings.CHAR_FIELD_MAX_LEN)
 
     @property
     def owner_name(self):

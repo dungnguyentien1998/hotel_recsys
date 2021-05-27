@@ -48,7 +48,16 @@ export default {
         delete payload.uuid
         let form = formUtil(payload)
         return api.put(`admin/hotels/${uuid}`, form).then(res => {
-            context.commit('updateUser', res)
+            context.commit('updateHotel', res)
+        })
+    },
+    rejectHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token')
+        let uuid = payload.uuid
+        delete payload.uuid
+        let form = formUtil(payload)
+        return api.put(`admin/hotels/${uuid}`, form).then(res => {
+            context.commit('updateHotel', res)
         })
     }
 }

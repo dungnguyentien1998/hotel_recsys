@@ -1,5 +1,5 @@
 from .user import User, Role
-from .hotel import Hotel, HotelAmenity
+from .hotel import Hotel, HotelAmenity, Status
 from .room import Room
 from .complaint import Complaint
 from .review import Review

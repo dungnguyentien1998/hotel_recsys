@@ -1,5 +1,5 @@
 import random
-from app.models import User, Role, Complaint, Hotel
+from app.models import User, Role, Complaint, Hotel, Status
 from app.migrations.seeders.user_seeder import UserSeeder
 from app.migrations.seeders.hotel_seeder import HotelSeeder
 # from app.migrations.seeders.booking_seeder import BookingSeeder
@@ -17,7 +17,8 @@ class ComplaintSeeder(BaseSeeder):
         faker = Faker()
         faker.add_provider(EnumProvider)
         users = User.objects.filter(role=Role.USER, is_active=True)
-        hotels = Hotel.objects.filter(is_active=True)
+        # hotels = Hotel.objects.filter(is_active=True)
+        hotels = Hotel.objects.filter(status=Status.ACTIVE)
 
         for i in range(self.OBJECT_NUMBER):
             user = random.choice(users)
