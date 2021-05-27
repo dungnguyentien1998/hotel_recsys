@@ -15,7 +15,13 @@ export default {
         booking: 'Booking list',
         user: 'Manage user',
         hotel: 'Approve hotel',
-        changePassword: 'Change password'
+        changePassword: 'Change password',
+        reply: 'Replies from hotels'
+    },
+    payment: {
+        success: 'Thanks for booking!',
+        cancel: 'Your payment was cancelled.',
+        back: 'Back to booking page'
     },
     // Translate for user object
     user: {
@@ -314,6 +320,18 @@ export default {
                 missing: 'You must fill all required information',
                 exceptionOccurred: 'An exception occurred'
             }
+        }
+    },
+    reply: {
+        reply: {
+            title: 'Replies from hotels that you have complainted',
+            view: 'View reply',
+            sendReply: 'Send reply',
+            createTitle: 'Send reply'
+        },
+        replyDetail: {
+            title: 'Reply from hotel ',
+            contact: 'Contact'
         }
     },
     favorite: {

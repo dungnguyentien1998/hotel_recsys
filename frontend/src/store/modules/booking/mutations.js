@@ -45,5 +45,29 @@ export default {
         } else {
             state.status = 'FAILED'
         }
-    }
+    },
+    setCheckIn: (state, payload) => {
+        state.check_in = payload
+    },
+    setCheckOut: (state, payload) => {
+        state.check_out = payload
+    },
+    setSave: (state, payload) => {
+        state.save = payload
+    },
+    resetSave: state => {
+        state.save = null
+    },
+    setAvailableTypes: (state, payload) => {
+        state.available_types.push(payload)
+    },
+    setAvailableNumbers: (state, payload) => {
+        state.available_numbers.push(payload)
+    },
+    setBookingId: (state, payload) => {
+        state.booking_id = payload
+    },
+    setHotelId: (state, payload) => {
+        state.hotel_id = payload
+    },
 }

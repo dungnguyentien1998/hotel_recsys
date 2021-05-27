@@ -202,6 +202,7 @@
                             :src="hotelImage(hotel.image)"
                             class="mb-2"
                             :height="300"
+                            style="height: 362.09px"
                         />
                         <b-card-title
                             :title="hotel.name"
@@ -341,11 +342,13 @@ import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from '
 import FormDetail from "@/views/admin/FormDetail";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
+import json from '../../mixin/data/db_en.json'
+import Pusher from 'pusher-js'
 
 library.add(faSearch)
 
 export default {
-    name: "Hotel",
+    name: "HotelManage",
     components: {Layout},
     mixins: [validationMixin, formMixin, addressMixin],
     data: function () {
@@ -372,7 +375,8 @@ export default {
                 is_active: null
             },
             slide: 0,
-            sliding: null
+            sliding: null,
+            count: 0
         }
     },
     computed: {
@@ -409,15 +413,34 @@ export default {
         }
     },
     created() {
-        // Get hotel and recommendation list
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.hotels.sort(this.compare)
             this.filterHotels = this.hotels
+            this.subcribe()
         })
     },
     methods: {
         getAddress: function (address, ward, district, city) {
+            // let city_en = city
+            // let district_en = district
+            // let ward_en = ward
+            // if (localStorage.getItem("language") === "en") {
+            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
+            //     const provinces = json.province
+            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+            //     const dists = json.district
+            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+            //     const communes = json.commune
+            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
+            // }
+            // if (address == null || address === "") {
+            //     return ward_en + ", " + district_en + ", " + city_en
+            // } else {
+            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            // }
             if (address == null || address === "") {
                 return ward + ", " + district + ", " + city
             } else {
@@ -529,6 +552,25 @@ export default {
                 return  1;
             }
             return 0;
+        },
+        subcribe() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            // let channel = pusher.subscribe('a_channel');
+            // channel.bind('an_event', function(data) {
+            //     // this.hotels.push(JSON.stringify(data));
+            //     this.count = data.count
+            // });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event', data => {
+                this.count = data.count - this.hotels.length
+                this.$store.commit('hotel/setCount', data.count)
+                this.$store.commit('hotel/saveHotel', data)
+                console.log(data.count)
+                console.log(this.hotels.length)
+                console.log(this.count)
+            })
         }
     },
 }

@@ -271,9 +271,6 @@ export default {
         convertDate: function (date) {
             return new Date(date).toDateString()
         },
-        translateCol: function (colName) {
-            return this.$t('user.user.' + colName)
-        },
         // Search users by role
         onSubmit: function() {
             this.filterUsers = this.users

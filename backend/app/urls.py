@@ -36,5 +36,6 @@ urlpatterns = [
     path('hotels/<hotel_id>/arrange_room', BookingRoomDetail.as_view(), name='hotel.arrange_room'),
     path('hotels/<hotel_id>/new_bookings', BookingRoom.as_view(), name='hotel.new_bookings'),
     path('config', stripe_config),
-    path('create-checkout-session', create_checkout_session)
+    path('create-checkout-session', create_checkout_session),
+    path('replys', Reply.as_view(), name='reply'),
 ]

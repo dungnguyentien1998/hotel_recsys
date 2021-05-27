@@ -52,18 +52,16 @@
         <!--                />-->
         <!--            </div>-->
         <!--        </b-form-group>-->
-        <button
-            v-if="!showAvailable()"
-            class="btn btn-primary"
-            type="button"
-            @click="onGetAvailable"
-        >
-            {{ $t('booking.bookingForm.getAvailable') }}
-        </button>
+        <!--        <button-->
+        <!--            v-if="!showAvailable()"-->
+        <!--            class="btn btn-primary"-->
+        <!--            type="button"-->
+        <!--            @click="onGetAvailable"-->
+        <!--        >-->
+        <!--            {{ $t('booking.bookingForm.getAvailable') }}-->
+        <!--        </button>-->
         <br>
-        <div
-            v-if="showAvailable()"
-        >
+        <div>
             <!--      Users table         -->
             <b-table
                 id="users-table"
@@ -76,20 +74,23 @@
                 <template
                     #cell(amenities)="data"
                 >
-                    <ul style="padding: 0; list-style-type: none">
-                        <li
-                            v-for="(amenity, index) in data.item.amenities"
-                            :key="`${data.item.uuid}-amenity-${index}`"
-                            class="list-order"
+                    <div class="test">
+                        <ul
+                            style="padding: 0; list-style-type: none"
                         >
-                            <img
-                                :src="getSrc(amenity)"
-                                :alt="amenity"
-                                class="icon"
+                            <li
+                                v-for="(amenity, index) in data.item.amenities"
+                                :key="`${data.item.uuid}-amenity-${index}`"
                             >
-                            {{ amenity }}
-                        </li>
-                    </ul>
+                                <img
+                                    :src="getSrc(amenity)"
+                                    :alt="amenity"
+                                    class="icon"
+                                >
+                                {{ amenity }}
+                            </li>
+                        </ul>
+                    </div>
                 </template>
                 <template
                     #cell(available)="data"
@@ -118,7 +119,6 @@
             </p>
         </div>
         <button
-            v-if="showAvailable()"
             class="btn btn-primary"
             type="button"
             @click="onSubmit"
@@ -154,9 +154,13 @@ export default {
         }
         let check_in_time = null
         let check_out_time = null
-        if (localStorage.getItem("save") != null) {
-            check_in_time = localStorage.getItem("checkIn")
-            check_out_time = localStorage.getItem("checkOut")
+        // if (localStorage.getItem("save") != null) {
+        //     check_in_time = localStorage.getItem("checkIn")
+        //     check_out_time = localStorage.getItem("checkOut")
+        // }
+        if (this.$store.getters['booking/save'] != null) {
+            check_in_time = this.$store.getters['booking/check_in']
+            check_out_time = this.$store.getters['booking/check_out']
         }
         return {
             // Form data
@@ -227,14 +231,16 @@ export default {
                 {
                     key: 'amenities',
                     label: this.$t('booking.bookingForm.amenities'),
+                    thStyle: {width: '450px'}
                 },
-                {
-                    key: 'available',
-                    label: this.$t('booking.bookingForm.available'),
-                },
+                // {
+                //     key: 'available',
+                //     label: this.$t('booking.bookingForm.available'),
+                // },
                 {
                     key: 'rooms',
                     label: this.$t('booking.bookingForm.rooms'),
+                    thStyle: {width: '250px'}
                 },
             ]
         }
@@ -257,7 +263,8 @@ export default {
         numberOpts(roomType, price) {
             let opts = []
             opts.push({value: 0, text: '-----'})
-            const n = this.getAvailable(roomType)
+            // const n = this.getAvailable(roomType)
+            const n = 5
             for (let i = 1; i <= n; i++) {
                 opts.push({value: i, text: i.toString() + " (" + (price*i).toString() + " VND)"})
             }
@@ -303,13 +310,30 @@ export default {
             return index
         },
         getAvailable: function (roomType) {
-            if (localStorage.getItem("save") == null) {
-                return ' '
+            // if (localStorage.getItem("save") == null) {
+            //     return ' '
+            // }
+            // if (localStorage.getItem(roomType) === null){
+            //     return ' '
+            // } else {
+            //     return localStorage.getItem(roomType)
+            // }
+            // if (this.$store.getters['booking/save'] == null) {
+            //     return ' '
+            // }
+            const available_types = this.$store.getters['booking/available_types']
+            const available_numbers = this.$store.getters['booking/available_numbers']
+            let index = available_types.length;
+            for (let i=0; i<available_types.length; i++) {
+                if (available_types[i] === roomType) {
+                    index = i;
+                    break;
+                }
             }
-            if (localStorage.getItem(roomType) === null){
+            if (index === available_types.length) {
                 return ' '
             } else {
-                return localStorage.getItem(roomType)
+                return available_numbers[index]
             }
         },
         getSrc: function (amenity) {
@@ -331,7 +355,8 @@ export default {
             }
         },
         showAvailable: function () {
-            return localStorage.getItem("save") != null;
+            // return localStorage.getItem("save") != null;
+            return this.$store.getters['booking/save'] != null;
         },
         // Get available rooms with each types
         onGetAvailable: function () {
@@ -347,18 +372,24 @@ export default {
                 this.form.room_types = this.room_types
                 this.form.check_in_time = this.convertDate(this.form.check_in_time)
                 this.form.check_out_time = this.convertDate(this.form.check_out_time)
-                localStorage.setItem("checkIn", this.form.check_in_time)
-                localStorage.setItem("checkOut", this.form.check_out_time)
+                // localStorage.setItem("checkIn", this.form.check_in_time)
+                // localStorage.setItem("checkOut", this.form.check_out_time)
+                this.$store.commit('booking/setCheckIn', this.form.check_in_time)
+                this.$store.commit('booking/setCheckOut', this.form.check_out_time)
+                this.$store.commit('booking/setHotelId', this.form.hotel_id)
                 this.$store.dispatch('booking/resetStatus')
                 this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
-                        localStorage.setItem("save", "0")
+                        // localStorage.setItem("save", "0")
+                        this.$store.commit('booking/setSave', "0")
                         // Alert for failed api calls
                         const message = this.$store.getters['booking/message']
                         let data = JSON.parse(message)
                         for (const [key, value] of Object.entries(data)) {
                             this.availables[this.getIndex(key)] = value
-                            localStorage.setItem(key, value.toString())
+                            // localStorage.setItem(key, value.toString())
+                            this.$store.commit('booking/setAvailableTypes', key)
+                            this.$store.commit('booking/setAvailableNumbers', value)
                         }
                         window.location.reload()
                     }
@@ -391,13 +422,16 @@ export default {
                     this.form.room_types = this.room_types
                     this.form.check_in_time = this.convertDate(this.form.check_in_time)
                     this.form.check_out_time = this.convertDate(this.form.check_out_time)
-                    localStorage.setItem("checkIn", this.form.check_in_time)
-                    localStorage.setItem("checkOut", this.form.check_out_time)
+                    // localStorage.setItem("checkIn", this.form.check_in_time)
+                    // localStorage.setItem("checkOut", this.form.check_out_time)
+                    this.$store.commit('booking/setCheckIn', this.form.check_in_time)
+                    this.$store.commit('booking/setCheckOut', this.form.check_out_time)
                     // Handle create booking
                     this.$store.dispatch('booking/resetStatus')
                     this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                         if (this.$store.getters['booking/status'] === 'FAILED') {
-                            localStorage.setItem("save", "0")
+                            // localStorage.setItem("save", "0")
+                            this.$store.commit('booking/setSave', "0")
                             // Alert for failed api calls
                             const message = this.$store.getters['booking/message']
                             let data = JSON.parse(message)
@@ -405,7 +439,9 @@ export default {
                             if (localStorage.getItem("language") === "en") {
                                 for (const [key, value] of Object.entries(data)) {
                                     this.availables[this.getIndex(key)] = value
-                                    localStorage.setItem(key, value.toString())
+                                    // localStorage.setItem(key, value.toString())
+                                    this.$store.commit('booking/setAvailableTypes', key)
+                                    this.$store.commit('booking/setAvailableNumbers', value)
                                     failed_message += value.toString() + " " + key + " rooms, "
                                 }
                                 const n = failed_message.length
@@ -414,7 +450,9 @@ export default {
                             } else {
                                 for (const [key, value] of Object.entries(data)) {
                                     this.availables[this.getIndex(key)] = value
-                                    localStorage.setItem(key, value.toString())
+                                    // localStorage.setItem(key, value.toString())
+                                    this.$store.commit('booking/setAvailableTypes', key)
+                                    this.$store.commit('booking/setAvailableNumbers', value)
                                     failed_message += value.toString() + " phòng " + key + ", "
                                 }
                                 const n = failed_message.length
@@ -425,7 +463,8 @@ export default {
                             setTimeout(location.reload.bind(location), 2000)
                         } else {
                             // Alert for success
-                            localStorage.removeItem("save")
+                            // localStorage.removeItem("save")
+                            this.$store.commit('booking/resetSave')
                             let bookingId = this.$store.getters['booking/booking'].uuid
                             this.purchase(bookingId)
                             this.$bvToast.toast(this.$t('booking.bookingForm.success.message'), {
@@ -466,4 +505,16 @@ li.list-order {
     display: inline-block;
 }
 li.list-order:nth-child(odd) {clear: left}
+
+.test ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+.test ul li {
+    list-style: none;
+    flex: 0 0 33.333333%;
+}
+
+
 </style>

@@ -29,7 +29,7 @@ class HotelSeeder(BaseSeeder):
                           amenities=[amenity[0] for amenity in
                                      random.sample(HotelAmenity.choices, k=random.randrange(len(HotelAmenity.choices)) + 1)],
                           user_id=hotelier.uuid, created=created, updated=created,
-                          is_active=random.choices(population=[True, False], weights=(90, 10)))
+                          is_active=random.choices(population=[True, False], weights=(90, 10))[0])
             hotel.save()
             # hotel.image.save(f'{faker.word()}.png', self.image_maker())
             self.image_maker(name=f'{faker.word()}.png', obj=hotel)

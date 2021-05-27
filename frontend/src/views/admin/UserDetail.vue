@@ -106,7 +106,7 @@
                         {{ $t('user.register.address') }}
                     </span>
                     <span class="text-secondary">
-                        {{ userAddress }}
+                        {{ getAddress(user.address, user.ward, user.district, user.city) }}
                     </span>
                 </div>
             </b-form-group>
@@ -128,7 +128,7 @@
                         {{ $t('user.register.role') }}
                     </span>
                     <span class="text-secondary">
-                        {{ user.role }}
+                        {{ getRole(user.role) }}
                     </span>
                 </div>
             </b-form-group>
@@ -176,6 +176,9 @@
 </template>
 
 <script>
+import json from '../../mixin/data/db_en.json'
+import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
+
 export default {
     name: "UserDetail",
     props: {
@@ -201,17 +204,61 @@ export default {
         }
     },
     computed: {
-        userAddress() {
-            if (this.user.address == null || this.user.address === '') {
-                return this.user.ward + ", " + this.user.district + ", " + this.user.city
-            } else {
-                return this.user.address + ", " + this.user.ward + ", " + this.user.district + ", " + this.user.city
-            }
-        }
+        // userAddress() {
+        //     if (this.user.address == null || this.user.address === '') {
+        //         return this.user.ward + ", " + this.user.district + ", " + this.user.city
+        //     } else {
+        //         return this.user.address + ", " + this.user.ward + ", " + this.user.district + ", " + this.user.city
+        //     }
+        // }
     },
     methods: {
-        convertDate: function (date) {
-            return new Date(date).toDateString()
+        getAddress: function (address, ward, district, city) {
+            // let city_en = city
+            // let district_en = district
+            // let ward_en = ward
+            // if (localStorage.getItem("language") === "en") {
+            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
+            //     const provinces = json.province
+            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+            //     const dists = json.district
+            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+            //     const communes = json.commune
+            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
+            // }
+            // if (address == null || address === "") {
+            //     return ward_en + ", " + district_en + ", " + city_en
+            // } else {
+            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            // }
+            if (address == null || address === "") {
+                return ward + ", " + district + ", " + city
+            } else {
+                return address + ", " + ward + ", " + district + ", " + city
+            }
+        },
+        // convertDate: function (date) {
+        //     return new Date(date).toDateString()
+        // },
+        convertDate: function(date_string) {
+            let date = new Date(date_string)
+            let format_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            return format_date;
+        },
+        getRole: function(role) {
+            if (localStorage.getItem("language") === "vi") {
+                if (role === 'user') {
+                    return "người dùng"
+                } else if (role === 'hotelier') {
+                    return "chủ khách sạn"
+                } else {
+                    return "quản trị viên"
+                }
+            } else {
+                return role
+            }
         },
         onActivate: function(uuid) {
             this.$store.dispatch('user/resetStatus')

@@ -12,6 +12,7 @@ export default {
         let success = payload.data.success
         if (success) {
             localStorage.setItem('token', payload.data.token)
+            state.token = payload.data.token
             state.user = payload.data.user
             state.status = ''
         } else {
@@ -22,6 +23,7 @@ export default {
         let success = payload.data.success
         if (success) {
             state.status = ''
+            state.email = payload.data.user.email
         } else {
             state.status = 'FAILED'
         }

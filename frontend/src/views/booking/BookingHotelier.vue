@@ -290,6 +290,7 @@ export default {
         },
         onHandle: function(booking_id) {
             localStorage.setItem("bookingId", booking_id)
+            this.$store.commit('booking/setBookingId', booking_id)
             this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
         },
         IsNotArrange: function (uuid) {

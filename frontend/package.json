@@ -23,6 +23,8 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.2.0",
     "node-sass": "^4.14.1",
+    "pusher": "^5.0.0",
+    "pusher-js": "^7.0.3",
     "secure-ls": "^1.2.6",
     "snakecase-keys": "^3.2.0",
     "sub-vn": "0.0.2",

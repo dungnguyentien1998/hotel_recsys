@@ -222,6 +222,7 @@
                             :src="hotelImage(hotel.image)"
                             class="mb-2"
                             :height="300"
+                            style="height: 362.09px"
                         />
                         <b-card-title
                             :title="hotel.name"
@@ -421,6 +422,7 @@ import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from '
 import {Carousel, Slide} from 'vue-carousel'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
+import json from '../../mixin/data/db_en.json'
 
 library.add(faSearch)
 
@@ -507,6 +509,25 @@ export default {
     },
     methods: {
         getAddress: function (address, ward, district, city) {
+            // let city_en = city
+            // let district_en = district
+            // let ward_en = ward
+            // if (localStorage.getItem("language") === "en") {
+            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
+            //     const provinces = json.province
+            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+            //     const dists = json.district
+            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+            //     const communes = json.commune
+            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
+            // }
+            // if (address == null || address === "") {
+            //     return ward_en + ", " + district_en + ", " + city_en
+            // } else {
+            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            // }
             if (address == null || address === "") {
                 return ward + ", " + district + ", " + city
             } else {

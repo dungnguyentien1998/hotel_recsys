@@ -142,5 +142,5 @@ class BookingDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = [*Booking.get_fields(), 'user_name', 'hotel_name', 'room_number', 'address', 'room_type', 'price',
-                  'image', 'hotelid', 'user_email', 'user_tel']
+        fields = [*Booking.get_fields(), 'user_name', 'hotel_name', 'room_number', 'address', 'city', 'district', 'ward',
+                  'room_type', 'price', 'image', 'hotelid', 'user_email', 'user_tel']

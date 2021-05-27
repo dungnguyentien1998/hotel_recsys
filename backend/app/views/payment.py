@@ -33,7 +33,7 @@ def create_checkout_session(request):
                 mode='payment',
                 line_items=[
                     {
-                        'name': booking_to_purchase.code,
+                        'name': 'Booking payment',
                         'quantity': 1,
                         'currency': 'VND',
                         'amount': booking_to_purchase.total_price,

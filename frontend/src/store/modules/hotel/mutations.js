@@ -41,5 +41,15 @@ export default {
         } else {
             state.status = 'FAILED'
         }
-    }
+    },
+    setCount: (state, payload) => {
+        state.count_admin = payload
+    },
+    saveHotel: (state, payload) => {
+        if (payload.success) {
+            state.hotels.push(payload.hotel)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
 }

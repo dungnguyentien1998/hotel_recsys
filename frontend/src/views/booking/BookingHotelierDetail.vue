@@ -278,7 +278,8 @@ export default {
     components: {Layout},
     mixins: [validationMixin, formMixin],
     data: function () {
-        const bookingId = localStorage.getItem("bookingId")
+        // const bookingId = localStorage.getItem("bookingId")
+        const bookingId = this.$store.getters['booking/booking_id']
         const types = this.$store.getters['booking/types']
         let room_numbers = []
         for (let i = 0; i < types.length; i++) {

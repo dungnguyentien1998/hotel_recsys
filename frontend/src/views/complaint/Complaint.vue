@@ -1,65 +1,86 @@
 <template>
-    <b-list-group>
-        <b-list-group-item
-            v-for="complaint in complaints"
-            :key="complaint.uuid"
-            class="list-item"
-        >
-            <div>
-                <b-img
-                    v-if="isNotNull(complaint.image)"
-                    :src="complaintImage(complaint.image)"
-                    alt="Complaint image"
-                    thumbnail
-                    fluid
-                />
-                <b-button
-                    class="position-absolute"
-                    variant="outline-secondary"
-                    style="right: 20px"
-                    :href="mailtoUrl(complaint.email)"
-                >
-                    {{ $t('complaint.complaint.sendEmail') }}
-                    <font-awesome-icon
-                        :icon="['fas', 'envelope-open']"
+    <div>
+        <b-list-group>
+            <b-list-group-item
+                v-for="complaint in complaints"
+                :key="complaint.uuid"
+                class="list-item"
+            >
+                <div>
+                    <b-img
+                        v-if="isNotNull(complaint.image)"
+                        :src="complaintImage(complaint.image)"
+                        alt="Complaint image"
+                        thumbnail
+                        fluid
                     />
-                </b-button>
-            </div>
-            <div>
-                <p
-                    class="m-0 font-weight-bolder"
-                >
-                    {{ complaint.title }}
-                </p>
-                <p
-                    class="m-0 text-secondary"
-                >
-                    {{ complaint.content }}
-                </p>
-                <p
-                    class="m-0 font-weight-bolder text-right"
-                >
-                    {{ toDate(complaint.created) }}
-                </p>
-                <small
-                    class="d-block text-right"
-                >
-                    {{ complaint.userName }} - {{ complaint.email }}
-                </small>
-            </div>
-        </b-list-group-item>
-    </b-list-group>
+                    <!--                    <b-button-->
+                    <!--                        class="position-absolute"-->
+                    <!--                        variant="outline-secondary"-->
+                    <!--                        style="right: 20px"-->
+                    <!--                        @click="mailtoUrl(complaint.email)"-->
+                    <!--                    >-->
+                    <!--                        {{ $t('complaint.complaint.sendEmail') }}-->
+                    <!--                        <font-awesome-icon-->
+                    <!--                            :icon="['fas', 'envelope-open']"-->
+                    <!--                        />-->
+                    <!--                    </b-button>-->
+                    <!--                    <b-button-->
+                    <!--                        class="position-absolute"-->
+                    <!--                        variant="outline-secondary"-->
+                    <!--                        style="right: 20px"-->
+                    <!--                        size="sm"-->
+                    <!--                        @click="$bvModal.show(`modal-${complaint.uuid}-create`)"-->
+                    <!--                    >-->
+                    <!--                        {{ $t('reply.reply.sendReply') }}-->
+                    <!--                    </b-button>-->
+                    <!--                    <b-modal-->
+                    <!--                        :id="`modal-${complaint.uuid}-create`"-->
+                    <!--                        :title="$t('reply.reply.createTitle')"-->
+                    <!--                        size="lg"-->
+                    <!--                        hide-footer-->
+                    <!--                    >-->
+                    <!--                        <reply-form :complaint="complaint" />-->
+                    <!--                    </b-modal>-->
+                </div>
+                <div>
+                    <p
+                        class="m-0 font-weight-bolder"
+                    >
+                        {{ complaint.title }}
+                    </p>
+                    <p
+                        class="m-0 text-secondary"
+                    >
+                        {{ complaint.content }}
+                    </p>
+                    <p
+                        class="m-0 font-weight-bolder text-right"
+                    >
+                        {{ toDate(complaint.created) }}
+                    </p>
+                    <small
+                        class="d-block text-right"
+                    >
+                        {{ complaint.userName }} - {{ complaint.email }}
+                    </small>
+                </div>
+            </b-list-group-item>
+        </b-list-group>
+    </div>
 </template>
 
 <script>
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons'
+import ReplyForm from "@/views/reply/ReplyForm";
 
 
 library.add(faEnvelopeOpen)
 
 export default {
     name: "Complaint",
+    // components: {ReplyForm},
     data: function () {
         return {
             // Complaint data
@@ -81,7 +102,9 @@ export default {
         },
         // Handle send email
         mailtoUrl: function (email) {
-            return `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&tf=cm`
+            // return `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&tf=cm`
+            let url = 'mailto:' + email
+            window.open(url)
         },
         // Get complaint image
         complaintImage: function (uri) {

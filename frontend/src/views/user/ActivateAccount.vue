@@ -70,6 +70,7 @@ export default {
             } else {
                 // local storage
                 this.form.email = localStorage.getItem("email")
+                // this.form.email = this.$store.getters['user/email']
                 this.$store.dispatch('user/activateAccount', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));

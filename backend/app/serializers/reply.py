@@ -16,6 +16,16 @@ class ReplySerializer(serializers.ModelSerializer):
 
 
 class ReplyDetailSerializer(serializers.ModelSerializer):
+    complaint_title = serializers.ReadOnlyField()
+    complaint_content = serializers.ReadOnlyField()
+    complaint_image = serializers.ReadOnlyField()
+    complaint_created = serializers.ReadOnlyField()
+    hotel_name = serializers.ReadOnlyField()
+    owner_name = serializers.ReadOnlyField()
+    owner_tel = serializers.ReadOnlyField()
+    owner_email = serializers.ReadOnlyField()
+
     class Meta:
         model = Reply
-        fields = Reply.get_fields()
+        fields = [*Reply.get_fields(), 'complaint_title', 'complaint_content', 'complaint_image', 'complaint_created',
+                  'hotel_name', 'owner_name', 'owner_tel', 'owner_email']

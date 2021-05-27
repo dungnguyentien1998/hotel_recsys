@@ -53,6 +53,14 @@
                     >
                         {{ $t('navbar.booking') }}
                     </b-nav-item>
+                    <!--                    <b-nav-item-->
+                    <!--                        v-if="loggedIn && roleUser"-->
+                    <!--                        id="reply"-->
+                    <!--                        style="margin:5px; font-weight: bold"-->
+                    <!--                        href="/replys"-->
+                    <!--                    >-->
+                    <!--                        {{ $t('navbar.reply') }}-->
+                    <!--                    </b-nav-item>-->
                     <b-nav-item
                         v-if="loggedIn && roleAdmin"
                         id="user"
@@ -68,6 +76,9 @@
                         href="/admin/hotels"
                     >
                         {{ $t('navbar.hotel') }}
+                        <!--                        <b-badge variant="primary">-->
+                        <!--                            {{ count }}-->
+                        <!--                        </b-badge>-->
                     </b-nav-item>
                 </b-navbar-nav>
 
@@ -147,6 +158,9 @@ library.add(faHotel)
 export default {
     name: "Navbar",
     computed: {
+        count: function () {
+            return this.$store.getters['hotel/hotels'].length
+        },
         // Check if user logged in
         loggedIn: function () {
             return !!localStorage.getItem('token')
@@ -191,6 +205,9 @@ export default {
         if (localStorage.getItem("language") === null) {
             localStorage.setItem("language", "en")
         }
+    },
+    created() {
+
     },
     methods: {
         // Change to vietnamese

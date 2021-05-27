@@ -29,7 +29,7 @@
                                 <span class="font-weight-bolder">
                                     {{ $t('booking.booking.address') }}:
                                 </span>
-                                {{ booking.address }}
+                                {{ getAddress(booking.address, booking.ward, booking.district, booking.city) }}
                             </p>
                             <p>
                                 <span class="font-weight-bolder">
@@ -148,6 +148,8 @@ import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
 import Layout from "@/components/layouts/Layout";
+import json from '../../mixin/data/db_en.json'
+import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -157,15 +159,6 @@ library.add(faMoneyBillAlt)
 export default {
     name: "BookingDetail",
     components: {Layout},
-    // props: {
-    //     // Hotel data
-    //     booking: {
-    //         type: Object,
-    //         default: () => {
-    //             return null
-    //         }
-    //     }
-    // },
     data: function () {
         return {
             types: [],
@@ -209,6 +202,32 @@ export default {
             })
     },
     methods: {
+        getAddress: function (address, ward, district, city) {
+            // let city_en = city
+            // let district_en = district
+            // let ward_en = ward
+            // if (localStorage.getItem("language") === "en") {
+            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
+            //     const provinces = json.province
+            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+            //     const dists = json.district
+            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+            //     const communes = json.commune
+            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
+            // }
+            // if (address == null || address === "") {
+            //     return ward_en + ", " + district_en + ", " + city_en
+            // } else {
+            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            // }
+            if (address == null || address === "") {
+                return ward + ", " + district + ", " + city
+            } else {
+                return address + ", " + ward + ", " + district + ", " + city
+            }
+        },
         getSrc: function (amenity) {
             let images = require.context('../../assets/', false, /\.png$/)
             return images('./' + amenity + ".png")

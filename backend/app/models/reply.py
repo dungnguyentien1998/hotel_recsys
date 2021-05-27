@@ -15,5 +15,37 @@ class Reply(BaseModel):
     # hotel = models.ForeignKey(Hotel, related_name='replys', on_delete=models.SET_NULL, null=True)
     complaint = models.ForeignKey(Complaint, related_name='replys', on_delete=models.SET_NULL, null=True)
 
+    @property
+    def complaint_title(self):
+        return self.complaint.title
+
+    @property
+    def complaint_content(self):
+        return self.complaint.content
+
+    @property
+    def complaint_image(self):
+        return self.complaint.image.url
+
+    @property
+    def complaint_created(self):
+        return self.complaint.created
+
+    @property
+    def hotel_name(self):
+        return self.complaint.hotel.name
+
+    @property
+    def owner_name(self):
+        return self.complaint.hotel.owner_name
+
+    @property
+    def owner_tel(self):
+        return self.complaint.hotel.owner_tel
+
+    @property
+    def owner_email(self):
+        return self.complaint.hotel.owner_email
+
     class Meta:
         db_table = 'reply'

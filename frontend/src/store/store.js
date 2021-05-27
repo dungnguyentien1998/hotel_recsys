@@ -10,6 +10,7 @@ import booking from '@/store/modules/booking/booking'
 import complaint from '@/store/modules/complaint/complaint'
 import review from '@/store/modules/review/review'
 import type from '@/store/modules/roomtype/type'
+import reply from '@/store/modules/reply/reply'
 
 Vue.use(Vuex);
 
@@ -24,7 +25,8 @@ export const store = new Vuex.Store({
         booking,
         complaint,
         review,
-        type
+        type,
+        reply
     },
     plugins: [createPersistedState({
         key: 'vuex',

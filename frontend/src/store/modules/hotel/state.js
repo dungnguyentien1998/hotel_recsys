@@ -1,5 +1,6 @@
 export default {
     // Hotel status and list
     status: '',
-    hotels: []
+    hotels: [],
+    count_admin: 0
 }

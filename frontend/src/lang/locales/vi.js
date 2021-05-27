@@ -15,7 +15,13 @@ export default {
         booking: 'Danh sách đặt phòng',
         user: 'Quản lý tài khoản',
         hotel: 'Phê duyệt khách sạn',
-        changePassword: 'Đổi mật khẩu'
+        changePassword: 'Đổi mật khẩu',
+        reply: 'Phản hồi từ khách sạn'
+    },
+    payment: {
+        success: 'Cảm ơn bạn đã đặt phòng tại khách sạn của chúng tôi',
+        cancel: 'Bạn đã hủy thanh toán',
+        back: 'Quay về trang đặt phòng'
     },
     // Translate for user object
     user: {
@@ -314,6 +320,18 @@ export default {
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình tạo khiếu nại'
             }
+        }
+    },
+    reply: {
+        reply: {
+            title: 'Phản hồi từ những khách sạn bạn từng khiếu nại',
+            view: 'Xem phản hồi',
+            sendReply: 'Gửi phản hồi',
+            createTitle: 'Gửi phản hồi'
+        },
+        replyDetail: {
+            title: 'Phản hồi từ khách sạn ',
+            contact: 'Liên hệ'
         }
     },
     favorite: {
