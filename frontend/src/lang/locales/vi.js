@@ -16,7 +16,8 @@ export default {
         user: 'Quản lý tài khoản',
         hotel: 'Phê duyệt khách sạn',
         changePassword: 'Đổi mật khẩu',
-        reply: 'Phản hồi từ khách sạn'
+        reply: 'Phản hồi từ khách sạn',
+        notification: 'Thông báo'
     },
     payment: {
         success: 'Cảm ơn bạn đã đặt phòng tại khách sạn của chúng tôi',
@@ -89,6 +90,10 @@ export default {
             submit: 'Đăng ký',
             loginText: 'Đã có tài khoản?',
             loginLink: 'Đăng nhập',
+            success: {
+                title: 'Thành công',
+                message: 'Token đã được gửi vào email của bạn'
+            },
             errors: {
                 title: 'Lỗi đăng ký',
                 invalidData: 'Sai định dạng email',
@@ -122,6 +127,8 @@ export default {
             admin: 'Quản trị viên',
             lock: 'Khóa',
             unlock: 'Mở khóa',
+            lockTitle: 'Khóa tài khoản',
+            reason: 'Lý do khoá tài khoản',
             view: 'Chi tiết',
             viewUser: 'Chi tiết người dùng',
             changePassword: 'Thay đổi mật khẩu',
@@ -152,10 +159,17 @@ export default {
             ownerEmail: 'Email: ',
             title: 'Danh sách khách sạn',
             approveLabel: 'Danh sách khách sạn cần phê duyệt',
+            approveChoice: 'Phê duyệt hoặc từ chối yêu cầu này',
+            reason: 'Ý kiến (Nêu lý do nếu bạn từ chối yêu cầu này)',
             searchHotel: 'Tìm khách sạn',
             advancedSearch: 'Tìm kiếm nâng cao',
             recommended: 'Gợi ý khách sạn cho bạn',
             recommendedLabel: 'Những khách sạn tương tự mà bạn có thể thích',
+            status: 'Trạng thái',
+            approveStatus: 'Đã được phê duyệt',
+            rejectStatus: 'Đã bị từ chối',
+            reasonTitle: 'Lý do',
+            notificationTitle: 'Thông báo về yêu cầu tạo khách sạn',
             rating: 'Đánh giá',
             createTitle: 'Tạo khách sạn',
             createBtn: 'Tạo khách sạn',
@@ -301,6 +315,7 @@ export default {
     complaint: {
         complaint: {
             sendEmail: 'Gửi phản hồi',
+            status: 'Khiếu nại đã được xử lý'
         },
         complaintForm: {
             title: 'Tiêu đề:',

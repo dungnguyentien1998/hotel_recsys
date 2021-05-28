@@ -51,6 +51,7 @@ class User(BaseModel, AbstractBaseUser):
     birthday = models.DateField(null=True)
     role = models.CharField(max_length=8, choices=Role.choices, default=Role.USER)
     is_active = models.BooleanField(default=False)
+    deactivate_reason = models.CharField(null=True, max_length=settings.CHAR_FIELD_MAX_LEN)
 
     objects = UserManager()
     EMAIL_FIELD = 'email'

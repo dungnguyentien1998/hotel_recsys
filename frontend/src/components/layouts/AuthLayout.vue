@@ -52,7 +52,7 @@ export default {
             background-color: #fcfafa;
 
             .title {
-                padding: 31px 31px 0;
+                padding: 25px 25px 0;
             }
 
             .form {

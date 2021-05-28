@@ -23,4 +23,15 @@ export default {
             context.commit('createComplaint', res)
         })
     },
+    updateComplaint: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        let hotelId = payload.hotelId
+        let complaintId = payload.complaintId
+        delete payload.hotelId
+        delete payload.complaintId
+        let form = formUtil(payload)
+        return api.put(`hotels/${hotelId}/complaints/${complaintId}`, form).then(res => {
+            context.commit('updateComplaint', res)
+        })
+    },
 }

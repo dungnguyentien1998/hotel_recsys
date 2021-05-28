@@ -18,6 +18,11 @@ class ComplaintSerializer(serializers.ModelSerializer):
         complaint.save()
         return complaint
 
+    def update(self, instance, validated_data):
+        [setattr(instance, field, value) for field, value in validated_data.items()]
+        instance.save()
+        return instance
+
 
 class ComplaintDetailSerializer(serializers.ModelSerializer):
     # Complaint data used to represent

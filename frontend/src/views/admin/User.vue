@@ -120,6 +120,7 @@
                         #cell(action)="data"
                     >
                         <b-button
+                            v-if="data.item.role !== 'admin'"
                             :disabled="data.item.isActive === true"
                             variant="success"
                             size="sm"
@@ -128,10 +129,12 @@
                             {{ $t('user.user.unlock') }}
                         </b-button>
                         <b-button
+                            v-if="data.item.role !== 'admin'"
                             :disabled="data.item.isActive === false"
                             variant="danger"
+                            href="#"
                             size="sm"
-                            @click="onDeactivate(data.item.uuid)"
+                            @click="$bvModal.show(`modal-${data.item.uuid}-lock`)"
                         >
                             {{ $t('user.user.lock') }}
                         </b-button>
@@ -143,6 +146,14 @@
                         >
                             {{ $t('user.user.view') }}
                         </b-button>
+                        <b-modal
+                            :id="`modal-${data.item.uuid}-lock`"
+                            :title="$t('user.user.lockTitle')"
+                            size="lg"
+                            hide-footer
+                        >
+                            <deactivate-form :user="data.item" />
+                        </b-modal>
                         <b-modal
                             :id="`modal-${data.item.uuid}-view`"
                             :title="$t('user.user.viewUser')"
@@ -172,13 +183,13 @@ import Layout from '@/components/layouts/Layout';
 import UserDetail from "@/views/admin/UserDetail";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
-
+import DeactivateForm from "@/views/admin/DeactivateForm";
 library.add(faSearch)
 
 
 export default {
     name: "User",
-    components: {UserDetail, Layout},
+    components: {UserDetail, Layout, DeactivateForm},
     mixins: [validationMixin, formMixin],
     data: function () {
         return {

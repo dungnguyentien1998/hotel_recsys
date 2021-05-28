@@ -466,7 +466,7 @@ export default {
                             // localStorage.removeItem("save")
                             this.$store.commit('booking/resetSave')
                             let bookingId = this.$store.getters['booking/booking'].uuid
-                            this.purchase(bookingId)
+                            // this.purchase(bookingId)
                             this.$bvToast.toast(this.$t('booking.bookingForm.success.message'), {
                                 title: this.$t('booking.bookingForm.success.title'),
                                 autoHideDelay: 2000,

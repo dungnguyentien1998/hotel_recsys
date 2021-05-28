@@ -14,6 +14,19 @@
                         thumbnail
                         fluid
                     />
+                    <!--                    <div-->
+                    <!--                        class="position-absolute"-->
+                    <!--                        style="right: 20px"-->
+                    <!--                    >-->
+                    <!--                        <b-form-checkbox-->
+                    <!--                            v-model="form.is_processed"-->
+                    <!--                            value="true"-->
+                    <!--                            unchecked-value="false"-->
+                    <!--                            @change="updateStatus(complaint.uuid)"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('complaint.complaint.status') }}-->
+                    <!--                        </b-form-checkbox>-->
+                    <!--                    </div>-->
                     <!--                    <b-button-->
                     <!--                        class="position-absolute"-->
                     <!--                        variant="outline-secondary"-->
@@ -84,7 +97,10 @@ export default {
     data: function () {
         return {
             // Complaint data
-            complaints: []
+            complaints: [],
+            form: {
+                is_processed: null,
+            }
         }
     },
     created: function () {
@@ -115,6 +131,19 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +
                 date.getHours() + ":" + date.getMinutes();
         },
+        updateStatus: function (uuid) {
+            this.$store.dispatch('complaint/resetStatus')
+            this.form.hotelId = this.$route.params.uuid
+            this.form.complaintId = uuid
+            if (this.form.is_processed === "true") {
+                this.form.is_processed = true
+            } else {
+                this.form.is_processed = false
+            }
+            this.$store.dispatch('type/updateType', this.form).then(() => {
+
+            })
+        }
     }
 }
 </script>

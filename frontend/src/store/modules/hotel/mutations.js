@@ -52,4 +52,14 @@ export default {
             state.status = 'FAILED'
         }
     },
+    saveNotifyHotel: (state, payload) => {
+        if (payload.success) {
+            state.notify_hotels.push(payload.hotel)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
+    notifyHotels: (state, payload) => {
+        state.notify_hotels = payload.data.hotels
+    },
 }

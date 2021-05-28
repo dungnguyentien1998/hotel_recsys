@@ -155,6 +155,7 @@
             </b-form-group>
             <div>
                 <b-button
+                    v-if="user.role !== 'admin'"
                     :disabled="user.isActive === true"
                     variant="success"
                     size="sm"
@@ -162,14 +163,14 @@
                 >
                     {{ $t('user.user.unlock') }}
                 </b-button>
-                <b-button
-                    :disabled="user.isActive === false"
-                    variant="danger"
-                    size="sm"
-                    @click="onDeactivate(user.uuid)"
-                >
-                    {{ $t('user.user.lock') }}
-                </b-button>
+                <!--                <b-button-->
+                <!--                    :disabled="user.isActive === false"-->
+                <!--                    variant="danger"-->
+                <!--                    size="sm"-->
+                <!--                    @click="onDeactivate(user.uuid)"-->
+                <!--                >-->
+                <!--                    {{ $t('user.user.lock') }}-->
+                <!--                </b-button>-->
             </div>
         </b-form>
     </div>

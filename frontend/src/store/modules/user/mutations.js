@@ -23,7 +23,7 @@ export default {
         let success = payload.data.success
         if (success) {
             state.status = ''
-            state.email = payload.data.user.email
+            // state.email = payload.data.user.email
         } else {
             state.status = 'FAILED'
         }

@@ -236,37 +236,7 @@
                                 {{ hotel.ownerName }}
                             </span>
                         </p>
-                        <!--                        <p>-->
-                        <!--                            <span class="font-weight-bolder">-->
-                        <!--                                {{ $t('hotel.hotel.amenities') }}-->
-                        <!--                            </span>-->
-                        <!--                            <b-list-group horizontal="md">-->
-                        <!--                                <b-list-group-item-->
-                        <!--                                    v-for="(amenity, index) in hotel.amenities"-->
-                        <!--                                    :key="`${hotel.uuid}-amenity-${index}`"-->
-                        <!--                                    style="border: none"-->
-                        <!--                                >-->
-                        <!--                                    <img-->
-                        <!--                                        :src="getSrc(amenity)"-->
-                        <!--                                        :alt="amenity"-->
-                        <!--                                        class="icon"-->
-                        <!--                                    >-->
-                        <!--                                    <span style="display: inline-block">-->
-                        <!--                                        {{ amenity }}-->
-                        <!--                                    </span>-->
-                        <!--                                </b-list-group-item>-->
-                        <!--                            </b-list-group>-->
-                        <!--                        </p>-->
                         <div class="mt-2">
-                            <!--                            <b-button-->
-                            <!--                                :disabled="hotel.isActive === true"-->
-                            <!--                                variant="success"-->
-                            <!--                                href="#"-->
-                            <!--                                size="sm"-->
-                            <!--                                @click="$bvModal.show(`modal-${hotel.uuid}-approve`)"-->
-                            <!--                            >-->
-                            <!--                                {{ $t('hotel.hotel.approveBtn') }}-->
-                            <!--                            </b-button>-->
                             <b-button
                                 :disabled="hotel.status === 'active'"
                                 variant="success"
@@ -276,16 +246,6 @@
                             >
                                 {{ $t('hotel.hotel.approveBtn') }}
                             </b-button>
-
-                            <!--                            <b-button-->
-                            <!--                                class="ml-2"-->
-                            <!--                                variant="primary"-->
-                            <!--                                href="#"-->
-                            <!--                                size="sm"-->
-                            <!--                                @click="$bvModal.show(`modal-${hotel.uuid}-view`)"-->
-                            <!--                            >-->
-                            <!--                                View-->
-                            <!--                            </b-button>-->
                         </div>
 
                         <b-modal
@@ -296,15 +256,6 @@
                         >
                             <approve-form :hotel="hotel" />
                         </b-modal>
-
-                        <!--                        <b-modal-->
-                        <!--                            :id="`modal-${hotel.uuid}-view`"-->
-                        <!--                            title="View hotel"-->
-                        <!--                            size="lg"-->
-                        <!--                            hide-footer-->
-                        <!--                        >-->
-                        <!--                            <form-detail :hotel="hotel" />-->
-                        <!--                        </b-modal>-->
                     </b-card>
                 </div>
             </div>
@@ -324,7 +275,6 @@ import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
-import FormDetail from "@/views/admin/FormDetail";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import json from '../../mixin/data/db_en.json'
@@ -402,7 +352,9 @@ export default {
     created() {
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
-            this.hotels.sort(this.compare)
+            this.hotels.sort(function (a,b) {
+                return new Date(b.created) - new Date(a.created)
+            })
             this.filterHotels = this.hotels
             this.subcribe()
         })

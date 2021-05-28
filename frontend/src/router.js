@@ -29,6 +29,7 @@ import OrderSuccess from "@/components/OrderSuccess";
 import OrderCanceled from "@/components/OrderCanceled";
 import Reply from "@/views/reply/Reply";
 import ReplyDetail from "@/views/reply/ReplyDetail";
+import HotelNotification from "@/views/notification/HotelNotification";
 
 let routes = [
     // Login router
@@ -104,6 +105,15 @@ let routes = [
         component: Hotel,
         meta: {
             title: 'Hotels',
+            requireRoles: ['hotelier']
+        }
+    },
+    {
+        path: '/notification/hotels',
+        name: 'notifications',
+        component: HotelNotification,
+        meta: {
+            title: 'Notifications',
             requireRoles: ['hotelier']
         }
     },

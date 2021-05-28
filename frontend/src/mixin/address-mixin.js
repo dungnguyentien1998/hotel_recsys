@@ -18,10 +18,10 @@ export default {
                 {value: null, text: '-----'},
                 ...getProvinces().map(city => {
                     let trans_text = city.name
-                    if (localStorage.getItem("language") === "en") {
-                        let province = provinces.filter(option => option.idProvince === city.code)[0]
-                        trans_text = province.name
-                    }
+                    // if (localStorage.getItem("language") === "en") {
+                    //     let province = provinces.filter(option => option.idProvince === city.code)[0]
+                    //     trans_text = province.name
+                    // }
                     return {value: city.code, text: trans_text}
                 })
             ],
@@ -39,10 +39,10 @@ export default {
                 {value: null, text: '-----'},
                 ...getDistrictsByProvinceCode(e).map(district => {
                     let trans_text = district.name
-                    if (localStorage.getItem("language") === "en") {
-                        let dist = dists.filter(option => option.idDistrict === district.code)[0]
-                        trans_text = dist.name
-                    }
+                    // if (localStorage.getItem("language") === "en") {
+                    //     let dist = dists.filter(option => option.idDistrict === district.code)[0]
+                    //     trans_text = dist.name
+                    // }
                     return {value: district.code, text: trans_text}
                 })
             ]
@@ -58,10 +58,10 @@ export default {
                 {value: null, text: '-----'},
                 ...getWardsByDistrictCode(e).map(ward => {
                     let trans_text = ward.name
-                    if (localStorage.getItem("language") === "en") {
-                        let commune = communes.filter(option => option.idCoummune === ward.code)[0]
-                        trans_text = commune.name
-                    }
+                    // if (localStorage.getItem("language") === "en") {
+                    //     let commune = communes.filter(option => option.idCoummune === ward.code)[0]
+                    //     trans_text = commune.name
+                    // }
                     return {value: ward.code, text: trans_text}
                 })
             ]

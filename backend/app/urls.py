@@ -13,6 +13,7 @@ urlpatterns = [
     path('users/<user_id>', UserDetail.as_view(), name='user.detail'),
     path('admin/users', User.as_view(), name='user.manage'),
     path('admin/hotels/<hotel_id>', HotelActive.as_view(), name='hotel.manage'),
+    path('notifications/hotels', HotelNotification.as_view(), name='notification.hotel'),
     path('hotels', Hotel.as_view(), name='hotel'),
     path('hotels/<hotel_id>', HotelDetail.as_view(), name='hotel.detail'),
     path('hotels/<hotel_id>/types', Type.as_view(), name='type'),

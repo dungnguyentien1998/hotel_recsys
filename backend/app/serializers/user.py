@@ -60,7 +60,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ActiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['is_active']
+        # fields = ['is_active']
+        fields = ['is_active', 'deactivate_reason']
 
     def update(self, instance, validated_data):
         # Activate or deactivate user

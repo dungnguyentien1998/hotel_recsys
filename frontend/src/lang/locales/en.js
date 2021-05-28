@@ -16,7 +16,8 @@ export default {
         user: 'Manage user',
         hotel: 'Approve hotel',
         changePassword: 'Change password',
-        reply: 'Replies from hotels'
+        reply: 'Replies from hotels',
+        notification: 'Notifications'
     },
     payment: {
         success: 'Thanks for booking!',
@@ -89,6 +90,10 @@ export default {
             submit: 'Register',
             loginText: 'Already have an account?',
             loginLink: 'Login',
+            success: {
+                title: 'Action success',
+                message: 'Token has been sent to your registered email'
+            },
             errors: {
                 title: 'Register failed',
                 invalidData: 'Invalid email format',
@@ -122,6 +127,8 @@ export default {
             admin: 'Admin',
             lock: 'Lock',
             unlock: 'Unlock',
+            lockTitle: 'Lock account',
+            reason: 'Reason to lock this account',
             view: 'View',
             viewUser: 'User detail',
             changePassword: 'Change password',
@@ -152,10 +159,17 @@ export default {
             ownerEmail: 'Email: ',
             title: 'Hotel list',
             approveLabel: 'List of hotels to approve',
+            approveChoice: 'Approve or reject this request',
+            reason: 'Description (Reason if you reject this request)',
             searchHotel: 'Search hotel',
             advancedSearch: 'Advanced search',
             recommended: 'Recommended hotels for you',
             recommendedLabel: 'Similar hotels that you may like',
+            status: 'Status',
+            approveStatus: 'Approved',
+            rejectStatus: 'Denied',
+            reasonTitle: 'Reason',
+            notificationTitle: 'Notifications about hotels creation request',
             rating: 'Rating',
             createTitle: 'Create new hotel',
             createBtn: 'Create new hotel',
@@ -301,6 +315,7 @@ export default {
     complaint: {
         complaint: {
             sendEmail: 'Send email',
+            status: 'This complaint have been processed'
         },
         complaintForm: {
             title: 'Title:',

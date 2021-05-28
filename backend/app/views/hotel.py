@@ -5,6 +5,7 @@ from app.serializers import HotelSerializer, HotelierHotelDetailSerializer, Hote
 from app.permissions.hotel import HotelPermission
 from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
+from django.db.models import Q
 
 
 class Hotel(APIView):
@@ -90,7 +91,20 @@ class HotelActive(APIView):
         serializer = HotelActiveSerializer(data=request.data)
         validate_serializer(serializer=serializer)
         serializer.update(instance=hotel, validated_data=serializer.validated_data)
+        pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+        message = {
+            'success': True,
+            'hotel': HotelDetailSerializer(hotel).data,
+        }
+        pusher.trigger(u'a_channel_1', u'an_event_1', message)
+        return Response(message)
+
+
+class HotelNotification(APIView):
+    def get(self, request):
+        user = request.user
+        hotels = models.Hotel.objects.filter(Q(status=models.Status.ACTIVE) | Q(status=models.Status.REJECT), user_id=user.uuid)
         return Response({
             'success': True,
-            'hotel': HotelDetailSerializer(hotel).data
+            'hotels': HotelDetailSerializer(hotels, many=True).data,
         })

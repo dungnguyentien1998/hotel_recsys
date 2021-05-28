@@ -12,6 +12,7 @@ class Complaint(BaseModel):
     content = models.TextField(blank=True, max_length=settings.AREA_FIELD_MAX_LEN)
     user = models.ForeignKey(User, related_name='complaints', on_delete=models.SET_NULL, null=True)
     hotel = models.ForeignKey(Hotel, related_name='complaints', on_delete=models.SET_NULL, null=True)
+    is_processed = models.BooleanField(default=False)
 
     @property
     def user_name(self):

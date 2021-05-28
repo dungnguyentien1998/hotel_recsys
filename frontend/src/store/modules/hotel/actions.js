@@ -59,5 +59,11 @@ export default {
         return api.put(`admin/hotels/${uuid}`, form).then(res => {
             context.commit('updateHotel', res)
         })
-    }
+    },
+    notifyHotels: context => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get('notifications/hotels').then(res => {
+            context.commit('notifyHotels', res)
+        })
+    },
 }

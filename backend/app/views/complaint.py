@@ -44,6 +44,18 @@ class ComplaintDetail(APIView):
             'complaint': ComplaintDetailSerializer(complaint).data
         })
 
+    def put(self, request, hotel_id, complaint_id):
+        hotel = models.Hotel.objects.get(uuid=hotel_id)
+        complaint = models.Complaint.objects.get(uuid=complaint_id, hotel_id=hotel.uuid)
+        # self.check_object_permissions(request=request, obj=review)
+        serializer = ComplaintSerializer(data=request.data)
+        validate_serializer(serializer=serializer)
+        review = serializer.update(instance=complaint, validated_data=serializer.validated_data)
+        return Response({
+            'success': True,
+            'review': ComplaintDetailSerializer(review).data
+        })
+
     # Delete complaint
     def delete(self, request, hotel_id, complaint_id):
         hotel = models.Hotel.objects.get(uuid=hotel_id)

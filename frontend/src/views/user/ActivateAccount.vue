@@ -62,6 +62,13 @@ export default {
             },
         }
     },
+    created() {
+        this.$bvToast.toast(this.$t('user.register.success.message'), {
+            title: this.$t('user.register.success.title'),
+            autoHideDelay: 5000,
+            variant: 'success'
+        })
+    },
     methods: {
         onSubmit: function () {
             if (this.$v.form.$anyError) {

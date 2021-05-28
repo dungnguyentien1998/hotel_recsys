@@ -21,6 +21,7 @@
 
             <b-navbar-brand
                 v-if="!loggedIn"
+                href="/login"
             >
                 <img
                     src="../assets/hotel.png"
@@ -62,6 +63,17 @@
                     <!--                        {{ $t('navbar.reply') }}-->
                     <!--                    </b-nav-item>-->
                     <b-nav-item
+                        v-if="loggedIn && roleHotelier"
+                        id="notification"
+                        style="margin:5px; font-weight: bold"
+                        href="/notification/hotels"
+                    >
+                        {{ $t('navbar.notification') }}
+                        <b-badge variant="primary">
+                            {{ notify_count }}
+                        </b-badge>
+                    </b-nav-item>
+                    <b-nav-item
                         v-if="loggedIn && roleAdmin"
                         id="user"
                         style="margin:5px; font-weight: bold"
@@ -76,9 +88,9 @@
                         href="/admin/hotels"
                     >
                         {{ $t('navbar.hotel') }}
-                        <!--                        <b-badge variant="primary">-->
-                        <!--                            {{ count }}-->
-                        <!--                        </b-badge>-->
+                        <b-badge variant="primary">
+                            {{ count }}
+                        </b-badge>
                     </b-nav-item>
                 </b-navbar-nav>
 
@@ -160,6 +172,9 @@ export default {
     computed: {
         count: function () {
             return this.$store.getters['hotel/hotels'].length
+        },
+        notify_count: function() {
+            return this.$store.getters['hotel/notify_hotels'].length
         },
         // Check if user logged in
         loggedIn: function () {

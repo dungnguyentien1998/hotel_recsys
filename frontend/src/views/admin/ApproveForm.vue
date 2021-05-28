@@ -1,25 +1,24 @@
 <template>
     <b-form>
         <b-form-group>
-            <label class="required">Approve or reject this request</label>
+            <label class="required">{{ $t('hotel.hotel.approveChoice') }}: </label>
             <b-form-radio-group
                 v-model="$v.form.status.$model"
                 :state="validateState('status')"
             >
                 <b-form-radio value="active">
-                    Activate
+                    {{ $t('hotel.hotel.approveBtn') }}
                 </b-form-radio>
                 <b-form-radio value="reject">
-                    Reject
+                    {{ $t('hotel.hotel.rejectBtn') }}
                 </b-form-radio>
             </b-form-radio-group>
         </b-form-group>
         <b-form-group>
-            <label class="required">{{ $t('review.reviewForm.content') }}</label>
+            <label class="required">{{ $t('hotel.hotel.reason') }}: </label>
             <b-form-textarea
                 v-model="$v.form.reject_reason.$model"
                 :state="validateState('reject_reason')"
-                :placeholder="$t('review.reviewForm.contentPlaceholder')"
                 rows="3"
                 max-rows="6"
                 type="text"
