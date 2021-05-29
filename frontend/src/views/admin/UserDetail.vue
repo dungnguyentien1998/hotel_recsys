@@ -205,13 +205,7 @@ export default {
         }
     },
     computed: {
-        // userAddress() {
-        //     if (this.user.address == null || this.user.address === '') {
-        //         return this.user.ward + ", " + this.user.district + ", " + this.user.city
-        //     } else {
-        //         return this.user.address + ", " + this.user.ward + ", " + this.user.district + ", " + this.user.city
-        //     }
-        // }
+
     },
     methods: {
         getAddress: function (address, ward, district, city) {
@@ -240,12 +234,9 @@ export default {
                 return address + ", " + ward + ", " + district + ", " + city
             }
         },
-        // convertDate: function (date) {
-        //     return new Date(date).toDateString()
-        // },
         convertDate: function(date_string) {
             let date = new Date(date_string)
-            let format_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            let format_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
             return format_date;
         },
         getRole: function(role) {

@@ -75,7 +75,7 @@
                     <small
                         class="d-block text-right"
                     >
-                        {{ complaint.userName }} - {{ complaint.email }}
+                        {{ complaint.userName }} - {{ complaint.tel }} - {{ complaint.email }}
                     </small>
                 </div>
             </b-list-group-item>

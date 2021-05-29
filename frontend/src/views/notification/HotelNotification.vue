@@ -89,6 +89,10 @@ export default {
                 this.hotels.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })
+                // let count = this.$store.getters['hotel/count_hotelier']
+                let count = this.$store.getters['hotel/notify_hotels'].length
+                this.$store.commit('hotel/setHotelierCount', 0)
+                this.$store.commit('hotel/setOldHotelierCount', count)
                 this.subcribe()
             })
     },
@@ -142,7 +146,14 @@ export default {
             });
             pusher.subscribe('a_channel_1');
             pusher.bind('an_event_1', data => {
-                this.$store.commit('hotel/saveNotifyHotel', data)
+                let user_id = this.$store.getters['user/user'].uuid
+                let owner_id = data.hotel.user
+                if (user_id === owner_id) {
+                    this.$store.commit('hotel/saveNotifyHotel', data)
+                }
+                let count = this.$store.getters['hotel/notify_hotels'].length
+                let old_count = this.$store.getters['hotel/old_count_hotelier']
+                this.$store.commit('hotel/setHotelierCount', count - old_count)
                 console.log(this.hotels.length)
             })
         }

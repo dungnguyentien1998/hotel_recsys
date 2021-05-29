@@ -188,16 +188,6 @@ export default {
         }
     },
     computed: {
-        // typeOptions() {
-        //     let opts = []
-        //     const types = this.$store.getters['type/types']
-        //     opts.push({value: null, text: '-----'})
-        //     for (let option in this.$store.getters['type/types']) {
-        //         const room_type = types[option].roomType
-        //         opts.push({value: room_type, text: room_type})
-        //     }
-        //     return opts
-        // },
         totalPrice() {
             let sum = 0
             if (this.form.check_in_time === null || this.form.check_out_time === null) {
@@ -426,6 +416,7 @@ export default {
                     // localStorage.setItem("checkOut", this.form.check_out_time)
                     this.$store.commit('booking/setCheckIn', this.form.check_in_time)
                     this.$store.commit('booking/setCheckOut', this.form.check_out_time)
+                    this.$store.commit('booking/setHotelId', this.form.hotel_id)
                     // Handle create booking
                     this.$store.dispatch('booking/resetStatus')
                     this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {

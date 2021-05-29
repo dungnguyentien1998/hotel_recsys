@@ -76,5 +76,18 @@ class Hotel(BaseModel):
         else:
             return round(sum/len(reviews), 1)
 
+    @property
+    def num_new_bookings(self):
+        from app.models.booking import Booking
+        from app.models.booking_room import BookingRoom
+        bookings = Booking.objects.filter(hotel_id=self.uuid)
+        count = 0
+        for booking in bookings:
+            booking_rooms = BookingRoom.objects.filter(booking_id=booking.uuid)
+            if len(booking_rooms) <= 0:
+                count = count + 1
+
+        return count
+
     class Meta:
         db_table = 'hotel'

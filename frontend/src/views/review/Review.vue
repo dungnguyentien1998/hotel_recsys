@@ -10,6 +10,7 @@
                 {{ $t('review.review.createBtn') }}
             </b-button>
         </div>
+        <br>
         <b-list-group>
             <!--        <span class="font-weight-bolder">-->
             <!--            {{ reviews.length }} {{ $tc('hotel.hotel.review', reviews.length) }}-->

@@ -69,7 +69,10 @@
                         href="/notification/hotels"
                     >
                         {{ $t('navbar.notification') }}
-                        <b-badge variant="primary">
+                        <b-badge
+                            v-if="notify_count>0"
+                            variant="primary"
+                        >
                             {{ notify_count }}
                         </b-badge>
                     </b-nav-item>
@@ -88,7 +91,10 @@
                         href="/admin/hotels"
                     >
                         {{ $t('navbar.hotel') }}
-                        <b-badge variant="primary">
+                        <b-badge
+                            v-if="count>0"
+                            variant="primary"
+                        >
                             {{ count }}
                         </b-badge>
                     </b-nav-item>
@@ -174,7 +180,7 @@ export default {
             return this.$store.getters['hotel/hotels'].length
         },
         notify_count: function() {
-            return this.$store.getters['hotel/notify_hotels'].length
+            return this.$store.getters['hotel/count_hotelier']
         },
         // Check if user logged in
         loggedIn: function () {
@@ -218,13 +224,16 @@ export default {
     },
     beforeCreate() {
         if (localStorage.getItem("language") === null) {
-            localStorage.setItem("language", "en")
+            localStorage.setItem("language", "vi")
         }
     },
     created() {
 
     },
     methods: {
+        // test: function() {
+        //     this.$router.push("/notification/hotels")
+        // },
         // Change to vietnamese
         localeToVi: function () {
             this.$i18n.locale = 'vi'

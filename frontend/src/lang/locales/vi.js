@@ -92,7 +92,7 @@ export default {
             loginLink: 'Đăng nhập',
             success: {
                 title: 'Thành công',
-                message: 'Token đã được gửi vào email của bạn'
+                message: 'Mã xác thực đã được gửi vào email của bạn'
             },
             errors: {
                 title: 'Lỗi đăng ký',
@@ -154,6 +154,7 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            submit: 'Xác nhận',
             ownerName: 'Chủ khách sạn: ',
             ownerTel: 'Điện thoại: ',
             ownerEmail: 'Email: ',
@@ -179,6 +180,7 @@ export default {
             room: 'phòng | phòng',
             review: 'đánh giá | đánh giá',
             complaint: 'khiếu nại | khiếu nại',
+            new_bookings: 'đặt phòng mới | đặt phòng mới',
             amenities: 'Tiện nghi: ',
             updateBtn: 'Cập nhật',
             deleteBtn: 'Xóa',

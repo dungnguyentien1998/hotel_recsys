@@ -10,11 +10,11 @@
                     class="col-12"
                 >
                     <div class="form-row">
-                        <label class="required col-sm-2 col-form-label">{{ $t('user.login.token') }}</label>
+                        <label class="required col-sm-3 col-form-label">{{ $t('user.login.token') }}</label>
                         <b-form-input
                             id="token"
                             v-model="$v.form.token.$model"
-                            class="form-control col-sm-10"
+                            class="form-control col-sm-9"
                             :state="validateState('token')"
                             :placeholder="$t('user.register.tokenPlaceholder')"
                             type="text"

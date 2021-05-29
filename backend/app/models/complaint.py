@@ -22,5 +22,9 @@ class Complaint(BaseModel):
     def email(self):
         return self.user.email
 
+    @property
+    def tel(self):
+        return self.user.tel
+
     class Meta:
         db_table = 'complaint'

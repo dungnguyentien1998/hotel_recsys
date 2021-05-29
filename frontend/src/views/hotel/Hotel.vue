@@ -260,11 +260,17 @@
                                 {{ getAddress(hotel.address, hotel.ward, hotel.district, hotel.city) }}
                             </span>
                         </p>
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            variant="primary"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numRooms }} {{ $tc('hotel.hotel.room', hotel.numRooms) }}-->
+                        <!--                        </b-badge>-->
                         <b-badge
                             v-if="roleHotelier"
                             variant="primary"
                         >
-                            {{ hotel.numRooms }} {{ $tc('hotel.hotel.room', hotel.numRooms) }}
+                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}
                         </b-badge>
                         <b-badge
                             v-if="roleHotelier"
@@ -423,6 +429,7 @@ import {Carousel, Slide} from 'vue-carousel'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import json from '../../mixin/data/db_en.json'
+import Pusher from "pusher-js";
 
 library.add(faSearch)
 
@@ -502,10 +509,26 @@ export default {
                 return a.name.localeCompare(b.name) || b.star - a.star
             })
         })
-        this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
-            this.recommendationsLogin = this.$store.getters['recommendation/recommendationsLogin']
-            this.recommendationsLogin.sort(this.compare)
-        })
+        if (this.$store.getters['user/user'].role === 'user') {
+            this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
+                this.recommendationsLogin = this.$store.getters['recommendation/recommendationsLogin']
+                this.recommendationsLogin.sort(this.compare)
+            })
+        }
+        // Repeat code in Hotel Notification
+        if (this.$store.getters['user/user'].role === 'hotelier') {
+            this.$store.dispatch('hotel/notifyHotels')
+                .then(() => {
+                    this.hotels = this.$store.getters['hotel/notify_hotels']
+                    this.hotels.sort(function (a,b) {
+                        return new Date(b.created) - new Date(a.created)
+                    })
+                    let count = this.$store.getters['hotel/notify_hotels'].length
+                    // this.$store.commit('hotel/setHotelierCount', count)
+                    this.$store.commit('hotel/setOldHotelierCount', count)
+                    this.subcribe()
+                })
+        }
     },
     methods: {
         getAddress: function (address, ward, district, city) {
@@ -625,6 +648,23 @@ export default {
                 return  -1;
             }
             return 0;
+        },
+        subcribe() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel_1');
+            pusher.bind('an_event_1', data => {
+                let user_id = this.$store.getters['user/user'].uuid
+                let owner_id = data.hotel.user
+                if (user_id === owner_id) {
+                    this.$store.commit('hotel/saveNotifyHotel', data)
+                }
+                let count = this.$store.getters['hotel/notify_hotels'].length
+                let old_count = this.$store.getters['hotel/old_count_hotelier']
+                this.$store.commit('hotel/setHotelierCount', count - old_count)
+                console.log(this.hotels.length)
+            })
         }
     },
 }

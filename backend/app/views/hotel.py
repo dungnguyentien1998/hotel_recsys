@@ -14,17 +14,17 @@ class Hotel(APIView):
     # List hotels
     def get(self, request):
         user = request.user
-        # hotels = models.Hotel.objects.filter(is_active=True)
+        is_hotelier = False
         hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
-        if user.role == models.Role.HOTELIER:
-            # hotels = models.Hotel.objects.filter(user_id=user.uuid, is_active=True)
-            hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
-        if user.role == models.Role.ADMIN:
-            # hotels = models.Hotel.objects.filter(is_active=False)
-            hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
+        if not user.is_anonymous:
+            if user.role == models.Role.HOTELIER:
+                hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
+                is_hotelier = True
+            if user.role == models.Role.ADMIN:
+                hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
         return Response({
             'success': True,
-            'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if user.role == models.Role.HOTELIER
+            'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if is_hotelier == True
             else HotelDetailSerializer(hotels, many=True).data,
             'count': len(hotels)
         })
@@ -103,7 +103,8 @@ class HotelActive(APIView):
 class HotelNotification(APIView):
     def get(self, request):
         user = request.user
-        hotels = models.Hotel.objects.filter(Q(status=models.Status.ACTIVE) | Q(status=models.Status.REJECT), user_id=user.uuid)
+        hotels = models.Hotel.objects.filter(Q(status=models.Status.ACTIVE) | Q(status=models.Status.REJECT),
+                                             user_id=user.uuid)
         return Response({
             'success': True,
             'hotels': HotelDetailSerializer(hotels, many=True).data,

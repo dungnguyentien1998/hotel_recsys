@@ -154,6 +154,7 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            submit: 'Submit',
             ownerName: 'Owner: ',
             ownerTel: 'Tel: ',
             ownerEmail: 'Email: ',
@@ -179,6 +180,7 @@ export default {
             room: 'room | rooms',
             review: 'review | reviews',
             complaint: 'complaint | complaints',
+            new_bookings: 'new booking | new bookings',
             amenities: 'Amenities: ',
             updateBtn: 'Update',
             deleteBtn: 'Delete',

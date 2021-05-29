@@ -3,5 +3,7 @@ export default {
     status: '',
     hotels: [],
     count_admin: 0,
-    notify_hotels: []
+    notify_hotels: [],
+    count_hotelier: 0,
+    old_count_hotelier: 0,
 }

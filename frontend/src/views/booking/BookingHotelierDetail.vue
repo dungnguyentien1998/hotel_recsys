@@ -280,16 +280,17 @@ export default {
     data: function () {
         // const bookingId = localStorage.getItem("bookingId")
         const bookingId = this.$store.getters['booking/booking_id']
-        const types = this.$store.getters['booking/types']
-        let room_numbers = []
-        for (let i = 0; i < types.length; i++) {
-            room_numbers.push([])
-        }
+        // const types = this.$store.getters['booking/types']
+        // let room_numbers = []
+        // for (let i = 0; i < types.length; i++) {
+        //     room_numbers.push([])
+        // }
         return {
             types: [],
             booking_types: [],
             booking: this.$store.getters['booking/bookings'].filter(booking => (booking.uuid === bookingId))[0],
-            room_numbers: room_numbers,
+            // room_numbers: room_numbers,
+            room_numbers: [],
             form: {
 
             }
@@ -361,6 +362,9 @@ export default {
         this.$store.dispatch('booking/listTypes', {hotelId: this.$route.params.uuid, bookingId: this.booking.uuid})
             .then(() => {
                 this.booking_types = this.$store.getters['booking/types']
+                for (let i = 0; i < this.booking_types.length; i++) {
+                    this.room_numbers.push([])
+                }
             })
         this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: this.booking.uuid})
             .then(() => {
@@ -412,42 +416,6 @@ export default {
             for (let i = 0; i < this.booking_types.length; i++) {
                 temp.push({'type': this.booking_types[i].roomType, 'room_number': this.booking_types[i].roomNumber,
                 'amount': this.booking_types[i].amount, 'room_booked': this.booking_types[i].roomBooked})
-            }
-            return temp
-        },
-        testDetails: function () {
-            const types = this.booking.roomType
-            // const numbers = this.booking.roomNumber
-            let unique_types = types.filter(this.onlyUnique)
-            let temp = []
-            for (let j = 0; j < unique_types.length; j++) {
-                let count = 0
-                for (let i = 0; i < types.length; i++) {
-                    if (types[i] === unique_types[j]) {
-                        count += 1
-                    }
-                }
-                // let room_numbers = []
-                // for (let i = 0; i < numbers.length; i++) {
-                //     if (types[i] === unique_types[j]) {
-                //         room_numbers.push(numbers[i])
-                //     }
-                // }
-                let capacity = 0
-                let price = 0
-                let amenities = []
-                for (let option in this.types) {
-                    if (this.types[option].roomType === unique_types[j]) {
-                        capacity = this.types[option].capacity
-                        price = this.types[option].price
-                        amenities = this.types[option].amenities
-                        break
-                    }
-                }
-                temp.push({
-                    'type': unique_types[j], 'amount': count, 'capacity': capacity, 'price': price,
-                    'amenities': amenities
-                })
             }
             return temp
         },

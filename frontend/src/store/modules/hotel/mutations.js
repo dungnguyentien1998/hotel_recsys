@@ -45,6 +45,12 @@ export default {
     setCount: (state, payload) => {
         state.count_admin = payload
     },
+    setHotelierCount: (state, payload) => {
+        state.count_hotelier = payload
+    },
+    setOldHotelierCount: (state, payload) => {
+        state.old_count_hotelier = payload
+    },
     saveHotel: (state, payload) => {
         if (payload.success) {
             state.hotels.push(payload.hotel)

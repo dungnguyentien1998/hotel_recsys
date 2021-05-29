@@ -184,6 +184,7 @@ import UserDetail from "@/views/admin/UserDetail";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import DeactivateForm from "@/views/admin/DeactivateForm";
+import Pusher from "pusher-js";
 library.add(faSearch)
 
 
@@ -276,6 +277,15 @@ export default {
                 this.users.sort(this.compare)
                 this.filterUsers = this.users
             })
+        // Repeat code in Hotel Manage
+        this.$store.dispatch('hotel/listHotels').then(() => {
+            this.hotels = this.$store.getters['hotel/hotels']
+            this.hotels.sort(function (a,b) {
+                return new Date(b.created) - new Date(a.created)
+            })
+            this.filterHotels = this.hotels
+            this.subcribe()
+        })
     },
     methods: {
         // Convert to date string
@@ -344,6 +354,17 @@ export default {
                     })
                     setTimeout(location.reload.bind(location), 2000)
                 }
+            })
+        },
+        subcribe() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event', data => {
+                this.count = data.count - this.hotels.length
+                this.$store.commit('hotel/setCount', data.count)
+                this.$store.commit('hotel/saveHotel', data)
             })
         }
     }

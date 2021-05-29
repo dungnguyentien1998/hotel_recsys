@@ -29,10 +29,11 @@ class HotelierHotelDetailSerializer(serializers.ModelSerializer):
     num_complaints = serializers.ReadOnlyField()
     num_reviews = serializers.ReadOnlyField()
     rating = serializers.ReadOnlyField()
+    num_new_bookings = serializers.ReadOnlyField()
 
     class Meta:
         model = Hotel
-        fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating']
+        fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating', 'num_new_bookings']
 
 
 class HotelDetailSerializer(serializers.ModelSerializer):

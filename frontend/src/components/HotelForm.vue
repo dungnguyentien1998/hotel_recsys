@@ -366,8 +366,7 @@ export default {
                                     autoHideDelay: 2000,
                                     variant: 'success'
                                 })
-                                setTimeout(function() {$('#modal-create').modal('hide');}, 2000);
-                                // this.$bvModal.hide(`modal-create`)
+                                setTimeout(() => this.$bvModal.hide(`modal-create`), 2000)
                             }
                         })
                 }

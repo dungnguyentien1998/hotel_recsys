@@ -29,7 +29,7 @@
             type="button"
             @click="onSubmit"
         >
-            {{ $t('review.reviewForm.submitBtn') }}
+            {{ $t('hotel.hotel.submit') }}
         </button>
     </b-form>
 </template>
@@ -91,8 +91,12 @@ export default {
                             variant: 'success'
                         })
                     }
-                    // this.$bvModal.hide(`modal-create`)
-                    setTimeout(location.reload.bind(location), 2000)
+                    const path = this.$route.path
+                    if (path === '/admin/hotels') {
+                        setTimeout(location.reload.bind(location), 2000)
+                    } else {
+                        setTimeout(() => this.$router.push('/admin/hotels'), 2000)
+                    }
                 }
             })
         }

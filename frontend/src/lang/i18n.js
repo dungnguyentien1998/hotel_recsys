@@ -8,7 +8,7 @@ Vue.use(VueI18n)
 // Internationalization function
 const i18n = new VueI18n({
     locale: localStorage.getItem("language"),
-    fallbackLocale: 'en',
+    fallbackLocale: 'vi',
     messages: {
         en: en,
         vi: vi
