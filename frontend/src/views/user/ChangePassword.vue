@@ -85,6 +85,13 @@
                         <!--                        </button>-->
                     </div>
                 </b-form-group>
+                <b-form-checkbox
+                    style="float: right"
+                    @change="showPassword"
+                >
+                    {{ $t('user.login.showPassword') }}
+                </b-form-checkbox>
+                <br>
                 <b-form-group>
                     <b-button
                         variant="success"
@@ -162,6 +169,20 @@ export default {
                 x.type = "text"
             } else {
                 x.type = "password"
+            }
+
+            let y = document.getElementById("old-password")
+            if (y.type === "password") {
+                y.type = "text"
+            } else {
+                y.type = "password"
+            }
+
+            let z = document.getElementById("confirm-password")
+            if (z.type === "password") {
+                z.type = "text"
+            } else {
+                z.type = "password"
             }
         },
         showPasswordConfirm: function () {

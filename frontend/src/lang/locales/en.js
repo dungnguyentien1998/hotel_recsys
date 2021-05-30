@@ -154,6 +154,7 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            name: 'Hotel name',
             submit: 'Submit',
             ownerName: 'Owner: ',
             ownerTel: 'Tel: ',
@@ -211,7 +212,7 @@ export default {
             }
         },
         hotelForm: {
-            name: 'Name:',
+            name: 'Hotel name:',
             namePlaceholder: 'Enter hotel name',
             star: 'Star:',
             city: 'City:',
@@ -219,7 +220,7 @@ export default {
             ward: 'Ward:',
             address: 'Address:',
             addressPlaceholder: 'Enter address (No and street)',
-            image: 'Image:',
+            image: 'Hotel image:',
             imagePlaceholder: 'Choose a file',
             imageDropPlaceholder: 'Drop file here',
             amenities: 'Amenities:',

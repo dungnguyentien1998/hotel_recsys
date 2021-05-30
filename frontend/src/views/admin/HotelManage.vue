@@ -18,11 +18,19 @@
                     content-cols-lg="7"
                 >
                     <b-form-input
-                        id="name"
                         v-model="$v.form.name.$model"
                         :placeholder="$t('hotel.hotelForm.namePlaceholder')"
-                        type="text"
+                        list="name-list-id"
+                        type="search"
                     />
+                    <datalist id="name-list-id">
+                        <option
+                            v-for="hotel in hotels"
+                            :key="hotel.uuid"
+                        >
+                            {{ hotel.name }}
+                        </option>
+                    </datalist>
                 </b-form-group>
             </b-form>
             <div>
@@ -103,61 +111,61 @@
                                     :options="wards"
                                 />
                             </b-form-group>
-                            <b-form-group
-                                id="amenities-group"
-                                :label="$t('hotel.hotelForm.amenities')"
-                                label-for="amenities"
-                                label-cols-sm="2"
-                                label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
-                            >
-                                <b-form-tags
-                                    id="amenities"
-                                    v-model="form.amenities"
-                                    add-on-change
-                                    no-outer-focus
-                                    size="lg"
-                                >
-                                    <template #default="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-                                        <ul
-                                            v-if="tags.length > 0"
-                                            class="mb-2 list-inline d-inline-block"
-                                        >
-                                            <li
-                                                v-for="tag in tags"
-                                                :key="tag"
-                                                class="list-inline-item"
-                                            >
-                                                <b-form-tag
-                                                    :title="tag"
-                                                    variant="success"
-                                                    :disabled="disabled"
-                                                    @remove="removeTag(tag)"
-                                                >
-                                                    {{ tag }}
-                                                </b-form-tag>
-                                            </li>
-                                        </ul>
-                                        <b-form-select
-                                            v-bind="inputAttrs"
-                                            :options="availableOptions"
-                                            :disabled="disabled || availableOptions.length === 0"
-                                            size="md"
-                                            v-on="inputHandlers"
-                                        >
-                                            <template #first>
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                >
-                                                    {{ $t('hotel.hotelForm.amenitiesPlaceholder') }}
-                                                </option>
-                                            </template>
-                                        </b-form-select>
-                                    </template>
-                                </b-form-tags>
-                            </b-form-group>
+                            <!--                            <b-form-group-->
+                            <!--                                id="amenities-group"-->
+                            <!--                                :label="$t('hotel.hotelForm.amenities')"-->
+                            <!--                                label-for="amenities"-->
+                            <!--                                label-cols-sm="2"-->
+                            <!--                                label-cols-lg="2"-->
+                            <!--                                content-cols-sm="7"-->
+                            <!--                                content-cols-lg="7"-->
+                            <!--                            >-->
+                            <!--                                <b-form-tags-->
+                            <!--                                    id="amenities"-->
+                            <!--                                    v-model="form.amenities"-->
+                            <!--                                    add-on-change-->
+                            <!--                                    no-outer-focus-->
+                            <!--                                    size="lg"-->
+                            <!--                                >-->
+                            <!--                                    <template #default="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">-->
+                            <!--                                        <ul-->
+                            <!--                                            v-if="tags.length > 0"-->
+                            <!--                                            class="mb-2 list-inline d-inline-block"-->
+                            <!--                                        >-->
+                            <!--                                            <li-->
+                            <!--                                                v-for="tag in tags"-->
+                            <!--                                                :key="tag"-->
+                            <!--                                                class="list-inline-item"-->
+                            <!--                                            >-->
+                            <!--                                                <b-form-tag-->
+                            <!--                                                    :title="tag"-->
+                            <!--                                                    variant="success"-->
+                            <!--                                                    :disabled="disabled"-->
+                            <!--                                                    @remove="removeTag(tag)"-->
+                            <!--                                                >-->
+                            <!--                                                    {{ tag }}-->
+                            <!--                                                </b-form-tag>-->
+                            <!--                                            </li>-->
+                            <!--                                        </ul>-->
+                            <!--                                        <b-form-select-->
+                            <!--                                            v-bind="inputAttrs"-->
+                            <!--                                            :options="availableOptions"-->
+                            <!--                                            :disabled="disabled || availableOptions.length === 0"-->
+                            <!--                                            size="md"-->
+                            <!--                                            v-on="inputHandlers"-->
+                            <!--                                        >-->
+                            <!--                                            <template #first>-->
+                            <!--                                                <option-->
+                            <!--                                                    value=""-->
+                            <!--                                                    disabled-->
+                            <!--                                                >-->
+                            <!--                                                    {{ $t('hotel.hotelForm.amenitiesPlaceholder') }}-->
+                            <!--                                                </option>-->
+                            <!--                                            </template>-->
+                            <!--                                        </b-form-select>-->
+                            <!--                                    </template>-->
+                            <!--                                </b-form-tags>-->
+                            <!--                            </b-form-group>-->
                         </b-form>
                     </b-card>
                 </b-collapse>
@@ -361,30 +369,30 @@ export default {
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            if (address == null || address === "") {
-                return ward + ", " + district + ", " + city
-            } else {
-                return address + ", " + ward + ", " + district + ", " + city
+            let city_en = city
+            let district_en = district
+            let ward_en = ward
+            if (localStorage.getItem("language") === "en") {
+                let city_code = getProvinces().filter(option => option.name === city)[0].code
+                const provinces = json.province
+                city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+                let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+                const dists = json.district
+                district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+                let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+                const communes = json.commune
+                ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
             }
+            if (address == null || address === "") {
+                return ward_en + ", " + district_en + ", " + city_en
+            } else {
+                return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            }
+            // if (address == null || address === "") {
+            //     return ward + ", " + district + ", " + city
+            // } else {
+            //     return address + ", " + ward + ", " + district + ", " + city
+            // }
         },
         // Get hotel image
         hotelImage: function (uri) {

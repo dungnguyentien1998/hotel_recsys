@@ -18,7 +18,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.email') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ user.email }}
                     </span>
                 </div>
@@ -40,7 +40,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.name') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ user.name }}
                     </span>
                 </div>
@@ -62,7 +62,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.tel') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ user.tel }}
                     </span>
                 </div>
@@ -83,7 +83,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.birthday') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ convertDate(user.birthday) }}
                     </span>
                 </div>
@@ -105,7 +105,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.address') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ getAddress(user.address, user.ward, user.district, user.city) }}
                     </span>
                 </div>
@@ -127,7 +127,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.register.role') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ getRole(user.role) }}
                     </span>
                 </div>
@@ -148,7 +148,7 @@
                     <span class="font-weight-bolder">
                         {{ $t('user.user.created') }}
                     </span>
-                    <span class="text-secondary">
+                    <span>
                         {{ convertDate(user.created) }}
                     </span>
                 </div>
@@ -209,30 +209,30 @@ export default {
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            if (address == null || address === "") {
-                return ward + ", " + district + ", " + city
-            } else {
-                return address + ", " + ward + ", " + district + ", " + city
+            let city_en = city
+            let district_en = district
+            let ward_en = ward
+            if (localStorage.getItem("language") === "en") {
+                let city_code = getProvinces().filter(option => option.name === city)[0].code
+                const provinces = json.province
+                city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+                let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+                const dists = json.district
+                district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+                let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+                const communes = json.commune
+                ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
             }
+            if (address == null || address === "") {
+                return ward_en + ", " + district_en + ", " + city_en
+            } else {
+                return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            }
+            // if (address == null || address === "") {
+            //     return ward + ", " + district + ", " + city
+            // } else {
+            //     return address + ", " + ward + ", " + district + ", " + city
+            // }
         },
         convertDate: function(date_string) {
             let date = new Date(date_string)

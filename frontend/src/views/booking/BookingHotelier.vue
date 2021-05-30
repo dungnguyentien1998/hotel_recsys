@@ -3,247 +3,281 @@
         <h3>
             {{ $t('booking.booking.newTitle') }}
         </h3>
-        <b-list-group>
-            <b-list-group-item
-                v-for="booking in new_bookings"
-                :key="`${booking.uuid}`"
-                class="list-item"
+        <div>
+            <b-button
+                v-b-toggle.collapse-2
+                variant="primary"
+                class="btn-sm"
             >
-                <div>
-                    <h5 class="m-0 font-weight-bolder">
-                        {{ $t('booking.booking.userName') }}: {{ booking.userName }}
-                    </h5>
-                    <p>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userTel') }}:-->
-                        <!--                        </span>-->
-                        <img
-                            v-if="isNotNull(booking.userTel)"
-                            src="../../assets/phone.png"
-                            alt="phone"
-                            class="icon"
+                {{ $t('booking.booking.newTitle') }}
+            </b-button>
+            <b-collapse
+                id="collapse-2"
+                class="mt-2"
+                :visible="visibleNewBookings()"
+            >
+                <b-card>
+                    <b-list-group>
+                        <b-list-group-item
+                            v-for="booking in new_bookings"
+                            :key="`${booking.uuid}`"
+                            class="list-item"
                         >
-                        {{ booking.userTel }}
-                        <span
-                            v-if="isNotNull(booking.userTel)"
-                        >
-                            -
-                        </span>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userEmail') }}:-->
-                        <!--                        </span>-->
-                        <img
-                            src="../../assets/email.png"
-                            alt="email"
-                            class="icon"
-                        >
-                        {{ booking.userEmail }}
-                    </p>
-                    <p>
-                        <span class="font-weight-bolder">
-                            {{ $t('booking.booking.code') }}:
-                        </span>
-                        {{ booking.code }}
-                    </p>
-                    <!--                <p-->
-                    <!--                    class="p-inline"-->
-                    <!--                >-->
-                    <!--                    <span class="font-weight-bolder">-->
-                    <!--                        {{ $t('booking.booking.roomNumber') }}:-->
-                    <!--                    </span>-->
-                    <!--                </p>-->
-                    <!--                <ul class="u-inline">-->
-                    <!--                    <li-->
-                    <!--                        v-for="number in booking.roomNumber"-->
-                    <!--                        :key="number"-->
-                    <!--                        style="display: inline-block; margin: 5px; text-align: left"-->
-                    <!--                    >-->
-                    <!--                        {{ number }}-->
-                    <!--                    </li>-->
-                    <!--                </ul>-->
-                    <ul
-                        id="time"
-                        style="padding: 0; list-style-type: none"
-                    >
-                        <li>
-                            <img
-                                src="../../assets/schedule.png"
-                                alt="Check in date"
-                                class="icon"
-                            >
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.checkIn') }}:
-                            </span>
-                            {{ toDate(booking.checkInTime) }}
-                        </li>
-                        <li>
-                            <img
-                                src="../../assets/schedule.png"
-                                alt="Check out date"
-                                class="icon"
-                            >
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.checkOut') }}:
-                            </span>
-                            {{ toDate(booking.checkOutTime) }}
-                        </li>
-                    </ul>
-                    <br>
-                    <br>
-                    <div>
-                        <b-button
-                            variant="primary"
-                            href="#"
-                            size="sm"
-                            @click="onHandle(booking.uuid)"
-                        >
-                            {{ $t('booking.booking.viewBtn') }}
-                        </b-button>
-                        <!--                        <b-button-->
-                        <!--                            href="#"-->
-                        <!--                            variant="danger"-->
-                        <!--                            size="sm"-->
-                        <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                        <!--                        </b-button>-->
-                        <!--                        <b-modal-->
-                        <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                        <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                        <!--                            size="lg"-->
-                        <!--                            :ok-title="$t('button.submit')"-->
-                        <!--                            :cancel-title="$t('button.unsubmit')"-->
-                        <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                        <!--                        </b-modal>-->
-                    </div>
-                </div>
-            </b-list-group-item>
-        </b-list-group>
+                            <div>
+                                <h5 class="m-0 font-weight-bolder">
+                                    {{ $t('booking.booking.userName') }}: {{ booking.userName }}
+                                </h5>
+                                <p>
+                                    <!--                        <span class="font-weight-bolder">-->
+                                    <!--                            {{ $t('booking.booking.userTel') }}:-->
+                                    <!--                        </span>-->
+                                    <img
+                                        v-if="isNotNull(booking.userTel)"
+                                        src="../../assets/phone.png"
+                                        alt="phone"
+                                        class="icon"
+                                    >
+                                    {{ booking.userTel }}
+                                    <span
+                                        v-if="isNotNull(booking.userTel)"
+                                    >
+                                        -
+                                    </span>
+                                    <!--                        <span class="font-weight-bolder">-->
+                                    <!--                            {{ $t('booking.booking.userEmail') }}:-->
+                                    <!--                        </span>-->
+                                    <img
+                                        src="../../assets/email.png"
+                                        alt="email"
+                                        class="icon"
+                                    >
+                                    {{ booking.userEmail }}
+                                </p>
+                                <p>
+                                    <span class="font-weight-bolder">
+                                        {{ $t('booking.booking.code') }}:
+                                    </span>
+                                    {{ booking.code }}
+                                </p>
+                                <!--                <p-->
+                                <!--                    class="p-inline"-->
+                                <!--                >-->
+                                <!--                    <span class="font-weight-bolder">-->
+                                <!--                        {{ $t('booking.booking.roomNumber') }}:-->
+                                <!--                    </span>-->
+                                <!--                </p>-->
+                                <!--                <ul class="u-inline">-->
+                                <!--                    <li-->
+                                <!--                        v-for="number in booking.roomNumber"-->
+                                <!--                        :key="number"-->
+                                <!--                        style="display: inline-block; margin: 5px; text-align: left"-->
+                                <!--                    >-->
+                                <!--                        {{ number }}-->
+                                <!--                    </li>-->
+                                <!--                </ul>-->
+                                <ul
+                                    id="time"
+                                    style="padding: 0; list-style-type: none"
+                                >
+                                    <li>
+                                        <img
+                                            src="../../assets/schedule.png"
+                                            alt="Check in date"
+                                            class="icon"
+                                        >
+                                        <span class="font-weight-bolder">
+                                            {{ $t('booking.booking.checkIn') }}:
+                                        </span>
+                                        {{ toDate(booking.checkInTime) }}
+                                    </li>
+                                    <li>
+                                        <img
+                                            src="../../assets/schedule.png"
+                                            alt="Check out date"
+                                            class="icon"
+                                        >
+                                        <span class="font-weight-bolder">
+                                            {{ $t('booking.booking.checkOut') }}:
+                                        </span>
+                                        {{ toDate(booking.checkOutTime) }}
+                                    </li>
+                                </ul>
+                                <br>
+                                <br>
+                                <div>
+                                    <b-button
+                                        variant="primary"
+                                        href="#"
+                                        size="sm"
+                                        @click="onHandle(booking.uuid)"
+                                    >
+                                        {{ $t('booking.booking.viewBtn') }}
+                                    </b-button>
+                                    <!--                        <b-button-->
+                                    <!--                            href="#"-->
+                                    <!--                            variant="danger"-->
+                                    <!--                            size="sm"-->
+                                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
+                                    <!--                        >-->
+                                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
+                                    <!--                        </b-button>-->
+                                    <!--                        <b-modal-->
+                                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
+                                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
+                                    <!--                            size="lg"-->
+                                    <!--                            :ok-title="$t('button.submit')"-->
+                                    <!--                            :cancel-title="$t('button.unsubmit')"-->
+                                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
+                                    <!--                        >-->
+                                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
+                                    <!--                        </b-modal>-->
+                                </div>
+                            </div>
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-card>
+            </b-collapse>
+        </div>
         <hr>
         <br>
         <h3>
             {{ $t('booking.booking.oldTitle') }}
         </h3>
-        <b-list-group>
-            <b-list-group-item
-                v-for="booking in getOldBookings()"
-                :key="`${booking.uuid}`"
-                class="list-item"
+        <div>
+            <b-button
+                v-b-toggle.collapse-3
+                variant="success"
+                class="btn-sm"
             >
-                <div>
-                    <h5 class="m-0 font-weight-bolder">
-                        {{ $t('booking.booking.userName') }}: {{ booking.userName }}
-                    </h5>
-                    <p>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userTel') }}:-->
-                        <!--                        </span>-->
-                        <img
-                            v-if="isNotNull(booking.userTel)"
-                            src="../../assets/phone.png"
-                            alt="phone"
-                            class="icon"
+                {{ $t('booking.booking.oldTitle') }}
+            </b-button>
+            <b-collapse
+                id="collapse-3"
+                class="mt-2"
+                :visible="visibleOldBookings()"
+            >
+                <b-card>
+                    <b-list-group>
+                        <b-list-group-item
+                            v-for="booking in getOldBookings()"
+                            :key="`${booking.uuid}`"
+                            class="list-item"
                         >
-                        {{ booking.userTel }}
-                        <span
-                            v-if="isNotNull(booking.userTel)"
-                        >
-                            -
-                        </span>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userEmail') }}:-->
-                        <!--                        </span>-->
-                        <img
-                            src="../../assets/email.png"
-                            alt="email"
-                            class="icon"
-                        >
-                        {{ booking.userEmail }}
-                    </p>
-                    <p>
-                        <span class="font-weight-bolder">
-                            {{ $t('booking.booking.code') }}:
-                        </span>
-                        {{ booking.code }}
-                    </p>
-                    <!--                <p-->
-                    <!--                    class="p-inline"-->
-                    <!--                >-->
-                    <!--                    <span class="font-weight-bolder">-->
-                    <!--                        {{ $t('booking.booking.roomNumber') }}:-->
-                    <!--                    </span>-->
-                    <!--                </p>-->
-                    <!--                <ul class="u-inline">-->
-                    <!--                    <li-->
-                    <!--                        v-for="number in booking.roomNumber"-->
-                    <!--                        :key="number"-->
-                    <!--                        style="display: inline-block; margin: 5px; text-align: left"-->
-                    <!--                    >-->
-                    <!--                        {{ number }}-->
-                    <!--                    </li>-->
-                    <!--                </ul>-->
-                    <ul
-                        id="time-1"
-                        style="padding: 0; list-style-type: none"
-                    >
-                        <li>
-                            <img
-                                src="../../assets/schedule.png"
-                                alt="Check in date"
-                                class="icon"
-                            >
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.checkIn') }}:
-                            </span>
-                            {{ toDate(booking.checkInTime) }}
-                        </li>
-                        <li>
-                            <img
-                                src="../../assets/schedule.png"
-                                alt="Check out date"
-                                class="icon"
-                            >
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.checkOut') }}:
-                            </span>
-                            {{ toDate(booking.checkOutTime) }}
-                        </li>
-                    </ul>
-                    <br>
-                    <br>
-                    <div>
-                        <b-button
-                            variant="primary"
-                            href="#"
-                            size="sm"
-                            @click="onHandle(booking.uuid)"
-                        >
-                            {{ $t('booking.booking.viewBtn') }}
-                        </b-button>
-                        <!--                        <b-button-->
-                        <!--                            href="#"-->
-                        <!--                            variant="danger"-->
-                        <!--                            size="sm"-->
-                        <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                        <!--                        </b-button>-->
-                        <!--                        <b-modal-->
-                        <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                        <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                        <!--                            size="lg"-->
-                        <!--                            :ok-title="$t('button.submit')"-->
-                        <!--                            :cancel-title="$t('button.unsubmit')"-->
-                        <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                        <!--                        </b-modal>-->
-                    </div>
-                </div>
-            </b-list-group-item>
-        </b-list-group>
+                            <div>
+                                <h5 class="m-0 font-weight-bolder">
+                                    {{ $t('booking.booking.userName') }}: {{ booking.userName }}
+                                </h5>
+                                <p>
+                                    <!--                        <span class="font-weight-bolder">-->
+                                    <!--                            {{ $t('booking.booking.userTel') }}:-->
+                                    <!--                        </span>-->
+                                    <img
+                                        v-if="isNotNull(booking.userTel)"
+                                        src="../../assets/phone.png"
+                                        alt="phone"
+                                        class="icon"
+                                    >
+                                    {{ booking.userTel }}
+                                    <span
+                                        v-if="isNotNull(booking.userTel)"
+                                    >
+                                        -
+                                    </span>
+                                    <!--                        <span class="font-weight-bolder">-->
+                                    <!--                            {{ $t('booking.booking.userEmail') }}:-->
+                                    <!--                        </span>-->
+                                    <img
+                                        src="../../assets/email.png"
+                                        alt="email"
+                                        class="icon"
+                                    >
+                                    {{ booking.userEmail }}
+                                </p>
+                                <p>
+                                    <span class="font-weight-bolder">
+                                        {{ $t('booking.booking.code') }}:
+                                    </span>
+                                    {{ booking.code }}
+                                </p>
+                                <!--                <p-->
+                                <!--                    class="p-inline"-->
+                                <!--                >-->
+                                <!--                    <span class="font-weight-bolder">-->
+                                <!--                        {{ $t('booking.booking.roomNumber') }}:-->
+                                <!--                    </span>-->
+                                <!--                </p>-->
+                                <!--                <ul class="u-inline">-->
+                                <!--                    <li-->
+                                <!--                        v-for="number in booking.roomNumber"-->
+                                <!--                        :key="number"-->
+                                <!--                        style="display: inline-block; margin: 5px; text-align: left"-->
+                                <!--                    >-->
+                                <!--                        {{ number }}-->
+                                <!--                    </li>-->
+                                <!--                </ul>-->
+                                <ul
+                                    id="time-1"
+                                    style="padding: 0; list-style-type: none"
+                                >
+                                    <li>
+                                        <img
+                                            src="../../assets/schedule.png"
+                                            alt="Check in date"
+                                            class="icon"
+                                        >
+                                        <span class="font-weight-bolder">
+                                            {{ $t('booking.booking.checkIn') }}:
+                                        </span>
+                                        {{ toDate(booking.checkInTime) }}
+                                    </li>
+                                    <li>
+                                        <img
+                                            src="../../assets/schedule.png"
+                                            alt="Check out date"
+                                            class="icon"
+                                        >
+                                        <span class="font-weight-bolder">
+                                            {{ $t('booking.booking.checkOut') }}:
+                                        </span>
+                                        {{ toDate(booking.checkOutTime) }}
+                                    </li>
+                                </ul>
+                                <br>
+                                <br>
+                                <div>
+                                    <b-button
+                                        variant="primary"
+                                        href="#"
+                                        size="sm"
+                                        @click="onHandle(booking.uuid)"
+                                    >
+                                        {{ $t('booking.booking.viewBtn') }}
+                                    </b-button>
+                                    <!--                        <b-button-->
+                                    <!--                            href="#"-->
+                                    <!--                            variant="danger"-->
+                                    <!--                            size="sm"-->
+                                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
+                                    <!--                        >-->
+                                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
+                                    <!--                        </b-button>-->
+                                    <!--                        <b-modal-->
+                                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
+                                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
+                                    <!--                            size="lg"-->
+                                    <!--                            :ok-title="$t('button.submit')"-->
+                                    <!--                            :cancel-title="$t('button.unsubmit')"-->
+                                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
+                                    <!--                        >-->
+                                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
+                                    <!--                        </b-modal>-->
+                                </div>
+                            </div>
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-card>
+            </b-collapse>
+        </div>
     </div>
 </template>
 
@@ -283,6 +317,13 @@ export default {
             })
     },
     methods: {
+        visibleNewBookings(){
+            return this.new_bookings.length > 0;
+        },
+        visibleOldBookings(){
+            const old_bookings = this.getOldBookings()
+            return old_bookings.length > 0;
+        },
         // Get date from datetime
         toDate: function (datetime) {
             let date = new Date(datetime);

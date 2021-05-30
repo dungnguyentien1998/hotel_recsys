@@ -154,6 +154,7 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            name: 'Tên khách sạn',
             submit: 'Xác nhận',
             ownerName: 'Chủ khách sạn: ',
             ownerTel: 'Điện thoại: ',
@@ -211,7 +212,7 @@ export default {
             }
         },
         hotelForm: {
-            name: 'Tên:',
+            name: 'Tên khách sạn:',
             namePlaceholder: 'Nhập tên khách sạn',
             star: 'Số sao:',
             city: 'Tỉnh/thành phố:',
@@ -219,7 +220,7 @@ export default {
             ward: 'Xã/phường:',
             address: 'Địa chỉ:',
             addressPlaceholder: 'Nhập địa chỉ (Số ..., đường ...)',
-            image: 'Ảnh:',
+            image: 'Ảnh khách sạn:',
             imagePlaceholder: 'Chọn ảnh',
             imageDropPlaceholder: 'Kéo tệp vào đây',
             amenities: 'Tiện ích:',
@@ -295,7 +296,7 @@ export default {
             price: 'Giá phòng (VND)',
             amenities: 'Tiện nghi',
             available: 'Có thể đặt',
-            rooms: 'Số lượng khách đặt',
+            rooms: 'Số lượng đã đặt',
             roomNumber: 'Lựa chọn phòng cho khách hàng',
             totalPrice: 'Tổng tiền',
             getAvailable: 'Xem phòng trống',

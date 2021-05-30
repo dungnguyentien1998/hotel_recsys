@@ -18,7 +18,7 @@
                 <span class="font-weight-bolder">
                     {{ $t('user.register.email') }}
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ user.email }}
                 </span>
             </div>
@@ -41,7 +41,7 @@
                 <span class="font-weight-bolder">
                     {{ $t('user.register.name') }}
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ user.name }}
                 </span>
             </div>
@@ -64,7 +64,7 @@
                 <span class="font-weight-bolder">
                     {{ $t('user.register.tel') }}
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ user.tel }}
                 </span>
             </div>
@@ -87,7 +87,7 @@
                 <span class="font-weight-bolder">
                     {{ $t('user.register.role') }}
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ getRole(user.role) }}
                 </span>
             </div>
