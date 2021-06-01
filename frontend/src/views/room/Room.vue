@@ -236,6 +236,7 @@
                                             :id="`accordion-amenities-${room.uuid}`"
                                             role="tabpanel"
                                             :accordion="`group-amenities-${roomAccordion(room.uuid)}`"
+                                            visible
                                         >
                                             <b-card-body>
                                                 <b-list-group>

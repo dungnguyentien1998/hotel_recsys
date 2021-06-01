@@ -290,7 +290,7 @@
                                 variant="primary"
                                 href="#"
                                 size="sm"
-                                style="width: 80px"
+                                style="width: 90px"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-update`)"
                             >
                                 {{ $t('hotel.hotel.updateBtn') }}
@@ -301,7 +301,7 @@
                                 variant="danger"
                                 href="#"
                                 size="sm"
-                                style="width: 80px"
+                                style="width: 90px"
                                 @click="$bvModal.show(`modal-${hotel.uuid}-delete`)"
                             >
                                 {{ $t('hotel.hotel.deleteBtn') }}

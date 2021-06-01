@@ -183,6 +183,7 @@ import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import {required} from 'vuelidate/lib/validators';
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
+import json from '../mixin/data/db_en.json'
 
 export default {
     name: "HotelForm",
@@ -268,18 +269,28 @@ export default {
     },
     created() {
         if (this.hotelExist) {
-            // Get districts from city
+            const dists = json.district
             this.districts = [
                 {value: null, text: '-----'},
                 ...getDistrictsByProvinceCode(this.form.city).map(district => {
-                    return {value: district.code, text: district.name}
+                    let trans_text = district.name
+                    if (localStorage.getItem("language") === "en") {
+                        let dist = dists.filter(option => option.idDistrict === district.code)[0]
+                        trans_text = dist.name
+                    }
+                    return {value: district.code, text: trans_text}
                 })
             ]
-            // Get wards from district
+            const communes = json.commune
             this.wards = [
                 {value: null, text: '-----'},
                 ...getWardsByDistrictCode(this.form.district).map(ward => {
-                    return {value: ward.code, text: ward.name}
+                    let trans_text = ward.name
+                    if (localStorage.getItem("language") === "en") {
+                        let commune = communes.filter(option => option.idCoummune === ward.code)[0]
+                        trans_text = commune.name
+                    }
+                    return {value: ward.code, text: trans_text}
                 })
             ]
         }

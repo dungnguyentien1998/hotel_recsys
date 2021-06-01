@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h3>
-            {{ $t('booking.booking.newTitle') }}
-        </h3>
+        <!--        <h3>-->
+        <!--            {{ $t('booking.booking.newTitle') }}-->
+        <!--        </h3>-->
         <div>
             <b-button
                 v-b-toggle.collapse-2
@@ -140,9 +140,9 @@
         </div>
         <hr>
         <br>
-        <h3>
-            {{ $t('booking.booking.oldTitle') }}
-        </h3>
+        <!--        <h3>-->
+        <!--            {{ $t('booking.booking.oldTitle') }}-->
+        <!--        </h3>-->
         <div>
             <b-button
                 v-b-toggle.collapse-3

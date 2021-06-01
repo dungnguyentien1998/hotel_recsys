@@ -107,7 +107,7 @@
             type="button"
             @click="onSubmit(user.uuid)"
         >
-            {{ $t('review.reviewForm.submitBtn') }}
+            {{ $t('hotel.hotel.submit') }}
         </button>
     </b-form>
 </template>

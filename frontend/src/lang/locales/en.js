@@ -17,7 +17,7 @@ export default {
         hotel: 'Approve hotel',
         changePassword: 'Change password',
         reply: 'Replies from hotels',
-        notification: 'Notifications'
+        notification: 'Approval results'
     },
     payment: {
         success: 'Thanks for booking!',
@@ -296,8 +296,10 @@ export default {
             price: 'Price (VND)',
             amenities: 'Amenities',
             available: 'Available',
-            rooms: 'Amount',
+            rooms: 'Booking amount',
+            hotelierRooms: 'Booking amount',
             roomNumber: 'Arrange rooms for customer',
+            room: 'Room',
             totalPrice: 'Total price',
             getAvailable: 'Get available',
             success: {

@@ -17,7 +17,7 @@ export default {
         hotel: 'Phê duyệt khách sạn',
         changePassword: 'Đổi mật khẩu',
         reply: 'Phản hồi từ khách sạn',
-        notification: 'Thông báo'
+        notification: 'Kết quả phê duyệt'
     },
     payment: {
         success: 'Cảm ơn bạn đã đặt phòng tại khách sạn của chúng tôi',
@@ -296,8 +296,10 @@ export default {
             price: 'Giá phòng (VND)',
             amenities: 'Tiện nghi',
             available: 'Có thể đặt',
-            rooms: 'Số lượng đã đặt',
-            roomNumber: 'Lựa chọn phòng cho khách hàng',
+            rooms: 'Số lượng phòng muốn đặt',
+            hotelierRooms: 'Số lượng phòng khách đặt',
+            roomNumber: 'Gán phòng cho khách hàng',
+            room: 'Phòng',
             totalPrice: 'Tổng tiền',
             getAvailable: 'Xem phòng trống',
             success: {

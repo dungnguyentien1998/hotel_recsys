@@ -1,7 +1,11 @@
 <template>
-    <layout>
+    <Layout>
         <template #content>
             <div>
+                <h3>
+                    {{ $t('booking.booking.detail') }}
+                </h3>
+                <hr>
                 <b-form>
                     <div>
                         <b-img
@@ -72,6 +76,8 @@
                             ({{ $t('booking.booking.description') }})
                         </div>
                     </div>
+                    <br>
+                    <br>
                     <div>
                         <b-table
                             id="booking-table"
@@ -84,19 +90,21 @@
                             <template
                                 #cell(amenities)="data"
                             >
-                                <ul style="padding: 0; list-style-type: none">
-                                    <li
-                                        v-for="(amenity, index) in data.item.amenities"
-                                        :key="`${data.item.uuid}-amenity-${index}`"
-                                    >
-                                        <img
-                                            :src="getSrc(amenity)"
-                                            :alt="amenity"
-                                            class="icon"
+                                <div class="test">
+                                    <ul style="padding: 0; list-style-type: none">
+                                        <li
+                                            v-for="(amenity, index) in data.item.amenities"
+                                            :key="`${data.item.uuid}-amenity-${index}`"
                                         >
-                                        {{ amenity }}
-                                    </li>
-                                </ul>
+                                            <img
+                                                :src="getSrc(amenity)"
+                                                :alt="amenity"
+                                                class="icon"
+                                            >
+                                            {{ amenity }}
+                                        </li>
+                                    </ul>
+                                </div>
                             </template>
                             <template
                                 #cell(amount)="data"
@@ -140,7 +148,7 @@
                 </b-form>
             </div>
         </template>
-    </layout>
+    </Layout>
 </template>
 
 <script>
@@ -172,17 +180,18 @@ export default {
                     key: 'type',
                     label: this.$t('booking.bookingForm.roomType'),
                 },
-                {
-                    key: 'capacity',
-                    label: this.$t('booking.bookingForm.capacity'),
-                },
-                {
-                    key: 'price',
-                    label: this.$t('booking.bookingForm.price'),
-                },
+                // {
+                //     key: 'capacity',
+                //     label: this.$t('booking.bookingForm.capacity'),
+                // },
+                // {
+                //     key: 'price',
+                //     label: this.$t('booking.bookingForm.price'),
+                // },
                 {
                     key: 'amenities',
                     label: this.$t('booking.bookingForm.amenities'),
+                    thStyle: {width: '400px'}
                 },
                 {
                     key: 'amount',
@@ -333,4 +342,14 @@ li.number {
     margin-bottom: 5px;
 }
 li.number:nth-child(odd) {clear: left}
+
+.test ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+.test ul li {
+    list-style: none;
+    flex: 0 0 33.333333%;
+}
 </style>

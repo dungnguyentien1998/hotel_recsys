@@ -1,11 +1,11 @@
 <template>
-    <layout>
+    <Layout>
         <template #content>
             <div>
                 <h3>
                     {{ $t('booking.booking.detail') }}
                 </h3>
-                <br>
+                <hr>
                 <b-form>
                     <div>
                         <h5 class="m-0 font-weight-bolder">
@@ -181,7 +181,7 @@
                             type="button"
                             @click="onSubmit"
                         >
-                            {{ $t('booking.bookingForm.submit') }}
+                            {{ $t('hotel.hotel.submit') }}
                         </button>
                     </div>
                     <div
@@ -226,13 +226,13 @@
                                         :key="`number-${index}`"
                                         class="number"
                                     >
-                                        {{ number }}
+                                        {{ $t('booking.bookingForm.room') }} {{ number }}
                                     </li>
                                 </ul>
                             </template>
                         </b-table>
                     </div>
-                    <!--                    <div-->
+                    <!--                    <diuttonv-->
                     <!--                        v-if="showTableAfter()"-->
                     <!--                    >-->
                     <!--                        <b-button-->
@@ -257,7 +257,7 @@
                 </b-form>
             </div>
         </template>
-    </layout>
+    </Layout>
 </template>
 
 <script>
@@ -345,7 +345,7 @@ export default {
                 },
                 {
                     key: 'amount',
-                    label: this.$t('booking.bookingForm.rooms'),
+                    label: this.$t('booking.bookingForm.hotelierRooms'),
                 },
                 {
                     key: 'room_booked',

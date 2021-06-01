@@ -113,7 +113,7 @@
                 <span class="font-weight-bolder">
                     {{ $t('booking.bookingForm.totalPrice') }}:
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ totalPrice }} VND ({{ $t('booking.booking.description') }})
                 </span>
             </p>
@@ -237,6 +237,9 @@ export default {
     },
     created() {
         this.getStripePublishableKey();
+        this.$store.dispatch('type/listTypes', this.$route.params.uuid).then(() => {
+            this.types = this.$store.getters['type/types']
+        })
     },
     // Form validation
     validations: {
@@ -451,7 +454,7 @@ export default {
                                 failed_message = "Chỉ còn " + failed_message + " có thể đặt"
                             }
                             this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
-                            setTimeout(location.reload.bind(location), 2000)
+                            // setTimeout(location.reload.bind(location), 2000)
                         } else {
                             // Alert for success
                             // localStorage.removeItem("save")
