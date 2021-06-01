@@ -209,10 +209,12 @@ export default {
                 {
                     key: 'roomType',
                     label: this.$t('booking.bookingForm.roomType'),
+                    thStyle: {width: '200px'}
                 },
                 {
                     key: 'capacity',
                     label: this.$t('booking.bookingForm.capacity'),
+                    thStyle: {width: '150px'}
                 },
                 // {
                 //     key: 'price',
@@ -230,7 +232,7 @@ export default {
                 {
                     key: 'rooms',
                     label: this.$t('booking.bookingForm.rooms'),
-                    thStyle: {width: '250px'}
+                    // thStyle: {width: '250px'}
                 },
             ]
         }
@@ -259,9 +261,20 @@ export default {
             // const n = this.getAvailable(roomType)
             const n = 5
             for (let i = 1; i <= n; i++) {
-                opts.push({value: i, text: i.toString() + " (" + (price*i).toString() + " VND)"})
+                opts.push({value: i, text: i.toString() + " (" + this.formatPrice(price*i) + " VND)"})
             }
             return opts
+        },
+        formatPrice(price) {
+            let temp = price.toString()
+            let result = ''
+            for (let i=temp.length; i>=0; i--) {
+                result = temp.charAt(i) + result
+                if ((temp.length - i + 1) % 3 === 0) {
+                    result = "." + result
+                }
+            }
+            return result
         },
         getStripePublishableKey() {
             fetch('http://localhost:8000/api/config')

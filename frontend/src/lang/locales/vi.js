@@ -109,6 +109,7 @@ export default {
             }
         },
         user: {
+            noResult: 'Không tìm thấy tài khoản phù hợp',
             title: 'Danh sách tài khoản',
             searchUser: 'Tìm tài khoản',
             search: 'Tìm',
@@ -143,6 +144,7 @@ export default {
                 passwordMessage: 'Bạn đã đổi mật khẩu',
             },
             errors: {
+                search: '',
                 title: 'Cập nhật không thành công',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
@@ -154,6 +156,8 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            myHotel: 'Khách sạn của tôi',
+            noResult: 'Không tìm thấy khách sạn phù hợp',
             name: 'Tên khách sạn',
             submit: 'Xác nhận',
             ownerName: 'Chủ khách sạn: ',
@@ -205,6 +209,7 @@ export default {
                 rejectMessage: 'Bạn đã từ chối yêu cầu tạo khách sạn'
             },
             errors: {
+                search: '',
                 title: 'Xóa khách sạn không thành công',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
                 approveTitle: 'Phê duyệt khách sạn không thành công',

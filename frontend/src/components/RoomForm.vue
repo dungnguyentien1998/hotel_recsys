@@ -67,24 +67,6 @@
                 />
             </div>
         </b-form-group>
-        <!--        <b-form-group-->
-        <!--            v-if="!roomExist"-->
-        <!--            id="images-group"-->
-        <!--            class="col-12"-->
-        <!--        >-->
-        <!--            <div class="form-row">-->
-        <!--                <label class="required col-sm-3 col-form-label">Images</label>-->
-        <!--                <b-form-file-->
-        <!--                    id="images"-->
-        <!--                    v-model="$v.form.images.$model"-->
-        <!--                    :state="validateState('images')"-->
-        <!--                    class="form-control col-sm-9"-->
-        <!--                    :placeholder="$t('hotel.hotelForm.imagePlaceholder')"-->
-        <!--                    :drop-placeholder="$t('hotel.hotelForm.imageDropPlaceholder')"-->
-        <!--                    multiple-->
-        <!--                />-->
-        <!--            </div>-->
-        <!--        </b-form-group>-->
         <div>
             <b-form-group
                 v-if="!roomExist"
@@ -195,8 +177,7 @@ export default {
         // Handle create/update room
         onSubmit: function () {
             this.$v.form.$touch();
-            // if (this.$v.form.$anyError) {
-            if (this.form.room_type == null) {
+            if (this.$v.form.$anyError || this.form.room_type == null) {
                 // Alert for form validation
                 this.makeToast(this.$t('room.roomForm.errors.title'), this.$t('room.roomForm.errors.missing'))
             } else {

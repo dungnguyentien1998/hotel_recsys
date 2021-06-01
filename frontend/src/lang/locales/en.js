@@ -109,6 +109,7 @@ export default {
             }
         },
         user: {
+            noResult: 'No matching user found',
             title: 'List user',
             searchUser: 'Search user',
             search: 'Search',
@@ -143,6 +144,7 @@ export default {
                 passwordMessage: 'You have changed your password',
             },
             errors: {
+                search: '',
                 title: 'Update profile failed',
                 missing: 'You must fill all required information',
                 exceptionOccurred: 'An exception occurred',
@@ -154,6 +156,8 @@ export default {
     // Translate for hotel object
     hotel: {
         hotel: {
+            myHotel: 'My hotels',
+            noResult: 'No matching hotel found',
             name: 'Hotel name',
             submit: 'Submit',
             ownerName: 'Owner: ',
@@ -205,6 +209,7 @@ export default {
                 rejectMessage: 'You have reject this request'
             },
             errors: {
+                search: '',
                 title: 'Delete hotel failed',
                 exceptionOccurred: 'An exception occurred',
                 approveTitle: 'Approve hotel failed',

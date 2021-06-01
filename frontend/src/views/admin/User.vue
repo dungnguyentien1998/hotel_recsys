@@ -15,8 +15,8 @@
                     label-for="role"
                     label-cols-sm="2"
                     label-cols-lg="2"
-                    content-cols-sm="7"
-                    content-cols-lg="7"
+                    content-cols-sm="4"
+                    content-cols-lg="4"
                 >
                     <b-form-select
                         id="role"
@@ -34,6 +34,17 @@
                 >
                     {{ $t('hotel.hotel.advancedSearch') }}
                 </b-button>
+                <button
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    style="float: right; margin-right: 550px"
+                    @click="onSubmit"
+                >
+                    {{ $t('user.user.search') }}
+                    <font-awesome-icon
+                        :icon="['fas', 'search']"
+                    />
+                </button>
                 <b-collapse
                     id="collapse-1"
                     class="mt-2"
@@ -46,8 +57,8 @@
                                 label-for="name"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-input
                                     id="name"
@@ -62,8 +73,8 @@
                                 label-for="email"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-input
                                     id="email"
@@ -77,16 +88,6 @@
                 </b-collapse>
             </div>
             <br>
-            <button
-                class="btn btn-sm btn-primary"
-                type="button"
-                @click="onSubmit"
-            >
-                {{ $t('user.user.search') }}
-                <font-awesome-icon
-                    :icon="['fas', 'search']"
-                />
-            </button>
             <hr>
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
@@ -164,11 +165,18 @@
                         </b-modal>
                     </template>
                 </b-table>
-                <!--    Pagination for table          -->
+                <span
+                    v-if="filterUsers.length === 0"
+                    style="font-style: italic"
+                >
+                    {{ $t('user.user.noResult') }}
+                </span>
                 <b-pagination
+                    v-if="filterUsers.length > 0"
                     v-model="currentPage"
                     :per-page="perPage"
                     :total-rows="rows"
+                    pills
                     aria-controls="users-table"
                 />
             </div>
@@ -205,7 +213,8 @@ export default {
             },
             // Pagination data
             currentPage: 1,
-            perPage: 50,
+            perPage: 30,
+            rows: 0,
             // User list
             users: [],
             // User list for search function
@@ -214,9 +223,9 @@ export default {
     },
     computed: {
         // Number of rows in table
-        rows: function () {
-            return this.users.length
-        },
+        // rows: function () {
+        //     return this.users.length
+        // },
         columns: function () {
             return [
                 {
@@ -274,16 +283,17 @@ export default {
         this.$store.dispatch('user/users')
             .then(() => {
                 this.users = this.$store.getters['user/users']
-                this.users.sort(this.compare)
                 this.filterUsers = this.users
+                this.rows = this.filterUsers.length
+                this.filterUsers.sort(this.compare)
             })
         // Repeat code in Hotel Manage
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
-            this.hotels.sort(function (a,b) {
+            this.filterHotels = this.hotels
+            this.filterHotels.sort(function (a,b) {
                 return new Date(b.created) - new Date(a.created)
             })
-            this.filterHotels = this.hotels
             this.subcribe()
         })
     },
@@ -309,6 +319,10 @@ export default {
                 this.filterUsers = this.filterUsers.filter(user =>
                     user.email.toLowerCase().indexOf(this.form.email.toLowerCase()) > -1
                 )
+            }
+            this.rows = this.filterUsers.length
+            if (this.filterUsers.length === 0) {
+                this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
             }
         },
         compare: function (a,b) {

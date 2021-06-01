@@ -220,13 +220,16 @@
                             <template
                                 #cell(room_booked)="data"
                             >
-                                <ul style="padding: 0; list-style-type: none">
+                                <span>
+                                    {{ $t('booking.bookingForm.room') }}
+                                </span>
+                                <ul style="padding: 0; list-style-type: none; display: inline">
                                     <li
                                         v-for="(number, index) in data.item.room_booked"
                                         :key="`number-${index}`"
                                         class="number"
                                     >
-                                        {{ $t('booking.bookingForm.room') }} {{ number }}
+                                        {{ number }}
                                     </li>
                                 </ul>
                             </template>
@@ -529,8 +532,9 @@ export default {
 }
 li.number {
     list-style: none;
-    float: left;
-    padding: 0 10px;
+    //float: left;
+    display: inline;
+    padding: 0 5px;
     margin-bottom: 5px;
 }
 //li.number:nth-child(4n) {clear: left}

@@ -14,8 +14,8 @@
                     label-for="name"
                     label-cols-sm="2"
                     label-cols-lg="2"
-                    content-cols-sm="7"
-                    content-cols-lg="7"
+                    content-cols-sm="4"
+                    content-cols-lg="4"
                 >
                     <b-form-input
                         v-model="$v.form.name.$model"
@@ -41,6 +41,17 @@
                 >
                     {{ $t('hotel.hotel.advancedSearch') }}
                 </b-button>
+                <button
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    style="float: right; margin-right: 550px"
+                    @click="onSubmit"
+                >
+                    {{ $t('hotel.hotel.searchBtn') }}
+                    <font-awesome-icon
+                        :icon="['fas', 'search']"
+                    />
+                </button>
                 <b-collapse
                     id="collapse-1"
                     class="mt-2"
@@ -53,8 +64,8 @@
                                 label-for="star"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-rating
                                     v-model="$v.form.star.$model"
@@ -70,8 +81,8 @@
                                 label-for="city"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="city"
@@ -86,8 +97,8 @@
                                 label-for="district"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="district"
@@ -102,8 +113,8 @@
                                 label-for="ward"
                                 label-cols-sm="2"
                                 label-cols-lg="2"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="ward"
@@ -171,16 +182,6 @@
                 </b-collapse>
             </div>
             <br>
-            <button
-                class="btn btn-sm btn-primary"
-                type="button"
-                @click="onSubmit"
-            >
-                {{ $t('hotel.hotel.searchBtn') }}
-                <font-awesome-icon
-                    :icon="['fas', 'search']"
-                />
-            </button>
             <hr>
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
@@ -209,8 +210,7 @@
                         <b-card-img
                             :src="hotelImage(hotel.image)"
                             class="mb-2"
-                            :height="300"
-                            style="height: 362.09px"
+                            style="height: 300px"
                         />
                         <b-card-title
                             :title="hotel.name"
@@ -227,7 +227,7 @@
                             />
                         </p>
                         <p
-                            style="height: 48px"
+                            style="height: 48px; margin-bottom: 0"
                         >
                             <span class="font-weight-bolder">
                                 {{ $t('hotel.hotel.address') }}
@@ -267,7 +267,14 @@
                     </b-card>
                 </div>
             </div>
+            <span
+                v-if="filterHotels.length === 0"
+                style="font-style: italic"
+            >
+                {{ $t('hotel.hotel.noResult') }}
+            </span>
             <b-pagination
+                v-if="filterHotels.length > 0"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
@@ -306,6 +313,7 @@ export default {
             // Pagination data
             currentPage: 1,
             perPage: 6,
+            rows: 0,
             // Search form data
             form: {
                 name: null,
@@ -331,9 +339,9 @@ export default {
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
         // Get row for hotel list
-        rows: function () {
-            return this.hotels.length
-        },
+        // rows: function () {
+        //     return this.hotels.length
+        // },
     },
     validations: {
         form: {
@@ -360,10 +368,11 @@ export default {
     created() {
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
-            this.hotels.sort(function (a,b) {
+            this.filterHotels = this.hotels
+            this.rows = this.filterHotels.length
+            this.filterHotels.sort(function (a,b) {
                 return new Date(b.created) - new Date(a.created)
             })
-            this.filterHotels = this.hotels
             this.subcribe()
         })
     },
@@ -450,65 +459,11 @@ export default {
                 )
             }
             this.form.star = null
+            this.rows = this.filterHotels.length
+            if (this.filterHotels.length === 0) {
+                this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+            }
         },
-        // approveHotel: function (uuid) {
-        //     this.$store.dispatch('hotel/resetStatus')
-        //     // this.updateForm.is_active = true
-        //     this.updateForm.status = "active"
-        //     this.updateForm.uuid = uuid
-        //     this.$store.dispatch('hotel/approveHotel', this.updateForm).then(() => {
-        //         if (this.$store.getters['hotel/status'] === 'FAILED') {
-        //             // Alert for failed api calls
-        //             this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //         } else {
-        //             // window.location.reload()
-        //             this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
-        //                 title: this.$t('hotel.hotel.success.approveTitle'),
-        //                 autoHideDelay: 2000,
-        //                 variant: 'success'
-        //             })
-        //             // this.$bvModal.hide(`modal-create`)
-        //             setTimeout(location.reload.bind(location), 2000)
-        //         }
-        //     })
-        // },
-        // // Handle delete hotel
-        // rejectHotel: function (uuid) {
-        //     this.$store.dispatch('hotel/resetStatus')
-        //     this.updateForm.status = "reject"
-        //     this.updateForm.uuid = uuid
-        //     this.$store.dispatch('hotel/rejectHotel', this.updateForm).then(() => {
-        //         if (this.$store.getters['hotel/status'] === 'FAILED') {
-        //             // Alert for failed api calls
-        //             this.makeToast(this.$t('hotel.hotel.errors.rejectTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //         } else {
-        //             // window.location.reload()
-        //             this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
-        //                 title: this.$t('hotel.hotel.success.rejectTitle'),
-        //                 autoHideDelay: 2000,
-        //                 variant: 'success'
-        //             })
-        //             // this.$bvModal.hide(`modal-create`)
-        //             setTimeout(location.reload.bind(location), 2000)
-        //         }
-        //     })
-        //     // this.$store.dispatch('hotel/deleteHotel', uuid)
-        //     //     .then(() => {
-        //     //         if (this.$store.getters['hotel/status'] === 'FAILED') {
-        //     //             // Alert for failed api call
-        //     //             this.makeToast(this.$t('hotel.hotel.errors.rejectTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //     //         } else {
-        //     //             // window.location.reload()
-        //     //             this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
-        //     //                 title: this.$t('hotel.hotel.success.rejectTitle'),
-        //     //                 autoHideDelay: 2000,
-        //     //                 variant: 'success'
-        //     //             })
-        //     //             // this.$bvModal.hide(`modal-create`)
-        //     //             setTimeout(location.reload.bind(location), 2000)
-        //     //         }
-        //     //     })
-        // },
         compare: function (a,b) {
             if (a.name < b.name) {
                 return -1;

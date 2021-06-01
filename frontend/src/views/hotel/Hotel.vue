@@ -3,7 +3,7 @@
         <template #content>
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
-                    {{ roleUser ? $t('hotel.hotel.searchHotel') : $t('hotel.hotel.title') }}
+                    {{ roleUser ? $t('hotel.hotel.searchHotel') : $t('hotel.hotel.myHotel') }}
                 </h2>
                 <b-button
                     v-if="roleHotelier"
@@ -22,10 +22,10 @@
                     id="name-group"
                     :label="$t('hotel.hotelForm.name')"
                     label-for="name"
-                    label-cols-sm="4"
-                    label-cols-lg="3"
-                    content-cols-sm="7"
-                    content-cols-lg="7"
+                    label-cols-sm="2"
+                    label-cols-lg="2"
+                    content-cols-sm="4"
+                    content-cols-lg="4"
                 >
                     <b-form-input
                         v-model="$v.form.name.$model"
@@ -53,6 +53,18 @@
                 >
                     {{ $t('hotel.hotel.advancedSearch') }}
                 </b-button>
+                <button
+                    v-if="roleUser"
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    style="float: right; margin-right: 550px"
+                    @click="onSubmit"
+                >
+                    {{ $t('hotel.hotel.searchBtn') }}
+                    <font-awesome-icon
+                        :icon="['fas', 'search']"
+                    />
+                </button>
                 <b-collapse
                     id="collapse-1"
                     class="mt-2"
@@ -63,10 +75,10 @@
                                 id="star-group"
                                 :label="$t('hotel.hotelForm.star')"
                                 label-for="star"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-rating
                                     v-model="$v.form.star.$model"
@@ -80,10 +92,10 @@
                                 id="city-group"
                                 :label="$t('hotel.hotelForm.city')"
                                 label-for="city"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="city"
@@ -96,10 +108,10 @@
                                 id="district-group"
                                 :label="$t('hotel.hotelForm.district')"
                                 label-for="district"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="district"
@@ -112,10 +124,10 @@
                                 id="ward-group"
                                 :label="$t('hotel.hotelForm.ward')"
                                 label-for="ward"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-select
                                     id="ward"
@@ -127,10 +139,10 @@
                                 id="amenities-group"
                                 :label="$t('hotel.hotelForm.amenities')"
                                 label-for="amenities"
-                                label-cols-sm="4"
-                                label-cols-lg="3"
-                                content-cols-sm="7"
-                                content-cols-lg="7"
+                                label-cols-sm="2"
+                                label-cols-lg="2"
+                                content-cols-sm="4"
+                                content-cols-lg="4"
                             >
                                 <b-form-tags
                                     id="amenities"
@@ -182,17 +194,6 @@
                 </b-collapse>
             </div>
             <br>
-            <button
-                v-if="roleUser"
-                class="btn btn-sm btn-primary"
-                type="button"
-                @click="onSubmit"
-            >
-                {{ $t('hotel.hotel.searchBtn') }}
-                <font-awesome-icon
-                    :icon="['fas', 'search']"
-                />
-            </button>
             <hr>
             <div class="align-items-center d-flex">
                 <h2 class="flex-grow-1">
@@ -220,8 +221,7 @@
                         <b-card-img
                             :src="hotelImage(hotel.image)"
                             class="mb-2"
-                            :height="300"
-                            style="height: 362.09px"
+                            style="height: 300px"
                         />
                         <b-card-title
                             :title="hotel.name"
@@ -250,7 +250,7 @@
                             </b-badge>
                         </p>
                         <p
-                            style="height: 48px"
+                            style="height: 48px; margin-bottom: 0"
                         >
                             <span class="font-weight-bolder">
                                 {{ $t('hotel.hotel.address') }}
@@ -265,25 +265,25 @@
                         <!--                        >-->
                         <!--                            {{ hotel.numRooms }} {{ $tc('hotel.hotel.room', hotel.numRooms) }}-->
                         <!--                        </b-badge>-->
-                        <b-badge
-                            v-if="roleHotelier"
-                            variant="primary"
-                        >
-                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}
-                        </b-badge>
-                        <b-badge
-                            v-if="roleHotelier"
-                            class="mx-2"
-                            variant="success"
-                        >
-                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}
-                        </b-badge>
-                        <b-badge
-                            v-if="roleHotelier"
-                            variant="danger"
-                        >
-                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}
-                        </b-badge>
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            variant="primary"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}-->
+                        <!--                        </b-badge>-->
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            class="mx-2"-->
+                        <!--                            variant="success"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}-->
+                        <!--                        </b-badge>-->
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            variant="danger"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}-->
+                        <!--                        </b-badge>-->
                         <div class="mt-2">
                             <b-button
                                 v-if="roleHotelier"
@@ -329,10 +329,18 @@
                     </b-card>
                 </div>
             </div>
+            <span
+                v-if="filterHotels.length === 0"
+                style="font-style: italic"
+            >
+                {{ $t('hotel.hotel.noResult') }}
+            </span>
             <b-pagination
+                v-if="filterHotels.length > 0"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
+                pills
                 aria-controls="hotels-list"
             />
             <hr
@@ -445,7 +453,7 @@ export default {
 
             currentPage: 1,
             perPage: 6,
-
+            rows: 0,
             recommendationsLogin: [],
             form: {
                 name: null,
@@ -472,10 +480,10 @@ export default {
             return (this.$store.getters['user/user'].role === 'user')
         },
         // Get row for hotel list
-        rows: function () {
-            return this.hotels.length
-            // return this.filterHotels.length
-        },
+        // rows: function () {
+        //     return this.hotels.length
+        //     // return this.filterHotels.length
+        // },
     },
     // Form validation
     validations: {
@@ -504,6 +512,7 @@ export default {
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
+            this.rows = this.filterHotels.length
             this.filterHotels.sort(function (a, b){
                 return a.name.localeCompare(b.name) || b.star - a.star
             })
@@ -608,6 +617,10 @@ export default {
                 )
             }
             this.form.star = null
+            this.rows = this.filterHotels.length
+            if (this.filterHotels.length === 0) {
+                this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+            }
         },
         // Handle router based on role
         onHandle: function (uuid) {
