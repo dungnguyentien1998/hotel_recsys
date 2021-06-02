@@ -29,7 +29,8 @@ class ComplaintDetailSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField()
     email = serializers.ReadOnlyField()
     tel = serializers.ReadOnlyField()
+    owner_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Complaint
-        fields = [*Complaint.get_fields(), 'user_name', 'email', 'tel']
+        fields = [*Complaint.get_fields(), 'user_name', 'email', 'tel', 'owner_id']

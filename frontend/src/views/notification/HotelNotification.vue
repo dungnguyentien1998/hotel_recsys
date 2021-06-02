@@ -154,7 +154,6 @@ export default {
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 let old_count = this.$store.getters['hotel/old_count_hotelier']
                 this.$store.commit('hotel/setHotelierCount', count - old_count)
-                console.log(this.hotels.length)
             })
         }
     }

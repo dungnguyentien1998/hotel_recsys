@@ -4,6 +4,7 @@ from app import models
 from app.serializers import ComplaintSerializer, ComplaintDetailSerializer
 from app.permissions.complaint import ComplaintPermission
 from app.utils.serializer_validator import validate_serializer
+from pusher import Pusher
 
 
 class Complaint(APIView):
@@ -26,10 +27,13 @@ class Complaint(APIView):
         self.check_permissions(request=request)
         validate_serializer(serializer=serializer)
         complaint = serializer.save()
-        return Response({
+        pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+        message = {
             'success': True,
             'complaint': ComplaintDetailSerializer(complaint).data
-        })
+        }
+        pusher.trigger(u'a_channel', u'an_event_2', message)
+        return Response(message)
 
 
 class ComplaintDetail(APIView):

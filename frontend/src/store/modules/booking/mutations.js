@@ -23,6 +23,20 @@ export default {
             state.message = payload.data.detail
         }
     },
+    saveNewBooking: (state, payload) => {
+        if (payload.success) {
+            state.new_bookings.push(payload.booking)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
+    saveBooking: (state, payload) => {
+        if (payload.success) {
+            state.bookings.push(payload.booking)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
     // Delete booking from list
     deleteBooking: (state, payload) => {
         if (payload.data.success) {

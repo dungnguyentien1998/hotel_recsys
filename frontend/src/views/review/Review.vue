@@ -86,6 +86,7 @@
 
 <script>
 import ReviewForm from "@/views/review/ReviewForm";
+import Pusher from "pusher-js";
 
 export default {
     name: "Review",
@@ -120,6 +121,15 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +
                 date.getHours() + ":" + date.getMinutes();
         },
+        subcribe() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_1', data => {
+
+            })
+        }
     }
 }
 </script>

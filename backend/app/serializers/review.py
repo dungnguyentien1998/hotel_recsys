@@ -28,7 +28,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 class ReviewDetailSerializer(serializers.ModelSerializer):
     # Review data used to represent
     user_name = serializers.ReadOnlyField()
+    owner_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Review
-        fields = [*Review.get_fields(), 'user_name']
+        fields = [*Review.get_fields(), 'user_name', 'owner_id']

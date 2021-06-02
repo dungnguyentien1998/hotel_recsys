@@ -42,9 +42,6 @@ export default {
             state.status = 'FAILED'
         }
     },
-    setCount: (state, payload) => {
-        state.count_admin = payload
-    },
     setHotelierCount: (state, payload) => {
         state.count_hotelier = payload
     },

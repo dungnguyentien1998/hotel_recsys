@@ -18,5 +18,9 @@ class Review(BaseModel):
     def user_name(self):
         return self.user.name
 
+    @property
+    def owner_id(self):
+        return self.hotel.user.uuid
+
     class Meta:
         db_table = 'review'

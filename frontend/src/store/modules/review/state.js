@@ -1,5 +1,6 @@
 export default {
     // Review status and list
     status: '',
-    reviews: []
+    reviews: [],
+    new_reviews: []
 }

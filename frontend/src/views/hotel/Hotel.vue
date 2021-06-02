@@ -530,6 +530,12 @@ export default {
                 this.$store.commit('hotel/setOldHotelierCount', count)
                 this.subcribe()
             })
+        let user = this.$store.getters['user/user']
+        if (user.role === 'hotelier') {
+            this.subscribe_review()
+            this.subscribe_complaint()
+            this.subscribe_booking()
+        }
     },
     methods: {
         getAddress: function (address, ward, district, city) {
@@ -645,15 +651,6 @@ export default {
             }
             return 0;
         },
-        compareStar: function(a,b) {
-            if (a.star < b.star) {
-                return 1;
-            }
-            if (a.star > b.star) {
-                return  -1;
-            }
-            return 0;
-        },
         subcribe() {
             let pusher = new Pusher('5d873d3e35474aa76004', {
                 cluster: 'ap1'
@@ -677,7 +674,45 @@ export default {
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 let old_count = this.$store.getters['hotel/old_count_hotelier']
                 this.$store.commit('hotel/setHotelierCount', count - old_count)
-                // console.log(this.hotels.length)
+            })
+        },
+        subscribe_review() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_1', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.review.owner_id) {
+                    this.$store.commit('review/saveReview', data)
+                    this.$store.commit('review/saveNewReview', data)
+                }
+            })
+        },
+        subscribe_complaint() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_2', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.complaint.owner_id) {
+                    this.$store.commit('complaint/saveComplaint', data)
+                    this.$store.commit('complaint/saveNewComplaint', data)
+                }
+            })
+        },
+        subscribe_booking() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_3', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.booking.hotel_owner_id) {
+                    this.$store.commit('booking/saveBooking', data)
+                    this.$store.commit('booking/saveNewBooking', data)
+                }
             })
         }
     },

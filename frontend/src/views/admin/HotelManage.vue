@@ -329,36 +329,29 @@ export default {
             },
             slide: 0,
             sliding: null,
-            count: 0
         }
     },
     computed: {
-        // Get amenities options
         availableOptions() {
-            // return this.options.filter(opt => this.form.amenities.indexOf(opt.toLowerCase()) === -1)
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
-        // Get row for hotel list
-        // rows: function () {
-        //     return this.hotels.length
-        // },
     },
     validations: {
         form: {
             name: {
-                // required
+
             },
             amenities: {
-                // required
+
             },
             city: {
-                // required,
+
             },
             district: {
-                // required,
+
             },
             ward: {
-                // required,
+
             },
             star: {
 
@@ -479,12 +472,7 @@ export default {
             });
             pusher.subscribe('a_channel');
             pusher.bind('an_event', data => {
-                this.count = data.count - this.hotels.length
-                this.$store.commit('hotel/setCount', data.count)
                 this.$store.commit('hotel/saveHotel', data)
-                console.log(data.count)
-                console.log(this.hotels.length)
-                console.log(this.count)
             })
         }
     },

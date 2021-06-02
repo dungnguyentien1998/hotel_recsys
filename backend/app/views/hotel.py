@@ -34,8 +34,6 @@ class Hotel(APIView):
         serializer = HotelSerializer(data=request.data, context={'request': request})
         validate_serializer(serializer=serializer)
         hotel = serializer.save()
-        user = request.user
-        # hotels = models.Hotel.objects.filter(is_active=False)
         hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
         pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
         message = {

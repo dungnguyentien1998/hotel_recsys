@@ -165,7 +165,7 @@
                         >
                             <div>
                                 <h5 class="m-0 font-weight-bolder">
-                                    {{ $t('booking.booking.userName') }}: {{ booking.userName }}
+                                    {{ $t('booking.booking.userName') }}: {{ booking.userName || booking.user_name }}
                                 </h5>
                                 <p>
                                     <!--                        <span class="font-weight-bolder">-->
@@ -177,7 +177,7 @@
                                         alt="phone"
                                         class="icon"
                                     >
-                                    {{ booking.userTel }}
+                                    {{ booking.userTel || booking.user_tel }}
                                     <span
                                         v-if="isNotNull(booking.userTel)"
                                     >
@@ -191,7 +191,7 @@
                                         alt="email"
                                         class="icon"
                                     >
-                                    {{ booking.userEmail }}
+                                    {{ booking.userEmail || booking.user_email }}
                                 </p>
                                 <p>
                                     <span class="font-weight-bolder">
@@ -305,7 +305,7 @@ export default {
             .then(() => {
                 this.bookings = this.$store.getters['booking/bookings']
                 this.bookings.sort(function (a,b) {
-                    return new Date(b.created) - new Date(a.created)
+                    return new Date(a.created) - new Date(b.created)
                 })
             })
         this.$store.dispatch('booking/listNewBookings', this.$route.params.uuid)
@@ -330,7 +330,7 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
         onHandle: function(booking_id) {
-            localStorage.setItem("bookingId", booking_id)
+            // localStorage.setItem("bookingId", booking_id)
             this.$store.commit('booking/setBookingId', booking_id)
             this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
         },

@@ -376,8 +376,6 @@ export default {
             });
             pusher.subscribe('a_channel');
             pusher.bind('an_event', data => {
-                this.count = data.count - this.hotels.length
-                this.$store.commit('hotel/setCount', data.count)
                 this.$store.commit('hotel/saveHotel', data)
             })
         }

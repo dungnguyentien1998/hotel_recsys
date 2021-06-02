@@ -139,8 +139,9 @@ class BookingDetailSerializer(serializers.ModelSerializer):
     hotelid = serializers.ReadOnlyField()
     user_email = serializers.ReadOnlyField()
     user_tel = serializers.ReadOnlyField()
+    hotel_owner_id = serializers.ReadOnlyField()
 
     class Meta:
         model = Booking
         fields = [*Booking.get_fields(), 'user_name', 'hotel_name', 'room_number', 'address', 'city', 'district', 'ward',
-                  'room_type', 'price', 'image', 'hotelid', 'user_email', 'user_tel']
+                  'room_type', 'price', 'image', 'hotelid', 'user_email', 'user_tel', 'hotel_owner_id']

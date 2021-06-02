@@ -5,6 +5,7 @@ from django.db import models
 from app.models.user import User
 from app.models.room import Room
 from app.models.type import Type
+from app.models.hotel import Hotel
 from app.utils.model_maker import BaseModel
 from django.conf import settings
 
@@ -125,6 +126,11 @@ class Booking(BaseModel):
     @property
     def user_tel(self):
         return self.user.tel
+
+    @property
+    def hotel_owner_id(self):
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.user.uuid
 
     class Meta:
         db_table = 'booking'

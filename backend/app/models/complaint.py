@@ -26,5 +26,9 @@ class Complaint(BaseModel):
     def tel(self):
         return self.user.tel
 
+    @property
+    def owner_id(self):
+        return self.hotel.user.uuid
+
     class Meta:
         db_table = 'complaint'

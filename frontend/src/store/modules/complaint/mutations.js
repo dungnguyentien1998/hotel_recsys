@@ -15,4 +15,18 @@ export default {
             state.status = 'FAILED'
         }
     },
+    saveComplaint: (state, payload) => {
+        if (payload.success) {
+            state.complaints.unshift(payload.complaint)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
+    saveNewComplaint: (state, payload) => {
+        if (payload.success) {
+            state.new_complaints.unshift(payload.complaint)
+        } else {
+            state.status = 'FAILED'
+        }
+    },
 }

@@ -1,5 +1,6 @@
 export default {
     // Complaint status and list
     status: '',
-    complaints: []
+    complaints: [],
+    new_complaints: []
 }
