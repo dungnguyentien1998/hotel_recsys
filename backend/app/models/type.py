@@ -23,5 +23,14 @@ class Type(BaseModel):
     # hotel = models.ForeignKey(Hotel, related_name='types', on_delete=models.SET_NULL, null=True)
     hotel = models.ForeignKey(Hotel, related_name='types', on_delete=models.DO_NOTHING, null=True)
 
+    def images(self):
+        from app.models import Room
+        rooms = Room.objects.filter(type_id=self.uuid)
+        images = []
+        for room in rooms:
+            image = room.image.url
+            images.append(image)
+        return images
+
     class Meta:
         db_table = 'type'

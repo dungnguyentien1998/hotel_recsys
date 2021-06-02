@@ -29,6 +29,8 @@ class TypeSerializer(serializers.ModelSerializer):
 
 
 class TypeDetailSerializer(serializers.ModelSerializer):
+    images = serializers.ReadOnlyField()
+
     class Meta:
         model = Type
-        fields = Type.get_fields()
+        fields = [*Type.get_fields(), 'images']

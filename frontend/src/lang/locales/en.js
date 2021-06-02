@@ -244,7 +244,8 @@ export default {
                 createTitle: 'Create hotel failed',
                 updateTitle: 'Update hotel failed',
                 missing: 'You must fill all required information',
-                exceptionOccurred: 'An exception occurred'
+                exceptionOccurred: 'An exception occurred',
+                reasonMissing: 'You must fill reject reason'
             }
         },
         hotelDetail: {
@@ -302,6 +303,7 @@ export default {
             amenities: 'Amenities',
             available: 'Available',
             rooms: 'Booking amount',
+            viewImage: 'View image',
             hotelierRooms: 'Booking amount',
             roomNumber: 'Arrange rooms for customer',
             room: 'Room',

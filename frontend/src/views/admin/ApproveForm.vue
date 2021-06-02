@@ -45,10 +45,9 @@
             </b-form-radio-group>
         </b-form-group>
         <b-form-group>
-            <label class="required">{{ $t('hotel.hotel.reason') }}: </label>
+            <label>{{ $t('hotel.hotel.reason') }}: </label>
             <b-form-textarea
-                v-model="$v.form.reject_reason.$model"
-                :state="validateState('reject_reason')"
+                v-model="form.reject_reason"
                 rows="3"
                 max-rows="6"
                 type="text"
@@ -97,7 +96,7 @@ export default {
                 required
             },
             reject_reason: {
-                required
+                // required
             },
         }
     },
@@ -129,34 +128,43 @@ export default {
             // }
         },
         onSubmit: function () {
-            this.$store.dispatch('hotel/resetStatus')
-            this.form.uuid = this.hotel.uuid
-            this.$store.dispatch('hotel/approveHotel', this.form).then(() => {
-                if (this.$store.getters['hotel/status'] === 'FAILED') {
-                    // Alert for failed api calls
-                    this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-                } else {
-                    if (this.form.status === "active") {
-                        this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
-                            title: this.$t('hotel.hotel.success.approveTitle'),
-                            autoHideDelay: 2000,
-                            variant: 'success'
-                        })
+            this.$v.form.$touch();
+            if (this.$v.form.$anyError) {
+                // Alert for form validation
+                this.makeToast(this.$t('hotel.hotelForm.errors.title'), this.$t('hotel.hotelForm.errors.missing'))
+            } else
+            if (this.form.status === 'reject' && (this.form.reject_reason == null || this.form.reject_reason === '')) {
+                this.makeToast(this.$t('hotel.hotelForm.errors.title'), this.$t('hotel.hotelForm.errors.reasonMissing'))
+            } else {
+                this.$store.dispatch('hotel/resetStatus')
+                this.form.uuid = this.hotel.uuid
+                this.$store.dispatch('hotel/approveHotel', this.form).then(() => {
+                    if (this.$store.getters['hotel/status'] === 'FAILED') {
+                        // Alert for failed api calls
+                        this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
                     } else {
-                        this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
-                            title: this.$t('hotel.hotel.success.rejectTitle'),
-                            autoHideDelay: 2000,
-                            variant: 'success'
-                        })
+                        if (this.form.status === "active") {
+                            this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
+                                title: this.$t('hotel.hotel.success.approveTitle'),
+                                autoHideDelay: 2000,
+                                variant: 'success'
+                            })
+                        } else {
+                            this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
+                                title: this.$t('hotel.hotel.success.rejectTitle'),
+                                autoHideDelay: 2000,
+                                variant: 'success'
+                            })
+                        }
+                        const path = this.$route.path
+                        if (path === '/admin/hotels') {
+                            setTimeout(location.reload.bind(location), 2000)
+                        } else {
+                            setTimeout(() => this.$router.push('/admin/hotels'), 2000)
+                        }
                     }
-                    const path = this.$route.path
-                    if (path === '/admin/hotels') {
-                        setTimeout(location.reload.bind(location), 2000)
-                    } else {
-                        setTimeout(() => this.$router.push('/admin/hotels'), 2000)
-                    }
-                }
-            })
+                })
+            }
         }
     }
 }

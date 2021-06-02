@@ -244,7 +244,8 @@ export default {
                 createTitle: 'Lỗi tạo khách sạn',
                 updateTitle: 'Lỗi cập nhật khách sạn',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
+                reasonMissing: 'Bạn phải điền lý do từ chối'
             }
         },
         hotelDetail: {
@@ -302,6 +303,7 @@ export default {
             amenities: 'Tiện nghi',
             available: 'Có thể đặt',
             rooms: 'Số lượng phòng muốn đặt',
+            viewImage: 'Xem ảnh phòng',
             hotelierRooms: 'Số lượng phòng khách đặt',
             roomNumber: 'Gán phòng cho khách hàng',
             room: 'Phòng',

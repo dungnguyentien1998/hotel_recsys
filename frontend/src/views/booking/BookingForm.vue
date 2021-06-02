@@ -72,6 +72,21 @@
                 striped
             >
                 <template
+                    #cell(roomType)="data"
+                >
+                    <span>
+                        {{ data.item.roomType }}
+                    </span>
+                    <div>
+                        <b-link
+                            :href="hotelImage(data.item.images[0])"
+                            target="_blank"
+                        >
+                            {{ $t('booking.bookingForm.viewImage') }}
+                        </b-link>
+                    </div>
+                </template>
+                <template
                     #cell(amenities)="data"
                 >
                     <div class="test">
@@ -255,6 +270,9 @@ export default {
         }
     },
     methods: {
+        hotelImage: function (uri) {
+            return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+        },
         numberOpts(roomType, price) {
             let opts = []
             opts.push({value: 0, text: '-----'})
@@ -273,6 +291,9 @@ export default {
                 if ((temp.length - i + 1) % 3 === 0) {
                     result = "." + result
                 }
+            }
+            if (result.charAt(0) === ".") {
+                result = result.substring(1)
             }
             return result
         },

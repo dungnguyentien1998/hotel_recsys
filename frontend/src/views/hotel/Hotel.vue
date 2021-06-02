@@ -523,20 +523,13 @@ export default {
                 this.recommendationsLogin.sort(this.compare)
             })
         }
-        // Repeat code in Hotel Notification
-        if (this.$store.getters['user/user'].role === 'hotelier') {
-            this.$store.dispatch('hotel/notifyHotels')
-                .then(() => {
-                    this.hotels = this.$store.getters['hotel/notify_hotels']
-                    this.hotels.sort(function (a,b) {
-                        return new Date(b.created) - new Date(a.created)
-                    })
-                    let count = this.$store.getters['hotel/notify_hotels'].length
-                    // this.$store.commit('hotel/setHotelierCount', count)
-                    this.$store.commit('hotel/setOldHotelierCount', count)
-                    this.subcribe()
-                })
-        }
+        this.$store.dispatch('hotel/notifyHotels')
+            .then(() => {
+                let count = this.$store.getters['hotel/notify_hotels'].length
+                // this.$store.commit('hotel/setHotelierCount', count)
+                this.$store.commit('hotel/setOldHotelierCount', count)
+                this.subcribe()
+            })
     },
     methods: {
         getAddress: function (address, ward, district, city) {
@@ -671,11 +664,20 @@ export default {
                 let owner_id = data.hotel.user
                 if (user_id === owner_id) {
                     this.$store.commit('hotel/saveNotifyHotel', data)
+                    if (data.hotel.status === 'active') {
+                        this.$store.commit('hotel/createHotel', data)
+                    }
+                }
+                let user = this.$store.getters['user/user']
+                if (user.role === 'user') {
+                    if (data.hotel.status === 'active') {
+                        this.$store.commit('hotel/createHotel', data)
+                    }
                 }
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 let old_count = this.$store.getters['hotel/old_count_hotelier']
                 this.$store.commit('hotel/setHotelierCount', count - old_count)
-                console.log(this.hotels.length)
+                // console.log(this.hotels.length)
             })
         }
     },
