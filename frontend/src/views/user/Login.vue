@@ -35,15 +35,6 @@
                             :placeholder="$t('user.login.passwordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showPassword"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                     <!--                    <div-->
                     <!--                        style="margin-top: 10px"-->

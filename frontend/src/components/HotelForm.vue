@@ -260,7 +260,7 @@ export default {
                 required,
             },
             image: {
-                // required
+
             },
             amenities: {
                 required

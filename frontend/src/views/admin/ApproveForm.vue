@@ -96,7 +96,7 @@ export default {
                 required
             },
             reject_reason: {
-                // required
+
             },
         }
     },

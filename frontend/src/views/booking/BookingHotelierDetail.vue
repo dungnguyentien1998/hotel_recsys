@@ -152,12 +152,6 @@
                             <template
                                 #cell(room_number)="data"
                             >
-                                <!--                                <b-form-checkbox-group-->
-                                <!--                                    v-model="room_numbers[getIndex(data.item.type)]"-->
-                                <!--                                    :options="getAvailableOptions(data.item.room_number)"-->
-                                <!--                                    class="mb-3"-->
-                                <!--                                    :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount)"-->
-                                <!--                                />-->
                                 <b-form-group>
                                     <b-form-checkbox
                                         v-for="option in getAvailableOptions(data.item.room_number)"
@@ -281,18 +275,11 @@ export default {
     components: {Layout},
     mixins: [validationMixin, formMixin],
     data: function () {
-        // const bookingId = localStorage.getItem("bookingId")
         const bookingId = this.$store.getters['booking/booking_id']
-        // const types = this.$store.getters['booking/types']
-        // let room_numbers = []
-        // for (let i = 0; i < types.length; i++) {
-        //     room_numbers.push([])
-        // }
         return {
             types: [],
             booking_types: [],
             booking: this.$store.getters['booking/bookings'].filter(booking => (booking.uuid === bookingId))[0],
-            // room_numbers: room_numbers,
             room_numbers: [],
             form: {
 

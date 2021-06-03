@@ -265,25 +265,25 @@
                         <!--                        >-->
                         <!--                            {{ hotel.numRooms }} {{ $tc('hotel.hotel.room', hotel.numRooms) }}-->
                         <!--                        </b-badge>-->
-                        <!--                        <b-badge-->
-                        <!--                            v-if="roleHotelier"-->
-                        <!--                            variant="primary"-->
-                        <!--                        >-->
-                        <!--                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}-->
-                        <!--                        </b-badge>-->
-                        <!--                        <b-badge-->
-                        <!--                            v-if="roleHotelier"-->
-                        <!--                            class="mx-2"-->
-                        <!--                            variant="success"-->
-                        <!--                        >-->
-                        <!--                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}-->
-                        <!--                        </b-badge>-->
-                        <!--                        <b-badge-->
-                        <!--                            v-if="roleHotelier"-->
-                        <!--                            variant="danger"-->
-                        <!--                        >-->
-                        <!--                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}-->
-                        <!--                        </b-badge>-->
+                        <b-badge
+                            v-if="roleHotelier"
+                            variant="primary"
+                        >
+                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}
+                        </b-badge>
+                        <b-badge
+                            v-if="roleHotelier"
+                            class="mx-2"
+                            variant="success"
+                        >
+                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}
+                        </b-badge>
+                        <b-badge
+                            v-if="roleHotelier"
+                            variant="danger"
+                        >
+                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}
+                        </b-badge>
                         <div class="mt-2">
                             <b-button
                                 v-if="roleHotelier"
@@ -336,7 +336,7 @@
                 {{ $t('hotel.hotel.noResult') }}
             </span>
             <b-pagination
-                v-if="filterHotels.length > 0"
+                v-if="filterHotels.length > perPage"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
@@ -437,6 +437,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import json from '../../mixin/data/db_en.json'
 import Pusher from "pusher-js";
+import camelcaseKeys from "camelcase-keys";
 
 library.add(faSearch)
 
@@ -479,29 +480,24 @@ export default {
         roleUser: function () {
             return (this.$store.getters['user/user'].role === 'user')
         },
-        // Get row for hotel list
-        // rows: function () {
-        //     return this.hotels.length
-        //     // return this.filterHotels.length
-        // },
     },
     // Form validation
     validations: {
         form: {
             name: {
-                // required
+
             },
             amenities: {
-                // required
+
             },
             city: {
-                // required,
+
             },
             district: {
-                // required,
+
             },
             ward: {
-                // required,
+
             },
             star: {
 
@@ -710,6 +706,7 @@ export default {
             pusher.bind('an_event_3', data => {
                 let user = this.$store.getters['user/user']
                 if (user.role === 'hotelier' && user.uuid === data.booking.hotel_owner_id) {
+                    data = camelcaseKeys(data, {deep: true})
                     this.$store.commit('booking/saveBooking', data)
                     this.$store.commit('booking/saveNewBooking', data)
                 }

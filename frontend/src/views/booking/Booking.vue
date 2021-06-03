@@ -105,14 +105,6 @@
                             <!--                            >-->
                             <!--                                {{ $t('booking.booking.confirmDelete') }}-->
                             <!--                            </b-modal>-->
-                            <!--                            <b-modal-->
-                            <!--                                :id="`modal-${booking.created}-view`"-->
-                            <!--                                title="View booking"-->
-                            <!--                                size="lg"-->
-                            <!--                                hide-footer-->
-                            <!--                            >-->
-                            <!--                                <booking-detail :booking="booking" />-->
-                            <!--                            </b-modal>-->
                         </div>
                     </div>
                 </b-list-group-item>
@@ -126,7 +118,6 @@ import Layout from "@/components/layouts/Layout";
 import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
-import BookingDetail from "@/views/booking/BookingDetail";
 import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 

@@ -111,19 +111,6 @@
                             >
                                 {{ data.item.amount }} {{ $tc('hotel.hotel.room', data.item.amount) }}
                             </template>
-                            <!--                            <template-->
-                            <!--                                #cell(room_number)="data"-->
-                            <!--                            >-->
-                            <!--                                <ul style="padding: 0; list-style-type: none">-->
-                            <!--                                    <li-->
-                            <!--                                        v-for="(number, index) in data.item.room_number"-->
-                            <!--                                        :key="`${data.item.uuid}-number-${index}`"-->
-                            <!--                                        class="number"-->
-                            <!--                                    >-->
-                            <!--                                        {{ number }}-->
-                            <!--                                    </li>-->
-                            <!--                                </ul>-->
-                            <!--                            </template>-->
                         </b-table>
                     </div>
                     <!--                    <div>-->
@@ -197,10 +184,6 @@ export default {
                     key: 'amount',
                     label: this.$t('booking.bookingForm.rooms'),
                 },
-                // {
-                //     key: 'room_number',
-                //     label: this.$t('booking.bookingForm.roomNumber'),
-                // }
             ]
         }
     },
@@ -253,7 +236,6 @@ export default {
         },
         testDetails: function() {
             const types = this.booking.roomType
-            // const numbers = this.booking.roomNumber
             let unique_types = types.filter(this.onlyUnique)
             let temp = []
             for (let j=0; j<unique_types.length; j++) {
@@ -263,12 +245,6 @@ export default {
                         count += 1
                     }
                 }
-                // let room_numbers = []
-                // for (let i=0; i<numbers.length; i++) {
-                //     if (types[i] === unique_types[j]) {
-                //         room_numbers.push(numbers[i])
-                //     }
-                // }
                 let capacity = 0
                 let price = 0
                 let amenities = []

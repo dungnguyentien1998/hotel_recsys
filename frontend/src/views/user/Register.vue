@@ -35,15 +35,6 @@
                             :placeholder="$t('user.register.passwordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showPassword"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -60,15 +51,6 @@
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showPasswordConfirm"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -291,22 +273,22 @@ export default {
                 minLength: minLength(10)
             },
             city: {
-                // required,
+
             },
             district: {
-                // required,
+
             },
             ward: {
-                // required,
+
             },
             address: {
-                // required,
+
             },
             image: {
-                // required,
+
             },
             birthday: {
-                // required,
+
             },
             role: {
                 required,

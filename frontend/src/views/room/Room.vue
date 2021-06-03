@@ -329,22 +329,19 @@ export default {
     validations: {
         form: {
             capacity: {
-                // required,
-                // numeric
+
             },
             min_price: {
-                // required,
-                // numeric
+
             },
             max_price: {
-                // required,
-                // numeric
+
             },
             room_type: {
-                // required
+
             },
             amenities: {
-                // required
+
             }
         }
     },

@@ -89,15 +89,6 @@
                         </span>
                     </p>
                     <div class="mt-2">
-                        <!--                        <b-button-->
-                        <!--                            :disabled="hotel.isActive === true"-->
-                        <!--                            variant="success"-->
-                        <!--                            href="#"-->
-                        <!--                            size="sm"-->
-                        <!--                            @click="$bvModal.show(`modal-${hotel.uuid}-approve`)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('hotel.hotel.approveBtn') }}-->
-                        <!--                        </b-button>-->
                         <b-button
                             :disabled="hotel.status === 'active'"
                             variant="success"
@@ -131,17 +122,8 @@ import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from '
 import ApproveForm from "@/views/admin/ApproveForm";
 
 export default {
-    name: "FormDetail",
+    name: "HotelManageDetail",
     components: {Layout, ApproveForm},
-    // props: {
-    //     // Hotel data
-    //     hotel: {
-    //         type: Object,
-    //         default: () => {
-    //             return null
-    //         }
-    //     }
-    // },
     data: function () {
         return {
             updateForm: {
@@ -185,45 +167,6 @@ export default {
             let images = require.context('../../assets/', false, /\.png$/)
             return images('./' + amenity + ".png")
         },
-        // approveHotel: function (uuid) {
-        //     this.$store.dispatch('hotel/resetStatus')
-        //     // this.updateForm.is_active = true
-        //     this.updateForm.status = "active"
-        //     this.updateForm.uuid = uuid
-        //     this.$store.dispatch('hotel/approveHotel', this.updateForm).then(() => {
-        //         if (this.$store.getters['hotel/status'] === 'FAILED') {
-        //             // Alert for failed api calls
-        //             this.makeToast(this.$t('hotel.hotel.errors.approveTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //         } else {
-        //             // window.location.reload()
-        //             // this.$router.push('/admin/hotels')
-        //             this.$bvToast.toast(this.$t('hotel.hotel.success.approveMessage'), {
-        //                 title: this.$t('hotel.hotel.success.approveTitle'),
-        //                 autoHideDelay: 2000,
-        //                 variant: 'success'
-        //             })
-        //             setTimeout(() => this.$router.push('/admin/hotels'), 2000)
-        //         }
-        //     })
-        // },
-        // // Handle delete hotel
-        // rejectHotel: function (uuid) {
-        //     this.$store.dispatch('hotel/resetStatus')
-        //     this.$store.dispatch('hotel/deleteHotel', uuid)
-        //         .then(() => {
-        //             if (this.$store.getters['hotel/status'] === 'FAILED') {
-        //                 // Alert for failed api call
-        //                 this.makeToast(this.$t('hotel.hotel.errors.rejectTitle'), this.$t('hotel.hotel.errors.exceptionOccurred'))
-        //             } else {
-        //                 this.$bvToast.toast(this.$t('hotel.hotel.success.rejectMessage'), {
-        //                     title: this.$t('hotel.hotel.success.rejectTitle'),
-        //                     autoHideDelay: 2000,
-        //                     variant: 'success'
-        //                 })
-        //                 setTimeout(() => this.$router.push('/admin/hotels'), 2000)
-        //             }
-        //         })
-        // },
     }
 }
 </script>

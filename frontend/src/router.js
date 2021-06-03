@@ -7,18 +7,17 @@ import Review from '@/views/review/Review';
 import Complaint from '@/views/complaint/Complaint';
 import HotelDetail from '@/views/hotel/HotelDetail';
 import Profile from '@/views/user/Profile';
-import User from '@/views/admin/User';
+import UserManage from '@/views/admin/UserManage';
 import ComplaintForm from "@/views/complaint/ComplaintForm";
 import ReviewForm from "@/views/review/ReviewForm";
 import FavoriteForm from "@/views/favorite/FavoriteForm";
 import Favorite from "@/views/favorite/Favorite";
-import Recommendation from "@/views/recommendation/Recommendation";
 import Booking from "@/views/booking/Booking";
 import Type from "@/views/roomtype/Type";
 import HotelManage from "@/views/admin/HotelManage";
 import BookingForm from "@/views/booking/BookingForm";
 import BookingHotelier from "@/views/booking/BookingHotelier";
-import FormDetail from "@/views/admin/FormDetail";
+import HotelManageDetail from "@/views/admin/HotelManageDetail";
 import BookingDetail from "@/views/booking/BookingDetail";
 import BookingHotelierDetail from "@/views/booking/BookingHotelierDetail";
 import ForgotPassword from "@/views/user/ForgotPassword";
@@ -200,7 +199,7 @@ let routes = [
     {
         path: '/admin/users',
         name: 'adminUser',
-        component: User,
+        component: UserManage,
         meta: {
             title: 'Manage user',
             requireRoles: ['admin']
@@ -219,7 +218,7 @@ let routes = [
     {
         path: '/admin/hotels/:uuid',
         name: 'adminHotelDetail',
-        component: FormDetail,
+        component: HotelManageDetail,
         meta: {
             title: 'Admin hotel detail',
             requireRoles: ['admin']
@@ -357,16 +356,6 @@ let routes = [
                 name: 'createFavorite',
                 meta: {
                     title: 'Create favorite',
-                    requireRoles: ['user']
-                },
-            },
-            // Recommendation router
-            {
-                path: '/dashboard/hotels/:uuid/recommendations',
-                component: Recommendation,
-                name: 'dashboardRecommendations',
-                meta: {
-                    title: 'Dashboard recommendation',
                     requireRoles: ['user']
                 },
             },

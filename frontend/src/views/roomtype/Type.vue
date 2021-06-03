@@ -77,6 +77,15 @@
                         </span>
                     </p>
 
+                    <p class="p-inline">
+                        <span class="font-weight-bolder">
+                            {{ $t('type.type.children') }}:
+                        </span>
+                        <span class="text-secondary">
+                            {{ type.children }}
+                        </span>
+                    </p>
+
                     <p
                         class="p-inline"
                         style="margin: 20px"
@@ -86,6 +95,18 @@
                         </span>
                         <span class="text-secondary">
                             {{ type.price }} VND
+                        </span>
+                    </p>
+
+                    <p
+                        class="p-inline"
+                        style="margin: 20px"
+                    >
+                        <span class="font-weight-bolder">
+                            {{ $t('type.type.area') }}:
+                        </span>
+                        <span class="text-secondary">
+                            {{ type.area }} m2
                         </span>
                     </p>
 

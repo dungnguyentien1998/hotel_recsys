@@ -269,22 +269,22 @@ export default {
                 minLength: minLength(10)
             },
             image: {
-                // required,
+
             },
             city: {
-                // required,
+
             },
             district: {
-                // required,
+
             },
             ward: {
-                // required,
+
             },
             address: {
-                // required,
+
             },
             birthday: {
-                // required,
+
             }
         }
     },

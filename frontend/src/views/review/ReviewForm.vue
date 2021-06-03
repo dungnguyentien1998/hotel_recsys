@@ -16,13 +16,6 @@
             id="content-group"
         >
             <label class="required">{{ $t('review.reviewForm.content') }}</label>
-            <!--            <b-form-input-->
-            <!--                id="content"-->
-            <!--                v-model="$v.form.content.$model"-->
-            <!--                :state="validateState('content')"-->
-            <!--                :placeholder="$t('review.reviewForm.contentPlaceholder')"-->
-            <!--                type="text"-->
-            <!--            />-->
             <b-form-textarea
                 id="content"
                 v-model="$v.form.content.$model"

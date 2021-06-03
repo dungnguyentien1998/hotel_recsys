@@ -16,13 +16,6 @@
             id="content-group"
         >
             <label class="required">{{ $t('complaint.complaintForm.content') }}</label>
-            <!--            <b-form-input-->
-            <!--                id="content"-->
-            <!--                v-model="$v.form.content.$model"-->
-            <!--                :state="validateState('content')"-->
-            <!--                :placeholder="$t('complaint.complaintForm.contentPlaceHolder')"-->
-            <!--                type="text"-->
-            <!--            />-->
             <b-form-textarea
                 id="content"
                 v-model="$v.form.content.$model"
@@ -82,7 +75,7 @@ export default {
                 required
             },
             image :{
-                // required
+
             }
         }
     },

@@ -98,6 +98,7 @@
             <div>
                 <!--      Users table         -->
                 <b-table
+                    v-if="filterUsers.length > 0"
                     id="users-table"
                     :items="filterUsers"
                     :fields="columns"
@@ -172,7 +173,7 @@
                     {{ $t('user.user.noResult') }}
                 </span>
                 <b-pagination
-                    v-if="filterUsers.length > 0"
+                    v-if="filterUsers.length > perPage"
                     v-model="currentPage"
                     :per-page="perPage"
                     :total-rows="rows"
@@ -222,10 +223,6 @@ export default {
         }
     },
     computed: {
-        // Number of rows in table
-        // rows: function () {
-        //     return this.users.length
-        // },
         columns: function () {
             return [
                 {

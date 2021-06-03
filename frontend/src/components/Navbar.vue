@@ -111,11 +111,6 @@
                             @click="localeToEn"
                         >
                             {{ $t('navbar.en') }}
-                            <!--                            <span-->
-                            <!--                                class="selected"-->
-                            <!--                            >-->
-                            <!--                                {{ isEn ? '*' : '' }}-->
-                            <!--                            </span>-->
                         </b-dropdown-item>
 
                         <b-dropdown-item
@@ -123,11 +118,6 @@
                             @click="localeToVi"
                         >
                             {{ $t('navbar.vi') }}
-                            <!--                            <span-->
-                            <!--                                class="selected"-->
-                            <!--                            >-->
-                            <!--                                {{ isVi ? '*' : '' }}-->
-                            <!--                            </span>-->
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
@@ -231,9 +221,6 @@ export default {
 
     },
     methods: {
-        // test: function() {
-        //     this.$router.push("/notification/hotels")
-        // },
         // Change to vietnamese
         localeToVi: function () {
             this.$i18n.locale = 'vi'

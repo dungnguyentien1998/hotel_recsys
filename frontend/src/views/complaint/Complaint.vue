@@ -118,7 +118,6 @@ export default {
         },
         // Handle send email
         mailtoUrl: function (email) {
-            // return `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&tf=cm`
             let url = 'mailto:' + email
             window.open(url)
         },
@@ -160,6 +159,5 @@ export default {
     margin: 10px 0;
     border-radius: 10px;
     border-style: solid;
-    //border-color: black;
 }
 </style>

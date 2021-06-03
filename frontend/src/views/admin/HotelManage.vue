@@ -274,10 +274,11 @@
                 {{ $t('hotel.hotel.noResult') }}
             </span>
             <b-pagination
-                v-if="filterHotels.length > 0"
+                v-if="filterHotels.length > perPage"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
+                pills
                 aria-controls="hotels-list"
             />
         </template>
@@ -324,7 +325,6 @@ export default {
                 star: null
             },
             updateForm: {
-                // is_active: null,
                 status: null
             },
             slide: 0,

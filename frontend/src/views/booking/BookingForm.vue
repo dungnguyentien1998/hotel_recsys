@@ -35,23 +35,6 @@
             </div>
         </b-form-group>
         <br>
-        <!--   Room type and booking count     -->
-        <!--        <b-form-group-->
-        <!--            v-for="(type, index) in types"-->
-        <!--            :key="`${type}-${index}`"-->
-        <!--            class="col-12"-->
-        <!--        >-->
-        <!--            <div class="form-row">-->
-        <!--                <label class="required col-sm-6 col-form-label">-->
-        <!--                    {{ $t('booking.bookingForm.bookingNumber') }} for room type {{ type.roomType }}-->
-        <!--                </label>-->
-        <!--                <b-form-select-->
-        <!--                    v-model="form.booking_counts[index]"-->
-        <!--                    class="form-control col-sm-3"-->
-        <!--                    :options="numberOpts"-->
-        <!--                />-->
-        <!--            </div>-->
-        <!--        </b-form-group>-->
         <!--        <button-->
         <!--            v-if="!showAvailable()"-->
         <!--            class="btn btn-primary"-->
@@ -169,10 +152,6 @@ export default {
         }
         let check_in_time = null
         let check_out_time = null
-        // if (localStorage.getItem("save") != null) {
-        //     check_in_time = localStorage.getItem("checkIn")
-        //     check_out_time = localStorage.getItem("checkOut")
-        // }
         if (this.$store.getters['booking/save'] != null) {
             check_in_time = this.$store.getters['booking/check_in']
             check_out_time = this.$store.getters['booking/check_out']
@@ -217,7 +196,7 @@ export default {
             let date_out = new Date(this.form.check_out_time)
             let delta = (date_out.getTime() - date_in.getTime())/ (1000*3600*24)
             sum = sum * delta
-            return sum
+            return this.formatPrice(sum)
         },
         fields: function() {
             return [
@@ -286,9 +265,9 @@ export default {
         formatPrice(price) {
             let temp = price.toString()
             let result = ''
-            for (let i=temp.length; i>=0; i--) {
+            for (let i=temp.length - 1; i>=0; i--) {
                 result = temp.charAt(i) + result
-                if ((temp.length - i + 1) % 3 === 0) {
+                if ((temp.length - i) % 3 === 0) {
                     result = "." + result
                 }
             }
@@ -337,14 +316,6 @@ export default {
             return index
         },
         getAvailable: function (roomType) {
-            // if (localStorage.getItem("save") == null) {
-            //     return ' '
-            // }
-            // if (localStorage.getItem(roomType) === null){
-            //     return ' '
-            // } else {
-            //     return localStorage.getItem(roomType)
-            // }
             // if (this.$store.getters['booking/save'] == null) {
             //     return ' '
             // }
@@ -382,7 +353,6 @@ export default {
             }
         },
         showAvailable: function () {
-            // return localStorage.getItem("save") != null;
             return this.$store.getters['booking/save'] != null;
         },
         // Get available rooms with each types
@@ -399,22 +369,18 @@ export default {
                 this.form.room_types = this.room_types
                 this.form.check_in_time = this.convertDate(this.form.check_in_time)
                 this.form.check_out_time = this.convertDate(this.form.check_out_time)
-                // localStorage.setItem("checkIn", this.form.check_in_time)
-                // localStorage.setItem("checkOut", this.form.check_out_time)
                 this.$store.commit('booking/setCheckIn', this.form.check_in_time)
                 this.$store.commit('booking/setCheckOut', this.form.check_out_time)
                 this.$store.commit('booking/setHotelId', this.form.hotel_id)
                 this.$store.dispatch('booking/resetStatus')
                 this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                     if (this.$store.getters['booking/status'] === 'FAILED') {
-                        // localStorage.setItem("save", "0")
                         this.$store.commit('booking/setSave', "0")
                         // Alert for failed api calls
                         const message = this.$store.getters['booking/message']
                         let data = JSON.parse(message)
                         for (const [key, value] of Object.entries(data)) {
                             this.availables[this.getIndex(key)] = value
-                            // localStorage.setItem(key, value.toString())
                             this.$store.commit('booking/setAvailableTypes', key)
                             this.$store.commit('booking/setAvailableNumbers', value)
                         }
@@ -449,8 +415,6 @@ export default {
                     this.form.room_types = this.room_types
                     this.form.check_in_time = this.convertDate(this.form.check_in_time)
                     this.form.check_out_time = this.convertDate(this.form.check_out_time)
-                    // localStorage.setItem("checkIn", this.form.check_in_time)
-                    // localStorage.setItem("checkOut", this.form.check_out_time)
                     this.$store.commit('booking/setCheckIn', this.form.check_in_time)
                     this.$store.commit('booking/setCheckOut', this.form.check_out_time)
                     this.$store.commit('booking/setHotelId', this.form.hotel_id)
@@ -458,7 +422,6 @@ export default {
                     this.$store.dispatch('booking/resetStatus')
                     this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                         if (this.$store.getters['booking/status'] === 'FAILED') {
-                            // localStorage.setItem("save", "0")
                             this.$store.commit('booking/setSave', "0")
                             // Alert for failed api calls
                             const message = this.$store.getters['booking/message']
@@ -467,7 +430,6 @@ export default {
                             if (localStorage.getItem("language") === "en") {
                                 for (const [key, value] of Object.entries(data)) {
                                     this.availables[this.getIndex(key)] = value
-                                    // localStorage.setItem(key, value.toString())
                                     this.$store.commit('booking/setAvailableTypes', key)
                                     this.$store.commit('booking/setAvailableNumbers', value)
                                     failed_message += value.toString() + " " + key + " rooms, "
@@ -478,7 +440,6 @@ export default {
                             } else {
                                 for (const [key, value] of Object.entries(data)) {
                                     this.availables[this.getIndex(key)] = value
-                                    // localStorage.setItem(key, value.toString())
                                     this.$store.commit('booking/setAvailableTypes', key)
                                     this.$store.commit('booking/setAvailableNumbers', value)
                                     failed_message += value.toString() + " phòng " + key + ", "
@@ -488,10 +449,8 @@ export default {
                                 failed_message = "Chỉ còn " + failed_message + " có thể đặt"
                             }
                             this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
-                            // setTimeout(location.reload.bind(location), 2000)
                         } else {
                             // Alert for success
-                            // localStorage.removeItem("save")
                             this.$store.commit('booking/resetSave')
                             let bookingId = this.$store.getters['booking/booking'].uuid
                             // this.purchase(bookingId)

@@ -98,20 +98,6 @@
                         >
                             {{ $t('hotel.hotelDetail.createComplaint') }}
                         </b-nav-item>
-                        <!--                        <b-nav-item-->
-                        <!--                            :to="{name: 'createReview'}"-->
-                        <!--                            class="b-nav-item"-->
-                        <!--                            exact-active-class="active"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('hotel.hotelDetail.createReview') }}-->
-                        <!--                        </b-nav-item>-->
-                        <!--                        <b-nav-item-->
-                        <!--                            :to="{name: 'dashboardRecommendations'}"-->
-                        <!--                            class="b-nav-item"-->
-                        <!--                            exact-active-class="active"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('hotel.hotelDetail.similarHotel') }}-->
-                        <!--                        </b-nav-item>-->
                         <b-nav-item
                             :to="{name: 'dashboardBookings'}"
                             class="b-nav-item"

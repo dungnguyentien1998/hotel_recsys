@@ -24,15 +24,6 @@
                             :placeholder="$t('user.login.oldPasswordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showOldPassword"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -49,15 +40,6 @@
                             :placeholder="$t('user.login.newPasswordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showPassword"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-group
@@ -74,15 +56,6 @@
                             :placeholder="$t('user.register.confirmPasswordPlaceholder')"
                             type="password"
                         />
-                        <!--                        <button-->
-                        <!--                            class="btn password"-->
-                        <!--                            type="button"-->
-                        <!--                            @click="showPasswordConfirm"-->
-                        <!--                        >-->
-                        <!--                            <font-awesome-icon-->
-                        <!--                                :icon="['fas', 'eye']"-->
-                        <!--                            />-->
-                        <!--                        </button>-->
                     </div>
                 </b-form-group>
                 <b-form-checkbox

@@ -17,7 +17,9 @@ class RoomAmenity(models.TextChoices):
 class Type(BaseModel):
     room_type = models.CharField(blank=True, max_length=settings.CHAR_FIELD_MAX_LEN)
     capacity = models.IntegerField(default=1)
+    # children_number = models.IntegerField(default=0)
     price = models.IntegerField(blank=True)
+    # area = models.IntegerField(blank=True)
     amenities = ArrayField(models.CharField(max_length=settings.CHAR_FIELD_MAX_LEN, choices=RoomAmenity.choices),
                            blank=True)
     # hotel = models.ForeignKey(Hotel, related_name='types', on_delete=models.SET_NULL, null=True)

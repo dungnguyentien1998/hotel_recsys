@@ -33,6 +33,22 @@
             </div>
         </b-form-group>
         <b-form-group
+            id="children-group"
+            class="col-12"
+        >
+            <div class="form-row">
+                <label class="required col-sm-3 col-form-label">{{ $t('type.typeForm.children') }}</label>
+                <b-form-input
+                    id="children"
+                    v-model="$v.form.children_number.$model"
+                    class="form-control col-sm-9"
+                    :state="validateState('children')"
+                    :placeholder="$t('type.typeForm.childrenPlaceholder')"
+                    type="text"
+                />
+            </div>
+        </b-form-group>
+        <b-form-group
             id="price-group"
             class="col-12"
         >
@@ -44,6 +60,22 @@
                     class="form-control col-sm-9"
                     :state="validateState('price')"
                     :placeholder="$t('type.typeForm.pricePlaceholder')"
+                    type="text"
+                />
+            </div>
+        </b-form-group>
+        <b-form-group
+            id="area-group"
+            class="col-12"
+        >
+            <div class="form-row">
+                <label class="required col-sm-3 col-form-label">{{ $t('type.typeForm.area') }}</label>
+                <b-form-input
+                    id="area"
+                    v-model="$v.form.area.$model"
+                    class="form-control col-sm-9"
+                    :state="validateState('area')"
+                    :placeholder="$t('type.typeForm.areaPlaceholder')"
                     type="text"
                 />
             </div>
@@ -134,12 +166,16 @@ export default {
             form: !!this.type ? {
                 room_type: this.type.roomType,
                 capacity: this.type.capacity,
+                children_number: this.type.childrenNumber,
                 price: this.type.price,
+                area: this.type.area,
                 amenities: this.type.amenities
             } : {
                 room_type: null,
                 capacity: null,
+                children_number: null,
                 price: null,
+                area: null,
                 amenities: [],
             }
         }
@@ -162,7 +198,15 @@ export default {
                 required,
                 numeric
             },
+            children_number: {
+                required,
+                numeric
+            },
             price: {
+                required,
+                numeric
+            },
+            area: {
                 required,
                 numeric
             },

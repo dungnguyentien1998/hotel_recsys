@@ -160,7 +160,7 @@ export default {
                 numeric
             },
             image: {
-                // required
+
             },
             images: {
                 required
@@ -189,9 +189,6 @@ export default {
                     } else {
                         this.form.hotelId = this.$route.params.uuid
                         this.form.roomId = this.room.uuid
-                        // if (this.form.room_number === this.room.roomNumber) {
-                        //     this.form.room_number = null
-                        // }
                         this.$store.dispatch('room/updateRoom', this.form).then(() => {
                             if (this.$store.getters['room/status'] === 'FAILED') {
                                 // Alert for failed api calls

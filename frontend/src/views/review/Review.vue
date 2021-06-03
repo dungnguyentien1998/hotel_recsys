@@ -41,30 +41,6 @@
                         </b-badge>
                     </div>
                 </div>
-                <!--            <p class="m-0 font-weight-bolder p-inline">-->
-                <!--                {{ review.title }}-->
-                <!--            </p>-->
-                <!--  Review rating          -->
-                <!--            <b-form-rating-->
-                <!--                :value="review.rating"-->
-                <!--                class="pl-0 p-inline"-->
-                <!--                variant="warning"-->
-                <!--                inline-->
-                <!--                no-border-->
-                <!--                readonly-->
-                <!--            />-->
-                <!--            <b-badge-->
-                <!--                pill-->
-                <!--                variant="info"-->
-                <!--                class="badge-size"-->
-                <!--            >-->
-                <!--                {{ review.rating }} / 5-->
-                <!--            </b-badge>-->
-                <!--            <p-->
-                <!--                class="m-0 text-secondary"-->
-                <!--            >-->
-                <!--                {{ toDate(review.created) }}-->
-                <!--            </p>-->
                 <p class="m-0 text-secondary">
                     {{ review.content }}
                 </p>
@@ -121,15 +97,6 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +
                 date.getHours() + ":" + date.getMinutes();
         },
-        subcribe() {
-            let pusher = new Pusher('5d873d3e35474aa76004', {
-                cluster: 'ap1'
-            });
-            pusher.subscribe('a_channel');
-            pusher.bind('an_event_1', data => {
-
-            })
-        }
     }
 }
 </script>
