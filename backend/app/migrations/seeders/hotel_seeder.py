@@ -29,7 +29,7 @@ class HotelSeeder(BaseSeeder):
             hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=address['city'],
                           district=address['district'], ward=address['ward'], address=address['address'],
                           amenities=[amenity[0] for amenity in
-                                     random.sample(HotelAmenity.choices, k=random.randrange(len(HotelAmenity.choices)) + 1)],
+                                     random.sample(HotelAmenity.choices, k=random.randrange(5, len(HotelAmenity.choices)) + 1)],
                           user_id=hotelier.uuid, created=created, updated=created,
                           status=random.choices(population=[Status.ACTIVE, Status.PENDING], weights=(90, 10))[0])
             hotel.save()

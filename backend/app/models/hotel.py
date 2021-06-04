@@ -10,8 +10,12 @@ from enum import Enum
 class HotelAmenity(models.TextChoices):
     FREE_PARKING = 'free parking'
     FITNESS_CENTER = 'fitness center'
-    FREE_BREAKFAST = 'free breakfast'
+    BREAKFAST = 'breakfast'
     SWIMMING_POOL = 'swimming pool'
+    BAR = 'bar'
+    SPA = 'spa'
+    ROOM_SERVICE = 'room service'
+    NON_SMOKING_ICON = 'non smoking icon'
 
 
 class Status(models.TextChoices):

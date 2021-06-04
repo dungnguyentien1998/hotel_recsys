@@ -19,7 +19,7 @@ class RoomSerializer(serializers.ModelSerializer):
         validated_data['hotel_id'] = self.context['hotel'].uuid
         # Add type to context, room_type is missing after validate_serializer
         validated_data['room_type'] = self.context['type']
-        room_type = Type.objects.filter(room_type=validated_data['room_type'], hotel_id=validated_data['hotel_id'])[0]
+        room_type = Type.objects.filter(name=validated_data['room_type'], hotel_id=validated_data['hotel_id'])[0]
 
         if len(validated_data['room_numbers']) != len(validated_data['images']):
             raise ValidationError('Room numbers and images must be equal')
@@ -45,7 +45,7 @@ class RoomSerializer(serializers.ModelSerializer):
                 raise ValidationError('Room number ' + validated_data['room_number'] + ' already exist')
 
         [setattr(instance, field, value) for field, value in validated_data.items()]
-        room_type = Type.objects.filter(room_type=self.context['type'], hotel_id=self.context['hotel'].uuid)[0]
+        room_type = Type.objects.filter(name=self.context['type'], hotel_id=self.context['hotel'].uuid)[0]
         instance.type_id = room_type.uuid
         instance.save()
         return instance
@@ -56,7 +56,11 @@ class RoomDetailSerializer(serializers.ModelSerializer):
     capacity = serializers.ReadOnlyField()
     price = serializers.ReadOnlyField()
     amenities = serializers.ReadOnlyField()
+    adult_number = serializers.ReadOnlyField()
+    children_number = serializers.ReadOnlyField()
+    area = serializers.ReadOnlyField()
 
     class Meta:
         model = Room
-        fields = [*Room.get_fields(), 'room_type', 'capacity', 'price', 'amenities']
+        fields = [*Room.get_fields(), 'room_type', 'capacity', 'price', 'amenities', 'adult_number',
+                  'children_number', 'area']

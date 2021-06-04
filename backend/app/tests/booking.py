@@ -31,7 +31,7 @@ class BookingTestCase(APITestCase, URLPatternsTestCase):
             user=self.user
         )
         self.type = Type.objects.create(
-            room_type='test',
+            name='test',
             capacity=1,
             price=1,
             amenities=['personal care'],
@@ -61,7 +61,7 @@ class BookingTestCase(APITestCase, URLPatternsTestCase):
             'check_in_time': '2021-04-10 09:00:00',
             'check_out_time': '2021-04-12 09:00:00',
             'hotel_id': Hotel.objects.all()[0].uuid,
-            'room_types': [Type.objects.all()[0].room_type],
+            'room_types': [Type.objects.all()[0].name],
             'booking_counts': [1]
         }
         response = self.client.post(url, booking_data, format='json')

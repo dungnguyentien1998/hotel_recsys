@@ -30,7 +30,7 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
             image='test',
         )
         self.type = Type.objects.create(
-            room_type='test',
+            name='test',
             capacity=1,
             price=1,
             amenities=['personal care'],
@@ -61,7 +61,7 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
 
     def test_put_type_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(room_type='test').uuid])
+        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(name='test').uuid])
         type_data = {
             'room_type': 'new_test',
             'capacity': 3,
@@ -74,6 +74,6 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
 
     def test_delete_type_api(self):
         self.client.force_authenticate(self.user)
-        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(room_type='test').uuid])
+        url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(name='test').uuid])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

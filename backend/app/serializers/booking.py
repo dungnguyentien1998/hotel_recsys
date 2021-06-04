@@ -38,7 +38,7 @@ class BookingSerializer(serializers.Serializer):
         final = True
         # Get number of rooms available for each room type
         for i in range(len(room_types)):
-            room_type = Type.objects.filter(room_type=room_types[i], hotel_id=hotel_id)[0]
+            room_type = Type.objects.filter(name=room_types[i], hotel_id=hotel_id)[0]
             rooms = Room.objects.filter(type_id=room_type.uuid)
             count = 0
             current_booking_types = BookingType.objects.filter(type_id=room_type.uuid)
@@ -52,26 +52,6 @@ class BookingSerializer(serializers.Serializer):
             remains[room_types[i]] = len(rooms) - count
             if remains[room_types[i]] < booking_counts[i]:
                 final = False
-
-            # for room in rooms:
-            #     current_booking_rooms = BookingRoom.objects.filter(room_id=room.uuid)
-            #     # Check is used to validate new booking
-            #     check = True
-            #     for current_booking_room in current_booking_rooms:
-            #         current_booking = Booking.objects.get(uuid=current_booking_room.booking_id)
-            #         if current_booking.check_in_time < validated_data['check_out_time'] <= current_booking.check_out_time:
-            #             check = False
-            #             break
-            #         if validated_data['check_out_time'] > current_booking.check_out_time > validated_data['check_in_time']:
-            #             check = False
-            #             break
-            #
-            #     if check:
-            #         count += 1
-            #
-            # remains[room_types[i]] = count
-            # if count < booking_counts[i]:
-            #     final = False
 
         if (not final) or get_avaiable:
             raise BookingError(json.dumps(remains))
@@ -104,7 +84,7 @@ class BookingSerializer(serializers.Serializer):
         last_date = datetime.date(validated_data['check_out_time'])
         delta = last_date - first_date
         for i in range(len(room_types)):
-            room_type = Type.objects.filter(room_type=room_types[i], hotel_id=hotel_id)[0]
+            room_type = Type.objects.filter(name=room_types[i], hotel_id=hotel_id)[0]
             total_price = total_price + room_type.price * booking_counts[i] * delta.days
 
         booking = Booking(check_in_time=validated_data['check_in_time'], check_out_time=validated_data['check_out_time'],
@@ -115,7 +95,7 @@ class BookingSerializer(serializers.Serializer):
 
         for i in range(len(room_types)):
             if booking_counts[i] > 0:
-                room_type = Type.objects.filter(room_type=room_types[i], hotel_id=hotel_id)[0]
+                room_type = Type.objects.filter(name=room_types[i], hotel_id=hotel_id)[0]
                 booking_type = BookingType(booking_id=booking_id, type_id=room_type.uuid, count=booking_counts[i])
                 booking_type.save()
 

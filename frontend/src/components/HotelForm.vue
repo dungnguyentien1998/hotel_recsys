@@ -208,7 +208,8 @@ export default {
         }
         return {
             // Amenities options
-            options: ['fitness center', 'free breakfast', 'free parking', 'swimming pool'],
+            options: ['fitness center', 'breakfast', 'free parking', 'swimming pool', 'bar', 'spa',
+                'room service', 'non smoking icon'],
             // Hotel form data
             form: !!this.hotel ? {
                 name: this.hotel.name,

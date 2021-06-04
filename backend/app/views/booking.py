@@ -88,7 +88,7 @@ class HotelierBookingDetail(APIView):
         for booking_type in booking_types:
             temp_dict = {'room_type': '', 'room_number': [], 'amount': 0, 'room_booked': []}
             room_type = models.Type.objects.get(uuid=booking_type.type_id)
-            temp_dict['room_type'] = room_type.room_type
+            temp_dict['room_type'] = room_type.name
             temp_dict['amount'] = booking_type.count
             rooms = models.Room.objects.filter(type_id=room_type.uuid)
             for room in rooms:
@@ -108,7 +108,7 @@ class HotelierBookingDetail(APIView):
 
             for booking_room in booking_rooms:
                 room = models.Room.objects.get(uuid=booking_room.room_id)
-                if room.room_type == room_type.room_type:
+                if room.room_type == room_type.name:
                     temp_dict['room_booked'].append(room.room_number)
 
             room_types.append(temp_dict)

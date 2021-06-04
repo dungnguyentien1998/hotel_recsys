@@ -9,17 +9,23 @@ from django.contrib.postgres.fields import ArrayField
 class RoomAmenity(models.TextChoices):
     BATHROBES = 'bathrobes'
     COFFEE_KIT = 'coffee kit'
-    PERSONAL_CARE = 'personal care'
+    CLOTHES_RACK = 'clothes rack'
     WIFI = 'wifi'
     TISSUE_BOX = 'tissue box'
+    TOILETRIES = 'toiletries'
+    BATHTUB = 'bathtub'
+    REFRIGERATOR = 'refrigerator'
+    HAIR_DRYER = 'hair dryer'
+    ELECTRIC_KETTLE = 'electric kettle'
 
 
 class Type(BaseModel):
-    room_type = models.CharField(blank=True, max_length=settings.CHAR_FIELD_MAX_LEN)
+    name = models.CharField(blank=True, max_length=settings.CHAR_FIELD_MAX_LEN)
     capacity = models.IntegerField(default=1)
-    # children_number = models.IntegerField(default=0)
+    adult_number = models.IntegerField(default=1)
+    children_number = models.IntegerField(default=0)
     price = models.IntegerField(blank=True)
-    # area = models.IntegerField(blank=True)
+    area = models.IntegerField(blank=True)
     amenities = ArrayField(models.CharField(max_length=settings.CHAR_FIELD_MAX_LEN, choices=RoomAmenity.choices),
                            blank=True)
     # hotel = models.ForeignKey(Hotel, related_name='types', on_delete=models.SET_NULL, null=True)

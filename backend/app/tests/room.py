@@ -31,7 +31,7 @@ class RoomTestCase(APITestCase, URLPatternsTestCase):
             user=self.user
         )
         self.type = Type.objects.create(
-            room_type='test',
+            name='test',
             capacity=1,
             price=1,
             amenities=['personal care'],

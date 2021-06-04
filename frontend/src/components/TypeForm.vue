@@ -162,7 +162,8 @@ export default {
     data: function () {
         return {
             // Room amenities options
-            options: ['personal care', 'coffee kit', 'tissue box', 'bathrobes', 'wifi'],
+            options: ['clothes rack', 'coffee kit', 'tissue box', 'bathrobes', 'wifi', 'toiletries', 'bathtub',
+                'refrigerator', 'hair dryer', 'electric kettle'],
             form: !!this.type ? {
                 room_type: this.type.roomType,
                 capacity: this.type.capacity,

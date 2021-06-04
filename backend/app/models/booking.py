@@ -88,8 +88,8 @@ class Booking(BaseModel):
         room_type = []
         booking_types = BookingType.objects.filter(booking_id=self.uuid)
         for booking_type in booking_types:
-            r_type = Type.objects.get(uuid=booking_type.type_id)
-            room_type.append(r_type.room_type)
+            temp_room_type = Type.objects.get(uuid=booking_type.type_id)
+            room_type.append(temp_room_type.name)
         return room_type
 
     @property

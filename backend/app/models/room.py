@@ -3,7 +3,6 @@ from django.db import models
 from app.models.hotel import Hotel
 from app.models.type import Type
 from app.utils.model_maker import BaseModel
-from django.contrib.postgres.fields import ArrayField
 
 
 # Room model
@@ -20,6 +19,14 @@ class Room(BaseModel):
         return self.type.capacity
 
     @property
+    def adult_number(self):
+        return self.type.adult_number
+
+    @property
+    def children_number(self):
+        return self.type.children_number
+
+    @property
     def price(self):
         return self.type.price
 
@@ -29,7 +36,11 @@ class Room(BaseModel):
 
     @property
     def room_type(self):
-        return self.type.room_type
+        return self.type.name
+
+    @property
+    def area(self):
+        return self.type.area
 
     class Meta:
         db_table = 'room'

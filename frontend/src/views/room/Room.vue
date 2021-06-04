@@ -291,7 +291,8 @@ export default {
     mixins: [validationMixin, formMixin],
     data: function () {
         return {
-            options: ['personal care', 'coffee kit', 'tissue box', 'bathrobes', 'wifi'],
+            options: ['clothes rack', 'coffee kit', 'tissue box', 'bathrobes', 'wifi', 'toiletries', 'bathtub',
+                        'refrigerator', 'hair dryer', 'electric kettle'],
             rooms: [],
             filterRooms: [],
             form: {
