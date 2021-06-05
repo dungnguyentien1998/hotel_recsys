@@ -287,30 +287,30 @@ export default {
         }
     },
     computed: {
-        fields: function() {
-            return [
-                {
-                    key: 'type',
-                    label: this.$t('booking.bookingForm.roomType'),
-                },
-                {
-                    key: 'capacity',
-                    label: this.$t('booking.bookingForm.capacity'),
-                },
-                {
-                    key: 'price',
-                    label: this.$t('booking.bookingForm.price'),
-                },
-                {
-                    key: 'amenities',
-                    label: this.$t('booking.bookingForm.amenities'),
-                },
-                {
-                    key: 'amount',
-                    label: this.$t('booking.bookingForm.rooms'),
-                },
-            ]
-        },
+        // fields: function() {
+        //     return [
+        //         {
+        //             key: 'type',
+        //             label: this.$t('booking.bookingForm.roomType'),
+        //         },
+        //         {
+        //             key: 'capacity',
+        //             label: this.$t('booking.bookingForm.capacity'),
+        //         },
+        //         {
+        //             key: 'price',
+        //             label: this.$t('booking.bookingForm.price'),
+        //         },
+        //         {
+        //             key: 'amenities',
+        //             label: this.$t('booking.bookingForm.amenities'),
+        //         },
+        //         {
+        //             key: 'amount',
+        //             label: this.$t('booking.bookingForm.rooms'),
+        //         },
+        //     ]
+        // },
         arrange_fields: function () {
             return [
                 {
@@ -377,7 +377,7 @@ export default {
             let index = 0
             const types = this.$store.getters['booking/types']
             for (let i=0; i<types.length; i++) {
-                if (types[i].roomType === room_type) {
+                if (types[i].name === room_type) {
                     return index
                 }
                 index = index + 1
@@ -415,7 +415,21 @@ export default {
             for (const price in prices) {
                 total_price += prices[price]
             }
-            return total_price
+            return this.formatPrice(total_price)
+        },
+        formatPrice(price) {
+            let temp = price.toString()
+            let result = ''
+            for (let i=temp.length - 1; i>=0; i--) {
+                result = temp.charAt(i) + result
+                if ((temp.length - i) % 3 === 0) {
+                    result = "." + result
+                }
+            }
+            if (result.charAt(0) === ".") {
+                result = result.substring(1)
+            }
+            return result
         },
         isNotNull: function(tel) {
             return tel != null && tel !== "";

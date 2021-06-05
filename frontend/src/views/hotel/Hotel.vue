@@ -330,7 +330,13 @@
                 </div>
             </div>
             <span
-                v-if="filterHotels.length === 0"
+                v-if="filterHotels.length === 0 && roleHotelier"
+                style="font-style: italic"
+            >
+                {{ $t('hotel.hotel.noHotel') }}
+            </span>
+            <span
+                v-if="filterHotels.length === 0 && !roleHotelier && isSearch"
                 style="font-style: italic"
             >
                 {{ $t('hotel.hotel.noResult') }}
@@ -466,7 +472,8 @@ export default {
                 star: null
             },
             slide: 0,
-            sliding: null
+            sliding: null,
+            isSearch: false
         }
     },
     computed: {
@@ -616,6 +623,7 @@ export default {
             this.rows = this.filterHotels.length
             if (this.filterHotels.length === 0) {
                 this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+                this.isSearch = true
             }
         },
         // Handle router based on role

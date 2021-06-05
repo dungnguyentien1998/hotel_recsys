@@ -6,11 +6,14 @@
                     {{ $t('booking.booking.title') }}
                 </h2>
             </div>
-            <br>
-            <!--   Booking list         -->
-            <b-list-group>
+            <hr>
+            <b-list-group
+                id="bookings-list"
+                :current-page="currentPage"
+                :per-page="perPage"
+            >
                 <b-list-group-item
-                    v-for="booking in bookings"
+                    v-for="booking in bookings.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
                     :key="booking.uuid"
                     class="list-item"
                 >
@@ -109,6 +112,21 @@
                     </div>
                 </b-list-group-item>
             </b-list-group>
+            <br>
+            <span
+                v-if="bookings.length === 0"
+                style="font-style: italic"
+            >
+                {{ $t('booking.booking.noResult') }}
+            </span>
+            <b-pagination
+                v-if="bookings.length > perPage"
+                v-model="currentPage"
+                :per-page="perPage"
+                :total-rows="rows"
+                pills
+                aria-controls="bookings-list"
+            />
         </template>
     </Layout>
 </template>
@@ -133,12 +151,16 @@ export default {
         return {
             // Booking data
             bookings: [],
+            currentPage: 1,
+            perPage: 10,
+            rows: 0,
         }
     },
     created() {
         this.$store.dispatch('booking/newListBookings')
             .then(() => {
                 this.bookings = this.$store.getters['booking/bookings']
+                this.rows = this.bookings.length
                 this.bookings.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })

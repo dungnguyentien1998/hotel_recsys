@@ -11,9 +11,13 @@
             </b-button>
         </div>
         <br>
-        <b-list-group>
+        <b-list-group
+            id="types-list"
+            :current-page="currentPage"
+            :per-page="perPage"
+        >
             <b-list-group-item
-                v-for="type in types"
+                v-for="type in types.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
                 :key="type.uuid"
                 class="list-item"
             >
@@ -64,25 +68,37 @@
                             {{ $t('type.type.roomType') }}:
                         </span>
                         <span class="text-secondary">
-                            {{ type.roomType }}
+                            {{ type.name }}
                         </span>
                     </h4>
 
-                    <p class="p-inline">
-                        <span class="font-weight-bolder">
-                            {{ $t('type.type.capacity') }}:
-                        </span>
-                        <span class="text-secondary">
-                            {{ type.capacity }}
-                        </span>
-                    </p>
+                    <!--                    <p class="p-inline">-->
+                    <!--                        <span class="font-weight-bolder">-->
+                    <!--                            {{ $t('type.type.capacity') }}:-->
+                    <!--                        </span>-->
+                    <!--                        <span class="text-secondary">-->
+                    <!--                            {{ type.capacity }}-->
+                    <!--                        </span>-->
+                    <!--                    </p>-->
 
                     <p class="p-inline">
                         <span class="font-weight-bolder">
-                            {{ $t('type.type.children') }}:
+                            {{ $t('type.type.adultNumber') }}:
                         </span>
                         <span class="text-secondary">
-                            {{ type.children }}
+                            {{ type.adultNumber }}
+                        </span>
+                    </p>
+
+                    <p
+                        class="p-inline"
+                        style="margin: 20px"
+                    >
+                        <span class="font-weight-bolder">
+                            {{ $t('type.type.childrenNumber') }}:
+                        </span>
+                        <span class="text-secondary">
+                            {{ type.childrenNumber }}
                         </span>
                     </p>
 
@@ -94,7 +110,7 @@
                             {{ $t('type.type.price') }}:
                         </span>
                         <span class="text-secondary">
-                            {{ type.price }} VND
+                            {{ formatPrice(type.price) }} VND
                         </span>
                     </p>
 
@@ -110,28 +126,40 @@
                         </span>
                     </p>
 
-                    <p>
+                    <div>
                         <span class="font-weight-bolder">
                             {{ $t('hotel.hotel.amenities') }}
                         </span>
-                        <b-list-group horizontal="md">
-                            <b-list-group-item
-                                v-for="(amenity, index) in type.amenities"
-                                :key="`${type.uuid}-amenity-${index}`"
-                                style="margin: 5px; border: none"
+                        <div class="test">
+                            <ul
+                                style="padding: 0; list-style-type: none"
                             >
-                                <img
-                                    :src="getSrc(amenity)"
-                                    :alt="amenity"
-                                    class="icon"
+                                <li
+                                    v-for="(amenity, index) in type.amenities"
+                                    :key="`${type.uuid}-amenity-${index}`"
                                 >
-                                {{ amenity }}
-                            </b-list-group-item>
-                        </b-list-group>
-                    </p>
+                                    <img
+                                        :src="getSrc(amenity)"
+                                        :alt="amenity"
+                                        class="icon"
+                                    >
+                                    {{ amenity }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </b-list-group-item>
         </b-list-group>
+        <br>
+        <b-pagination
+            v-if="types.length > perPage"
+            v-model="currentPage"
+            :per-page="perPage"
+            :total-rows="rows"
+            pills
+            aria-controls="types-list"
+        />
         <b-modal
             id="modal-create"
             :title="$t('type.type.createTitle')"
@@ -152,6 +180,9 @@ export default {
     data: function () {
         return {
             types: [],
+            currentPage: 1,
+            perPage: 10,
+            rows: 0,
         }
     },
     computed: {
@@ -167,12 +198,27 @@ export default {
         this.$store.dispatch('type/listTypes', this.$route.params.uuid)
             .then(() => {
                 this.types = this.$store.getters['type/types']
+                this.rows = this.types.length
                 this.types.sort(function (a,b) {
                     return new Date(a.created) - new Date(b.created)
                 })
             })
     },
     methods: {
+        formatPrice(price) {
+            let temp = price.toString()
+            let result = ''
+            for (let i=temp.length - 1; i>=0; i--) {
+                result = temp.charAt(i) + result
+                if ((temp.length - i) % 3 === 0) {
+                    result = "." + result
+                }
+            }
+            if (result.charAt(0) === ".") {
+                result = result.substring(1)
+            }
+            return result
+        },
         getSrc: function (amenity) {
             let images = require.context('../../assets/', false, /\.png$/)
             return images('./' + amenity + ".png")
@@ -207,5 +253,15 @@ export default {
 .icon {
     height: 30px;
     width: 30px;
+}
+
+.test ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+.test ul li {
+    list-style: none;
+    flex: 0 0 20%;
 }
 </style>

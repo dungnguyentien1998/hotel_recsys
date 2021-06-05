@@ -32,29 +32,32 @@
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.address') }}
                 </span>
-                <span class="text-secondary">
+                <span>
                     {{ getAddress(hotel.address, hotel.ward, hotel.district, hotel.city) }}
                 </span>
             </p>
-            <p>
+            <div>
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.amenities') }}
                 </span>
-                <b-list-group horizontal="md">
-                    <b-list-group-item
-                        v-for="(amenity, index) in hotel.amenities"
-                        :key="`${hotel.uuid}-amenity-${index}`"
-                        style="margin: 5px; border: none"
+                <div class="test">
+                    <ul
+                        style="padding: 0; list-style-type: none"
                     >
-                        <img
-                            :src="getSrc(amenity)"
-                            :alt="amenity"
-                            class="icon"
+                        <li
+                            v-for="(amenity, index) in hotel.amenities"
+                            :key="`${hotel.uuid}-amenity-${index}`"
                         >
-                        {{ amenity }}
-                    </b-list-group-item>
-                </b-list-group>
-            </p>
+                            <img
+                                :src="getSrc(amenity)"
+                                :alt="amenity"
+                                class="icon"
+                            >
+                            {{ amenity }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="mt-3">
                 <b-button
                     v-if="roleUser"
@@ -392,4 +395,15 @@ export default {
     width: 25%;
     height: 15%;
 }
+
+.test ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+.test ul li {
+    list-style: none;
+    flex: 0 0 20%;
+}
+
 </style>

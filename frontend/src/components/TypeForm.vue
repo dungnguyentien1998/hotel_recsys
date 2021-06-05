@@ -16,18 +16,34 @@
                 />
             </div>
         </b-form-group>
+        <!--        <b-form-group-->
+        <!--            id="capacity-group"-->
+        <!--            class="col-12"-->
+        <!--        >-->
+        <!--            <div class="form-row">-->
+        <!--                <label class="required col-sm-3 col-form-label">{{ $t('type.typeForm.capacity') }}</label>-->
+        <!--                <b-form-input-->
+        <!--                    id="capacity"-->
+        <!--                    v-model="$v.form.capacity.$model"-->
+        <!--                    class="form-control col-sm-9"-->
+        <!--                    :state="validateState('capacity')"-->
+        <!--                    :placeholder="$t('type.typeForm.capacityPlaceholder')"-->
+        <!--                    type="text"-->
+        <!--                />-->
+        <!--            </div>-->
+        <!--        </b-form-group>-->
         <b-form-group
-            id="capacity-group"
+            id="adult-group"
             class="col-12"
         >
             <div class="form-row">
-                <label class="required col-sm-3 col-form-label">{{ $t('type.typeForm.capacity') }}</label>
+                <label class="required col-sm-3 col-form-label">{{ $t('type.typeForm.adult') }}</label>
                 <b-form-input
-                    id="capacity"
-                    v-model="$v.form.capacity.$model"
+                    id="adult"
+                    v-model="$v.form.adult_number.$model"
                     class="form-control col-sm-9"
-                    :state="validateState('capacity')"
-                    :placeholder="$t('type.typeForm.capacityPlaceholder')"
+                    :state="validateState('adult_number')"
+                    :placeholder="$t('type.typeForm.adultPlaceholder')"
                     type="text"
                 />
             </div>
@@ -42,7 +58,7 @@
                     id="children"
                     v-model="$v.form.children_number.$model"
                     class="form-control col-sm-9"
-                    :state="validateState('children')"
+                    :state="validateState('children_number')"
                     :placeholder="$t('type.typeForm.childrenPlaceholder')"
                     type="text"
                 />
@@ -165,15 +181,17 @@ export default {
             options: ['clothes rack', 'coffee kit', 'tissue box', 'bathrobes', 'wifi', 'toiletries', 'bathtub',
                 'refrigerator', 'hair dryer', 'electric kettle'],
             form: !!this.type ? {
-                room_type: this.type.roomType,
-                capacity: this.type.capacity,
+                room_type: this.type.name,
+                // capacity: this.type.capacity,
+                adult_number: this.type.adultNumber,
                 children_number: this.type.childrenNumber,
                 price: this.type.price,
                 area: this.type.area,
                 amenities: this.type.amenities
             } : {
                 room_type: null,
-                capacity: null,
+                // capacity: null,
+                adult_number: null,
                 children_number: null,
                 price: null,
                 area: null,
@@ -195,7 +213,11 @@ export default {
             room_type: {
                 required
             },
-            capacity: {
+            // capacity: {
+            //     required,
+            //     numeric
+            // },
+            adult_number: {
                 required,
                 numeric
             },

@@ -146,7 +146,7 @@ export default {
             const types = this.$store.getters['type/types']
             opts.push({value: null, text: '-----'})
             for (let option in this.$store.getters['type/types']) {
-                const room_type = types[option].roomType
+                const room_type = types[option].name
                 opts.push({value: room_type, text: room_type})
             }
             return opts

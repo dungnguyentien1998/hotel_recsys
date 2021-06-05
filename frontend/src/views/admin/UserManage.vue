@@ -167,7 +167,7 @@
                     </template>
                 </b-table>
                 <span
-                    v-if="filterUsers.length === 0"
+                    v-if="filterUsers.length === 0 && isSearch"
                     style="font-style: italic"
                 >
                     {{ $t('user.user.noResult') }}
@@ -220,6 +220,7 @@ export default {
             users: [],
             // User list for search function
             filterUsers: [],
+            isSearch: false
         }
     },
     computed: {
@@ -320,6 +321,7 @@ export default {
             this.rows = this.filterUsers.length
             if (this.filterUsers.length === 0) {
                 this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
+                this.isSearch = true
             }
         },
         compare: function (a,b) {

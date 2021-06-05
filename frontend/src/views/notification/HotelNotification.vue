@@ -7,9 +7,13 @@
                 </h2>
             </div>
             <br>
-            <b-list-group>
+            <b-list-group
+                id="hotels-list"
+                :current-page="currentPage"
+                :per-page="perPage"
+            >
                 <b-list-group-item
-                    v-for="hotel in hotels"
+                    v-for="hotel in hotels.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
                     :key="hotel.uuid"
                     class="list-item"
                 >
@@ -66,6 +70,15 @@
                     </div>
                 </b-list-group-item>
             </b-list-group>
+            <br>
+            <b-pagination
+                v-if="hotels.length > perPage"
+                v-model="currentPage"
+                :per-page="perPage"
+                :total-rows="rows"
+                pills
+                aria-controls="hotels-list"
+            />
         </template>
     </Layout>
 </template>
@@ -80,12 +93,16 @@ export default {
     data: function() {
         return {
             hotels: [],
+            currentPage: 1,
+            perPage: 15,
+            rows: 0,
         }
     },
     created() {
         this.$store.dispatch('hotel/notifyHotels')
             .then(() => {
                 this.hotels = this.$store.getters['hotel/notify_hotels']
+                this.rows = this.hotels.length
                 this.hotels.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })

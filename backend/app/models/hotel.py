@@ -15,7 +15,7 @@ class HotelAmenity(models.TextChoices):
     BAR = 'bar'
     SPA = 'spa'
     ROOM_SERVICE = 'room service'
-    NON_SMOKING_ICON = 'non smoking icon'
+    NON_SMOKING_ROOM = 'non smoking room'
 
 
 class Status(models.TextChoices):

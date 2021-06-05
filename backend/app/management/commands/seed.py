@@ -26,4 +26,4 @@ class Command(BaseCommand):
         self.stdout.write()
         for _cls in orders:
             _cls().run(self.stdout, self.stderr)
-        # HotelSeeder().run(self.stdout, self.stderr)
+        # ReviewSeeder().run(self.stdout, self.stderr)

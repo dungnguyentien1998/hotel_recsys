@@ -1,8 +1,12 @@
 <template>
     <div>
-        <b-list-group>
+        <b-list-group
+            id="complaints-list"
+            :current-page="currentPage"
+            :per-page="perPage"
+        >
             <b-list-group-item
-                v-for="complaint in complaints"
+                v-for="complaint in complaints.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
                 :key="complaint.uuid"
                 class="list-item"
             >
@@ -80,6 +84,15 @@
                 </div>
             </b-list-group-item>
         </b-list-group>
+        <br>
+        <b-pagination
+            v-if="complaints.length > perPage"
+            v-model="currentPage"
+            :per-page="perPage"
+            :total-rows="rows"
+            pills
+            aria-controls="complaints-list"
+        />
     </div>
 </template>
 
@@ -98,6 +111,9 @@ export default {
         return {
             // Complaint data
             complaints: [],
+            currentPage: 1,
+            perPage: 10,
+            rows: 0,
             form: {
                 is_processed: null,
             }
@@ -107,6 +123,7 @@ export default {
         this.$store.dispatch('complaint/listComplaints', this.$route.params.uuid)
             .then(() => {
                 this.complaints = this.$store.getters['complaint/complaints']
+                this.rows = this.complaints.length
                 this.complaints.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })

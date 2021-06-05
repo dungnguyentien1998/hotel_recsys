@@ -249,7 +249,7 @@ export default {
                 let price = 0
                 let amenities = []
                 for (let option in this.types) {
-                    if (this.types[option].roomType === unique_types[j]) {
+                    if (this.types[option].name === unique_types[j]) {
                         capacity = this.types[option].capacity
                         price = this.types[option].price
                         amenities = this.types[option].amenities
@@ -267,7 +267,21 @@ export default {
             for (const price in prices) {
                 total_price += prices[price]
             }
-            return total_price
+            return this.formatPrice(total_price)
+        },
+        formatPrice(price) {
+            let temp = price.toString()
+            let result = ''
+            for (let i=temp.length - 1; i>=0; i--) {
+                result = temp.charAt(i) + result
+                if ((temp.length - i) % 3 === 0) {
+                    result = "." + result
+                }
+            }
+            if (result.charAt(0) === ".") {
+                result = result.substring(1)
+            }
+            return result
         },
         deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')

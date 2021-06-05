@@ -57,9 +57,10 @@
                 <template
                     #cell(roomType)="data"
                 >
-                    <span>
-                        {{ data.item.roomType }}
+                    <span class="font-weight-bolder">
+                        {{ data.item.name }}
                     </span>
+                    <div>{{ $t('booking.bookingForm.area') }}: {{ data.item.area }} m2</div>
                     <div>
                         <b-link
                             :href="hotelImage(data.item.images[0])"
@@ -68,6 +69,12 @@
                             {{ $t('booking.bookingForm.viewImage') }}
                         </b-link>
                     </div>
+                </template>
+                <template
+                    #cell(capacity)="data"
+                >
+                    <div>{{ $t('booking.bookingForm.adult') }}: {{ data.item.adultNumber }}</div>
+                    <div>{{ $t('booking.bookingForm.children') }}: {{ data.item.childrenNumber }} </div>
                 </template>
                 <template
                     #cell(amenities)="data"
@@ -93,17 +100,17 @@
                 <template
                     #cell(available)="data"
                 >
-                    {{ getAvailable(data.item.roomType) }}
+                    {{ getAvailable(data.item.name) }}
                     {{
-                        (getAvailable(data.item.roomType) === ' ') ? '' : $tc('hotel.hotel.room', getAvailable(data.item.roomType))
+                        (getAvailable(data.item.name) === ' ') ? '' : $tc('hotel.hotel.room', getAvailable(data.item.name))
                     }}
                 </template>
                 <template
                     #cell(rooms)="data"
                 >
                     <b-form-select
-                        v-model="form.booking_counts[getIndex(data.item.roomType)]"
-                        :options="numberOpts(data.item.roomType, data.item.price)"
+                        v-model="form.booking_counts[getIndex(data.item.name)]"
+                        :options="numberOpts(data.item.name, data.item.price)"
                     />
                 </template>
             </b-table>
@@ -147,7 +154,7 @@ export default {
         let availables = []
         for (let i = 0; i < types_length; i++) {
             booking_counts.push(0)
-            room_types.push(types[i].roomType)
+            room_types.push(types[i].name)
             availables.push(0)
         }
         let check_in_time = null
@@ -307,7 +314,7 @@ export default {
             let index = 0
             const types = this.$store.getters['type/types']
             for (let option in this.$store.getters['type/types']) {
-                const roomType = types[option].roomType
+                const roomType = types[option].name
                 if (roomType === room_type) {
                     return index
                 }
