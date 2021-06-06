@@ -64,7 +64,7 @@
                                     id="name"
                                     v-model="$v.form.name.$model"
                                     :placeholder="$t('user.register.namePlaceholder')"
-                                    type="text"
+                                    type="search"
                                 />
                             </b-form-group>
                             <b-form-group
@@ -80,7 +80,7 @@
                                     id="email"
                                     v-model="$v.form.email.$model"
                                     :placeholder="$t('user.register.emailPlaceholder')"
-                                    type="email"
+                                    type="search"
                                 />
                             </b-form-group>
                         </b-form>
@@ -194,6 +194,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import DeactivateForm from "@/views/admin/DeactivateForm";
 import Pusher from "pusher-js";
+import camelcaseKeys from "camelcase-keys";
 library.add(faSearch)
 
 
@@ -375,6 +376,7 @@ export default {
             });
             pusher.subscribe('a_channel');
             pusher.bind('an_event', data => {
+                data = camelcaseKeys(data, {deep: true})
                 this.$store.commit('hotel/saveHotel', data)
             })
         }

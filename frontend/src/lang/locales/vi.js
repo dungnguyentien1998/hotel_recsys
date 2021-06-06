@@ -515,6 +515,7 @@ export default {
                 createTitle: 'Tạo phòng không thành công',
                 updateTitle: 'Cập nhật không thành công',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
+                image: 'Ảnh phòng chưa được thêm đủ',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
             }
         }

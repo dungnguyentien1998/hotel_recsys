@@ -78,6 +78,12 @@ export default {
     setAvailableNumbers: (state, payload) => {
         state.available_numbers.push(payload)
     },
+    clearAvailableTypes: state => {
+        state.available_types = []
+    },
+    clearAvailableNumbers: state => {
+        state.available_numbers = []
+    },
     setBookingId: (state, payload) => {
         state.booking_id = payload
     },

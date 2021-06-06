@@ -7,7 +7,6 @@ from app.utils.serializer_validator import validate_serializer
 
 class BookingRoomDetail(APIView):
     def get(self, request, hotel_id):
-        # booking = models.Booking.objects.get(uuid=request.data['booking_id'])
         booking_rooms = models.BookingRoom.objects.filter(booking_id=request.query_params['bookingId'])
         return Response({
             'success': True,

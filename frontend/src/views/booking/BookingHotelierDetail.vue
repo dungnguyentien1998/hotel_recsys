@@ -377,7 +377,7 @@ export default {
             let index = 0
             const types = this.$store.getters['booking/types']
             for (let i=0; i<types.length; i++) {
-                if (types[i].name === room_type) {
+                if (types[i].roomType === room_type) {
                     return index
                 }
                 index = index + 1

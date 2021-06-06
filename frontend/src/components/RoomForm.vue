@@ -177,7 +177,7 @@ export default {
         // Handle create/update room
         onSubmit: function () {
             this.$v.form.$touch();
-            if (this.$v.form.$anyError || this.form.room_type == null) {
+            if (this.form.room_type == null) {
                 // Alert for form validation
                 this.makeToast(this.$t('room.roomForm.errors.title'), this.$t('room.roomForm.errors.missing'))
             } else {
@@ -209,6 +209,8 @@ export default {
                     // Handle create form
                     if (this.form.room_numbers.length === 0 || this.form.images.length === 0) {
                         this.makeToast(this.$t('room.roomForm.errors.createTitle'), this.$t('room.roomForm.errors.missing'))
+                    } else if (this.form.room_numbers.length !== this.form.images.length){
+                        this.makeToast(this.$t('room.roomForm.errors.createTitle'), this.$t('room.roomForm.errors.image'))
                     } else {
                         this.form.hotelId = this.$route.params.uuid
                         this.$store.dispatch('room/createRoom', this.form)

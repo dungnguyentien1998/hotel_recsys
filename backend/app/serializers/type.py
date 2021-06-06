@@ -10,19 +10,19 @@ class TypeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['hotel_id'] = self.context['hotel'].uuid
-        current_type = Type.objects.filter(hotel_id=validated_data['hotel_id'], name=validated_data['room_type'])
+        current_type = Type.objects.filter(hotel_id=validated_data['hotel_id'], name=validated_data['name'])
         if len(current_type) > 0:
-            raise ValidationError("Room type " + validated_data['room_type'] + " already existed")
+            raise ValidationError("Room type " + validated_data['name'] + " already existed")
         room_type = Type(**validated_data)
         room_type.save()
         return room_type
 
     def update(self, instance, validated_data):
         room_type = self.context['type'].name
-        if room_type != validated_data['room_type']:
-            current_type = Type.objects.filter(hotel_id=self.context['hotel'].uuid, name=validated_data['room_type'])
+        if room_type != validated_data['name']:
+            current_type = Type.objects.filter(hotel_id=self.context['hotel'].uuid, name=validated_data['name'])
             if len(current_type) > 0:
-                raise ValidationError("Room type " + validated_data['room_type'] + " already existed")
+                raise ValidationError("Room type " + validated_data['name'] + " already existed")
         [setattr(instance, field, value) for field, value in validated_data.items()]
         instance.save()
         return instance

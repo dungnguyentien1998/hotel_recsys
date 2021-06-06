@@ -128,7 +128,20 @@ export default {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validate
-                this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
+                if (this.form.password === '' || this.form.password == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.password'))
+                } else
+                if (this.form.password_confirm === '' || this.form.password_confirm == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordConfirm'))
+                } else
+                if (this.form.password.length < 6) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordLength'))
+                } else
+                if (this.form.password !== this.form.password_confirm) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordSame'))
+                } else {
+                    this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
+                }
             } else {
                 this.$store.dispatch('user/resetPassword', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {

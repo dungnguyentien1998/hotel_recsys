@@ -125,7 +125,7 @@ export default {
             }
         },
         showReason: function(reason) {
-            if (reason == null || reason === '') {
+            if (reason == null || reason === '' || reason === "null") {
                 return false
             } else {
                 return true

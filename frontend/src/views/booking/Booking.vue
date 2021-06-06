@@ -46,12 +46,6 @@
                             </span>
                             {{ getAddress(booking.address, booking.ward, booking.district, booking.city) }}
                         </p>
-                        <p>
-                            <span class="font-weight-bolder">
-                                {{ $t('booking.booking.code') }}:
-                            </span>
-                            {{ booking.code }}
-                        </p>
                         <ul
                             id="time"
                             style="padding: 0; list-style-type: none"
@@ -80,6 +74,12 @@
                             </li>
                         </ul>
                         <br>
+                        <p>
+                            <span class="font-weight-bolder">
+                                {{ $t('booking.booking.code') }}:
+                            </span>
+                            {{ booking.code }}
+                        </p>
                         <br>
                         <div>
                             <b-button

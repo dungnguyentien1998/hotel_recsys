@@ -515,6 +515,7 @@ export default {
                 createTitle: 'Create room failed',
                 updateTitle: 'Update room failed',
                 missing: 'You must fill all required information',
+                image: 'Room image is missing',
                 exceptionOccurred: 'An exception occurred'
             }
         }

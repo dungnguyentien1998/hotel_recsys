@@ -145,6 +145,7 @@
                     img-top
                     class="p-1 mb-2"
                     tag="article"
+                    style="height: 505px"
                 >
                     <b-card-img
                         :src="hotelImage(recommendation.image)"

@@ -296,6 +296,7 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import json from '../../mixin/data/db_en.json'
 import Pusher from 'pusher-js'
 import ApproveForm from "@/views/admin/ApproveForm";
+import camelcaseKeys from "camelcase-keys";
 
 library.add(faSearch)
 
@@ -475,6 +476,7 @@ export default {
             });
             pusher.subscribe('a_channel');
             pusher.bind('an_event', data => {
+                data = camelcaseKeys(data, {deep: true})
                 this.$store.commit('hotel/saveHotel', data)
             })
         }

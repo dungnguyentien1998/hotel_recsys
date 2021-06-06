@@ -92,7 +92,7 @@
                                     :alt="amenity"
                                     class="icon"
                                 >
-                                {{ amenity }}
+                                <span>{{ amenity }}</span>
                             </li>
                         </ul>
                     </div>
@@ -108,6 +108,13 @@
                 <template
                     #cell(rooms)="data"
                 >
+                    <div
+                        v-if="showAvailable(data.item.name)"
+                    >
+                        <span style="color: #cd0505">
+                            {{ message(data.item.name) }}
+                        </span>
+                    </div>
                     <b-form-select
                         v-model="form.booking_counts[getIndex(data.item.name)]"
                         :options="numberOpts(data.item.name, data.item.price)"
@@ -259,11 +266,30 @@ export default {
         hotelImage: function (uri) {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },
+        message(roomType) {
+            let n = this.getAvailable(roomType)
+            let result = ''
+            if (n < 0) {
+                return result
+            } else {
+                if (localStorage.getItem("language") === "en") {
+                    result = 'Only ' + n + ' rooms available'
+                } else {
+                    result = 'Chỉ còn ' + n + ' phòng trống'
+                }
+                return result
+            }
+        },
         numberOpts(roomType, price) {
             let opts = []
             opts.push({value: 0, text: '-----'})
-            // const n = this.getAvailable(roomType)
-            const n = 5
+            let n = 5
+            if (this.$store.getters['booking/save'] != null) {
+                n = this.getAvailable(roomType)
+                if (n < 0) {
+                    n = 5
+                }
+            }
             for (let i = 1; i <= n; i++) {
                 opts.push({value: i, text: i.toString() + " (" + this.formatPrice(price*i) + " VND)"})
             }
@@ -336,7 +362,7 @@ export default {
                 }
             }
             if (index === available_types.length) {
-                return ' '
+                return -1
             } else {
                 return available_numbers[index]
             }
@@ -359,8 +385,8 @@ export default {
                 hotel_id: null
             }
         },
-        showAvailable: function () {
-            return this.$store.getters['booking/save'] != null;
+        showAvailable: function (roomType) {
+            return this.$store.getters['booking/save'] != null && this.message(roomType) !== '';
         },
         // Get available rooms with each types
         onGetAvailable: function () {
@@ -425,7 +451,7 @@ export default {
                     this.$store.commit('booking/setCheckIn', this.form.check_in_time)
                     this.$store.commit('booking/setCheckOut', this.form.check_out_time)
                     this.$store.commit('booking/setHotelId', this.form.hotel_id)
-                    // Handle create booking
+
                     this.$store.dispatch('booking/resetStatus')
                     this.$store.dispatch('booking/newCreateBooking', this.form).then(() => {
                         if (this.$store.getters['booking/status'] === 'FAILED') {
@@ -434,6 +460,8 @@ export default {
                             const message = this.$store.getters['booking/message']
                             let data = JSON.parse(message)
                             let failed_message = ""
+                            this.$store.commit('booking/clearAvailableTypes')
+                            this.$store.commit('booking/clearAvailableNumbers')
                             if (localStorage.getItem("language") === "en") {
                                 for (const [key, value] of Object.entries(data)) {
                                     this.availables[this.getIndex(key)] = value
@@ -455,7 +483,13 @@ export default {
                                 failed_message = failed_message.slice(0, n-2)
                                 failed_message = "Chỉ còn " + failed_message + " có thể đặt"
                             }
+                            const types = this.$store.getters['type/types']
+                            const types_length = types.length
+                            for (let i = 0; i < types_length; i++) {
+                                this.form.booking_counts[i] = 0
+                            }
                             this.makeToast(this.$t('booking.bookingForm.errors.createTitle'), failed_message)
+                            // window.location.reload()
                         } else {
                             // Alert for success
                             this.$store.commit('booking/resetSave')
@@ -466,7 +500,7 @@ export default {
                                 autoHideDelay: 2000,
                                 variant: 'success'
                             })
-                            // setTimeout(location.reload.bind(location), 2000)
+                            setTimeout(location.reload.bind(location), 2000)
                         }
                     })
                 }
@@ -485,8 +519,8 @@ export default {
     color: red;
 }
 .icon {
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
 }
 .th-class {
     max-width: 50px;

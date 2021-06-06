@@ -199,22 +199,6 @@
                                     </span>
                                     {{ booking.code }}
                                 </p>
-                                <!--                <p-->
-                                <!--                    class="p-inline"-->
-                                <!--                >-->
-                                <!--                    <span class="font-weight-bolder">-->
-                                <!--                        {{ $t('booking.booking.roomNumber') }}:-->
-                                <!--                    </span>-->
-                                <!--                </p>-->
-                                <!--                <ul class="u-inline">-->
-                                <!--                    <li-->
-                                <!--                        v-for="number in booking.roomNumber"-->
-                                <!--                        :key="number"-->
-                                <!--                        style="display: inline-block; margin: 5px; text-align: left"-->
-                                <!--                    >-->
-                                <!--                        {{ number }}-->
-                                <!--                    </li>-->
-                                <!--                </ul>-->
                                 <ul
                                     id="time-1"
                                     style="padding: 0; list-style-type: none"
