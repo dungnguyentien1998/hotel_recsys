@@ -6,6 +6,7 @@ from app.permissions.hotel import HotelPermission
 from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
 from django.db.models import Q
+from django.db import transaction
 
 
 class Hotel(APIView):
@@ -31,17 +32,19 @@ class Hotel(APIView):
 
     # Create hotel
     def post(self, request):
-        serializer = HotelSerializer(data=request.data, context={'request': request})
-        validate_serializer(serializer=serializer)
-        hotel = serializer.save()
-        hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
-        pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
-        message = {
-            'success': True,
-            'hotel': HotelDetailSerializer(hotel).data,
-            'count': len(hotels)
-        }
-        pusher.trigger(u'a_channel', u'an_event', message)
+        with transaction.atomic():
+            serializer = HotelSerializer(data=request.data, context={'request': request})
+            validate_serializer(serializer=serializer)
+            hotel = serializer.save()
+            hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
+            pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+            message = {
+                'success': True,
+                'hotel': HotelDetailSerializer(hotel).data,
+                'count': len(hotels)
+            }
+            pusher.trigger(u'a_channel', u'an_event', message)
+
         return Response(message)
 
 
@@ -84,17 +87,27 @@ class HotelDetail(APIView):
 class HotelActive(APIView):
     permission_classes = ()
 
-    def put(self, request, hotel_id):
-        hotel = models.Hotel.objects.get(uuid=hotel_id)
-        serializer = HotelActiveSerializer(data=request.data)
-        validate_serializer(serializer=serializer)
-        serializer.update(instance=hotel, validated_data=serializer.validated_data)
-        pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
-        message = {
+    def get(self, request):
+        user = request.user
+        hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
+        return Response({
             'success': True,
-            'hotel': HotelDetailSerializer(hotel).data,
-        }
-        pusher.trigger(u'a_channel_1', u'an_event_1', message)
+            'hotels': HotelDetailSerializer(hotels, many=True).data
+        })
+
+    def put(self, request, hotel_id):
+        with transaction.atomic():
+            hotel = models.Hotel.objects.get(uuid=hotel_id)
+            serializer = HotelActiveSerializer(data=request.data)
+            validate_serializer(serializer=serializer)
+            serializer.update(instance=hotel, validated_data=serializer.validated_data)
+            pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+            message = {
+                'success': True,
+                'hotel': HotelDetailSerializer(hotel).data,
+            }
+            pusher.trigger(u'a_channel_1', u'an_event_1', message)
+
         return Response(message)
 
 

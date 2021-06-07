@@ -167,6 +167,38 @@
                 </b-form-tags>
             </div>
         </b-form-group>
+        <!--        <b-form-group-->
+        <!--            id="email-group"-->
+        <!--            class="col-12"-->
+        <!--        >-->
+        <!--            <div class="form-row">-->
+        <!--                <label class="required col-sm-3 col-form-label">{{ $t('hotel.hotelForm.email') }}</label>-->
+        <!--                <b-form-input-->
+        <!--                    id="email"-->
+        <!--                    v-model="$v.form.email.$model"-->
+        <!--                    class="form-control col-sm-9"-->
+        <!--                    :state="validateState('email')"-->
+        <!--                    :placeholder="$t('hotel.hotelForm.emailPlaceholder')"-->
+        <!--                    type="email"-->
+        <!--                />-->
+        <!--            </div>-->
+        <!--        </b-form-group>-->
+        <!--        <b-form-group-->
+        <!--            id="tel-group"-->
+        <!--            class="col-12"-->
+        <!--        >-->
+        <!--            <div class="form-row">-->
+        <!--                <label class="required col-sm-3 col-form-label">{{ $t('hotel.hotelForm.tel') }}</label>-->
+        <!--                <b-form-input-->
+        <!--                    id="tel"-->
+        <!--                    v-model="$v.form.tel.$model"-->
+        <!--                    class="form-control col-sm-9"-->
+        <!--                    :state="validateState('tel')"-->
+        <!--                    :placeholder="$t('hotel.hotelForm.telPlaceholder')"-->
+        <!--                    type="text"-->
+        <!--                />-->
+        <!--            </div>-->
+        <!--        </b-form-group>-->
         <button
             class="btn btn-sm btn-primary"
             type="button"
@@ -220,12 +252,16 @@ export default {
                 address: this.hotel.address,
                 image: null,
                 amenities: this.hotel.amenities,
+                // email: this.hotel.email,
+                // tel: this.hotel.tel
             } : {
                 name: null,
                 star: null,
                 address: null,
                 image: null,
                 amenities: [],
+                // email: null,
+                // tel: null
             },
         }
     },
@@ -266,6 +302,12 @@ export default {
             amenities: {
                 required
             },
+            // email: {
+            //     required
+            // },
+            // tel: {
+            //     required
+            // }
         }
     },
     created() {
@@ -307,6 +349,8 @@ export default {
                 address: null,
                 image: null,
                 amenities: [],
+                // email: null,
+                // tel: null
             }
         },
         // Get cities

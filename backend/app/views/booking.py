@@ -5,6 +5,7 @@ from app.serializers import BookingSerializer, BookingDetailSerializer
 from app.permissions.booking import BookingPermission
 from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
+from django.db import transaction
 
 
 class Booking(APIView):
@@ -17,15 +18,17 @@ class Booking(APIView):
         })
 
     def post(self, request):
-        serializer = BookingSerializer(data=request.data, context={'request': request})
-        validate_serializer(serializer=serializer)
-        booking = serializer.save()
-        pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
-        message = {
-            'success': True,
-            'booking': BookingDetailSerializer(booking).data
-        }
-        pusher.trigger(u'a_channel', u'an_event_3', message)
+        with transaction.atomic():
+            serializer = BookingSerializer(data=request.data, context={'request': request})
+            validate_serializer(serializer=serializer)
+            booking = serializer.save()
+            pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+            message = {
+                'success': True,
+                'booking': BookingDetailSerializer(booking).data
+            }
+            pusher.trigger(u'a_channel', u'an_event_3', message)
+
         return Response(message)
 
 

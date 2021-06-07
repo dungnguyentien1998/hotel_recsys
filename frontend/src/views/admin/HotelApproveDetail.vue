@@ -38,20 +38,6 @@
                         <span class="font-weight-bolder">
                             {{ $t('hotel.hotel.amenities') }}
                         </span>
-                        <!--                        <b-list-group horizontal="md">-->
-                        <!--                            <b-list-group-item-->
-                        <!--                                v-for="(amenity, index) in hotel.amenities"-->
-                        <!--                                :key="`${hotel.uuid}-amenity-${index}`"-->
-                        <!--                                style="margin: 5px; border: none"-->
-                        <!--                            >-->
-                        <!--                                <img-->
-                        <!--                                    :src="getSrc(amenity)"-->
-                        <!--                                    :alt="amenity"-->
-                        <!--                                    class="icon"-->
-                        <!--                                >-->
-                        <!--                                {{ amenity }}-->
-                        <!--                            </b-list-group-item>-->
-                        <!--                        </b-list-group>-->
                         <div class="test">
                             <ul
                                 style="padding: 0; list-style-type: none"
@@ -79,9 +65,6 @@
                         </span>
                     </p>
                     <p>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('hotel.hotel.ownerTel') }}-->
-                        <!--                        </span>-->
                         <img
                             src="../../assets/phone.png"
                             alt="phone"
@@ -92,9 +75,6 @@
                             {{ hotel.ownerTel }}
                         </span>
                         -
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('hotel.hotel.ownerEmail') }}-->
-                        <!--                        </span>-->
                         <img
                             src="../../assets/email.png"
                             alt="email"
@@ -105,6 +85,27 @@
                             {{ hotel.ownerEmail }}
                         </span>
                     </p>
+                    <!--            <p>-->
+                    <!--                <img-->
+                    <!--                    src="../../assets/phone.png"-->
+                    <!--                    alt="phone"-->
+                    <!--                    class="icon"-->
+                    <!--                    style="height:20px; width:20px"-->
+                    <!--                >-->
+                    <!--                <span>-->
+                    <!--                    {{ hotel.tel }}-->
+                    <!--                </span>-->
+                    <!--                - -->
+                    <!--                <img-->
+                    <!--                    src="../../assets/email.png"-->
+                    <!--                    alt="email"-->
+                    <!--                    class="icon"-->
+                    <!--                    style="height:20px; width:20px"-->
+                    <!--                >-->
+                    <!--                <span>-->
+                    <!--                    {{ hotel.email }}-->
+                    <!--                </span>-->
+                    <!--            </p>-->
                     <div class="mt-2">
                         <b-button
                             :disabled="hotel.status === 'active'"
@@ -139,7 +140,7 @@ import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from '
 import ApproveForm from "@/views/admin/ApproveForm";
 
 export default {
-    name: "HotelManageDetail",
+    name: "HotelApproveDetail",
     components: {Layout, ApproveForm},
     data: function () {
         return {

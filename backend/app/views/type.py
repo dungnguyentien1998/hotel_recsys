@@ -9,7 +9,6 @@ class Type(APIView):
     permission_classes = ()
 
     def get(self, request, hotel_id):
-        # hotel = models.Hotel.objects.get(uuid=hotel_id)
         types = models.Type.objects.filter(hotel_id=hotel_id)
         return Response({
             'success': True,

@@ -14,10 +14,10 @@ import FavoriteForm from "@/views/favorite/FavoriteForm";
 import Favorite from "@/views/favorite/Favorite";
 import Booking from "@/views/booking/Booking";
 import Type from "@/views/roomtype/Type";
-import HotelManage from "@/views/admin/HotelManage";
+import HotelApprove from "@/views/admin/HotelApprove";
 import BookingForm from "@/views/booking/BookingForm";
 import BookingHotelier from "@/views/booking/BookingHotelier";
-import HotelManageDetail from "@/views/admin/HotelManageDetail";
+import HotelApproveDetail from "@/views/admin/HotelApproveDetail";
 import BookingDetail from "@/views/booking/BookingDetail";
 import BookingHotelierDetail from "@/views/booking/BookingHotelierDetail";
 import ForgotPassword from "@/views/user/ForgotPassword";
@@ -209,7 +209,7 @@ let routes = [
     {
         path: '/admin/hotels',
         name: 'adminHotels',
-        component: HotelManage,
+        component: HotelApprove,
         meta: {
             title: 'Admin hotels',
             requireRoles: ['admin']
@@ -218,7 +218,7 @@ let routes = [
     {
         path: '/admin/hotels/:uuid',
         name: 'adminHotelDetail',
-        component: HotelManageDetail,
+        component: HotelApproveDetail,
         meta: {
             title: 'Admin hotel detail',
             requireRoles: ['admin']

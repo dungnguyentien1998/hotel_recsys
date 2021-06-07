@@ -243,7 +243,11 @@ export default {
             this.$v.form.$touch();
             if (this.$v.form.$anyError) {
                 // Alert for form validation
-                this.makeToast(this.$t('type.typeForm.errors.title'), this.$t('type.typeForm.errors.missing'))
+                if (isNaN(this.form.adult_number) || isNaN(this.form.children_number) || isNaN(this.form.area) || isNaN(this.form.price)) {
+                    this.makeToast(this.$t('type.typeForm.errors.title'), this.$t('type.typeForm.errors.invalidData'))
+                } else {
+                    this.makeToast(this.$t('type.typeForm.errors.title'), this.$t('type.typeForm.errors.missing'))
+                }
             } else {
                 this.form.amenities = this.form.amenities.map(amenity => amenity.toLowerCase())
                 // Handle update form

@@ -231,6 +231,10 @@ export default {
             imageDropPlaceholder: 'Kéo tệp vào đây',
             amenities: 'Tiện ích:',
             amenitiesPlaceholder: 'Chọn tiện ích',
+            email: 'Email:',
+            emailPlaceholder: 'Nhập email',
+            tel: 'Điện thoại:',
+            telPlaceholder: 'Nhập số điện thoại',
             createBtn: 'Tạo',
             updateBtn: 'Cập nhật',
             success: {
@@ -466,7 +470,7 @@ export default {
             },
             errors: {
                 title: 'Thao tác không thành công',
-                invalidData: 'Thông tin không chính xác',
+                invalidData: 'Nhập sai kiểu dữ liệu',
                 createTitle: 'Tạo kiểu phòng không thành công',
                 updateTitle: 'Cập nhật không thành công',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',

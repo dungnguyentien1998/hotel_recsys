@@ -231,6 +231,10 @@ export default {
             imageDropPlaceholder: 'Drop file here',
             amenities: 'Amenities:',
             amenitiesPlaceholder: 'Select amenities',
+            email: 'Email:',
+            emailPlaceholder: 'Enter email',
+            tel: 'Tel number:',
+            telPlaceholder: 'Enter telephone number',
             createBtn: 'Create',
             updateBtn: 'Update',
             success: {
@@ -466,7 +470,7 @@ export default {
             },
             errors: {
                 title: 'Action failed',
-                invalidData: 'Invalid data',
+                invalidData: 'Wrong data type',
                 createTitle: 'Create room type failed',
                 updateTitle: 'Update room type failed',
                 missing: 'You must fill all required information',

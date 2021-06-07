@@ -75,13 +75,3 @@ def send_booking_notification_to_user(user, booking):
     )
 
 
-def send_complaint_notification_to_user(user, complaint):
-    receiver = user.email
-    body = "Hotel " + complaint.hotel.name + " has process your booking created on " + complaint.created \
-           + ". Login to view details"
-    yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
-    yag.send(
-        to=receiver,
-        subject="Notification about complaint at hotel " + complaint.hotel.name,
-        contents=body
-    )

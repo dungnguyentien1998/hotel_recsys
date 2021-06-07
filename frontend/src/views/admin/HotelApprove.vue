@@ -301,7 +301,7 @@ import camelcaseKeys from "camelcase-keys";
 library.add(faSearch)
 
 export default {
-    name: "HotelManage",
+    name: "HotelApprove",
     components: {Layout, ApproveForm},
     mixins: [validationMixin, formMixin, addressMixin],
     data: function () {

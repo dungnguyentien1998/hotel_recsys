@@ -28,6 +28,27 @@
                 <!--                    style="float: right"-->
                 <!--                />-->
             </b-form-group>
+            <!--            <p>-->
+            <!--                <img-->
+            <!--                    src="../../assets/phone.png"-->
+            <!--                    alt="phone"-->
+            <!--                    class="icon"-->
+            <!--                    style="height:20px; width:20px"-->
+            <!--                >-->
+            <!--                <span>-->
+            <!--                    {{ hotel.tel }}-->
+            <!--                </span>-->
+            <!--                - -->
+            <!--                <img-->
+            <!--                    src="../../assets/email.png"-->
+            <!--                    alt="email"-->
+            <!--                    class="icon"-->
+            <!--                    style="height:20px; width:20px"-->
+            <!--                >-->
+            <!--                <span>-->
+            <!--                    {{ hotel.email }}-->
+            <!--                </span>-->
+            <!--            </p>-->
             <p>
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.address') }}
@@ -241,35 +262,35 @@ export default {
         plugin2.setAttribute("src", "https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js")
         document.head.appendChild(plugin2)
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZ250MjEzIiwiYSI6ImNrb3d5d3hoajA5ZGozMG1qZHlydXR0bmMifQ.PDS9TCnddZ0b0XuaxRW7yg';
-        let mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
-        mapboxClient.geocoding
-            .forwardGeocode({
-                query: this.hotel.ward + ", " + this.hotel.district + ", " + this.hotel.city,
-                autocomplete: false,
-                limit: 1
-            })
-            .send()
-            .then(function (response) {
-                if (
-                    response &&
-                    response.body &&
-                    response.body.features &&
-                    response.body.features.length
-                ) {
-                    let feature = response.body.features[0];
-
-                    let map = new mapboxgl.Map({
-                        container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v11',
-                        center: feature.center,
-                        zoom: 15
-                    });
-
-                    // Create a marker and add it to the map.
-                    new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
-                }
-            });
+        // mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZ250MjEzIiwiYSI6ImNrb3d5d3hoajA5ZGozMG1qZHlydXR0bmMifQ.PDS9TCnddZ0b0XuaxRW7yg';
+        // let mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+        // mapboxClient.geocoding
+        //     .forwardGeocode({
+        //         query: this.hotel.ward + ", " + this.hotel.district + ", " + this.hotel.city,
+        //         autocomplete: false,
+        //         limit: 1
+        //     })
+        //     .send()
+        //     .then(function (response) {
+        //         if (
+        //             response &&
+        //             response.body &&
+        //             response.body.features &&
+        //             response.body.features.length
+        //         ) {
+        //             let feature = response.body.features[0];
+        //
+        //             let map = new mapboxgl.Map({
+        //                 container: 'map',
+        //                 style: 'mapbox://styles/mapbox/streets-v11',
+        //                 center: feature.center,
+        //                 zoom: 15
+        //             });
+        //
+        //             // Create a marker and add it to the map.
+        //             new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
+        //         }
+        //     });
     },
     created() {
         // Handle toggle data
