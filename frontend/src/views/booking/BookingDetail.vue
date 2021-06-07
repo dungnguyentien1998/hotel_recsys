@@ -291,7 +291,12 @@ export default {
                         // Alert for failed api call
                         this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
                     } else {
-                        this.$router.push('/bookings')
+                        this.$bvToast.toast(this.$t('booking.booking.success.deleteMessage'), {
+                            title: this.$t('booking.booking.success.deleteTitle'),
+                            autoHideDelay: 2000,
+                            variant: 'success'
+                        })
+                        setTimeout(() => this.$router.push('/bookings'), 2000)
                     }
                 })
         }

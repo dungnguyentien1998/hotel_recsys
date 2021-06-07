@@ -264,6 +264,16 @@ export default {
     },
     booking: {
         booking: {
+            search: 'Search booking',
+            customerName: 'Customer name: ',
+            customerTel: 'Telephone number: ',
+            customerEmail: 'Customer email: ',
+            bookingCode: 'Booking code: ',
+            customerNamePlaceholder: 'Enter customer name',
+            customerTelPlaceholder: 'Enter customer telephone number',
+            customerEmailPlaceholder: 'Enter customer email',
+            bookingCodePlaceholder: 'Enter booking code',
+            isArranged: 'You have assigned rooms for this booking',
             noResult: 'You have no booking',
             title: 'Booking list',
             detail: 'Booking detail',
@@ -285,6 +295,12 @@ export default {
             cancelTitle: 'Cancel booking',
             confirmDelete: 'Are you sure to cancel this booking?',
             description: 'Pay when check-in',
+            success: {
+                message: 'Action success',
+                title: 'You have assigned for this booking',
+                deleteMessage: 'Action success',
+                deleteTitle: 'You have canceled this booking'
+            },
             errors: {
                 title: 'Action failed',
                 exceptionOccurred: 'An exception occurred'

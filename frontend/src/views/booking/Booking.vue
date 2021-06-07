@@ -90,24 +90,6 @@
                             >
                                 {{ $t('booking.booking.viewBtn') }}
                             </b-button>
-                            <!--                            <b-button-->
-                            <!--                                href="#"-->
-                            <!--                                variant="danger"-->
-                            <!--                                size="sm"-->
-                            <!--                                @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                            <!--                            >-->
-                            <!--                                {{ $t('booking.booking.cancelBtn') }}-->
-                            <!--                            </b-button>-->
-                            <!--                            <b-modal-->
-                            <!--                                :id="`modal-${booking.uuid}-delete`"-->
-                            <!--                                :title="$t('booking.booking.cancelTitle')"-->
-                            <!--                                size="lg"-->
-                            <!--                                :ok-title="$t('button.submit')"-->
-                            <!--                                :cancel-title="$t('button.unsubmit')"-->
-                            <!--                                @ok="deleteBooking(booking.uuid)"-->
-                            <!--                            >-->
-                            <!--                                {{ $t('booking.booking.confirmDelete') }}-->
-                            <!--                            </b-modal>-->
                         </div>
                     </div>
                 </b-list-group-item>

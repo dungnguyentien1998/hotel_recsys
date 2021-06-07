@@ -264,6 +264,16 @@ export default {
     },
     booking: {
         booking: {
+            search: 'Tìm kiếm đặt phòng',
+            customerName: 'Tên khách hàng: ',
+            customerTel: 'Số điện thoại: ',
+            customerEmail: 'Email: ',
+            bookingCode: 'Mã đặt phòng: ',
+            customerNamePlaceholder: 'Nhập tên khách hàng',
+            customerTelPlaceholder: 'Nhập số điện thoại khách hàng',
+            customerEmailPlaceholder: 'Nhập email khách hàng',
+            bookingCodePlaceholder: 'Nhập mã đặt phòng',
+            isArranged: 'Bạn đã gán phòng cho yêu cầu đặt phòng này',
             noResult: 'Bạn chưa có đặt phòng nào',
             title: 'Danh sách đặt phòng',
             detail: 'Chi tiết đặt phòng',
@@ -285,6 +295,12 @@ export default {
             cancelTitle: 'Huỷ đặt phòng',
             confirmDelete: 'Bạn có muốn hủy đặt phòng này?',
             description: 'Thanh toán khi nhận phòng',
+            success: {
+                message: 'Thành công',
+                title: 'Bạn đã gán phòng cho khách sạn này',
+                deleteMessage: 'Thành công',
+                deleteTitle: 'Bạn đã hủy yêu cầu đặt phòng này'
+            },
             errors: {
                 title: 'Thao tác không thành công',
                 exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'

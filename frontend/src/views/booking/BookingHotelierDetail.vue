@@ -177,6 +177,25 @@
                         >
                             {{ $t('hotel.hotel.submit') }}
                         </button>
+                        <b-button
+                            href="#"
+                            variant="danger"
+                            style="margin: 20px"
+                            size="sm"
+                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                        >
+                            {{ $t('booking.booking.cancelBtn') }}
+                        </b-button>
+                        <b-modal
+                            :id="`modal-${booking.uuid}-delete`"
+                            :title="$t('booking.booking.cancelTitle')"
+                            size="lg"
+                            :ok-title="$t('button.submit')"
+                            :cancel-title="$t('button.unsubmit')"
+                            @ok="deleteBookingHotelier(booking.uuid)"
+                        >
+                            {{ $t('booking.booking.confirmDelete') }}
+                        </b-modal>
                     </div>
                     <div
                         v-if="showTableAfter()"
@@ -229,28 +248,28 @@
                             </template>
                         </b-table>
                     </div>
-                    <!--                    <diuttonv-->
-                    <!--                        v-if="showTableAfter()"-->
-                    <!--                    >-->
-                    <!--                        <b-button-->
-                    <!--                            href="#"-->
-                    <!--                            variant="danger"-->
-                    <!--                            size="sm"-->
-                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                        </b-button>-->
-                    <!--                        <b-modal-->
-                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                    <!--                            size="lg"-->
-                    <!--                            :ok-title="$t('button.submit')"-->
-                    <!--                            :cancel-title="$t('button.unsubmit')"-->
-                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                    <!--                        </b-modal>-->
-                    <!--                    </div>-->
+                    <div
+                        v-if="showTableAfter()"
+                    >
+                        <b-button
+                            href="#"
+                            variant="danger"
+                            size="sm"
+                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
+                        >
+                            {{ $t('booking.booking.cancelBtn') }}
+                        </b-button>
+                        <b-modal
+                            :id="`modal-${booking.uuid}-delete`"
+                            :title="$t('booking.booking.cancelTitle')"
+                            size="lg"
+                            :ok-title="$t('button.submit')"
+                            :cancel-title="$t('button.unsubmit')"
+                            @ok="deleteBookingHotelier(booking.uuid)"
+                        >
+                            {{ $t('booking.booking.confirmDelete') }}
+                        </b-modal>
+                    </div>
                 </b-form>
             </div>
         </template>
@@ -287,30 +306,6 @@ export default {
         }
     },
     computed: {
-        // fields: function() {
-        //     return [
-        //         {
-        //             key: 'type',
-        //             label: this.$t('booking.bookingForm.roomType'),
-        //         },
-        //         {
-        //             key: 'capacity',
-        //             label: this.$t('booking.bookingForm.capacity'),
-        //         },
-        //         {
-        //             key: 'price',
-        //             label: this.$t('booking.bookingForm.price'),
-        //         },
-        //         {
-        //             key: 'amenities',
-        //             label: this.$t('booking.bookingForm.amenities'),
-        //         },
-        //         {
-        //             key: 'amount',
-        //             label: this.$t('booking.bookingForm.rooms'),
-        //         },
-        //     ]
-        // },
         arrange_fields: function () {
             return [
                 {
@@ -442,7 +437,12 @@ export default {
                         // Alert for failed api call
                         this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
                     } else {
-                        this.$router.push({name: 'bookingsHotelier', params: {uuid: this.$route.params.uuid}})
+                        this.$bvToast.toast(this.$t('booking.booking.success.deleteMessage'), {
+                            title: this.$t('booking.booking.success.deleteTitle'),
+                            autoHideDelay: 2000,
+                            variant: 'success'
+                        })
+                        setTimeout(() => this.$router.push({name: 'bookingsHotelier', params: {uuid: this.$route.params.uuid}}), 2000)
                     }
                 })
         },
@@ -494,8 +494,12 @@ export default {
                         if (this.$store.getters['booking/status'] === 'FAILED') {
                             this.makeToast(this.$t('booking.booking.errors.title'), this.$t('booking.booking.errors.exceptionOccurred'))
                         } else {
-                            // this.$router.push({name: 'bookingsHotelier', params: {uuid: this.$route.params.uuid}})
-                            window.location.reload()
+                            this.$bvToast.toast(this.$t('booking.booking.success.message'), {
+                                title: this.$t('booking.booking.success.title'),
+                                autoHideDelay: 2000,
+                                variant: 'success'
+                            })
+                            setTimeout(location.reload.bind(location), 2000)
                         }
                     })
                 }

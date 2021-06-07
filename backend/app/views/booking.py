@@ -41,6 +41,10 @@ class BookingDetail(APIView):
         booking = models.Booking.objects.get(uuid=booking_id)
         booking.delete()
         response_data = BookingDetailSerializer(booking).data
+        booking_types = models.BookingType.objects.filter(booking_id=booking_id)
+        for booking_type in booking_types:
+            booking_type.delete()
+
         booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
         for booking_room in booking_rooms:
             booking_room.delete()
@@ -122,6 +126,10 @@ class HotelierBookingDetail(APIView):
         booking = models.Booking.objects.get(uuid=booking_id)
         booking.delete()
         response_data = BookingDetailSerializer(booking).data
+        booking_types = models.BookingType.objects.filter(booking_id=booking_id)
+        for booking_type in booking_types:
+            booking_type.delete()
+
         booking_rooms = models.BookingRoom.objects.filter(booking_id=booking_id)
         for booking_room in booking_rooms:
             booking_room.delete()
