@@ -43,6 +43,9 @@ class Hotel(BaseModel):
     user = models.ForeignKey(User, related_name='hotels', on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=8, choices=Status.choices, default=Status.PENDING)
     reject_reason = models.CharField(null=True, max_length=settings.CHAR_FIELD_MAX_LEN)
+    email = models.EmailField('email', unique=True, max_length=settings.CHAR_FIELD_MAX_LEN,
+                              error_messages={'unique': 'Email already exists.'}, null=True)
+    tel = models.CharField(blank=True, max_length=settings.TEL_LEN, null=True)
 
     @property
     def owner_name(self):

@@ -48,7 +48,8 @@ export default {
                 title: 'Lỗi đăng nhập',
                 invalidData: 'Email hoặc mật khẩu không chính xác',
                 missing: 'Thiếu tài khoản hoặc mật khẩu',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình đăng nhập'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình đăng nhập',
+                lock: 'Tài khoản của bạn đã bị khóa'
             }
         },
         forgot: {
@@ -162,6 +163,7 @@ export default {
             name: 'Tên khách sạn',
             submit: 'Xác nhận',
             ownerName: 'Chủ khách sạn: ',
+            contact: 'Liên hệ qua: ',
             ownerTel: 'Điện thoại: ',
             ownerEmail: 'Email: ',
             title: 'Danh sách khách sạn',

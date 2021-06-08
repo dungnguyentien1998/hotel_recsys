@@ -202,6 +202,10 @@
             </div>
             <br>
             <div
+                v-if="loading"
+                class="loader"
+            />
+            <div
                 id="hotels-list"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -474,7 +478,8 @@ export default {
             },
             slide: 0,
             sliding: null,
-            isSearch: false
+            isSearch: false,
+            loading: false
         }
     },
     computed: {
@@ -514,6 +519,7 @@ export default {
         }
     },
     created() {
+        this.loading = true
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
@@ -521,6 +527,7 @@ export default {
             this.filterHotels.sort(function (a, b){
                 return a.name.localeCompare(b.name) || b.star - a.star
             })
+            this.loading = false
         })
         if (this.$store.getters['user/user'].role === 'user') {
             this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
@@ -531,7 +538,6 @@ export default {
         this.$store.dispatch('hotel/notifyHotels')
             .then(() => {
                 let count = this.$store.getters['hotel/notify_hotels'].length
-                // this.$store.commit('hotel/setHotelierCount', count)
                 this.$store.commit('hotel/setOldHotelierCount', count)
                 this.subcribe()
             })
@@ -541,6 +547,7 @@ export default {
             this.subscribe_complaint()
             this.subscribe_booking()
         }
+        this.subscribe_user()
     },
     methods: {
         getAddress: function (address, ward, district, city) {
@@ -721,6 +728,19 @@ export default {
                     this.$store.commit('booking/saveNewBooking', data)
                 }
             })
+        },
+        subscribe_user() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel_1');
+            pusher.bind('an_event_2', data => {
+                let user = this.$store.getters['user/user']
+                if (user.uuid === data.user.uuid) {
+                    this.$store.dispatch('user/logout')
+                    this.$router.push('/login')
+                }
+            })
         }
     },
 }
@@ -742,5 +762,20 @@ export default {
 }
 .badge-size {
     font-size: 1em;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

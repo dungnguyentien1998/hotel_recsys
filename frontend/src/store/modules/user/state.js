@@ -4,5 +4,6 @@ export default {
     user: {},
     users: [],
     token: '',
-    email: ''
+    email: '',
+    code: ''
 }

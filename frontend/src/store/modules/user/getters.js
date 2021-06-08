@@ -4,5 +4,6 @@ export default {
     user: state => state.user,
     users: state => state.users,
     token: state => state.token,
-    email: state => state.email
+    email: state => state.email,
+    code: state => state.code,
 }

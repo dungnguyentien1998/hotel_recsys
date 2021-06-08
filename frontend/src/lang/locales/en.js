@@ -48,7 +48,8 @@ export default {
                 title: 'Login failed',
                 invalidData: 'Incorrect email or password',
                 missing: 'Missing email or password',
-                exceptionOccurred: 'An exception occurred'
+                exceptionOccurred: 'An exception occurred',
+                lock: 'Your account has been locked'
             }
         },
         forgot: {
@@ -162,6 +163,7 @@ export default {
             name: 'Hotel name',
             submit: 'Submit',
             ownerName: 'Owner: ',
+            contact: 'Hotel contact: ',
             ownerTel: 'Tel: ',
             ownerEmail: 'Email: ',
             title: 'Hotel list',

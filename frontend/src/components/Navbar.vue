@@ -43,6 +43,7 @@
                         id="favorite"
                         style="margin:5px; font-weight: bold"
                         href="/favorites"
+                        :active="$route.path === '/favorites'"
                     >
                         {{ $t('navbar.favorite') }}
                     </b-nav-item>
@@ -51,6 +52,7 @@
                         id="booking"
                         style="margin:5px; font-weight: bold"
                         href="/bookings"
+                        :active="$route.path === '/bookings'"
                     >
                         {{ $t('navbar.booking') }}
                     </b-nav-item>
@@ -67,6 +69,7 @@
                         id="notification"
                         style="margin:5px; font-weight: bold"
                         href="/notification/hotels"
+                        :active="$route.path === '/notification/hotels'"
                     >
                         {{ $t('navbar.notification') }}
                         <b-badge
@@ -81,6 +84,7 @@
                         id="user"
                         style="margin:5px; font-weight: bold"
                         href="/admin/users"
+                        :active="$route.path === '/admin/users'"
                     >
                         {{ $t('navbar.user') }}
                     </b-nav-item>
@@ -89,6 +93,7 @@
                         id="hotel"
                         style="margin:5px; font-weight: bold"
                         href="/admin/hotels"
+                        :active="$route.path === '/admin/hotels'"
                     >
                         {{ $t('navbar.hotel') }}
                         <b-badge

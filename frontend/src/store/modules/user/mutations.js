@@ -17,6 +17,7 @@ export default {
             state.status = ''
         } else {
             state.status = 'FAILED'
+            state.code = payload.data.statusCode
         }
     },
     forgotPassword: (state, payload) => {

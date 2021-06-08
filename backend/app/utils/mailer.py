@@ -75,3 +75,17 @@ def send_booking_notification_to_user(user, booking):
     )
 
 
+def send_activate_user(user):
+    receiver = user.email
+    body = ""
+    reason = 'Reason: ' + user.deactivate_reason
+    if user.is_active:
+        body = "Your account has been unlocked"
+    else:
+        body = "Your account has been locked.\n" + reason
+    yag = yagmail.SMTP(user='dung.nguyentien1998@gmail.com', password='Tiendung1098')
+    yag.send(
+        to=receiver,
+        subject="Forgot password",
+        contents=body
+    )

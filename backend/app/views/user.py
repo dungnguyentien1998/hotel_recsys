@@ -1,3 +1,4 @@
+from pusher import Pusher
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -76,6 +77,15 @@ class UserDetail(APIView):
         serializer = ActiveSerializer(data=request.data)
         validate_serializer(serializer=serializer)
         serializer.update(instance=user, validated_data=serializer.validated_data)
+        if not user.is_active:
+            pusher = Pusher(app_id='1209674', key='5d873d3e35474aa76004', secret='ffcb966b2161f86209bc', cluster='ap1')
+            message = {
+                'success': True,
+                'user': UserSerializer(user).data
+            }
+            pusher.trigger(u'a_channel_1', u'an_event_2', message)
+            return Response(message)
+
         return Response({
             'success': True,
             'user': UserSerializer(user).data

@@ -18,19 +18,19 @@
                         thumbnail
                         fluid
                     />
-                    <!--                    <div-->
-                    <!--                        class="position-absolute"-->
-                    <!--                        style="right: 20px"-->
-                    <!--                    >-->
-                    <!--                        <b-form-checkbox-->
-                    <!--                            v-model="form.is_processed"-->
-                    <!--                            value="true"-->
-                    <!--                            unchecked-value="false"-->
-                    <!--                            @change="updateStatus(complaint.uuid)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('complaint.complaint.status') }}-->
-                    <!--                        </b-form-checkbox>-->
-                    <!--                    </div>-->
+                    <div
+                        class="position-absolute"
+                        style="right: 20px; top: 20px"
+                    >
+                        <b-form-checkbox
+                            v-model="complaint.isProcessed"
+                            value="true"
+                            unchecked-value="false"
+                            @change="updateStatus(complaint)"
+                        >
+                            {{ $t('complaint.complaint.status') }}
+                        </b-form-checkbox>
+                    </div>
                     <!--                    <b-button-->
                     <!--                        class="position-absolute"-->
                     <!--                        variant="outline-secondary"-->
@@ -147,17 +147,16 @@ export default {
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +
                 date.getHours() + ":" + date.getMinutes();
         },
-        updateStatus: function (uuid) {
+        updateStatus: function (complaint) {
             this.$store.dispatch('complaint/resetStatus')
             this.form.hotelId = this.$route.params.uuid
-            this.form.complaintId = uuid
-            if (this.form.is_processed === "true") {
-                this.form.is_processed = true
-            } else {
-                this.form.is_processed = false
-            }
-            this.$store.dispatch('type/updateType', this.form).then(() => {
-
+            this.form.complaintId = complaint.uuid
+            this.form.is_processed = complaint.isProcessed
+            this.$store.dispatch('complaint/updateComplaint', this.form).then(() => {
+                if (this.$store.getters['complaint/status'] === 'FAILED') {
+                    // Alert for failed api calls
+                    this.makeToast(this.$t('complaint.complaintForm.errors.createTitle'), this.$t('complaint.complaintForm.errors.exceptionOccurred'))
+                }
             })
         }
     }

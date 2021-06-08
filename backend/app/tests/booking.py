@@ -34,6 +34,7 @@ class BookingTestCase(APITestCase, URLPatternsTestCase):
             name='test',
             capacity=1,
             price=1,
+            area=10,
             amenities=['personal care'],
             hotel=self.hotel
         )

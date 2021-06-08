@@ -33,6 +33,7 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
             name='test',
             capacity=1,
             price=1,
+            area=10,
             amenities=['personal care'],
             hotel=self.hotel
         )
@@ -48,6 +49,7 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
             'room_type': 'test1',
             'capacity': 2,
             'price': 2,
+            'area': 10,
             'amenities': 'personal care'
         }
         response = self.client.post(url, type_data, format='json')
@@ -66,6 +68,7 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
             'room_type': 'new_test',
             'capacity': 3,
             'price': 3,
+            'area': 10,
             'amenities': 'personal care'
         }
         response = self.client.put(url, type_data)

@@ -151,7 +151,13 @@ export default {
                 this.$store.dispatch('user/login', snakecaseKeys(this.form)).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         // Alert for failed login api
-                        this.makeToast(this.$t('user.login.errors.title'), this.$t('user.login.errors.invalidData'));
+                        let code = this.$store.getters['user/code']
+                        if (code === '600') {
+                            this.makeToast(this.$t('user.login.errors.title'), this.$t('user.login.errors.invalidData'));
+                        } else {
+                            this.makeToast(this.$t('user.login.errors.title'), this.$t('user.login.errors.lock'));
+                        }
+
                         this.resetForm()
                     } else {
                         this.$store.dispatch('user/account').then(() => {

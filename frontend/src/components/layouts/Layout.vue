@@ -40,8 +40,8 @@ export default {
     .layout {
         flex-grow: 1;
         background: #3784aa;
-        //background: -webkit-linear-gradient(to right, #ef8e38, #5fadd0);
-        //background: linear-gradient(to right, #ef8e38, #5fadd0);
+        background: -webkit-linear-gradient(to right, #3a7bd5, #3a6073);
+        background: linear-gradient(to right, #3a7bd5, #3a6073);
 
         .list-layout {
             //border-radius: 20px;

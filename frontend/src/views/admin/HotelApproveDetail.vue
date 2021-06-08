@@ -64,7 +64,31 @@
                             {{ hotel.ownerName }}
                         </span>
                     </p>
+                    <!--                    <p>-->
+                    <!--                        <img-->
+                    <!--                            src="../../assets/phone.png"-->
+                    <!--                            alt="phone"-->
+                    <!--                            class="icon"-->
+                    <!--                            style="height:20px; width:20px"-->
+                    <!--                        >-->
+                    <!--                        <span>-->
+                    <!--                            {{ hotel.ownerTel }}-->
+                    <!--                        </span>-->
+                    <!--                        - -->
+                    <!--                        <img-->
+                    <!--                            src="../../assets/email.png"-->
+                    <!--                            alt="email"-->
+                    <!--                            class="icon"-->
+                    <!--                            style="height:20px; width:20px"-->
+                    <!--                        >-->
+                    <!--                        <span>-->
+                    <!--                            {{ hotel.ownerEmail }}-->
+                    <!--                        </span>-->
+                    <!--                    </p>-->
                     <p>
+                        <span class="font-weight-bolder">
+                            {{ $t('hotel.hotel.contact') }}
+                        </span>
                         <img
                             src="../../assets/phone.png"
                             alt="phone"
@@ -72,7 +96,7 @@
                             style="height:20px; width:20px"
                         >
                         <span>
-                            {{ hotel.ownerTel }}
+                            {{ hotel.tel }}
                         </span>
                         -
                         <img
@@ -82,30 +106,9 @@
                             style="height:20px; width:20px"
                         >
                         <span>
-                            {{ hotel.ownerEmail }}
+                            {{ hotel.email }}
                         </span>
                     </p>
-                    <!--            <p>-->
-                    <!--                <img-->
-                    <!--                    src="../../assets/phone.png"-->
-                    <!--                    alt="phone"-->
-                    <!--                    class="icon"-->
-                    <!--                    style="height:20px; width:20px"-->
-                    <!--                >-->
-                    <!--                <span>-->
-                    <!--                    {{ hotel.tel }}-->
-                    <!--                </span>-->
-                    <!--                - -->
-                    <!--                <img-->
-                    <!--                    src="../../assets/email.png"-->
-                    <!--                    alt="email"-->
-                    <!--                    class="icon"-->
-                    <!--                    style="height:20px; width:20px"-->
-                    <!--                >-->
-                    <!--                <span>-->
-                    <!--                    {{ hotel.email }}-->
-                    <!--                </span>-->
-                    <!--            </p>-->
                     <div class="mt-2">
                         <b-button
                             :disabled="hotel.status === 'active'"

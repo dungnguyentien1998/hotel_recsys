@@ -2,9 +2,10 @@ from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from app.models import User, Role
-from app.exceptions import Unauthenticated, ValidationError, InvalidToken
+from app.exceptions import Unauthenticated, ValidationError, InvalidToken, LockError
 from app.utils.mailer import send_new_account_email, send_forgot_password
 from app.utils.security import TokenType, decode_token
+from django.contrib.auth.hashers import make_password
 
 
 class LoginSerializer(serializers.Serializer):
@@ -14,9 +15,25 @@ class LoginSerializer(serializers.Serializer):
 
     # Check login credentials
     def validate(self, data):
+        temp_user = User.objects.filter(email=data['email'])[0]
+        is_active = temp_user.is_active
+        temp_user.is_active = True
+        temp_user.save()
         user = authenticate(**data)
-        if user and user.is_active:
+        if not is_active:
+            temp_user.is_active = False
+            temp_user.save()
+        if user and is_active:
             return user
+
+        if user is None:
+            raise Unauthenticated
+        elif not is_active:
+            raise LockError
+
+        # user = authenticate(**data)
+        # if user and user.is_active:
+        #     return user
         raise Unauthenticated
 
 

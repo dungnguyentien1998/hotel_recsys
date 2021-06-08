@@ -63,3 +63,9 @@ class BookingError(APIException):
     status_code = 200
     default_code = '607'
     default_detail = _('The input value is invalid')
+
+
+class LockError(APIException):
+    status_code = 200
+    default_code = '608'
+    default_detail = _('This account has been locked')

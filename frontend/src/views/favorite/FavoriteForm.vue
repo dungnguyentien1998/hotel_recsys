@@ -28,27 +28,27 @@
                 <!--                    style="float: right"-->
                 <!--                />-->
             </b-form-group>
-            <!--            <p>-->
-            <!--                <img-->
-            <!--                    src="../../assets/phone.png"-->
-            <!--                    alt="phone"-->
-            <!--                    class="icon"-->
-            <!--                    style="height:20px; width:20px"-->
-            <!--                >-->
-            <!--                <span>-->
-            <!--                    {{ hotel.tel }}-->
-            <!--                </span>-->
-            <!--                - -->
-            <!--                <img-->
-            <!--                    src="../../assets/email.png"-->
-            <!--                    alt="email"-->
-            <!--                    class="icon"-->
-            <!--                    style="height:20px; width:20px"-->
-            <!--                >-->
-            <!--                <span>-->
-            <!--                    {{ hotel.email }}-->
-            <!--                </span>-->
-            <!--            </p>-->
+            <p>
+                <img
+                    src="../../assets/phone.png"
+                    alt="phone"
+                    class="icon"
+                    style="height:20px; width:20px"
+                >
+                <span>
+                    {{ hotel.tel }}
+                </span>
+                -
+                <img
+                    src="../../assets/email.png"
+                    alt="email"
+                    class="icon"
+                    style="height:20px; width:20px"
+                >
+                <span>
+                    {{ hotel.email }}
+                </span>
+            </p>
             <p>
                 <span class="font-weight-bolder">
                     {{ $t('hotel.hotel.address') }}
