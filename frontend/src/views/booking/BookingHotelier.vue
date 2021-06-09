@@ -185,6 +185,12 @@
             </b-list-group-item>
         </b-list-group>
         <br>
+        <span
+            v-if="bookings.length === 0"
+            style="font-style: italic"
+        >
+            {{ $t('booking.booking.noBooking') }}
+        </span>
         <b-pagination
             v-if="filterBookings.length > perPage"
             v-model="currentPage"

@@ -119,15 +119,17 @@
 <script>
 import Layout from '@/components/layouts/Layout';
 import roleUtil from "@/utils/role-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "HotelDetail",
     components: {Layout},
+    mixins: [validationMixin, roleUtil],
     computed: {
         // Check if role hotelier
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         }
     }
 }

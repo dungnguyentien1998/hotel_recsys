@@ -3,14 +3,14 @@ import json from "../mixin/data/db_en.json";
 
 export default {
     methods: {
-        getSrc: function (amenity) {
+        getImgSrc: function (amenity) {
             let images = require.context('../assets/', false, /\.png$/)
             return images('./' + amenity + ".png")
         },
-        hotelImage: function (uri) {
+        getHotelImage: function (uri) {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },
-        formatPrice(price) {
+        getFormatPrice(price) {
             let temp = price.toString()
             let result = ''
             for (let i=temp.length - 1; i>=0; i--) {
@@ -24,7 +24,7 @@ export default {
             }
             return result
         },
-        getAddress: function (address, ward, district, city) {
+        getTransAddress: function (address, ward, district, city) {
             let city_en = city
             let district_en = district
             let ward_en = ward

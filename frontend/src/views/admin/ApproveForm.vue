@@ -73,7 +73,7 @@ import dataUtil from "@/utils/data-view-utils"
 
 export default {
     name: "ApproveForm",
-    mixins: [validationMixin, formMixin],
+    mixins: [validationMixin, formMixin, dataUtil],
     props: {
         // Hotel data
         hotel: {
@@ -127,7 +127,7 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         onSubmit: function () {
             this.$v.form.$touch();

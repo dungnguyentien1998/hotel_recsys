@@ -152,6 +152,12 @@
             </b-list-group-item>
         </b-list-group>
         <br>
+        <span
+            v-if="types.length === 0"
+            style="font-style: italic"
+        >
+            {{ $t('type.type.noType') }}
+        </span>
         <b-pagination
             v-if="types.length > perPage"
             v-model="currentPage"
@@ -175,10 +181,12 @@
 import TypeForm from '@/components/TypeForm';
 import roleUtil from "@/utils/role-utils"
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "Type",
     components: {TypeForm},
+    mixins: [validationMixin, roleUtil, dataUtil],
     data: function () {
         return {
             types: [],
@@ -190,12 +198,12 @@ export default {
     computed: {
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         },
         // Check if role user
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
     },
     created() {
@@ -222,12 +230,12 @@ export default {
             //     result = result.substring(1)
             // }
             // return result
-            return dataUtil.formatPrice(price)
+            return this.getFormatPrice(price)
         },
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         deleteType: function (uuid) {
             this.$store.dispatch('type/resetStatus')

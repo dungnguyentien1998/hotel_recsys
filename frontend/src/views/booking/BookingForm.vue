@@ -148,7 +148,7 @@ import dataUtil from "@/utils/data-view-utils"
 
 export default {
     name: "BookingForm",
-    mixins: [validationMixin, formMixin],
+    mixins: [validationMixin, formMixin, dataUtil],
     data: function () {
         const now = new Date()
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -261,7 +261,7 @@ export default {
     methods: {
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         message(roomType) {
             let n = this.getAvailable(roomType)
@@ -305,7 +305,7 @@ export default {
             //     result = result.substring(1)
             // }
             // return result
-            return dataUtil.formatPrice(price)
+            return this.getFormatPrice(price)
         },
         getStripePublishableKey() {
             fetch('http://localhost:8000/api/config')
@@ -375,7 +375,7 @@ export default {
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         // Parse date string to right format
         convertDate: function(date_string) {

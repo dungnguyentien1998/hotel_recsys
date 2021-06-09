@@ -293,7 +293,7 @@ library.add(faMoneyBillAlt)
 export default {
     name: "BookingHotelierDetail",
     components: {Layout},
-    mixins: [validationMixin, formMixin],
+    mixins: [validationMixin, formMixin, dataUtil],
     data: function () {
         const bookingId = this.$store.getters['booking/booking_id']
         return {
@@ -361,11 +361,11 @@ export default {
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         showTableAfter: function() {
             const booking_rooms = this.$store.getters['booking/booking_rooms']
@@ -431,7 +431,7 @@ export default {
             //     result = result.substring(1)
             // }
             // return result
-            return dataUtil.formatPrice(price)
+            return this.getFormatPrice(price)
         },
         isNotNull: function(tel) {
             return tel != null && tel !== "";

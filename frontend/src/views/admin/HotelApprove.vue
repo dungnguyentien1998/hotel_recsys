@@ -249,7 +249,7 @@ library.add(faSearch)
 export default {
     name: "HotelApprove",
     components: {Layout, ApproveForm},
-    mixins: [validationMixin, formMixin, addressMixin],
+    mixins: [validationMixin, formMixin, addressMixin, dataUtil],
     data: function () {
         return {
             // Amenities options
@@ -344,17 +344,17 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         // Get cities
         citiesOptions: function() {
@@ -379,17 +379,17 @@ export default {
             }
             if (!!this.form.city) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.city === this.getProvinces().filter(option => option.code === this.form.city)[0].name
+                    hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
                 )
             }
             if (!!this.form.district) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.district === this.getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
+                    hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
                 )
             }
             if (!!this.form.ward) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.ward === this.getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
+                    hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
                 )
             }
             if (!!this.form.amenities) {

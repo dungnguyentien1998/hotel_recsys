@@ -142,10 +142,12 @@ import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import ApproveForm from "@/views/admin/ApproveForm";
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "HotelApproveDetail",
     components: {Layout, ApproveForm},
+    mixins: [validationMixin, dataUtil],
     data: function () {
         return {
             updateForm: {
@@ -181,16 +183,16 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
     }
 }

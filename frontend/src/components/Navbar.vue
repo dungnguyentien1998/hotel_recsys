@@ -166,11 +166,13 @@
 import {faHotel} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import roleUtil from "@/utils/role-utils"
+import {validationMixin} from "vuelidate";
 
 library.add(faHotel)
 
 export default {
     name: "Navbar",
+    mixins: [validationMixin, roleUtil],
     computed: {
         count: function () {
             return this.$store.getters['hotel/hotels'].length
@@ -189,16 +191,16 @@ export default {
         // Check if role hotelier
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         },
         // Check if role user
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
         roleAdmin: function () {
             // return (this.$store.getters['user/user'].role === 'admin')
-            return roleUtil.roleAdmin()
+            return this.getRoleAdmin()
         },
         // Select url based on user role
         dashboard: function () {

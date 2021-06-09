@@ -15,26 +15,23 @@ class LoginSerializer(serializers.Serializer):
 
     # Check login credentials
     def validate(self, data):
-        temp_user = User.objects.filter(email=data['email'])[0]
-        is_active = temp_user.is_active
-        temp_user.is_active = True
-        temp_user.save()
         user = authenticate(**data)
-        if not is_active:
-            temp_user.is_active = False
-            temp_user.save()
-        if user and is_active:
+        if user and user.is_active:
             return user
 
-        if user is None:
+        temp_users = User.objects.filter(email=data['email'])
+        if len(temp_users) <= 0:
             raise Unauthenticated
-        elif not is_active:
+        is_active = temp_users[0].is_active
+        if is_active:
+            raise Unauthenticated
+        else:
             raise LockError
 
         # user = authenticate(**data)
         # if user and user.is_active:
         #     return user
-        raise Unauthenticated
+        # raise Unauthenticated
 
 
 class RegisterSerializer(serializers.ModelSerializer):

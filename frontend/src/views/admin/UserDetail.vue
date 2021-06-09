@@ -180,9 +180,11 @@
 import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "UserDetail",
+    mixins: [validationMixin, dataUtil],
     props: {
         // Hotel data
         user: {
@@ -234,7 +236,7 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         convertDate: function(date_string) {
             let date = new Date(date_string)

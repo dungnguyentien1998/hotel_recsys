@@ -19,7 +19,7 @@ export default {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         let form = formUtil(payload)
         return api.post('hotels', form).then(res => {
-            // context.commit('createHotel', res)
+            context.commit('createHotel', res)
         })
     },
     // Api update booking

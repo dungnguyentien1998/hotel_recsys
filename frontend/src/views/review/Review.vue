@@ -89,6 +89,12 @@
             </b-list-group-item>
         </b-list-group>
         <br>
+        <span
+            v-if="reviews.length === 0"
+            style="font-style: italic"
+        >
+            {{ $t('review.review.noReview') }}
+        </span>
         <b-pagination
             v-if="reviews.length > perPage"
             v-model="currentPage"
@@ -112,10 +118,12 @@
 import ReviewForm from "@/views/review/ReviewForm";
 import Pusher from "pusher-js";
 import roleUtil from "@/utils/role-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "Review",
     components: {ReviewForm},
+    mixins: [validationMixin, roleUtil],
     data: function () {
         return {
             reviews: [],
@@ -127,7 +135,7 @@ export default {
     computed: {
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
     },
     created() {

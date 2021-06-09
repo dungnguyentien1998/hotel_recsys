@@ -146,6 +146,7 @@ import Layout from "@/components/layouts/Layout";
 import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -155,6 +156,7 @@ library.add(faMoneyBillAlt)
 export default {
     name: "BookingDetail",
     components: {Layout},
+    mixins: [validationMixin, dataUtil],
     data: function () {
         return {
             types: [],
@@ -220,16 +222,16 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         toDate: function(datetime) {
             let date = new Date(datetime);
@@ -289,7 +291,7 @@ export default {
             //     result = result.substring(1)
             // }
             // return result
-            return dataUtil.formatPrice(price)
+            return this.getFormatPrice(price)
         },
         deleteBooking: function(uuid) {
             this.$store.dispatch('booking/resetStatus')

@@ -299,6 +299,12 @@
         >
             {{ $t('room.room.noResult') }}
         </span>
+        <span
+            v-if="rooms.length === 0"
+            style="font-style: italic"
+        >
+            {{ $t('room.room.noRoom') }}
+        </span>
         <b-pagination
             v-if="filterRooms.length > perPage"
             v-model="currentPage"
@@ -334,7 +340,7 @@ library.add(faSearch)
 export default {
     name: "Room",
     components: {Scrollable, RoomForm},
-    mixins: [validationMixin, formMixin],
+    mixins: [validationMixin, formMixin, roleUtil, dataUtil],
     data: function () {
         return {
             options: ['clothes rack', 'coffee kit', 'tissue box', 'bathrobes', 'wifi', 'toiletries', 'bathtub',
@@ -360,12 +366,12 @@ export default {
         },
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         },
         // Check role user
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
         typeOptions() {
             let opts = []
@@ -418,7 +424,7 @@ export default {
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         // Get room accordion
         roomAccordion: function (uuid) {
@@ -445,7 +451,7 @@ export default {
             //     result = result.substring(1)
             // }
             // return result
-            return dataUtil.formatPrice(price)
+            return this.getFormatPrice(price)
         },
         // Handle search room
         onSubmit: function () {

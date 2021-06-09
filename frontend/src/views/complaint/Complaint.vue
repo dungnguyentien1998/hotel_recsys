@@ -85,6 +85,12 @@
             </b-list-group-item>
         </b-list-group>
         <br>
+        <span
+            v-if="complaints.length === 0"
+            style="font-style: italic"
+        >
+            {{ $t('complaint.complaint.noComplaint') }}
+        </span>
         <b-pagination
             v-if="complaints.length > perPage"
             v-model="currentPage"

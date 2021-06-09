@@ -112,6 +112,7 @@ export default {
         },
         user: {
             noResult: 'No matching user found',
+            noUser: 'User list is empty',
             title: 'List user',
             searchUser: 'Search user',
             search: 'Search',
@@ -282,6 +283,7 @@ export default {
             bookingCodePlaceholder: 'Enter booking code',
             isArranged: 'You have assigned rooms for this booking',
             noResult: 'You have no booking',
+            noBooking: 'Booking list is empty',
             title: 'Booking list',
             detail: 'Booking detail',
             newTitle: 'New bookings',
@@ -355,7 +357,9 @@ export default {
     complaint: {
         complaint: {
             sendEmail: 'Send email',
-            status: 'This complaint have been processed'
+            status: 'This complaint have been processed',
+            noResult: 'No matching complaint found',
+            noComplaint: 'Complaint list is empty',
         },
         complaintForm: {
             title: 'Title:',
@@ -392,6 +396,7 @@ export default {
     favorite: {
         favorite: {
             title: 'Favorite list',
+            noResult: 'Favorite list is empty',
             success: {
                 saveTitle: 'Save to favorite list success',
                 saveMessage: 'You have saved this hotel to your favorite list',
@@ -408,6 +413,8 @@ export default {
         review: {
             createBtn: 'Review',
             createTitle: 'Review this hotel',
+            noResult: 'No matching review found',
+            noReview: 'Review list is empty',
         },
         reviewForm: {
             title: 'Title:',
@@ -431,6 +438,8 @@ export default {
     },
     type: {
         type: {
+            noResult: 'No matching type found',
+            noType: 'Type list is empty',
             createBtn: 'Create room type',
             updateBtn: 'Update',
             deleteBtn: 'Delete',
@@ -484,6 +493,7 @@ export default {
     room: {
         room: {
             noResult: 'No matching room found',
+            noRoom: 'Room list is empty',
             createBtn: 'Create new room',
             bookBtn: 'Booking',
             capacity: 'Capacity',

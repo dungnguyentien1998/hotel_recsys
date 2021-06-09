@@ -67,6 +67,13 @@
                     </b-card>
                 </div>
             </div>
+            <br>
+            <span
+                v-if="favorites.length === 0"
+                style="font-style: italic"
+            >
+                {{ $t('favorite.favorite.noResult') }}
+            </span>
         </template>
     </Layout>
 </template>
@@ -76,11 +83,13 @@ import Layout from "@/components/layouts/Layout";
 import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 
 export default {
     name: "Favorite",
     components: {Layout},
+    mixins: [validationMixin, dataUtil],
     data: function () {
         return {
             favorites: []
@@ -120,11 +129,11 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         onDelete: function(uuid) {
             this.$store.dispatch('favorite/resetStatus')

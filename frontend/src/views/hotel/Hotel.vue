@@ -457,7 +457,7 @@ library.add(faSearch)
 export default {
     name: "Hotel",
     components: {HotelForm, Layout},
-    mixins: [validationMixin, formMixin, addressMixin],
+    mixins: [validationMixin, formMixin, addressMixin, roleUtil, dataUtil],
     data: function () {
         return {
             // Amenities options
@@ -491,12 +491,12 @@ export default {
         // Check if role hotelier
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         },
         // Check if role user
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
     },
     // Form validation
@@ -579,12 +579,12 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         // Get cities
         citiesOptions: function() {
@@ -609,17 +609,17 @@ export default {
             }
             if (!!this.form.city) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.city === this.getProvinces().filter(option => option.code === this.form.city)[0].name
+                    hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
                 )
             }
             if (!!this.form.district) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.district === this.getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
+                    hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
                 )
             }
             if (!!this.form.ward) {
                 this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.ward === this.getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
+                    hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
                 )
             }
             if (!!this.form.amenities) {
@@ -681,13 +681,13 @@ export default {
                 if (user_id === owner_id) {
                     this.$store.commit('hotel/saveNotifyHotel', data)
                     if (data.hotel.status === 'active') {
-                        this.$store.commit('hotel/createHotel', data)
+                        this.$store.commit('hotel/saveHotel', data)
                     }
                 }
                 let user = this.$store.getters['user/user']
                 if (user.role === 'user') {
                     if (data.hotel.status === 'active') {
-                        this.$store.commit('hotel/createHotel', data)
+                        this.$store.commit('hotel/saveHotel', data)
                     }
                 }
                 let count = this.$store.getters['hotel/notify_hotels'].length

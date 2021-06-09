@@ -380,9 +380,9 @@ export default {
                 if (!isNaN(this.form.city) && !isNaN(this.form.district) && !isNaN(this.form.ward)) {
                     const city_code = this.form.city
                     const district_code = this.form.district
-                    this.form.city = this.getProvinces().filter(option => option.code === this.form.city)[0].name
-                    this.form.district = this.getDistrictsByProvinceCode(city_code).filter(option => option.code === this.form.district)[0].name
-                    this.form.ward = this.getWardsByDistrictCode(district_code).filter(option => option.code === this.form.ward)[0].name
+                    this.form.city = getProvinces().filter(option => option.code === this.form.city)[0].name
+                    this.form.district = getDistrictsByProvinceCode(city_code).filter(option => option.code === this.form.district)[0].name
+                    this.form.ward = getWardsByDistrictCode(district_code).filter(option => option.code === this.form.ward)[0].name
                 }
                 // Handle update form
                 this.$store.dispatch('hotel/resetStatus')

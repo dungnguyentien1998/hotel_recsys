@@ -112,6 +112,7 @@ export default {
         },
         user: {
             noResult: 'Không tìm thấy tài khoản phù hợp',
+            noUser: 'Danh sách tài khoản trống',
             title: 'Danh sách tài khoản',
             searchUser: 'Tìm tài khoản',
             search: 'Tìm',
@@ -282,6 +283,7 @@ export default {
             bookingCodePlaceholder: 'Nhập mã đặt phòng',
             isArranged: 'Bạn đã gán phòng cho yêu cầu đặt phòng này',
             noResult: 'Bạn chưa có đặt phòng nào',
+            noBooking: 'Danh sách đặt phòng trống',
             title: 'Danh sách đặt phòng',
             detail: 'Chi tiết đặt phòng',
             newTitle: 'Danh sách đặt phòng mới',
@@ -355,7 +357,9 @@ export default {
     complaint: {
         complaint: {
             sendEmail: 'Gửi phản hồi',
-            status: 'Khiếu nại đã được xử lý'
+            status: 'Khiếu nại đã được xử lý',
+            noResult: 'Không tìm thấy khiếu nại',
+            noComplaint: 'Danh sách khiếu nại trống',
         },
         complaintForm: {
             title: 'Tiêu đề:',
@@ -392,6 +396,7 @@ export default {
     favorite: {
         favorite: {
             title: 'Danh sách ưa thích',
+            noResult: 'Danh sách ưa thích trống',
             success: {
                 saveTitle: 'Lưu thành công',
                 saveMessage: 'Bạn đã lưu khách sạn vào danh sách ưa thích',
@@ -408,6 +413,8 @@ export default {
         review: {
             createBtn: 'Đánh giá',
             createTitle: 'Đánh giá khách sạn',
+            noResult: 'Không tìm thấy đánh giá',
+            noReview: 'Danh sách đánh giá trống',
         },
         reviewForm: {
             title: 'Tiêu đề:',
@@ -431,6 +438,8 @@ export default {
     },
     type: {
         type: {
+            noResult: 'Không tìm thấy kiểu phòng',
+            noType: 'Danh sách kiểu phòng trống',
             createBtn: 'Thêm kiểu phòng',
             updateBtn: 'Cập nhật',
             deleteBtn: 'Xóa',
@@ -484,6 +493,7 @@ export default {
     room: {
         room: {
             noResult: 'Không tìm thấy phòng khách sạn phù hợp',
+            noRoom: 'Khách sạn chưa có phòng nào',
             createBtn: 'Tạo phòng',
             bookBtn: 'Đặt phòng',
             capacity: 'Sức chứa',

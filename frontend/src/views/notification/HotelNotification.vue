@@ -87,10 +87,12 @@
 import Layout from "@/components/layouts/Layout";
 import Pusher from 'pusher-js'
 import dataUtil from "@/utils/data-view-utils"
+import {validationMixin} from "vuelidate";
 
 export default {
     name: "Hotelier",
     components: {Layout},
+    mixins: [validationMixin, dataUtil],
     data: function() {
         return {
             hotels: [],
@@ -110,13 +112,13 @@ export default {
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 this.$store.commit('hotel/setHotelierCount', 0)
                 this.$store.commit('hotel/setOldHotelierCount', count)
-                this.subscribe()
+                // this.subscribe()
             })
     },
     methods: {
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         getStatus: function (status) {
             if (status === "active") {
@@ -153,7 +155,7 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         subscribe() {
             let pusher = new Pusher('5d873d3e35474aa76004', {

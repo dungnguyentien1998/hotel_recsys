@@ -13,8 +13,8 @@ export default {
     },
     // Save new hotel
     createHotel: (state, payload) => {
-        if (payload.success) {
-            state.hotels.push(payload.hotel)
+        if (payload.data.success) {
+            // state.hotels.push(payload.data.hotel)
         } else {
             state.status = 'FAILED'
         }

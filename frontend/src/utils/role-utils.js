@@ -1,12 +1,12 @@
 export default {
     methods: {
-        roleHotelier: function () {
+        getRoleHotelier: function () {
             return (this.$store.getters['user/user'].role === 'hotelier')
         },
-        roleUser: function () {
+        getRoleUser: function () {
             return (this.$store.getters['user/user'].role === 'user')
         },
-        roleAdmin: function () {
+        getRoleAdmin: function () {
             return (this.$store.getters['user/user'].role === 'admin')
         },
     }

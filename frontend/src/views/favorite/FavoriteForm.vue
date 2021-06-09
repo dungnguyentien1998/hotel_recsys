@@ -229,7 +229,7 @@ import dataUtil from "@/utils/data-view-utils"
 export default {
     name: "FavoriteForm",
     components: {HotelForm},
-    mixins: [validationMixin, formMixin, addressMixin],
+    mixins: [validationMixin, formMixin, addressMixin, roleUtil, dataUtil],
     data: function () {
         return {
             myToggle: false,
@@ -243,12 +243,12 @@ export default {
     computed: {
         roleUser: function () {
             // return (this.$store.getters['user/user'].role === 'user')
-            return roleUtil.roleUser()
+            return this.getRoleUser()
         },
         // Check if role hotelier
         roleHotelier: function () {
             // return (this.$store.getters['user/user'].role === 'hotelier')
-            return roleUtil.roleHotelier()
+            return this.getRoleHotelier()
         },
     },
     mounted() {
@@ -335,17 +335,17 @@ export default {
             // // } else {
             // //     return address + ", " + ward + ", " + district + ", " + city
             // // }
-            return dataUtil.getAddress(address, ward, district, city)
+            return this.getTransAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
             // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return dataUtil.hotelImage(uri)
+            return this.getHotelImage(uri)
         },
         getSrc: function (amenity) {
             // let images = require.context('../../assets/', false, /\.png$/)
             // return images('./' + amenity + ".png")
-            return dataUtil.getSrc(amenity)
+            return this.getImgSrc(amenity)
         },
         // Handle save to favorite
         onSubmit: function () {
