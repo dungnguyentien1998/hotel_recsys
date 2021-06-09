@@ -303,17 +303,17 @@ export default {
     },
     methods: {
         // Get cities
-        citiesOptions: function() {
-            return getProvinces()
-        },
-        // Get districts by city
-        districtsOptions: function(code) {
-            return getDistrictsByProvinceCode(code)
-        },
-        // Get wards by district
-        wardsOptions: function(code) {
-            return getWardsByDistrictCode(code)
-        },
+        // citiesOptions: function() {
+        //     return getProvinces()
+        // },
+        // // Get districts by city
+        // districtsOptions: function(code) {
+        //     return getDistrictsByProvinceCode(code)
+        // },
+        // // Get wards by district
+        // wardsOptions: function(code) {
+        //     return getWardsByDistrictCode(code)
+        // },
         // Clear form
         resetForm: function () {
             this.form = {
@@ -389,13 +389,13 @@ export default {
                 const city_code = this.form.city
                 const district_code = this.form.district
                 if (this.form.city != null) {
-                    this.form.city = this.citiesOptions().filter(option => option.code === this.form.city)[0].name
+                    this.form.city = this.getProvinces().filter(option => option.code === this.form.city)[0].name
                 }
                 if (city_code != null && this.form.district != null) {
-                    this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
+                    this.form.district = this.getDistrictsByProvinceCode(city_code).filter(option => option.code === this.form.district)[0].name
                 }
                 if (district_code != null && this.form.ward != null) {
-                    this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
+                    this.form.ward = this.getWardsByDistrictCode(district_code).filter(option => option.code === this.form.ward)[0].name
                 }
                 if (this.form.birthday == null) {
                     delete this.form.birthday
@@ -418,9 +418,14 @@ export default {
                         this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.emailUsed'))
                         this.resetForm()
                     } else {
-                        // Push to login if success, need to add success message
-                        localStorage.setItem("email", this.form.email)
-                        this.$router.push('/activate')
+                        this.$store.commit('user/setEmail', this.form.email)
+                        // localStorage.setItem("email", this.form.email)
+                        this.$bvToast.toast(this.$t('user.register.success.message'), {
+                            title: this.$t('user.register.success.title'),
+                            autoHideDelay: 2000,
+                            variant: 'success'
+                        })
+                        setTimeout(() => this.$router.push('/activate'), 2000)
                     }
                 }).catch(() => {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.exceptionOccurred'))

@@ -165,6 +165,7 @@
 <script>
 import {faHotel} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
+import roleUtil from "@/utils/role-utils"
 
 library.add(faHotel)
 
@@ -187,14 +188,17 @@ export default {
         },
         // Check if role hotelier
         roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
+            // return (this.$store.getters['user/user'].role === 'hotelier')
+            return roleUtil.roleHotelier()
         },
         // Check if role user
         roleUser: function () {
-            return (this.$store.getters['user/user'].role === 'user')
+            // return (this.$store.getters['user/user'].role === 'user')
+            return roleUtil.roleUser()
         },
         roleAdmin: function () {
-            return (this.$store.getters['user/user'].role === 'admin')
+            // return (this.$store.getters['user/user'].role === 'admin')
+            return roleUtil.roleAdmin()
         },
         // Select url based on user role
         dashboard: function () {

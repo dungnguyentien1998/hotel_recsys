@@ -222,6 +222,8 @@ import mapboxgl from "mapbox-gl";
 import mapboxSdk from "@mapbox/mapbox-sdk/umd/mapbox-sdk";
 import json from '../../mixin/data/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
+import roleUtil from "@/utils/role-utils"
+import dataUtil from "@/utils/data-view-utils"
 
 
 export default {
@@ -240,11 +242,13 @@ export default {
     },
     computed: {
         roleUser: function () {
-            return (this.$store.getters['user/user'].role === 'user')
+            // return (this.$store.getters['user/user'].role === 'user')
+            return roleUtil.roleUser()
         },
         // Check if role hotelier
         roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
+            // return (this.$store.getters['user/user'].role === 'hotelier')
+            return roleUtil.roleHotelier()
         },
     },
     mounted() {
@@ -307,38 +311,41 @@ export default {
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            let city_en = city
-            let district_en = district
-            let ward_en = ward
-            if (localStorage.getItem("language") === "en") {
-                let city_code = getProvinces().filter(option => option.name === city)[0].code
-                const provinces = json.province
-                city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-                let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-                const dists = json.district
-                district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-                let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-                const communes = json.commune
-                ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            }
-            if (address == null || address === "") {
-                return ward_en + ", " + district_en + ", " + city_en
-            } else {
-                return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            }
-            // if (address == null || address === "") {
-            //     return ward + ", " + district + ", " + city
-            // } else {
-            //     return address + ", " + ward + ", " + district + ", " + city
+            // let city_en = city
+            // let district_en = district
+            // let ward_en = ward
+            // if (localStorage.getItem("language") === "en") {
+            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
+            //     const provinces = json.province
+            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
+            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
+            //     const dists = json.district
+            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
+            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
+            //     const communes = json.commune
+            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
             // }
+            // if (address == null || address === "") {
+            //     return ward_en + ", " + district_en + ", " + city_en
+            // } else {
+            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
+            // }
+            // // if (address == null || address === "") {
+            // //     return ward + ", " + district + ", " + city
+            // // } else {
+            // //     return address + ", " + ward + ", " + district + ", " + city
+            // // }
+            return dataUtil.getAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
-            return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            return dataUtil.hotelImage(uri)
         },
         getSrc: function (amenity) {
-            let images = require.context('../../assets/', false, /\.png$/)
-            return images('./' + amenity + ".png")
+            // let images = require.context('../../assets/', false, /\.png$/)
+            // return images('./' + amenity + ".png")
+            return dataUtil.getSrc(amenity)
         },
         // Handle save to favorite
         onSubmit: function () {

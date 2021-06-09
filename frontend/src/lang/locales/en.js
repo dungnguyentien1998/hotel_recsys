@@ -93,7 +93,8 @@ export default {
             loginLink: 'Login',
             success: {
                 title: 'Action success',
-                message: 'Token has been sent to your registered email'
+                message: 'Token has been sent to your email',
+                registerMessage: 'You have activated your account'
             },
             errors: {
                 title: 'Register failed',

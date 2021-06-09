@@ -325,6 +325,8 @@ import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
+import roleUtil from "@/utils/role-utils"
+import dataUtil from "@/utils/data-view-utils"
 
 library.add(faSearch)
 
@@ -357,22 +359,28 @@ export default {
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
         roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
+            // return (this.$store.getters['user/user'].role === 'hotelier')
+            return roleUtil.roleHotelier()
         },
         // Check role user
         roleUser: function () {
-            return (this.$store.getters['user/user'].role === 'user')
+            // return (this.$store.getters['user/user'].role === 'user')
+            return roleUtil.roleUser()
         },
         typeOptions() {
             let opts = []
             const types = this.$store.getters['type/types']
             opts.push({value: null, text: '-----'})
-            for (let option in this.$store.getters['type/types']) {
-                const room_type = types[option].name
+            // for (let option in this.$store.getters['type/types']) {
+            //     const room_type = types[option].name
+            //     opts.push({value: room_type, text: room_type})
+            // }
+            for (let i=0; i<types.length; i++) {
+                const room_type = types[i].name
                 opts.push({value: room_type, text: room_type})
             }
             return opts
-        },
+        }
     },
     // Form validate
     validations: {
@@ -408,8 +416,9 @@ export default {
     },
     methods: {
         getSrc: function (amenity) {
-            let images = require.context('../../assets/', false, /\.png$/)
-            return images('./' + amenity + ".png")
+            // let images = require.context('../../assets/', false, /\.png$/)
+            // return images('./' + amenity + ".png")
+            return dataUtil.getSrc(amenity)
         },
         // Get room accordion
         roomAccordion: function (uuid) {
@@ -424,18 +433,19 @@ export default {
             return new Date(date).toDateString()
         },
         formatPrice(price) {
-            let temp = price.toString()
-            let result = ''
-            for (let i=temp.length - 1; i>=0; i--) {
-                result = temp.charAt(i) + result
-                if ((temp.length - i) % 3 === 0) {
-                    result = "." + result
-                }
-            }
-            if (result.charAt(0) === ".") {
-                result = result.substring(1)
-            }
-            return result
+            // let temp = price.toString()
+            // let result = ''
+            // for (let i=temp.length - 1; i>=0; i--) {
+            //     result = temp.charAt(i) + result
+            //     if ((temp.length - i) % 3 === 0) {
+            //         result = "." + result
+            //     }
+            // }
+            // if (result.charAt(0) === ".") {
+            //     result = result.substring(1)
+            // }
+            // return result
+            return dataUtil.formatPrice(price)
         },
         // Handle search room
         onSubmit: function () {

@@ -111,6 +111,7 @@
 <script>
 import ReviewForm from "@/views/review/ReviewForm";
 import Pusher from "pusher-js";
+import roleUtil from "@/utils/role-utils"
 
 export default {
     name: "Review",
@@ -124,12 +125,9 @@ export default {
         }
     },
     computed: {
-        roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
-        },
-        // Check if role user
         roleUser: function () {
-            return (this.$store.getters['user/user'].role === 'user')
+            // return (this.$store.getters['user/user'].role === 'user')
+            return roleUtil.roleUser()
         },
     },
     created() {

@@ -293,7 +293,7 @@ export default {
             this.filterHotels.sort(function (a,b) {
                 return new Date(b.created) - new Date(a.created)
             })
-            this.subcribe()
+            this.subscribe()
         })
     },
     methods: {
@@ -370,7 +370,7 @@ export default {
                 }
             })
         },
-        subcribe() {
+        subscribe() {
             let pusher = new Pusher('5d873d3e35474aa76004', {
                 cluster: 'ap1'
             });

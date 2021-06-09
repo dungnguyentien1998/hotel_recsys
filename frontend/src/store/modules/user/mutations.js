@@ -69,4 +69,7 @@ export default {
             state.status = 'FAILED'
         }
     },
+    setEmail: (state, payload) => {
+        state.email = payload
+    }
 }

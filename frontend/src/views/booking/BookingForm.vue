@@ -144,7 +144,7 @@
 import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import {required} from 'vuelidate/lib/validators';
-
+import dataUtil from "@/utils/data-view-utils"
 
 export default {
     name: "BookingForm",
@@ -224,10 +224,6 @@ export default {
                     label: this.$t('booking.bookingForm.capacity'),
                     thStyle: {width: '150px'}
                 },
-                // {
-                //     key: 'price',
-                //     label: this.$t('booking.bookingForm.price'),
-                // },
                 {
                     key: 'amenities',
                     label: this.$t('booking.bookingForm.amenities'),
@@ -264,7 +260,8 @@ export default {
     },
     methods: {
         hotelImage: function (uri) {
-            return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            return dataUtil.hotelImage(uri)
         },
         message(roomType) {
             let n = this.getAvailable(roomType)
@@ -296,18 +293,19 @@ export default {
             return opts
         },
         formatPrice(price) {
-            let temp = price.toString()
-            let result = ''
-            for (let i=temp.length - 1; i>=0; i--) {
-                result = temp.charAt(i) + result
-                if ((temp.length - i) % 3 === 0) {
-                    result = "." + result
-                }
-            }
-            if (result.charAt(0) === ".") {
-                result = result.substring(1)
-            }
-            return result
+            // let temp = price.toString()
+            // let result = ''
+            // for (let i=temp.length - 1; i>=0; i--) {
+            //     result = temp.charAt(i) + result
+            //     if ((temp.length - i) % 3 === 0) {
+            //         result = "." + result
+            //     }
+            // }
+            // if (result.charAt(0) === ".") {
+            //     result = result.substring(1)
+            // }
+            // return result
+            return dataUtil.formatPrice(price)
         },
         getStripePublishableKey() {
             fetch('http://localhost:8000/api/config')
@@ -339,8 +337,15 @@ export default {
         getIndex: function(room_type) {
             let index = 0
             const types = this.$store.getters['type/types']
-            for (let option in this.$store.getters['type/types']) {
-                const roomType = types[option].name
+            // for (let option in this.$store.getters['type/types']) {
+            //     const roomType = types[option].name
+            //     if (roomType === room_type) {
+            //         return index
+            //     }
+            //     index = index + 1
+            // }
+            for (let i=0; i<types.length; i++) {
+                const roomType = types[i].name
                 if (roomType === room_type) {
                     return index
                 }
@@ -368,8 +373,9 @@ export default {
             }
         },
         getSrc: function (amenity) {
-            let images = require.context('../../assets/', false, /\.png$/)
-            return images('./' + amenity + ".png")
+            // let images = require.context('../../assets/', false, /\.png$/)
+            // return images('./' + amenity + ".png")
+            return dataUtil.getSrc(amenity)
         },
         // Parse date string to right format
         convertDate: function(date_string) {

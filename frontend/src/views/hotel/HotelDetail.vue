@@ -118,6 +118,7 @@
 
 <script>
 import Layout from '@/components/layouts/Layout';
+import roleUtil from "@/utils/role-utils"
 
 export default {
     name: "HotelDetail",
@@ -125,7 +126,8 @@ export default {
     computed: {
         // Check if role hotelier
         roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
+            // return (this.$store.getters['user/user'].role === 'hotelier')
+            return roleUtil.roleHotelier()
         }
     }
 }

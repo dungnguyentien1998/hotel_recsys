@@ -93,7 +93,8 @@ export default {
             loginLink: 'Đăng nhập',
             success: {
                 title: 'Thành công',
-                message: 'Mã xác thực đã được gửi vào email của bạn'
+                message: 'Mã xác thực đã được gửi vào email của bạn',
+                registerMessage: 'Tài khoản đã được kích hoạt'
             },
             errors: {
                 title: 'Lỗi đăng ký',

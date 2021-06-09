@@ -173,6 +173,8 @@
 
 <script>
 import TypeForm from '@/components/TypeForm';
+import roleUtil from "@/utils/role-utils"
+import dataUtil from "@/utils/data-view-utils"
 
 export default {
     name: "Type",
@@ -187,11 +189,13 @@ export default {
     },
     computed: {
         roleHotelier: function () {
-            return (this.$store.getters['user/user'].role === 'hotelier')
+            // return (this.$store.getters['user/user'].role === 'hotelier')
+            return roleUtil.roleHotelier()
         },
         // Check if role user
         roleUser: function () {
-            return (this.$store.getters['user/user'].role === 'user')
+            // return (this.$store.getters['user/user'].role === 'user')
+            return roleUtil.roleUser()
         },
     },
     created() {
@@ -206,22 +210,24 @@ export default {
     },
     methods: {
         formatPrice(price) {
-            let temp = price.toString()
-            let result = ''
-            for (let i=temp.length - 1; i>=0; i--) {
-                result = temp.charAt(i) + result
-                if ((temp.length - i) % 3 === 0) {
-                    result = "." + result
-                }
-            }
-            if (result.charAt(0) === ".") {
-                result = result.substring(1)
-            }
-            return result
+            // let temp = price.toString()
+            // let result = ''
+            // for (let i=temp.length - 1; i>=0; i--) {
+            //     result = temp.charAt(i) + result
+            //     if ((temp.length - i) % 3 === 0) {
+            //         result = "." + result
+            //     }
+            // }
+            // if (result.charAt(0) === ".") {
+            //     result = result.substring(1)
+            // }
+            // return result
+            return dataUtil.formatPrice(price)
         },
         getSrc: function (amenity) {
-            let images = require.context('../../assets/', false, /\.png$/)
-            return images('./' + amenity + ".png")
+            // let images = require.context('../../assets/', false, /\.png$/)
+            // return images('./' + amenity + ".png")
+            return dataUtil.getSrc(amenity)
         },
         deleteType: function (uuid) {
             this.$store.dispatch('type/resetStatus')

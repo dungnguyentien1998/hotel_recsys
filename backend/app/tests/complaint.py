@@ -81,3 +81,6 @@ class ComplaintTestCase(APITestCase, URLPatternsTestCase):
         url = reverse('app:complaint.detail', args=[Hotel.objects.get(name='test').uuid, Complaint.objects.get(title='test').uuid])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_put_complaint_api(self):
+        return None

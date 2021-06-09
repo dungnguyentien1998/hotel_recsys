@@ -85,3 +85,6 @@ class HotelTestCase(APITestCase, URLPatternsTestCase):
         }
         response = self.client.put(url, hotel_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_hotel_notification(self):
+        return None

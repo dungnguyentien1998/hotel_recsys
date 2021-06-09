@@ -87,13 +87,13 @@ class HotelDetail(APIView):
 class HotelActive(APIView):
     permission_classes = ()
 
-    def get(self, request):
-        user = request.user
-        hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
-        return Response({
-            'success': True,
-            'hotels': HotelDetailSerializer(hotels, many=True).data
-        })
+    # def get(self, request):
+    #     user = request.user
+    #     hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
+    #     return Response({
+    #         'success': True,
+    #         'hotels': HotelDetailSerializer(hotels, many=True).data
+    #     })
 
     def put(self, request, hotel_id):
         with transaction.atomic():

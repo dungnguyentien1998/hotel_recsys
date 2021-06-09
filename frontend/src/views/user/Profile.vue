@@ -188,6 +188,7 @@ import addressMixin from '@/mixin/address-mixin';
 import {minLength, required} from 'vuelidate/lib/validators';
 import Layout from '@/components/layouts/Layout';
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
+import json from '../mixin/data/db_en.json'
 
 export default {
     name: "Profile",
@@ -243,18 +244,40 @@ export default {
         })
     },
     created() {
-        // Get districts by city
+        // this.districts = [
+        //     {value: null, text: '-----'},
+        //     ...getDistrictsByProvinceCode(this.form.city).map(district => {
+        //         return {value: district.code, text: district.name}
+        //     })
+        // ]
+        // this.wards = [
+        //     {value: null, text: '-----'},
+        //     ...getWardsByDistrictCode(this.form.district).map(ward => {
+        //         return {value: ward.code, text: ward.name}
+        //     })
+        // ]
+        const dists = json.district
         this.districts = [
             {value: null, text: '-----'},
             ...getDistrictsByProvinceCode(this.form.city).map(district => {
-                return {value: district.code, text: district.name}
+                let trans_text = district.name
+                if (localStorage.getItem("language") === "en") {
+                    let dist = dists.filter(option => option.idDistrict === district.code)[0]
+                    trans_text = dist.name
+                }
+                return {value: district.code, text: trans_text}
             })
         ]
-        // Get wards by district
+        const communes = json.commune
         this.wards = [
             {value: null, text: '-----'},
             ...getWardsByDistrictCode(this.form.district).map(ward => {
-                return {value: ward.code, text: ward.name}
+                let trans_text = ward.name
+                if (localStorage.getItem("language") === "en") {
+                    let commune = communes.filter(option => option.idCoummune === ward.code)[0]
+                    trans_text = commune.name
+                }
+                return {value: ward.code, text: trans_text}
             })
         ]
     },
@@ -289,18 +312,18 @@ export default {
         }
     },
     methods: {
-        // Get cities
-        citiesOptions: function() {
-            return getProvinces()
-        },
-        // Get districts by city
-        districtsOptions: function(code) {
-            return getDistrictsByProvinceCode(code)
-        },
-        // Get wards by district
-        wardsOptions: function(code) {
-            return getWardsByDistrictCode(code)
-        },
+        // // Get cities
+        // citiesOptions: function() {
+        //     return getProvinces()
+        // },
+        // // Get districts by city
+        // districtsOptions: function(code) {
+        //     return getDistrictsByProvinceCode(code)
+        // },
+        // // Get wards by district
+        // wardsOptions: function(code) {
+        //     return getWardsByDistrictCode(code)
+        // },
         // Handle update profile
         onSubmit: function () {
             this.$v.form.$touch();
@@ -311,13 +334,16 @@ export default {
                 const city_code = this.form.city
                 const district_code = this.form.district
                 if (this.form.city != null) {
-                    this.form.city = this.citiesOptions().filter(option => option.code === this.form.city)[0].name
+                    // this.form.city = this.citiesOptions().filter(option => option.code === this.form.city)[0].name
+                    this.form.city = this.getProvinces().filter(option => option.code === this.form.city)[0].name
                 }
                 if (city_code != null && this.form.district != null) {
-                    this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
+                    // this.form.district = this.districtsOptions(city_code).filter(option => option.code === this.form.district)[0].name
+                    this.form.district = this.getDistrictsByProvinceCode(city_code).filter(option => option.code === this.form.district)[0].name
                 }
                 if (district_code != null && this.form.ward != null) {
-                    this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
+                    // this.form.ward = this.wardsOptions(district_code).filter(option => option.code === this.form.ward)[0].name
+                    this.form.ward = this.getWardsByDistrictCode(district_code).filter(option => option.code === this.form.ward)[0].name
                 }
                 if (this.form.birthday == null) {
                     delete this.form.birthday

@@ -283,6 +283,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
 import formMixin from '@/mixin/form-mixin'
 import {validationMixin} from "vuelidate";
+import dataUtil from "@/utils/data-view-utils"
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -358,11 +359,13 @@ export default {
     },
     methods: {
         getSrc: function (amenity) {
-            let images = require.context('../../assets/', false, /\.png$/)
-            return images('./' + amenity + ".png")
+            // let images = require.context('../../assets/', false, /\.png$/)
+            // return images('./' + amenity + ".png")
+            return dataUtil.getSrc(amenity)
         },
         hotelImage: function (uri) {
-            return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
+            return dataUtil.hotelImage(uri)
         },
         showTableAfter: function() {
             const booking_rooms = this.$store.getters['booking/booking_rooms']
@@ -407,24 +410,28 @@ export default {
         totalPrice: function () {
             let total_price = 0
             const prices = this.booking.price
-            for (const price in prices) {
-                total_price += prices[price]
+            // for (const price in prices) {
+            //     total_price += prices[price]
+            // }
+            for (let i=0; i< prices.length; i++) {
+                total_price += prices[i]
             }
             return this.formatPrice(total_price)
         },
         formatPrice(price) {
-            let temp = price.toString()
-            let result = ''
-            for (let i=temp.length - 1; i>=0; i--) {
-                result = temp.charAt(i) + result
-                if ((temp.length - i) % 3 === 0) {
-                    result = "." + result
-                }
-            }
-            if (result.charAt(0) === ".") {
-                result = result.substring(1)
-            }
-            return result
+            // let temp = price.toString()
+            // let result = ''
+            // for (let i=temp.length - 1; i>=0; i--) {
+            //     result = temp.charAt(i) + result
+            //     if ((temp.length - i) % 3 === 0) {
+            //         result = "." + result
+            //     }
+            // }
+            // if (result.charAt(0) === ".") {
+            //     result = result.substring(1)
+            // }
+            // return result
+            return dataUtil.formatPrice(price)
         },
         isNotNull: function(tel) {
             return tel != null && tel !== "";

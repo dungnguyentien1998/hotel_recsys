@@ -157,7 +157,6 @@ export default {
                         } else {
                             this.makeToast(this.$t('user.login.errors.title'), this.$t('user.login.errors.lock'));
                         }
-
                         this.resetForm()
                     } else {
                         this.$store.dispatch('user/account').then(() => {

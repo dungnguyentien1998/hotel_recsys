@@ -75,7 +75,12 @@ export default {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
                     } else {
                         // Push to login if success, need to add success message
-                        this.$router.push('/reset-password')
+                        this.$bvToast.toast(this.$t('user.register.success.message'), {
+                            title: this.$t('user.register.success.title'),
+                            autoHideDelay: 2000,
+                            variant: 'success'
+                        })
+                        setTimeout(() => this.$router.push('/reset-password'), 2000)
                     }
                 }).catch(() => {
                     this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.exceptionOccurred'))
