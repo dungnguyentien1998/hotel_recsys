@@ -76,6 +76,19 @@
                             type="text"
                         />
                     </b-form-group>
+                    <b-form-group>
+                        <label class="required">{{ $t('booking.booking.status') }}: </label>
+                        <b-form-radio-group
+                            v-model="$v.form.status.$model"
+                        >
+                            <b-form-radio value="yes">
+                                {{ $t('booking.booking.processed') }}
+                            </b-form-radio>
+                            <b-form-radio value="no">
+                                {{ $t('booking.booking.notProcess') }}
+                            </b-form-radio>
+                        </b-form-radio-group>
+                    </b-form-group>
                 </b-form>
                 <button
                     class="btn btn-sm btn-primary"
@@ -468,7 +481,8 @@ export default {
                 user_name: null,
                 user_tel: null,
                 user_email: null,
-                code: null
+                code: null,
+                status: null,
             },
             filterBookings: [],
             currentPage: 1,
@@ -508,6 +522,9 @@ export default {
             code: {
 
             },
+            status: {
+
+            }
         }
     },
     methods: {
@@ -535,11 +552,11 @@ export default {
                 )
             }
 
-            this.rows = this.filterHotels.length
-            // if (this.filterHotels.length === 0) {
-            //     this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
-            //     this.isSearch = true
-            // }
+            this.rows = this.filterBookings.length
+            if (this.filterBookings.length === 0) {
+                this.makeToast(this.$t('booking.booking.errors.search'), this.$t('booking.booking.noResultSearch'))
+                this.isSearch = true
+            }
         },
         isArrange(roomNumber) {
             return roomNumber.length > 0;

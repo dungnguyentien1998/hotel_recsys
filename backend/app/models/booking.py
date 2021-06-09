@@ -92,6 +92,14 @@ class Booking(BaseModel):
             room_type.append(temp_room_type.name)
         return room_type
 
+    def room_amount(self):
+        from app.models.booking_type import BookingType
+        room_amount = []
+        booking_types = BookingType.objects.filter(booking_id=self.uuid)
+        for booking_type in booking_types:
+            room_amount.append(booking_type.count)
+        return room_amount
+
     @property
     def price(self):
         from app.models.booking_type import BookingType

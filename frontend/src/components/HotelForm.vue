@@ -388,6 +388,9 @@ export default {
                 this.$store.dispatch('hotel/resetStatus')
                 if (this.hotelExist) {
                     this.form.uuid = this.hotel.uuid
+                    if (this.form.email === this.hotel.email) {
+                        delete this.form.email
+                    }
                     this.$store.dispatch('hotel/updateHotel', this.form).then(() => {
                         if (this.$store.getters['hotel/status'] === 'FAILED') {
                             // Alert for failed api calls

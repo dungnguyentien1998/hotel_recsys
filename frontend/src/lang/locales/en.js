@@ -281,9 +281,13 @@ export default {
             customerTelPlaceholder: 'Enter customer telephone number',
             customerEmailPlaceholder: 'Enter customer email',
             bookingCodePlaceholder: 'Enter booking code',
+            status: 'Booking status ',
+            processed: 'Processed',
+            notProcess: 'New',
             isArranged: 'You have assigned rooms for this booking',
             noResult: 'You have no booking',
             noBooking: 'Booking list is empty',
+            noResultSearch: 'No matching booking found',
             title: 'Booking list',
             detail: 'Booking detail',
             newTitle: 'New bookings',
@@ -307,12 +311,13 @@ export default {
             success: {
                 message: 'Action success',
                 title: 'You have assigned for this booking',
-                deleteMessage: 'Action success',
-                deleteTitle: 'You have canceled this booking'
+                deleteMessage: 'You have canceled this booking',
+                deleteTitle: 'Action success'
             },
             errors: {
                 title: 'Action failed',
-                exceptionOccurred: 'An exception occurred'
+                exceptionOccurred: 'An exception occurred',
+                search: ''
             }
         },
         bookingForm: {

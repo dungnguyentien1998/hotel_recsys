@@ -27,7 +27,6 @@ class Hotel(APIView):
             'success': True,
             'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if is_hotelier == True
             else HotelDetailSerializer(hotels, many=True).data,
-            'count': len(hotels)
         })
 
     # Create hotel
@@ -41,7 +40,6 @@ class Hotel(APIView):
             message = {
                 'success': True,
                 'hotel': HotelDetailSerializer(hotel).data,
-                'count': len(hotels)
             }
             pusher.trigger(u'a_channel', u'an_event', message)
 

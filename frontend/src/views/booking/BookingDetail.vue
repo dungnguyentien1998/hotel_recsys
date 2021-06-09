@@ -242,28 +242,29 @@ export default {
         },
         testDetails: function() {
             const types = this.booking.roomType
-            let unique_types = types.filter(this.onlyUnique)
+            const amounts = this.booking.roomAmount
+            // let unique_types = types.filter(this.onlyUnique)
             let temp = []
-            for (let j=0; j<unique_types.length; j++) {
-                let count = 0
-                for (let i=0; i<types.length; i++) {
-                    if (types[i] === unique_types[j]) {
-                        count += 1
-                    }
-                }
+            for (let j=0; j<types.length; j++) {
+                // let count = 0
+                // for (let i=0; i<types.length; i++) {
+                //     if (types[i] === unique_types[j]) {
+                //         count += 1
+                //     }
+                // }
+                let count = amounts[j]
                 let capacity = 0
                 let price = 0
                 let amenities = []
-                for (let option in this.types) {
-                    if (this.types[option].name === unique_types[j]) {
-                        capacity = this.types[option].capacity
-                        price = this.types[option].price
-                        amenities = this.types[option].amenities
+                for (let i=0; i< this.types.length; i++) {
+                    if (this.types[i].name === types[j]) {
+                        capacity = this.types[i].capacity
+                        price = this.types[i].price
+                        amenities = this.types[i].amenities
                         break
                     }
                 }
-                temp.push({'type' : unique_types[j], 'amount': count, 'capacity': capacity, 'price': price,
-                    'amenities': amenities})
+                temp.push({'type' : types[j], 'amount': count, 'capacity': capacity, 'price': price, 'amenities': amenities})
             }
             return temp
         },

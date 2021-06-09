@@ -281,9 +281,13 @@ export default {
             customerTelPlaceholder: 'Nhập số điện thoại khách hàng',
             customerEmailPlaceholder: 'Nhập email khách hàng',
             bookingCodePlaceholder: 'Nhập mã đặt phòng',
+            status: 'Trạng thái ',
+            processed: 'Đã được xếp phòng',
+            notProcess: 'Chưa được xếp phòng',
             isArranged: 'Bạn đã gán phòng cho yêu cầu đặt phòng này',
             noResult: 'Bạn chưa có đặt phòng nào',
             noBooking: 'Danh sách đặt phòng trống',
+            noResultSearch: 'Không tìm thấy đặt phòng phù hợp',
             title: 'Danh sách đặt phòng',
             detail: 'Chi tiết đặt phòng',
             newTitle: 'Danh sách đặt phòng mới',
@@ -307,12 +311,13 @@ export default {
             success: {
                 message: 'Thành công',
                 title: 'Bạn đã gán phòng cho khách sạn này',
-                deleteMessage: 'Thành công',
-                deleteTitle: 'Bạn đã hủy yêu cầu đặt phòng này'
+                deleteMessage: 'Bạn đã hủy yêu cầu đặt phòng này',
+                deleteTitle: 'Thành công'
             },
             errors: {
                 title: 'Thao tác không thành công',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
+                search: ''
             }
         },
         bookingForm: {
