@@ -53,6 +53,13 @@
                         />
                     </div>
                 </b-form-group>
+                <b-form-checkbox
+                    style="float: right"
+                    @change="showPassword"
+                >
+                    {{ $t('user.login.showPassword') }}
+                </b-form-checkbox>
+                <br>
                 <b-form-group>
                     <b-button
                         variant="success"
@@ -115,13 +122,12 @@ export default {
             } else {
                 x.type = "password"
             }
-        },
-        showPasswordConfirm: function () {
-            let x = document.getElementById("confirm-password")
-            if (x.type === "password") {
-                x.type = "text"
+
+            let z = document.getElementById("confirm-password")
+            if (z.type === "password") {
+                z.type = "text"
             } else {
-                x.type = "password"
+                z.type = "password"
             }
         },
         onSubmit: function () {

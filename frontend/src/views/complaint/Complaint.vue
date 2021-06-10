@@ -139,12 +139,12 @@ export default {
         isNotNull: function (image) {
             return image != null;
         },
-        // Handle send email
+
         mailtoUrl: function (email) {
             let url = 'mailto:' + email
             window.open(url)
         },
-        // Get complaint image
+
         complaintImage: function (uri) {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },

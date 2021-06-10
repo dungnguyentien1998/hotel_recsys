@@ -95,6 +95,10 @@
                 </h2>
             </div>
             <br>
+            <div
+                v-if="loading"
+                class="loader"
+            />
             <div>
                 <!--      Users table         -->
                 <b-table
@@ -221,7 +225,8 @@ export default {
             users: [],
             // User list for search function
             filterUsers: [],
-            isSearch: false
+            isSearch: false,
+            loading: false
         }
     },
     computed: {
@@ -279,12 +284,14 @@ export default {
     },
     created() {
         // Used for search function
+        this.loading = true
         this.$store.dispatch('user/users')
             .then(() => {
                 this.users = this.$store.getters['user/users']
                 this.filterUsers = this.users
                 this.rows = this.filterUsers.length
                 this.filterUsers.sort(this.compare)
+                this.loading = false
             })
         // Repeat code in Hotel Manage
         this.$store.dispatch('hotel/listHotels').then(() => {
@@ -384,6 +391,23 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style
+    lang="scss"
+    scoped
+>
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
 </style>

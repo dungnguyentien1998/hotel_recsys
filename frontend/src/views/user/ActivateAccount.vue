@@ -63,24 +63,18 @@ export default {
         }
     },
     created() {
-        // this.$bvToast.toast(this.$t('user.register.success.message'), {
-        //     title: this.$t('user.register.success.title'),
-        //     autoHideDelay: 5000,
-        //     variant: 'success'
-        // })
+
     },
     methods: {
         onSubmit: function () {
             if (this.$v.form.$anyError) {
                 this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
-                // this.form.email = localStorage.getItem("email")
                 this.form.email = this.$store.getters['user/email']
                 this.$store.dispatch('user/activateAccount', this.form).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
                     } else {
-                        // Push to login if success, need to add success message
                         this.$bvToast.toast(this.$t('user.register.success.registerMessage'), {
                             title: this.$t('user.register.success.title'),
                             autoHideDelay: 2000,

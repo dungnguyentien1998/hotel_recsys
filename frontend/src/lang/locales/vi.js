@@ -528,7 +528,8 @@ export default {
             deleteTitle: 'Xóa phòng',
             errors: {
                 title: 'Xóa phòng không thành công',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
+                search: ''
             }
         },
         roomForm: {

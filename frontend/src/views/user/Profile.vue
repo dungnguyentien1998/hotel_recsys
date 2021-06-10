@@ -244,18 +244,6 @@ export default {
         })
     },
     created() {
-        // this.districts = [
-        //     {value: null, text: '-----'},
-        //     ...getDistrictsByProvinceCode(this.form.city).map(district => {
-        //         return {value: district.code, text: district.name}
-        //     })
-        // ]
-        // this.wards = [
-        //     {value: null, text: '-----'},
-        //     ...getWardsByDistrictCode(this.form.district).map(ward => {
-        //         return {value: ward.code, text: ward.name}
-        //     })
-        // ]
         const dists = json.district
         this.districts = [
             {value: null, text: '-----'},
@@ -312,18 +300,6 @@ export default {
         }
     },
     methods: {
-        // // Get cities
-        // citiesOptions: function() {
-        //     return getProvinces()
-        // },
-        // // Get districts by city
-        // districtsOptions: function(code) {
-        //     return getDistrictsByProvinceCode(code)
-        // },
-        // // Get wards by district
-        // wardsOptions: function(code) {
-        //     return getWardsByDistrictCode(code)
-        // },
         // Handle update profile
         onSubmit: function () {
             this.$v.form.$touch();

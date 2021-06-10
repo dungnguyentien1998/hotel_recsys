@@ -7,6 +7,7 @@ from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
 from django.db.models import Q
 from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class Hotel(APIView):
@@ -23,11 +24,53 @@ class Hotel(APIView):
                 is_hotelier = True
             if user.role == models.Role.ADMIN:
                 hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
-        return Response({
-            'success': True,
-            'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if is_hotelier == True
-            else HotelDetailSerializer(hotels, many=True).data,
-        })
+        #
+        # result_hotels = []
+        # for hotel in hotels:
+        #     temp_dict = {'uuid': hotel.uuid, 'created': hotel.created, 'name': hotel.name, 'star': hotel.star,
+        #                  'city': hotel.city, 'district': hotel.district, 'ward': hotel.ward, 'address': hotel.address,
+        #                  'image': hotel.image.url, 'amenities': hotel.amenities, 'status': hotel.status,
+        #                  'reject_reason': hotel.reject_reason, 'email': hotel.email, 'tel': hotel.tel,
+        #                  'rating': hotel.rating, 'owner_name': hotel.owner_name}
+        #     result_hotels.append(temp_dict)
+
+        data = []
+        nextPage = 1
+        previousPage = 1
+        page = request.GET.get('page', 1)
+        paginator = Paginator(hotels, 6)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+
+        if data.has_next():
+            nextPage = data.next_page_number()
+        if data.has_previous():
+            previousPage = data.previous_page_number()
+
+        if is_hotelier:
+            return Response({
+                'success': True,
+                'hotels': HotelierHotelDetailSerializer(hotels, many=True).data
+            })
+        else:
+            return Response({
+                'success': True,
+                'hotels': HotelDetailSerializer(data, many=True).data,
+                'count': paginator.count,
+                'numpages': paginator.num_pages,
+                'nextlink': '/api/hotels?page=' + str(nextPage),
+                'previouslink': '/api/hotels?page=' + str(previousPage),
+            })
+        # return Response({
+        #     'success': True,
+        #     'hotels': HotelierHotelDetailSerializer(hotels, many=True).data if is_hotelier == True
+        #     else HotelDetailSerializer(hotels, many=True).data,
+        #     # 'hotels': result_hotels
+        # })
 
     # Create hotel
     def post(self, request):

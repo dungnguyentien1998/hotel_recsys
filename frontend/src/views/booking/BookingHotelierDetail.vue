@@ -359,13 +359,7 @@ export default {
     },
     methods: {
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
-        },
-        hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
-            return this.getHotelImage(uri)
         },
         showTableAfter: function() {
             const booking_rooms = this.$store.getters['booking/booking_rooms']
@@ -389,9 +383,7 @@ export default {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
-        onlyUnique: function (value, index, self) {
-            return self.indexOf(value) === index
-        },
+
         getAvailableOptions: function(room_number) {
             let options = []
             for (let i = 0; i < room_number.length; i++) {
@@ -410,27 +402,13 @@ export default {
         totalPrice: function () {
             let total_price = 0
             const prices = this.booking.price
-            // for (const price in prices) {
-            //     total_price += prices[price]
-            // }
+
             for (let i=0; i< prices.length; i++) {
                 total_price += prices[i]
             }
             return this.formatPrice(total_price)
         },
         formatPrice(price) {
-            // let temp = price.toString()
-            // let result = ''
-            // for (let i=temp.length - 1; i>=0; i--) {
-            //     result = temp.charAt(i) + result
-            //     if ((temp.length - i) % 3 === 0) {
-            //         result = "." + result
-            //     }
-            // }
-            // if (result.charAt(0) === ".") {
-            //     result = result.substring(1)
-            // }
-            // return result
             return this.getFormatPrice(price)
         },
         isNotNull: function(tel) {

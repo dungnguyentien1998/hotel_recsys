@@ -197,12 +197,9 @@ export default {
     },
     computed: {
         roleHotelier: function () {
-            // return (this.$store.getters['user/user'].role === 'hotelier')
             return this.getRoleHotelier()
         },
-        // Check if role user
         roleUser: function () {
-            // return (this.$store.getters['user/user'].role === 'user')
             return this.getRoleUser()
         },
     },
@@ -218,23 +215,9 @@ export default {
     },
     methods: {
         formatPrice(price) {
-            // let temp = price.toString()
-            // let result = ''
-            // for (let i=temp.length - 1; i>=0; i--) {
-            //     result = temp.charAt(i) + result
-            //     if ((temp.length - i) % 3 === 0) {
-            //         result = "." + result
-            //     }
-            // }
-            // if (result.charAt(0) === ".") {
-            //     result = result.substring(1)
-            // }
-            // return result
             return this.getFormatPrice(price)
         },
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
         },
         deleteType: function (uuid) {

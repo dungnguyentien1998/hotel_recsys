@@ -260,7 +260,6 @@ export default {
     },
     methods: {
         hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
             return this.getHotelImage(uri)
         },
         message(roomType) {
@@ -293,30 +292,18 @@ export default {
             return opts
         },
         formatPrice(price) {
-            // let temp = price.toString()
-            // let result = ''
-            // for (let i=temp.length - 1; i>=0; i--) {
-            //     result = temp.charAt(i) + result
-            //     if ((temp.length - i) % 3 === 0) {
-            //         result = "." + result
-            //     }
-            // }
-            // if (result.charAt(0) === ".") {
-            //     result = result.substring(1)
-            // }
-            // return result
             return this.getFormatPrice(price)
         },
         getStripePublishableKey() {
             fetch('http://localhost:8000/api/config')
                 .then((result) => result.json())
                 .then((data) => {
-                    // Initialize Stripe.js
-                    this.stripe = Stripe(data.publicKey); // eslint-disable-line no-undef
+
+                    this.stripe = Stripe(data.publicKey);
                 });
         },
         purchase(bookingId) {
-            // Get Checkout Session ID
+
             fetch('http://localhost:8000/api/create-checkout-session', {
                 method: 'POST',
                 headers: {
@@ -327,7 +314,7 @@ export default {
                 .then((result) => result.json())
                 .then((data) => {
                     console.log(data);
-                    // Redirect to Stripe Checkout
+
                     return this.stripe.redirectToCheckout({ sessionId: data.sessionId });
                 })
                 .then((res) => {
@@ -337,13 +324,7 @@ export default {
         getIndex: function(room_type) {
             let index = 0
             const types = this.$store.getters['type/types']
-            // for (let option in this.$store.getters['type/types']) {
-            //     const roomType = types[option].name
-            //     if (roomType === room_type) {
-            //         return index
-            //     }
-            //     index = index + 1
-            // }
+
             for (let i=0; i<types.length; i++) {
                 const roomType = types[i].name
                 if (roomType === room_type) {
@@ -354,9 +335,6 @@ export default {
             return index
         },
         getAvailable: function (roomType) {
-            // if (this.$store.getters['booking/save'] == null) {
-            //     return ' '
-            // }
             const available_types = this.$store.getters['booking/available_types']
             const available_numbers = this.$store.getters['booking/available_numbers']
             let index = available_types.length;
@@ -373,8 +351,6 @@ export default {
             }
         },
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
         },
         // Parse date string to right format
@@ -383,13 +359,6 @@ export default {
             let format_date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
                 date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
             return format_date;
-        },
-        resetForm: function () {
-            this.form = {
-                check_in_time: null,
-                check_out_time: null,
-                hotel_id: null
-            }
         },
         showAvailable: function (roomType) {
             return this.$store.getters['booking/save'] != null && this.message(roomType) !== '';

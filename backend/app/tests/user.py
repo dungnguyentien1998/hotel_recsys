@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, URLPatternsTestCase, APIClient
 from django.urls import reverse, include, path
 from app.models import User
+from app.utils.security import generate_token, TokenType
 
 
 class UserTestCase(APITestCase, URLPatternsTestCase):
@@ -17,7 +18,8 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
             ward='test',
             address='test',
             role='admin',
-            birthday='2004-12-26'
+            birthday='2004-12-26',
+            is_active=True
         )
 
     urlpatterns = [
@@ -29,6 +31,7 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
         user_data = {
             'email': 'test123@hotmail.com',
             'password': '123456',
+            'password_confirm': '123456',
             'name': 'Peggy Holt',
             'tel': '0750014613',
             'city': 'test',
@@ -36,15 +39,32 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
             'ward': 'test',
             'address': 'test',
             'role': 'hotelier',
-            'birthday': '2004-12-26'
+            'birthday': '2004-12-26',
+            'is_active': True
         }
         response = self.client.post(url, user_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_login_api(self):
+        url = reverse('app:user.register')
+        user_data = {
+            'email': 'test123@hotmail.com',
+            'password': '123456',
+            'password_confirm': '123456',
+            'name': 'Peggy Holt',
+            'tel': '0750014613',
+            'city': 'test',
+            'district': 'test',
+            'ward': 'test',
+            'address': 'test',
+            'role': 'hotelier',
+            'birthday': '2004-12-26',
+            'is_active': True
+        }
+        response = self.client.post(url, user_data, format='json')
         url = reverse('app:user.login')
         user_data = {
-            'email': 'danielnorman@hotmail.com',
+            'email': 'test123@hotmail.com',
             'password': '123456',
         }
         response = self.client.post(url, user_data, format='json')
@@ -66,7 +86,8 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
             'district': 'new test',
             'ward': 'new test',
             'address': 'new test',
-            'birthday': '2004-12-26'
+            'birthday': '2004-12-26',
+            'is_active': True
         }
         response = self.client.put(url, user_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -96,7 +117,7 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
         self.client.force_authenticate(self.user)
         url = reverse('app:user.change_password')
         user_data = {
-            'old_password': '123456',
+            'old_password': self.user.password,
             'password': '123456',
             'password_confirm': '123456'
         }
@@ -104,10 +125,34 @@ class UserTestCase(APITestCase, URLPatternsTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_activate_account(self):
-        return None
+        self.client.force_authenticate(self.user)
+        token = generate_token(obj=self.user.uuid, _type=TokenType.NEW_ACCOUNT)
+        url = reverse('app:user.activate')
+        user_data = {
+            'token': token,
+            'email': 'danielnorman@hotmail.com',
+            'is_active': True
+        }
+        response = self.client.post(url, user_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_forgot_password(self):
-        return None
+        url = reverse('app:user.forgot')
+        user_data = {
+            'email': 'danielnorman@hotmail.com',
+            'password': '123456',
+        }
+        response = self.client.post(url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_reset_password(self):
-        return None
+        self.client.force_authenticate(self.user)
+        token = generate_token(obj=self.user.uuid, _type=TokenType.FORGOT_PASSWORD)
+        url = reverse('app:user.forgot')
+        user_data = {
+            'token': token,
+            'password': '123456',
+            'password_confirm': '123456'
+        }
+        response = self.client.put(url, user_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

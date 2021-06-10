@@ -151,7 +151,6 @@ export default {
     data: function () {
         return {
             updateForm: {
-                // is_active: null,
                 status: null
             },
             hotel: this.$store.getters['hotel/hotels'].filter(hotel => hotel.uuid === this.$route.params.uuid)[0],
@@ -159,39 +158,12 @@ export default {
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            // // if (address == null || address === "") {
-            // //     return ward + ", " + district + ", " + city
-            // // } else {
-            // //     return address + ", " + ward + ", " + district + ", " + city
-            // // }
             return this.getTransAddress(address, ward, district, city)
         },
         hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
             return this.getHotelImage(uri)
         },
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
         },
     }

@@ -128,14 +128,6 @@ export default {
                 password_confirm: ''
             }
         },
-        showOldPassword: function () {
-            let x = document.getElementById("old-password")
-            if (x.type === "password") {
-                x.type = "text"
-            } else {
-                x.type = "password"
-            }
-        },
         showPassword: function () {
             let x = document.getElementById("password")
             if (x.type === "password") {
@@ -156,14 +148,6 @@ export default {
                 z.type = "text"
             } else {
                 z.type = "password"
-            }
-        },
-        showPasswordConfirm: function () {
-            let x = document.getElementById("confirm-password")
-            if (x.type === "password") {
-                x.type = "text"
-            } else {
-                x.type = "password"
             }
         },
         onSubmit: function () {

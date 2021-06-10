@@ -11,45 +11,10 @@
             </b-button>
         </div>
         <br>
-        <!--        <b-list-group>-->
-        <!--            <span class="font-weight-bolder">-->
-        <!--                {{ reviews.length }} {{ $tc('hotel.hotel.review', reviews.length) }}-->
-        <!--            </span>-->
-        <!--            <br>-->
-
-        <!--            <b-list-group-item-->
-        <!--                v-for="review in reviews"-->
-        <!--                :key="review.uuid"-->
-        <!--            >-->
-        <!--                &lt;!&ndash;   Review title         &ndash;&gt;-->
-        <!--                <div class="form-row">-->
-        <!--                    <div class="col-sm-10 col-form-label">-->
-        <!--                        <p class="m-0 text-secondary">-->
-        <!--                            {{ toDate(review.created) }}-->
-        <!--                        </p>-->
-        <!--                        <p class="m-0 font-weight-bolder p-inline">-->
-        <!--                            {{ review.title }}-->
-        <!--                        </p>-->
-        <!--                    </div>-->
-        <!--                    <div class="col-sm-2">-->
-        <!--                        <p />-->
-        <!--                        <b-badge-->
-        <!--                            pill-->
-        <!--                            variant="info"-->
-        <!--                            class="badge-size"-->
-        <!--                        >-->
-        <!--                            {{ review.rating }} / 5-->
-        <!--                        </b-badge>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--                <p class="m-0 text-secondary">-->
-        <!--                    {{ review.content }}-->
-        <!--                </p>-->
-        <!--                <small class="d-block text-right">-->
-        <!--                    {{ review.userName }}-->
-        <!--                </small>-->
-        <!--            </b-list-group-item>-->
-        <!--        </b-list-group>-->
+        <div
+            v-if="loading"
+            class="loader"
+        />
         <b-list-group
             id="reviews-list"
             :current-page="currentPage"
@@ -130,16 +95,17 @@ export default {
             currentPage: 1,
             perPage: 30,
             rows: 0,
+            loading: false
         }
     },
     computed: {
         roleUser: function () {
-            // return (this.$store.getters['user/user'].role === 'user')
             return this.getRoleUser()
         },
     },
     created() {
         // Get review data
+        this.loading = true
         this.$store.dispatch('review/listReviews', this.$route.params.uuid)
             .then(() => {
                 this.reviews = this.$store.getters['review/reviews']
@@ -147,6 +113,7 @@ export default {
                 this.reviews.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })
+                this.loading = false
             })
     },
     methods: {
@@ -169,5 +136,20 @@ export default {
 .badge-size {
     font-size: 1em;
     float: right;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

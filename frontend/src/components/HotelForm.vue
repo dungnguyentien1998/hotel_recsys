@@ -339,32 +339,6 @@ export default {
         }
     },
     methods: {
-        resetForm: function () {
-            this.form = {
-                name: null,
-                star: null,
-                city: null,
-                district: null,
-                ward: null,
-                address: null,
-                image: null,
-                amenities: [],
-                email: null,
-                tel: null
-            }
-        },
-        // // Get cities
-        // citiesOptions: function() {
-        //     return getProvinces()
-        // },
-        // // Get districts from city
-        // districtsOptions: function(code) {
-        //     return getDistrictsByProvinceCode(code)
-        // },
-        // // Get wards from district
-        // wardsOptions: function(code) {
-        //     return getWardsByDistrictCode(code)
-        // },
         // Handle create/update hotel
         onSubmit: function () {
             this.$v.form.$touch();

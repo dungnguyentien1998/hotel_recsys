@@ -87,4 +87,7 @@ class HotelTestCase(APITestCase, URLPatternsTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_hotel_notification(self):
-        return None
+        self.client.force_authenticate(self.user)
+        url = reverse('app:notification.hotel')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

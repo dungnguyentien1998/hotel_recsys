@@ -1,3 +1,5 @@
+import asyncio
+
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
@@ -46,7 +48,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Get password and confirm password
         password = validated_data['password']
         password_confirm = validated_data['password_confirm']
-        # Check if role admin
         if validated_data['role'] == Role.ADMIN:
             raise ValidationError('Can\'t create user with role admin')
         # Check if password equals confirm password
@@ -60,6 +61,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User(**validated_data)
         user.set_password(password)
         user.save()
+        # asyncio.create_task(send_new_account_email(user=user))
         send_new_account_email(user=user)
         return user
 

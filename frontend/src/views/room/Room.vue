@@ -93,6 +93,10 @@
         </b-form>
         <br>
         <div
+            v-if="loading"
+            class="loader"
+        />
+        <div
             id="rooms-list"
             :current-page="currentPage"
             :per-page="perPage"
@@ -357,7 +361,8 @@ export default {
                 room_type: null,
                 // amenities: []
             },
-            isSearch: false
+            isSearch: false,
+            loading: false
         }
     },
     computed: {
@@ -365,22 +370,16 @@ export default {
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
         roleHotelier: function () {
-            // return (this.$store.getters['user/user'].role === 'hotelier')
             return this.getRoleHotelier()
         },
-        // Check role user
         roleUser: function () {
-            // return (this.$store.getters['user/user'].role === 'user')
             return this.getRoleUser()
         },
         typeOptions() {
             let opts = []
             const types = this.$store.getters['type/types']
             opts.push({value: null, text: '-----'})
-            // for (let option in this.$store.getters['type/types']) {
-            //     const room_type = types[option].name
-            //     opts.push({value: room_type, text: room_type})
-            // }
+
             for (let i=0; i<types.length; i++) {
                 const room_type = types[i].name
                 opts.push({value: room_type, text: room_type})
@@ -410,6 +409,7 @@ export default {
     },
     created() {
         // Get room data
+        this.loading = true
         this.$store.dispatch('room/listRooms', this.$route.params.uuid)
             .then(() => {
                 this.rooms = this.$store.getters['room/rooms']
@@ -418,39 +418,26 @@ export default {
                 this.filterRooms.sort(function (a,b) {
                     return new Date(a.created) - new Date(b.created)
                 })
+                this.loading = false
             })
     },
     methods: {
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
         },
-        // Get room accordion
+
         roomAccordion: function (uuid) {
             return `accordion-${uuid}`
         },
-        // Get room image
+
         roomImage: function (uri) {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },
-        // Convert to date string
+
         convertDate: function (date) {
             return new Date(date).toDateString()
         },
         formatPrice(price) {
-            // let temp = price.toString()
-            // let result = ''
-            // for (let i=temp.length - 1; i>=0; i--) {
-            //     result = temp.charAt(i) + result
-            //     if ((temp.length - i) % 3 === 0) {
-            //         result = "." + result
-            //     }
-            // }
-            // if (result.charAt(0) === ".") {
-            //     result = result.substring(1)
-            // }
-            // return result
             return this.getFormatPrice(price)
         },
         // Handle search room
@@ -478,15 +465,9 @@ export default {
             }
             this.rows = this.filterRooms.length
             if (this.filterRooms.length === 0) {
-                // this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
+                this.makeToast(this.$t('room.room.errors.search'), this.$t('room.room.noResult'))
                 this.isSearch = true
             }
-            // if (!!this.form.amenities) {
-            //     const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
-            //     this.filterRooms = this.filterRooms.filter(room =>
-            //         amenities_list.every(amenity => room.amenities.includes(amenity))
-            //     )
-            // }
         },
         // Handle delete room
         deleteRoom: function (uuid) {
@@ -505,7 +486,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style
+    lang="scss"
+    scoped
+>
 .card-img {
     object-fit: cover;
     height: 400px;
@@ -519,5 +503,20 @@ export default {
 .icon {
     height: 30px;
     width: 30px;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

@@ -528,7 +528,8 @@ export default {
             deleteTitle: 'Delete room',
             errors: {
                 title: 'Delete failed',
-                exceptionOccurred: 'An exception occurred'
+                exceptionOccurred: 'An exception occurred',
+                search: ''
             }
         },
         roomForm: {

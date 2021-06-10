@@ -38,9 +38,9 @@ class HotelierHotelDetailSerializer(serializers.ModelSerializer):
 
 class HotelDetailSerializer(serializers.ModelSerializer):
     # Hotel data used to represent, used for user
-    num_rooms = serializers.ReadOnlyField()
-    num_complaints = serializers.ReadOnlyField()
-    num_reviews = serializers.ReadOnlyField()
+    # num_rooms = serializers.ReadOnlyField()
+    # num_complaints = serializers.ReadOnlyField()
+    # num_reviews = serializers.ReadOnlyField()
     rating = serializers.ReadOnlyField()
     owner_name = serializers.ReadOnlyField()
     owner_tel = serializers.ReadOnlyField()
@@ -48,8 +48,28 @@ class HotelDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Hotel
-        fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating', 'owner_name',
-                  'owner_tel', 'owner_email']
+        fields = [*Hotel.get_fields(), 'rating', 'owner_name', 'owner_tel', 'owner_email']
+        # fields = [*Hotel.get_fields(), 'num_rooms', 'num_complaints', 'num_reviews', 'rating', 'owner_name',
+        #           'owner_tel', 'owner_email']
+
+
+# class HotelDetailSerializer(serializers.Serializer):
+#     uuid = serializers.CharField(read_only=True)
+#     created = serializers.DateTimeField(read_only=True)
+#     name = serializers.CharField(read_only=True)
+#     star = serializers.IntegerField(read_only=True)
+#     city = serializers.CharField(read_only=True)
+#     district = serializers.CharField(read_only=True)
+#     ward = serializers.CharField(read_only=True)
+#     address = serializers.CharField(read_only=True)
+#     image = serializers.ImageField(read_only=True)
+#     amenities = serializers.ListField(read_only=True)
+#     status = serializers.CharField(read_only=True)
+#     reject_reason = serializers.CharField(read_only=True)
+#     email = serializers.EmailField(read_only=True)
+#     tel = serializers.CharField(read_only=True)
+#     rating = serializers.ReadOnlyField(read_only=True)
+#     owner_name = serializers.ReadOnlyField(read_only=True)
 
 
 class HotelActiveSerializer(serializers.ModelSerializer):

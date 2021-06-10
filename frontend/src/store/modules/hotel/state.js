@@ -5,4 +5,5 @@ export default {
     notify_hotels: [],
     count_hotelier: 0,
     old_count_hotelier: 0,
+    count: 0
 }

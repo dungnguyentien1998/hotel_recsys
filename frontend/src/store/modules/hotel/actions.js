@@ -8,9 +8,13 @@ export default {
         context.commit('resetStatus');
     },
     // Api list hotels
-    listHotels: context => {
+    listHotels: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        return api.get('hotels').then(res => {
+        return api.get('hotels', {
+            params : {
+                page: payload.page
+            }
+        }).then(res => {
             context.commit('listHotels', res)
         })
     },

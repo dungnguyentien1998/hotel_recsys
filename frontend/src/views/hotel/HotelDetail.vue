@@ -126,9 +126,7 @@ export default {
     components: {Layout},
     mixins: [validationMixin, roleUtil],
     computed: {
-        // Check if role hotelier
         roleHotelier: function () {
-            // return (this.$store.getters['user/user'].role === 'hotelier')
             return this.getRoleHotelier()
         }
     }

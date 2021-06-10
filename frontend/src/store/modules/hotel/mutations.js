@@ -10,6 +10,7 @@ export default {
     // Save hotel list
     listHotels: (state, payload) => {
         state.hotels = payload.data.hotels
+        state.count = payload.data.count
     },
     // Save new hotel
     createHotel: (state, payload) => {

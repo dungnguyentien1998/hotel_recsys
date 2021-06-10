@@ -4,6 +4,10 @@
             {{ $t('user.register.title') }}
         </template>
         <template #form>
+            <div
+                v-if="loading"
+                class="loader"
+            />
             <b-form>
                 <b-form-group
                     id="email-group"
@@ -188,6 +192,13 @@
                         />
                     </div>
                 </b-form-group>
+                <b-form-checkbox
+                    style="float: right"
+                    @change="showPassword"
+                >
+                    {{ $t('user.login.showPassword') }}
+                </b-form-checkbox>
+                <br>
                 <b-form-group>
                     <b-button
                         variant="success"
@@ -247,7 +258,8 @@ export default {
                 {value: null, text: '-----'},
                 {value: 'user', text: this.$t('user.register.user')},
                 {value: 'hotelier', text: this.$t('user.register.hotelier')}
-            ]
+            ],
+            loading: false
         }
     },
     // Form validate
@@ -302,18 +314,6 @@ export default {
         }
     },
     methods: {
-        // Get cities
-        // citiesOptions: function() {
-        //     return getProvinces()
-        // },
-        // // Get districts by city
-        // districtsOptions: function(code) {
-        //     return getDistrictsByProvinceCode(code)
-        // },
-        // // Get wards by district
-        // wardsOptions: function(code) {
-        //     return getWardsByDistrictCode(code)
-        // },
         // Clear form
         resetForm: function () {
             this.form = {
@@ -338,21 +338,12 @@ export default {
             } else {
                 x.type = "password"
             }
-        },
-        validatePassword: function () {
-            let x = document.getElementById("password")
-            let invalid = false
-            if (x.value === "") {
-                invalid = true
-            }
-            return invalid
-        },
-        showPasswordConfirm: function () {
-            let x = document.getElementById("confirm-password")
-            if (x.type === "password") {
-                x.type = "text"
+
+            let z = document.getElementById("confirm-password")
+            if (z.type === "password") {
+                z.type = "text"
             } else {
-                x.type = "password"
+                z.type = "password"
             }
         },
         // Handle register
@@ -385,6 +376,7 @@ export default {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.invalidData'))
                 }
             } else {
+                this.loading = true
                 // Change city district ward code to name
                 const city_code = this.form.city
                 const district_code = this.form.district
@@ -413,6 +405,7 @@ export default {
                     delete this.form.ward
                 }
                 this.$store.dispatch('user/register', this.form).then(() => {
+                    this.loading = false
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         // Alert for failed register api
                         this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.emailUsed'))
@@ -451,5 +444,20 @@ export default {
     z-index: 2;
     border: none;
     top: 2px;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

@@ -212,7 +212,7 @@
                 class="row"
             >
                 <div
-                    v-for="hotel in filterHotels.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
+                    v-for="hotel in filterHotels"
                     :key="hotel.uuid"
                     class="col-md-6 col-sm-12"
                     @dblclick="onHandle(hotel.uuid)"
@@ -346,12 +346,12 @@
                 {{ $t('hotel.hotel.noResult') }}
             </span>
             <b-pagination
-                v-if="filterHotels.length > perPage"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
                 pills
                 aria-controls="hotels-list"
+                @change="handlePageChange"
             />
             <hr
                 v-if="roleUser"
@@ -488,14 +488,10 @@ export default {
         availableOptions() {
             return this.options.filter(opt => this.form.amenities.indexOf(opt) === -1)
         },
-        // Check if role hotelier
         roleHotelier: function () {
-            // return (this.$store.getters['user/user'].role === 'hotelier')
             return this.getRoleHotelier()
         },
-        // Check if role user
         roleUser: function () {
-            // return (this.$store.getters['user/user'].role === 'user')
             return this.getRoleUser()
         },
     },
@@ -523,16 +519,17 @@ export default {
         }
     },
     created() {
-        this.loading = true
-        this.$store.dispatch('hotel/listHotels').then(() => {
-            this.hotels = this.$store.getters['hotel/hotels']
-            this.filterHotels = this.hotels
-            this.rows = this.filterHotels.length
-            this.filterHotels.sort(function (a, b){
-                return a.name.localeCompare(b.name) || b.star - a.star
-            })
-            this.loading = false
-        })
+        // this.loading = true
+        // this.$store.dispatch('hotel/listHotels').then(() => {
+        //     this.hotels = this.$store.getters['hotel/hotels']
+        //     this.filterHotels = this.hotels
+        //     this.rows = this.filterHotels.length
+        //     this.filterHotels.sort(function (a, b){
+        //         return a.name.localeCompare(b.name) || b.star - a.star
+        //     })
+        //     this.loading = false
+        // })
+        this.retrieveHotels()
         if (this.$store.getters['user/user'].role === 'user') {
             this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
                 this.recommendationsLogin = this.$store.getters['recommendation/recommendationsLogin']
@@ -554,49 +551,40 @@ export default {
         this.subscribe_user()
     },
     methods: {
+        getRequestParams(currentPage, perPage) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            return params
+        },
+        retrieveHotels() {
+            const params = this.getRequestParams(this.currentPage, this.perPage)
+            this.loading = true
+            this.$store.dispatch('hotel/listHotels', params).then((res) => {
+                this.hotels = this.$store.getters['hotel/hotels']
+                this.filterHotels = this.hotels
+                this.rows = this.$store.getters['hotel/count']
+                // this.rows = this.filterHotels.length
+                // this.filterHotels.sort(function (a, b){
+                //     return a.name.localeCompare(b.name) || b.star - a.star
+                // })
+                this.loading = false
+            })
+        },
+        handlePageChange(value) {
+            this.currentPage = value
+            this.retrieveHotels()
+        },
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            // // if (address == null || address === "") {
-            // //     return ward + ", " + district + ", " + city
-            // // } else {
-            // //     return address + ", " + ward + ", " + district + ", " + city
-            // // }
             return this.getTransAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
             return this.getHotelImage(uri)
-        },
-        // Get cities
-        citiesOptions: function() {
-            return getProvinces()
-        },
-        // Get districts from city
-        districtsOptions: function(code) {
-            return getDistrictsByProvinceCode(code)
-        },
-        // Get wards from district
-        wardsOptions: function(code) {
-            return getWardsByDistrictCode(code)
         },
         // Handle search function
         onSubmit: function () {

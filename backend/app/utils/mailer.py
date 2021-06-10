@@ -1,5 +1,7 @@
 import os
 import logging
+
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from emails import Message
 from emails.template import JinjaTemplate
@@ -31,6 +33,7 @@ import yagmail
 
 
 # Send email for new account
+# @sync_to_async
 def send_new_account_email(user):
     receiver = user.email
     token = generate_token(obj=user.uuid, _type=TokenType.NEW_ACCOUNT)

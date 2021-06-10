@@ -8,7 +8,7 @@ import exrex
 
 # Seed data for hotel
 class HotelSeeder(BaseSeeder):
-    OBJECT_NUMBER = 100
+    OBJECT_NUMBER = 5000
     REQUIRED_SEEDERS = [UserSeeder]
 
     def run(self, stdout, _):
@@ -23,11 +23,11 @@ class HotelSeeder(BaseSeeder):
 
         for i in range(self.OBJECT_NUMBER):
             email = faker.email()
-            while User.objects.filter(email=email):
+            while Hotel.objects.filter(email=email):
                 email = faker.email()
             hotelier = random.choice(hoteliers)
-            while hotelier.hotels.count() > 5:
-                hotelier = random.choice(hoteliers)
+            # while hotelier.hotels.count() > 5:
+            #     hotelier = random.choice(hoteliers)
             created = faker.date_time_between(hotelier.created, 'now')
             address = random.choice(addresses)
             hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=address['city'],

@@ -4,6 +4,10 @@
             {{ $t('user.login.forgotPassword') }}
         </template>
         <template #form>
+            <div
+                v-if="loading"
+                class="loader"
+            />
             <b-form>
                 <b-form-group
                     id="email-group"
@@ -51,7 +55,8 @@ export default {
             // Form data
             form: {
                 email: '',
-            }
+            },
+            loading: false
         }
     },
     // Form validate
@@ -70,11 +75,12 @@ export default {
                 // Alert for form validate
                 this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.missing'));
             } else {
+                this.loading = true
                 this.$store.dispatch('user/forgotPassword', this.form).then(() => {
+                    this.loading = false
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         this.makeToast(this.$t('user.forgot.errors.title'), this.$t('user.forgot.errors.invalidData'));
                     } else {
-                        // Push to login if success, need to add success message
                         this.$bvToast.toast(this.$t('user.register.success.message'), {
                             title: this.$t('user.register.success.title'),
                             autoHideDelay: 2000,
@@ -98,5 +104,20 @@ export default {
 .required:after {
     content: " *";
     color: red;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

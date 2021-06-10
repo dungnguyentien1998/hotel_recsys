@@ -7,6 +7,10 @@
                 </h2>
             </div>
             <hr>
+            <div
+                v-if="loading"
+                class="loader"
+            />
             <b-list-group
                 id="bookings-list"
                 :current-page="currentPage"
@@ -139,9 +143,11 @@ export default {
             currentPage: 1,
             perPage: 10,
             rows: 0,
+            loading: false
         }
     },
     created() {
+        this.loading = true
         this.$store.dispatch('booking/newListBookings')
             .then(() => {
                 this.bookings = this.$store.getters['booking/bookings']
@@ -149,38 +155,14 @@ export default {
                 this.bookings.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })
+                this.loading = false
             })
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            // // if (address == null || address === "") {
-            // //     return ward + ", " + district + ", " + city
-            // // } else {
-            // //     return address + ", " + ward + ", " + district + ", " + city
-            // // }
             return this.getTransAddress(address, ward, district, city)
         },
         hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
             return this.getHotelImage(uri)
         },
         // Get date from datetime
@@ -237,5 +219,20 @@ export default {
 .icon {
     height: 20px;
     width: 20px;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>

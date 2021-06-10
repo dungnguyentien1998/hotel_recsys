@@ -135,6 +135,10 @@
             </div>
             <br>
             <div
+                v-if="loading"
+                class="loader"
+            />
+            <div
                 id="hotels-list"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -277,7 +281,8 @@ export default {
             },
             slide: 0,
             sliding: null,
-            isSearch: false
+            isSearch: false,
+            loading: false
         }
     },
     computed: {
@@ -308,6 +313,7 @@ export default {
         }
     },
     created() {
+        this.loading = true
         this.$store.dispatch('hotel/listHotels').then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
@@ -315,59 +321,22 @@ export default {
             this.filterHotels.sort(function (a,b) {
                 return new Date(b.created) - new Date(a.created)
             })
+            this.loading = false
             this.subscribe()
         })
     },
     methods: {
         getAddress: function (address, ward, district, city) {
-            // let city_en = city
-            // let district_en = district
-            // let ward_en = ward
-            // if (localStorage.getItem("language") === "en") {
-            //     let city_code = getProvinces().filter(option => option.name === city)[0].code
-            //     const provinces = json.province
-            //     city_en = provinces.filter(option => option.idProvince === city_code)[0].name
-            //     let district_code = getDistrictsByProvinceCode(city_code).filter(option => option.name === district)[0].code
-            //     const dists = json.district
-            //     district_en = dists.filter(option => option.idDistrict === district_code)[0].name
-            //     let ward_code = getWardsByDistrictCode(district_code).filter(option => option.name === ward)[0].code
-            //     const communes = json.commune
-            //     ward_en = communes.filter(option => option.idCoummune === ward_code)[0].name
-            // }
-            // if (address == null || address === "") {
-            //     return ward_en + ", " + district_en + ", " + city_en
-            // } else {
-            //     return address + ", " + ward_en + ", " + district_en + ", " + city_en
-            // }
-            // // if (address == null || address === "") {
-            // //     return ward + ", " + district + ", " + city
-            // // } else {
-            // //     return address + ", " + ward + ", " + district + ", " + city
-            // // }
             return this.getTransAddress(address, ward, district, city)
         },
         // Get hotel image
         hotelImage: function (uri) {
-            // return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
             return this.getHotelImage(uri)
         },
         getSrc: function (amenity) {
-            // let images = require.context('../../assets/', false, /\.png$/)
-            // return images('./' + amenity + ".png")
             return this.getImgSrc(amenity)
         },
-        // Get cities
-        citiesOptions: function() {
-            return getProvinces()
-        },
-        // Get districts from city
-        districtsOptions: function(code) {
-            return getDistrictsByProvinceCode(code)
-        },
-        // Get wards from district
-        wardsOptions: function(code) {
-            return getWardsByDistrictCode(code)
-        },
+
         // Handle search function
         onSubmit: function () {
             this.filterHotels = this.hotels
@@ -453,5 +422,20 @@ export default {
 .icon {
     height: 30px;
     width: 30px;
+}
+.loader{
+    position: absolute;
+    top:0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color:#eceaea;
+    background-image: url('../../assets/Spinner-3.gif');
+    background-size: 50px;
+    background-repeat:no-repeat;
+    background-position:center;
+    z-index:10000000;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
 }
 </style>
