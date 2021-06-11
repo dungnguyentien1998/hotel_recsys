@@ -17,22 +17,32 @@ class Hotel(APIView):
     def get(self, request):
         user = request.user
         is_hotelier = False
-        hotels = models.Hotel.objects.filter(status=models.Status.ACTIVE)
+        params = {}
+        if user.role == models.Role.ADMIN:
+            params['status'] = models.Status.PENDING
+        else:
+            params['status'] = models.Status.ACTIVE
+
+        name = ""
+        if request.GET.get('name'):
+            name = request.GET.get('name')
+        #     params['name'] = request.GET.get('name')
+        if request.GET.get('city'):
+            params['city'] = request.GET.get('city')
+        if request.GET.get('district'):
+            params['district'] = request.GET.get('district')
+        if request.GET.get('ward'):
+            params['ward'] = request.GET.get('ward')
+        if request.GET.get('star'):
+            params['star'] = request.GET.get('star')
+
+        hotels = models.Hotel.objects.filter(**params, name__icontains=name)
         if not user.is_anonymous:
             if user.role == models.Role.HOTELIER:
                 hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
                 is_hotelier = True
-            if user.role == models.Role.ADMIN:
-                hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
-        #
-        # result_hotels = []
-        # for hotel in hotels:
-        #     temp_dict = {'uuid': hotel.uuid, 'created': hotel.created, 'name': hotel.name, 'star': hotel.star,
-        #                  'city': hotel.city, 'district': hotel.district, 'ward': hotel.ward, 'address': hotel.address,
-        #                  'image': hotel.image.url, 'amenities': hotel.amenities, 'status': hotel.status,
-        #                  'reject_reason': hotel.reject_reason, 'email': hotel.email, 'tel': hotel.tel,
-        #                  'rating': hotel.rating, 'owner_name': hotel.owner_name}
-        #     result_hotels.append(temp_dict)
+            # if user.role == models.Role.ADMIN:
+            #     hotels = models.Hotel.objects.filter(status=models.Status.PENDING)
 
         data = []
         nextPage = 1

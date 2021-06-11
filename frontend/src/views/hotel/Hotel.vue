@@ -346,6 +346,7 @@
                 {{ $t('hotel.hotel.noResult') }}
             </span>
             <b-pagination
+                v-if="rows > perPage"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
@@ -529,6 +530,7 @@ export default {
         //     })
         //     this.loading = false
         // })
+        // this.$store.commit('hotel/setIsSearch', false)
         this.retrieveHotels()
         if (this.$store.getters['user/user'].role === 'user') {
             this.$store.dispatch('recommendation/listRecommendationsLogin').then(() => {
@@ -551,18 +553,67 @@ export default {
         this.subscribe_user()
     },
     methods: {
-        getRequestParams(currentPage, perPage) {
+        getRequestParams(currentPage, perPage, name, city, district, ward, star) {
             let params = []
             if (currentPage) {
                 params["page"] = currentPage
+                this.$store.commit('hotel/setPage', currentPage)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["page"] = this.$store.getters['hotel/page']
+                }
             }
             if (perPage) {
                 params["perPage"] = perPage
             }
+            if (name) {
+                params["name"] = name
+                this.$store.commit('hotel/setName', name)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["name"] = this.$store.getters['hotel/name']
+                }
+            }
+            if (city) {
+                const city_name = getProvinces().filter(option => option.code === city)[0].name
+                params["city"] = city_name
+                this.$store.commit('hotel/setCity', city_name)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["city"] = this.$store.getters['hotel/city']
+                }
+            }
+            if (district) {
+                const district_name = getDistrictsByProvinceCode(city).filter(option => option.code === district)[0].name
+                params["district"] = district_name
+                this.$store.commit('hotel/setDistrict', district_name)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["district"] = this.$store.getters['hotel/district']
+                }
+            }
+            if (ward) {
+                const ward_name = getWardsByDistrictCode(district).filter(option => option.code === ward)[0].name
+                params["ward"] = ward_name
+                this.$store.commit('hotel/setWard', ward_name)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["ward"] = this.$store.getters['hotel/ward']
+                }
+            }
+            if (star) {
+                params["star"] = star
+                this.$store.commit('hotel/setStar', star)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["star"] = this.$store.getters['hotel/star']
+                }
+            }
             return params
         },
         retrieveHotels() {
-            const params = this.getRequestParams(this.currentPage, this.perPage)
+            const params = this.getRequestParams(this.currentPage, this.perPage, this.form.name, this.form.city,
+                this.form.district, this.form.ward, this.form.star)
             this.loading = true
             this.$store.dispatch('hotel/listHotels', params).then((res) => {
                 this.hotels = this.$store.getters['hotel/hotels']
@@ -572,6 +623,11 @@ export default {
                 // this.filterHotels.sort(function (a, b){
                 //     return a.name.localeCompare(b.name) || b.star - a.star
                 // })
+                // this.form.star = null
+                // if (this.rows === 0) {
+                //     // this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+                //     this.isSearch = true
+                // }
                 this.loading = false
             })
         },
@@ -588,45 +644,49 @@ export default {
         },
         // Handle search function
         onSubmit: function () {
-            this.filterHotels = this.hotels
-            // Filter by name city district ward and amenities
-            if (!!this.form.name) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.city) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
-                )
-            }
-            if (!!this.form.district) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
-                )
-            }
-            if (!!this.form.ward) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
-                )
-            }
-            if (!!this.form.amenities) {
-                const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    amenities_list.every(amenity => hotel.amenities.includes(amenity))
-                )
-            }
-            if (!!this.form.star) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.star === this.form.star
-                )
-            }
-            this.form.star = null
-            this.rows = this.filterHotels.length
-            if (this.filterHotels.length === 0) {
-                this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
-                this.isSearch = true
-            }
+            // this.filterHotels = this.hotels
+            // // Filter by name city district ward and amenities
+            // if (!!this.form.name) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.city) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
+            //     )
+            // }
+            // if (!!this.form.district) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
+            //     )
+            // }
+            // if (!!this.form.ward) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
+            //     )
+            // }
+            // if (!!this.form.amenities) {
+            //     const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         amenities_list.every(amenity => hotel.amenities.includes(amenity))
+            //     )
+            // }
+            // if (!!this.form.star) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.star === this.form.star
+            //     )
+            // }
+            // this.form.star = null
+            // this.rows = this.filterHotels.length
+            // if (this.filterHotels.length === 0) {
+            //     this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+            //     this.isSearch = true
+            // }
+            this.isSearch = true
+            this.$store.commit('hotel/setIsSearch', true)
+            this.currentPage = 1
+            this.retrieveHotels()
         },
         // Handle router based on role
         onHandle: function (uuid) {

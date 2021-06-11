@@ -12,7 +12,12 @@ export default {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
         return api.get('hotels', {
             params : {
-                page: payload.page
+                page: payload.page,
+                name: payload.name,
+                city: payload.city,
+                district: payload.district,
+                ward: payload.ward,
+                star: payload.star
             }
         }).then(res => {
             context.commit('listHotels', res)

@@ -49,6 +49,30 @@ export default {
     setOldHotelierCount: (state, payload) => {
         state.old_count_hotelier = payload
     },
+    setName: (state, payload) => {
+        state.name = payload
+    },
+    setPage: (state, payload) => {
+        state.page = payload
+    },
+    setCity: (state, payload) => {
+        state.city = payload
+    },
+    setDistrict: (state, payload) => {
+        state.district = payload
+    },
+    setWard: (state, payload) => {
+        state.ward = payload
+    },
+    setStar: (state, payload) => {
+        state.star = payload
+    },
+    setAmenities: (state, payload) => {
+        state.amenities = payload
+    },
+    setIsSearch: (state, payload) => {
+        state.is_search = payload
+    },
     saveHotel: (state, payload) => {
         if (payload.success) {
             state.hotels.push(payload.hotel)
