@@ -6,12 +6,12 @@ export default {
     count_hotelier: 0,
     old_count_hotelier: 0,
     count: 0,
-    name: '',
-    city: '',
-    district: '',
-    ward: '',
-    star: '',
+    name: null,
+    city: null,
+    district: null,
+    ward: null,
+    star: null,
     amenities: [],
-    page: 0,
+    page: 1,
     is_search: false
 }

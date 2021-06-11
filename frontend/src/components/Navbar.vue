@@ -175,7 +175,7 @@ export default {
     mixins: [validationMixin, roleUtil],
     computed: {
         count: function () {
-            return this.$store.getters['hotel/hotels'].length
+            return this.$store.getters['hotel/count']
         },
         notify_count: function() {
             return this.$store.getters['hotel/count_hotelier']
@@ -246,6 +246,18 @@ export default {
         },
         // Logout function
         logout: function () {
+            this.$store.commit('hotel/setPage', 1)
+            this.$store.commit('hotel/setName', null)
+            this.$store.commit('hotel/setCity', null)
+            this.$store.commit('hotel/setDistrict', null)
+            this.$store.commit('hotel/setWard', null)
+            this.$store.commit('hotel/setStar', null)
+            this.$store.commit('hotel/setIsSearch', null)
+            this.$store.commit('user/setPage', 1)
+            this.$store.commit('user/setRole', null)
+            this.$store.commit('user/setName', null)
+            this.$store.commit('user/setEmailSearch', null)
+            this.$store.commit('user/setIsSearch', null)
             this.$store.dispatch('user/logout')
             this.$router.push('/login')
         }

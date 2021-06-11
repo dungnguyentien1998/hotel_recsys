@@ -145,7 +145,7 @@
                 class="row"
             >
                 <div
-                    v-for="hotel in filterHotels.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
+                    v-for="hotel in filterHotels"
                     :key="hotel.uuid"
                     class="col-md-6 col-sm-12"
                     @dblclick="$router.push({name: 'adminHotelDetail', params: {uuid: hotel.uuid}})"
@@ -223,12 +223,13 @@
                 {{ $t('hotel.hotel.noResult') }}
             </span>
             <b-pagination
-                v-if="filterHotels.length > perPage"
+                v-if="rows > perPage"
                 v-model="currentPage"
                 :per-page="perPage"
                 :total-rows="rows"
                 pills
                 aria-controls="hotels-list"
+                @change="handlePageChange"
             />
         </template>
     </layout>
@@ -264,17 +265,17 @@ export default {
             // Hotel data for search form
             filterHotels: [],
             // Pagination data
-            currentPage: 1,
+            currentPage: this.$store.getters['hotel/page'],
             perPage: 6,
             rows: 0,
             // Search form data
             form: {
-                name: null,
+                name: this.$store.getters['hotel/name'],
                 amenities: [],
-                city: null,
-                district: null,
-                ward: null,
-                star: null
+                city: this.$store.getters['hotel/city'],
+                district: this.$store.getters['hotel/district'],
+                ward: this.$store.getters['hotel/ward'],
+                star: this.$store.getters['hotel/star']
             },
             updateForm: {
                 status: null
@@ -313,19 +314,104 @@ export default {
         }
     },
     created() {
-        this.loading = true
-        this.$store.dispatch('hotel/listHotels').then(() => {
-            this.hotels = this.$store.getters['hotel/hotels']
-            this.filterHotels = this.hotels
-            this.rows = this.filterHotels.length
-            this.filterHotels.sort(function (a,b) {
-                return new Date(b.created) - new Date(a.created)
-            })
-            this.loading = false
-            this.subscribe()
-        })
+        // this.loading = true
+        // this.$store.dispatch('hotel/listHotels').then(() => {
+        //     this.hotels = this.$store.getters['hotel/hotels']
+        //     this.filterHotels = this.hotels
+        //     this.rows = this.filterHotels.length
+        //     this.filterHotels.sort(function (a,b) {
+        //         return new Date(b.created) - new Date(a.created)
+        //     })
+        //     this.loading = false
+        //     this.subscribe()
+        // })
+        this.retrieveHotels()
     },
     methods: {
+        getRequestParams(currentPage, perPage, name, city, district, ward, star) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+                this.$store.commit('hotel/setPage', currentPage)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["page"] = this.$store.getters['hotel/page']
+                }
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            if (name) {
+                params["name"] = name
+                this.$store.commit('hotel/setName', name)
+            } else {
+                this.$store.commit('hotel/setName', name)
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    // params["name"] = this.$store.getters['hotel/name']
+                    params["name"] = null
+                }
+            }
+            if (city) {
+                const city_name = getProvinces().filter(option => option.code === city)[0].name
+                params["city"] = city_name
+                this.$store.commit('hotel/setCity', city)
+            } else {
+                this.$store.commit('hotel/setCity', city)
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    // params["city"] = getProvinces().filter(option => option.code === this.$store.getters['hotel/city'])[0].name
+                    params["city"] = null
+                }
+            }
+            if (district) {
+                const district_name = getDistrictsByProvinceCode(city).filter(option => option.code === district)[0].name
+                params["district"] = district_name
+                this.$store.commit('hotel/setDistrict', district)
+            } else {
+                this.$store.commit('hotel/setDistrict', district)
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    // params["district"] = getDistrictsByProvinceCode(city).filter(option => option.code === this.$store.getters['hotel/district'])[0].name
+                    params["district"] = null
+                }
+            }
+            if (ward) {
+                const ward_name = getWardsByDistrictCode(district).filter(option => option.code === ward)[0].name
+                params["ward"] = ward_name
+                this.$store.commit('hotel/setWard', ward)
+            } else {
+                this.$store.commit('hotel/setWard', ward)
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    // params["ward"] = getWardsByDistrictCode(district).filter(option => option.code === this.$store.getters['hotel/ward'])[0].name
+                    params["ward"] = null
+                }
+            }
+            if (star) {
+                params["star"] = star
+                this.$store.commit('hotel/setStar', star)
+            } else {
+                this.$store.commit('hotel/setStar', star)
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    // params["star"] = this.$store.getters['hotel/star']
+                    params["star"] = null
+                }
+            }
+            return params
+        },
+        retrieveHotels() {
+            const params = this.getRequestParams(this.currentPage, this.perPage, this.form.name, this.form.city,
+                this.form.district, this.form.ward, this.form.star)
+            this.loading = true
+            this.$store.dispatch('hotel/listHotels', params).then(() => {
+                this.hotels = this.$store.getters['hotel/hotels']
+                this.filterHotels = this.hotels
+                this.rows = this.$store.getters['hotel/count']
+                this.loading = false
+                this.subscribe()
+            })
+        },
+        handlePageChange(value) {
+            this.currentPage = value
+            this.retrieveHotels()
+        },
         getAddress: function (address, ward, district, city) {
             return this.getTransAddress(address, ward, district, city)
         },
@@ -339,45 +425,49 @@ export default {
 
         // Handle search function
         onSubmit: function () {
-            this.filterHotels = this.hotels
-            // Filter by name city district ward and amenities
-            if (!!this.form.name) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.city) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
-                )
-            }
-            if (!!this.form.district) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
-                )
-            }
-            if (!!this.form.ward) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
-                )
-            }
-            if (!!this.form.amenities) {
-                const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    amenities_list.every(amenity => hotel.amenities.includes(amenity))
-                )
-            }
-            if (!!this.form.star) {
-                this.filterHotels = this.filterHotels.filter(hotel =>
-                    hotel.star === this.form.star
-                )
-            }
-            this.form.star = null
-            this.rows = this.filterHotels.length
-            if (this.filterHotels.length === 0) {
-                this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
-                this.isSearch = true
-            }
+            // this.filterHotels = this.hotels
+            // // Filter by name city district ward and amenities
+            // if (!!this.form.name) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.city) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
+            //     )
+            // }
+            // if (!!this.form.district) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
+            //     )
+            // }
+            // if (!!this.form.ward) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
+            //     )
+            // }
+            // if (!!this.form.amenities) {
+            //     const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         amenities_list.every(amenity => hotel.amenities.includes(amenity))
+            //     )
+            // }
+            // if (!!this.form.star) {
+            //     this.filterHotels = this.filterHotels.filter(hotel =>
+            //         hotel.star === this.form.star
+            //     )
+            // }
+            // this.form.star = null
+            // this.rows = this.filterHotels.length
+            // if (this.filterHotels.length === 0) {
+            //     this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
+            //     this.isSearch = true
+            // }
+            this.isSearch = true
+            this.$store.commit('hotel/setIsSearch', true)
+            this.currentPage = 1
+            this.retrieveHotels()
         },
         compare: function (a,b) {
             if (a.name < b.name) {

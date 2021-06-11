@@ -99,15 +99,16 @@
                 v-if="loading"
                 class="loader"
             />
-            <div>
+            <div
+                id="users-table"
+                :current-page="currentPage"
+                :per-page="perPage"
+            >
                 <!--      Users table         -->
                 <b-table
-                    v-if="filterUsers.length > 0"
-                    id="users-table"
+                    v-if="rows > 0"
                     :items="filterUsers"
                     :fields="columns"
-                    :current-page="currentPage"
-                    :per-page="perPage"
                     :responsive="true"
                     hover
                     striped
@@ -115,7 +116,7 @@
                     <template
                         #cell(index)="data"
                     >
-                        {{ data.index + 1 }}
+                        {{ data.index + 1 + (currentPage - 1) * perPage }}
                     </template>
                     <template
                         #cell(role)="data"
@@ -170,21 +171,22 @@
                         </b-modal>
                     </template>
                 </b-table>
-                <span
-                    v-if="filterUsers.length === 0 && isSearch"
-                    style="font-style: italic"
-                >
-                    {{ $t('user.user.noResult') }}
-                </span>
-                <b-pagination
-                    v-if="filterUsers.length > perPage"
-                    v-model="currentPage"
-                    :per-page="perPage"
-                    :total-rows="rows"
-                    pills
-                    aria-controls="users-table"
-                />
             </div>
+            <span
+                v-if="filterUsers.length === 0 && isSearch"
+                style="font-style: italic"
+            >
+                {{ $t('user.user.noResult') }}
+            </span>
+            <b-pagination
+                v-if="rows > perPage"
+                v-model="currentPage"
+                :per-page="perPage"
+                :total-rows="rows"
+                pills
+                aria-controls="users-table"
+                @change="handlePageChange"
+            />
         </template>
     </layout>
 </template>
@@ -199,6 +201,7 @@ import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import DeactivateForm from "@/views/admin/DeactivateForm";
 import Pusher from "pusher-js";
 import camelcaseKeys from "camelcase-keys";
+import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from "sub-vn";
 library.add(faSearch)
 
 
@@ -210,15 +213,15 @@ export default {
         return {
             // Search form data
             form: {
-                role: null,
-                name: null,
-                email: null
+                role: this.$store.getters['user/role'],
+                name: this.$store.getters['user/name'],
+                email: this.$store.getters['user/email_search'],
             },
             updateForm: {
                 is_active: null
             },
             // Pagination data
-            currentPage: 1,
+            currentPage: this.$store.getters['user/page'],
             perPage: 30,
             rows: 0,
             // User list
@@ -284,53 +287,139 @@ export default {
     },
     created() {
         // Used for search function
-        this.loading = true
-        this.$store.dispatch('user/users')
-            .then(() => {
-                this.users = this.$store.getters['user/users']
-                this.filterUsers = this.users
-                this.rows = this.filterUsers.length
-                this.filterUsers.sort(this.compare)
-                this.loading = false
-            })
+        // this.loading = true
+        // this.$store.dispatch('user/users')
+        //     .then(() => {
+        //         this.users = this.$store.getters['user/users']
+        //         this.filterUsers = this.users
+        //         this.rows = this.filterUsers.length
+        //         this.filterUsers.sort(this.compare)
+        //         this.loading = false
+        //     })
+        this.retrieveUsers()
         // Repeat code in Hotel Manage
-        this.$store.dispatch('hotel/listHotels').then(() => {
+        const params = this.getHotelRequestParams(1, 6)
+        this.$store.dispatch('hotel/listHotels', params).then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
-            this.filterHotels.sort(function (a,b) {
-                return new Date(b.created) - new Date(a.created)
-            })
             this.subscribe()
         })
     },
     methods: {
+        getRequestParams(currentPage, perPage, role, name, email) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+                this.$store.commit('user/setPage', currentPage)
+            } else {
+                if (this.isSearch || this.$store.getters['user/is_search']) {
+                    params["page"] = this.$store.getters['user/page']
+                }
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            if (role) {
+                params["role"] = role
+                this.$store.commit('user/setRole', role)
+            } else {
+                this.$store.commit('user/setRole', role)
+                if (this.isSearch || this.$store.getters['user/is_search']) {
+                    // params["role"] = this.$store.getters['user/role']
+                    params["role"] = null
+                }
+            }
+            if (name) {
+                params["name"] = name
+                this.$store.commit('user/setName', name)
+            } else {
+                this.$store.commit('user/setName', name)
+                if (this.isSearch || this.$store.getters['user/is_search']) {
+                    // params["name"] = this.$store.getters['user/name']
+                    params["name"] = null
+                }
+            }
+            if (email) {
+                params["email"] = email
+                this.$store.commit('user/setEmail', email)
+            } else {
+                this.$store.commit('user/setEmail', email)
+                if (this.isSearch || this.$store.getters['user/is_search']) {
+                    // params["email"] = this.$store.getters['user/email']
+                    params["email"] = null
+                }
+            }
+            return params
+        },
+        retrieveUsers() {
+            const params = this.getRequestParams(this.currentPage, this.perPage, this.form.role, this.form.name,
+                this.form.email)
+            // this.loading = true
+            // this.$store.dispatch('hotel/listHotels', params).then(() => {
+            //     this.hotels = this.$store.getters['hotel/hotels']
+            //     this.filterHotels = this.hotels
+            //     this.rows = this.$store.getters['hotel/count']
+            //     this.loading = false
+            // })
+            this.loading = true
+            this.$store.dispatch('user/users', params).then(() => {
+                this.users = this.$store.getters['user/users']
+                this.filterUsers = this.users
+                this.rows = this.$store.getters['user/count']
+                // this.filterUsers.sort(this.compare)
+                this.loading = false
+            })
+        },
+        handlePageChange(value) {
+            this.currentPage = value
+            this.retrieveUsers()
+        },
+        getHotelRequestParams(currentPage, perPage) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+                this.$store.commit('hotel/setPage', currentPage)
+            } else {
+                if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                    params["page"] = this.$store.getters['hotel/page']
+                }
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            return params
+        },
         // Convert to date string
         convertDate: function (date) {
             return new Date(date).toDateString()
         },
         // Search users by role
         onSubmit: function() {
-            this.filterUsers = this.users
-            if (!!this.form.role) {
-                this.filterUsers = this.filterUsers.filter(user =>
-                    user.role === this.form.role
-                )
-            }
-            if (!!this.form.name) {
-                this.filterUsers = this.filterUsers.filter(user =>
-                    user.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.email) {
-                this.filterUsers = this.filterUsers.filter(user =>
-                    user.email.toLowerCase().indexOf(this.form.email.toLowerCase()) > -1
-                )
-            }
-            this.rows = this.filterUsers.length
-            if (this.filterUsers.length === 0) {
-                this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
-                this.isSearch = true
-            }
+            // this.filterUsers = this.users
+            // if (!!this.form.role) {
+            //     this.filterUsers = this.filterUsers.filter(user =>
+            //         user.role === this.form.role
+            //     )
+            // }
+            // if (!!this.form.name) {
+            //     this.filterUsers = this.filterUsers.filter(user =>
+            //         user.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.email) {
+            //     this.filterUsers = this.filterUsers.filter(user =>
+            //         user.email.toLowerCase().indexOf(this.form.email.toLowerCase()) > -1
+            //     )
+            // }
+            // this.rows = this.filterUsers.length
+            // if (this.filterUsers.length === 0) {
+            //     this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
+            //     this.isSearch = true
+            // }
+            this.isSearch = true
+            this.$store.commit('user/setIsSearch', true)
+            this.currentPage = 1
+            this.retrieveUsers()
         },
         compare: function (a,b) {
             if (a.name < b.name) {

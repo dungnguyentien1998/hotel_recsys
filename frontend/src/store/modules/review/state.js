@@ -2,5 +2,7 @@ export default {
     // Review status and list
     status: '',
     reviews: [],
-    new_reviews: []
+    new_reviews: [],
+    page: 1,
+    count: 0,
 }

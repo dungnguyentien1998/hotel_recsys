@@ -55,6 +55,7 @@ export default {
     // Save user list
     users: (state, payload) => {
         state.users = payload.data.users
+        state.count = payload.data.count
     },
     updateUser: (state, payload) => {
         if (payload.data.success) {
@@ -71,5 +72,20 @@ export default {
     },
     setEmail: (state, payload) => {
         state.email = payload
-    }
+    },
+    setRole: (state, payload) => {
+        state.role = payload
+    },
+    setName: (state, payload) => {
+        state.name = payload
+    },
+    setEmailSearch: (state, payload) => {
+        state.email_search = payload
+    },
+    setIsSearch: (state, payload) => {
+        state.is_search = payload
+    },
+    setPage: (state, payload) => {
+        state.page = payload
+    },
 }

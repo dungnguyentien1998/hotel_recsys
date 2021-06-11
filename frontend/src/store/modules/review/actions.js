@@ -9,7 +9,11 @@ export default {
     // Api list reviews
     listReviews: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        return api.get(`hotels/${payload}/reviews`).then(res => {
+        return api.get(`hotels/${payload.hotelId}/reviews`, {
+            params: {
+                page: payload.page
+            }
+        }).then(res => {
             context.commit('listReviews', res)
         })
     },

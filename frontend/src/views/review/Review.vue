@@ -21,7 +21,7 @@
             :per-page="perPage"
         >
             <b-list-group-item
-                v-for="review in reviews.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
+                v-for="review in reviews"
                 :key="review.uuid"
             >
                 <!--   Review title         -->
@@ -61,12 +61,13 @@
             {{ $t('review.review.noReview') }}
         </span>
         <b-pagination
-            v-if="reviews.length > perPage"
+            v-if="rows > perPage"
             v-model="currentPage"
             :per-page="perPage"
             :total-rows="rows"
             pills
             aria-controls="reviews-list"
+            @change="handlePageChange"
         />
         <b-modal
             id="modal-create"
@@ -84,6 +85,7 @@ import ReviewForm from "@/views/review/ReviewForm";
 import Pusher from "pusher-js";
 import roleUtil from "@/utils/role-utils"
 import {validationMixin} from "vuelidate";
+import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from "sub-vn";
 
 export default {
     name: "Review",
@@ -92,7 +94,7 @@ export default {
     data: function () {
         return {
             reviews: [],
-            currentPage: 1,
+            currentPage: this.$store.getters['review/page'],
             perPage: 30,
             rows: 0,
             loading: false
@@ -104,19 +106,53 @@ export default {
         },
     },
     created() {
-        // Get review data
-        this.loading = true
-        this.$store.dispatch('review/listReviews', this.$route.params.uuid)
-            .then(() => {
-                this.reviews = this.$store.getters['review/reviews']
-                this.rows = this.reviews.length
-                this.reviews.sort(function (a,b) {
-                    return new Date(b.created) - new Date(a.created)
-                })
-                this.loading = false
-            })
+        // this.loading = true
+        // this.$store.dispatch('review/listReviews', this.$route.params.uuid)
+        //     .then(() => {
+        //         this.reviews = this.$store.getters['review/reviews']
+        //         this.rows = this.reviews.length
+        //         this.reviews.sort(function (a,b) {
+        //             return new Date(b.created) - new Date(a.created)
+        //         })
+        //         this.loading = false
+        //     })
+        this.retrieveReviews()
     },
     methods: {
+        getRequestParams(currentPage, perPage) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+                this.$store.commit('review/setPage', currentPage)
+            } else {
+                // if (this.isSearch || this.$store.getters['hotel/is_search']) {
+                //     params["page"] = this.$store.getters['hotel/page']
+                // }
+                params["page"] = this.$store.getters['review/page']
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            return params
+        },
+        retrieveReviews() {
+            const params = this.getRequestParams(this.currentPage, this.perPage)
+            params["hotelId"] = this.$route.params.uuid
+            this.loading = true
+            this.$store.dispatch('review/listReviews', params)
+                .then(() => {
+                    this.reviews = this.$store.getters['review/reviews']
+                    this.rows = this.$store.getters['review/count']
+                    // this.reviews.sort(function (a,b) {
+                    //     return new Date(b.created) - new Date(a.created)
+                    // })
+                    this.loading = false
+                })
+        },
+        handlePageChange(value) {
+            this.currentPage = value
+            this.retrieveReviews()
+        },
         toDate: function(datetime) {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +

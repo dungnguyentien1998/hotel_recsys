@@ -46,12 +46,18 @@ export default {
             })
     },
     // Api list users
-    users: context => {
+    users: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token')
-        return api.get('admin/users')
-            .then(res => {
-                context.commit('users', res)
-            })
+        return api.get('admin/users', {
+            params : {
+                page: payload.page,
+                role: payload.role,
+                name: payload.name,
+                email: payload.email
+            }
+        }).then(res => {
+            context.commit('users', res)
+        })
     },
     updateUser: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token')

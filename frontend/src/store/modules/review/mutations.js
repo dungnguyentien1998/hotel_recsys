@@ -6,6 +6,7 @@ export default {
     // Save review list
     listReviews: (state, payload) => {
         state.reviews = payload.data.reviews
+        state.count = payload.data.count
     },
     // Save new review
     createReview: (state, payload) => {
@@ -28,5 +29,8 @@ export default {
         } else {
             state.status = 'FAILED'
         }
+    },
+    setPage: (state, payload) => {
+        state.page = payload
     },
 }

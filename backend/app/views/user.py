@@ -11,6 +11,7 @@ from app.exceptions import Unauthorized
 from app.tasks import demo_task, process_tasks, calculate_sim
 import datetime
 from django.db import connection
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class Login(APIView):
@@ -52,13 +53,52 @@ class Register(APIView):
 class User(APIView):
     # List users
     def get(self, request):
+        # user = request.user
+        # if user.role != models.Role.ADMIN:
+        #     raise Unauthorized
+        # users = models.User.objects.all()
+        # return Response({
+        #     'success': True,
+        #     'users': UserSerializer(users, many=True).data
+        # })
         user = request.user
         if user.role != models.Role.ADMIN:
             raise Unauthorized
-        users = models.User.objects.all()
+        name = ""
+        email = ""
+        params = {}
+        if request.GET.get('name'):
+            name = request.GET.get('name')
+        if request.GET.get('email'):
+            email = request.GET.get('email')
+        if request.GET.get('role'):
+            params["role"] = request.GET.get('role')
+
+        users = models.User.objects.filter(**params, name__icontains=name, email__icontains=email)
+        data = []
+        nextPage = 1
+        previousPage = 1
+        page = request.GET.get('page', 1)
+        paginator = Paginator(users, 30)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+
+        if data.has_next():
+            nextPage = data.next_page_number()
+        if data.has_previous():
+            previousPage = data.previous_page_number()
+
         return Response({
             'success': True,
-            'users': UserSerializer(users, many=True).data
+            'users': UserSerializer(data, many=True).data,
+            'count': paginator.count,
+            'numpages': paginator.num_pages,
+            'nextlink': '/api/admin/users?page=' + str(nextPage),
+            'previouslink': '/api/admin/users?page=' + str(previousPage),
         })
 
 

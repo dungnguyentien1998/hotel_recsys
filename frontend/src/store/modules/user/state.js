@@ -5,5 +5,11 @@ export default {
     users: [],
     token: '',
     email: '',
-    code: ''
+    code: '',
+    role: null,
+    name: null,
+    email_search: null,
+    page: 1,
+    is_search: false,
+    count: 0,
 }

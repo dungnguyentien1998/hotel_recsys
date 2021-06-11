@@ -6,6 +6,7 @@ from app.permissions.review import ReviewPermission
 from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
 from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class Review(APIView):
@@ -15,9 +16,30 @@ class Review(APIView):
     def get(self, request, hotel_id):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
         reviews = models.Review.objects.filter(hotel_id=hotel.uuid)
+        data = []
+        nextPage = 1
+        previousPage = 1
+        page = request.GET.get('page', 1)
+        paginator = Paginator(reviews, 30)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+
+        if data.has_next():
+            nextPage = data.next_page_number()
+        if data.has_previous():
+            previousPage = data.previous_page_number()
+
         return Response({
             'success': True,
-            'reviews': ReviewDetailSerializer(reviews, many=True).data
+            'reviews': ReviewDetailSerializer(data, many=True).data,
+            'count': paginator.count,
+            'numpages': paginator.num_pages,
+            'nextlink': '/api/admin/users?page=' + str(nextPage),
+            'previouslink': '/api/admin/users?page=' + str(previousPage),
         })
 
     # Create review
