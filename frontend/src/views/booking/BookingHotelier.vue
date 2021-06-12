@@ -128,9 +128,6 @@
                         {{ $t('booking.booking.userName') }}: {{ booking.userName }}
                     </h5>
                     <p>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userTel') }}:-->
-                        <!--                        </span>-->
                         <img
                             v-if="isNotNull(booking.userTel)"
                             src="../../assets/phone.png"
@@ -143,9 +140,6 @@
                         >
                             -
                         </span>
-                        <!--                        <span class="font-weight-bolder">-->
-                        <!--                            {{ $t('booking.booking.userEmail') }}:-->
-                        <!--                        </span>-->
                         <img
                             src="../../assets/email.png"
                             alt="email"
@@ -325,13 +319,13 @@ export default {
         isArrange(roomNumber) {
             return roomNumber.length > 0;
         },
-        visibleNewBookings(){
-            return this.new_bookings.length > 0;
-        },
-        visibleOldBookings(){
-            const old_bookings = this.getOldBookings()
-            return old_bookings.length > 0;
-        },
+        // visibleNewBookings(){
+        //     return this.new_bookings.length > 0;
+        // },
+        // visibleOldBookings(){
+        //     const old_bookings = this.getOldBookings()
+        //     return old_bookings.length > 0;
+        // },
         // Get date from datetime
         toDate: function (datetime) {
             let date = new Date(datetime);
@@ -341,22 +335,22 @@ export default {
             this.$store.commit('booking/setBookingId', booking_id)
             this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
         },
-        IsNotArrange: function (uuid) {
-            this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: uuid})
-                .then(() => {
-                    const booking_rooms = this.$store.getters['booking/booking_rooms']
-                    return booking_rooms.length === 0;
-                })
-        },
-        getOldBookings: function () {
-            let bookings = this.$store.getters['booking/bookings']
-            let new_bookings = this.$store.getters['booking/new_bookings']
-            let old_bookings = bookings.filter(o => !new_bookings.some(i => i.uuid === o.uuid))
-            old_bookings.sort(function (a,b) {
-                return new Date(a.created) - new Date(b.created)
-            })
-            return old_bookings
-        },
+        // IsNotArrange: function (uuid) {
+        //     this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: uuid})
+        //         .then(() => {
+        //             const booking_rooms = this.$store.getters['booking/booking_rooms']
+        //             return booking_rooms.length === 0;
+        //         })
+        // },
+        // getOldBookings: function () {
+        //     let bookings = this.$store.getters['booking/bookings']
+        //     let new_bookings = this.$store.getters['booking/new_bookings']
+        //     let old_bookings = bookings.filter(o => !new_bookings.some(i => i.uuid === o.uuid))
+        //     old_bookings.sort(function (a,b) {
+        //         return new Date(a.created) - new Date(b.created)
+        //     })
+        //     return old_bookings
+        // },
         isNotNull: function(tel) {
             return tel != null && tel !== "";
         },

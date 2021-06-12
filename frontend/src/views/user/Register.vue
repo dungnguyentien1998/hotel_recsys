@@ -199,6 +199,7 @@
                     {{ $t('user.login.showPassword') }}
                 </b-form-checkbox>
                 <br>
+                <br>
                 <b-form-group>
                     <b-button
                         variant="success"
@@ -368,6 +369,9 @@ export default {
                 } else
                 if (this.form.password !== this.form.password_confirm) {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.passwordSame'))
+                } else
+                if (this.form.tel === '' || this.form.tel == null) {
+                    this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.tel'))
                 } else
                 if (this.form.role == null) {
                     this.makeToast(this.$t('user.register.errors.title'), this.$t('user.register.errors.missing'))

@@ -341,9 +341,9 @@ export default {
             }
             if (email) {
                 params["email"] = email
-                this.$store.commit('user/setEmail', email)
+                this.$store.commit('user/setEmailSearch', email)
             } else {
-                this.$store.commit('user/setEmail', email)
+                this.$store.commit('user/setEmailSearch', email)
                 if (this.isSearch || this.$store.getters['user/is_search']) {
                     // params["email"] = this.$store.getters['user/email']
                     params["email"] = null

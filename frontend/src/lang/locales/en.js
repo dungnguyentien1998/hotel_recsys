@@ -101,6 +101,7 @@ export default {
                 invalidData: 'Invalid email format',
                 email: 'You have to fill email',
                 name: 'You have to fill name',
+                tel: 'You have to fill telephone number',
                 password: 'You have to fill password',
                 passwordConfirm: 'You have to fill password confirm',
                 passwordLength: 'Password minimum length is 6',

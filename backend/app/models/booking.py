@@ -51,11 +51,7 @@ class Booking(BaseModel):
         from app.models.booking_type import BookingType
         booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
         room_type = Type.objects.get(uuid=booking_type.type_id)
-        # if (not room_type.hotel.address) or room_type.hotel.address == "":
-        #     return room_type.hotel.ward + ', ' + room_type.hotel.district + ', ' + room_type.hotel.city
-        # else:
-        #     return room_type.hotel.address + ', ' + room_type.hotel.ward + ', ' + \
-        #            room_type.hotel.district + ', ' + room_type.hotel.city
+
         if (not room_type.hotel.address) or room_type.hotel.address == "":
             return ''
         else:

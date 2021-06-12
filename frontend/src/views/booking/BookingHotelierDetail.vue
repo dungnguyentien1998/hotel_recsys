@@ -177,25 +177,25 @@
                         >
                             {{ $t('hotel.hotel.submit') }}
                         </button>
-                        <b-button
-                            href="#"
-                            variant="danger"
-                            style="margin: 20px"
-                            size="sm"
-                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
-                        >
-                            {{ $t('booking.booking.cancelBtn') }}
-                        </b-button>
-                        <b-modal
-                            :id="`modal-${booking.uuid}-delete`"
-                            :title="$t('booking.booking.cancelTitle')"
-                            size="lg"
-                            :ok-title="$t('button.submit')"
-                            :cancel-title="$t('button.unsubmit')"
-                            @ok="deleteBookingHotelier(booking.uuid)"
-                        >
-                            {{ $t('booking.booking.confirmDelete') }}
-                        </b-modal>
+                        <!--                        <b-button-->
+                        <!--                            href="#"-->
+                        <!--                            variant="danger"-->
+                        <!--                            style="margin: 20px"-->
+                        <!--                            size="sm"-->
+                        <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
+                        <!--                        >-->
+                        <!--                            {{ $t('booking.booking.cancelBtn') }}-->
+                        <!--                        </b-button>-->
+                        <!--                        <b-modal-->
+                        <!--                            :id="`modal-${booking.uuid}-delete`"-->
+                        <!--                            :title="$t('booking.booking.cancelTitle')"-->
+                        <!--                            size="lg"-->
+                        <!--                            :ok-title="$t('button.submit')"-->
+                        <!--                            :cancel-title="$t('button.unsubmit')"-->
+                        <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
+                        <!--                        >-->
+                        <!--                            {{ $t('booking.booking.confirmDelete') }}-->
+                        <!--                        </b-modal>-->
                     </div>
                     <div
                         v-if="showTableAfter()"
@@ -248,28 +248,28 @@
                             </template>
                         </b-table>
                     </div>
-                    <div
-                        v-if="showTableAfter()"
-                    >
-                        <b-button
-                            href="#"
-                            variant="danger"
-                            size="sm"
-                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"
-                        >
-                            {{ $t('booking.booking.cancelBtn') }}
-                        </b-button>
-                        <b-modal
-                            :id="`modal-${booking.uuid}-delete`"
-                            :title="$t('booking.booking.cancelTitle')"
-                            size="lg"
-                            :ok-title="$t('button.submit')"
-                            :cancel-title="$t('button.unsubmit')"
-                            @ok="deleteBookingHotelier(booking.uuid)"
-                        >
-                            {{ $t('booking.booking.confirmDelete') }}
-                        </b-modal>
-                    </div>
+                    <!--                    <div-->
+                    <!--                        v-if="showTableAfter()"-->
+                    <!--                    >-->
+                    <!--                        <b-button-->
+                    <!--                            href="#"-->
+                    <!--                            variant="danger"-->
+                    <!--                            size="sm"-->
+                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
+                    <!--                        </b-button>-->
+                    <!--                        <b-modal-->
+                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
+                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
+                    <!--                            size="lg"-->
+                    <!--                            :ok-title="$t('button.submit')"-->
+                    <!--                            :cancel-title="$t('button.unsubmit')"-->
+                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
+                    <!--                        >-->
+                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
+                    <!--                        </b-modal>-->
+                    <!--                    </div>-->
                 </b-form>
             </div>
         </template>

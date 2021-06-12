@@ -6,6 +6,7 @@ from app.permissions.booking import BookingPermission
 from app.utils.serializer_validator import validate_serializer
 from pusher import Pusher
 from django.db import transaction
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class Booking(APIView):
@@ -59,20 +60,54 @@ class BookingDetail(APIView):
 
 class HotelierBooking(APIView):
     def get(self, request, hotel_id):
-        # rooms = models.Room.objects.filter(hotel_id=hotel_id)
-        # types = models.Type.objects.filter(hotel_id=hotel_id)
-        # booking_ids = []
-        # for room_type in types:
-        #     temp = models.BookingType.objects.filter(type_id=room_type.uuid)
-        #     if len(temp) > 0:
-        #         for temp_booking_type in temp:
-        #             booking_ids.append(temp_booking_type.booking_id)
+        # bookings = models.Booking.objects.filter(hotel_id=hotel_id)
+        # params = {}
+        # if request.GET.get('user_name'):
+        #     params['user_name'] = request.GET.get('user_name')
+        #     bookings = bookings.filter(user__name=request.GET.get('user_name'))
+        # if request.GET.get('user_tel'):
+        #     params['user_tel'] = request.GET.get('user_tel')
+        #     bookings = bookings.filter(user__tel=request.GET.get('user_tel'))
+        # if request.GET.get('user_email'):
+        #     params['user_email'] = request.GET.get('user_email')
+        #     bookings = bookings.filter(user__email=request.GET.get('user_email'))
+        # if request.GET.get('code'):
+        #     params['code'] = request.GET.get('code')
+        #     bookings = bookings.filter(code__icontains=request.GET.get('code'))
         #
-        # unique_booking_ids = list(set(booking_ids))
-        # bookings = []
-        # for uuid in unique_booking_ids:
-        #     booking = models.Booking.objects.get(uuid=uuid)
-        #     bookings.append(booking)
+        # results = []
+        # if request.GET.get('status') == 'yes':
+        #     params['status'] = True
+        #     for booking in bookings:
+        #         room_number = booking.room_number
+        #         if len(room_number) > 0:
+        #             results.append(booking)
+        #
+        # data = []
+        # nextPage = 1
+        # previousPage = 1
+        # page = request.GET.get('page', 1)
+        # paginator = Paginator(results, 10)
+        # try:
+        #     data = paginator.page(page)
+        # except PageNotAnInteger:
+        #     data = paginator.page(1)
+        # except EmptyPage:
+        #     data = paginator.page(paginator.num_pages)
+        #
+        # if data.has_next():
+        #     nextPage = data.next_page_number()
+        # if data.has_previous():
+        #     previousPage = data.previous_page_number()
+        #
+        # return Response({
+        #     'success': True,
+        #     'bookings': BookingDetailSerializer(data, many=True).data,
+        #     'count': paginator.count,
+        #     'numpages': paginator.num_pages,
+        #     'nextlink': '/api/hotels?page=' + str(nextPage),
+        #     'previouslink': '/api/hotels?page=' + str(previousPage),
+        # })
 
         bookings = models.Booking.objects.filter(hotel_id=hotel_id)
 

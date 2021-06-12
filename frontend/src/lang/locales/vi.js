@@ -101,6 +101,7 @@ export default {
                 invalidData: 'Sai định dạng email',
                 email: 'Bạn phải điền email',
                 name: 'Bạn phải điền tên',
+                tel: 'Bạn phải điền số điện thoại',
                 password: 'Bạn phải điền mật khẩu',
                 passwordConfirm: 'Bạn phải xác nhận mật khẩu',
                 passwordLength: 'Độ dài mật khẩu tối thiểu là 6',
