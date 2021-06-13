@@ -36,7 +36,7 @@ class Hotel(APIView):
         if request.GET.get('star'):
             params['star'] = request.GET.get('star')
 
-        hotels = models.Hotel.objects.filter(**params, name__icontains=name)
+        hotels = models.Hotel.objects.filter(**params, name__icontains=name).order_by('name')
         if not user.is_anonymous:
             if user.role == models.Role.HOTELIER:
                 hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
@@ -170,4 +170,27 @@ class HotelNotification(APIView):
         return Response({
             'success': True,
             'hotels': HotelDetailSerializer(hotels, many=True).data,
+        })
+
+
+class HotelName(APIView):
+    permission_classes = ()
+
+    # List hotels
+    def get(self, request):
+        user = request.user
+        params = {}
+        if user.role == models.Role.ADMIN:
+            params['status'] = models.Status.PENDING
+        else:
+            params['status'] = models.Status.ACTIVE
+
+        hotels = models.Hotel.objects.filter(**params).order_by('name')
+        names = []
+        for hotel in hotels:
+            names.append(hotel.name)
+
+        return Response({
+            'success': True,
+            'names': names
         })

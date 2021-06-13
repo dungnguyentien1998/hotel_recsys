@@ -90,4 +90,10 @@ export default {
     notifyHotels: (state, payload) => {
         state.notify_hotels = payload.data.hotels
     },
+    saveNewCount: state => {
+        state.new_count = state.new_count + 1
+    },
+    resetNewCount: state => {
+        state.new_count = 0
+    },
 }

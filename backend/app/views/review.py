@@ -15,7 +15,7 @@ class Review(APIView):
     # List reviews
     def get(self, request, hotel_id):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
-        reviews = models.Review.objects.filter(hotel_id=hotel.uuid)
+        reviews = models.Review.objects.filter(hotel_id=hotel.uuid).order_by('-created')
         data = []
         nextPage = 1
         previousPage = 1

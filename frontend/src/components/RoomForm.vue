@@ -46,6 +46,7 @@
                     class="form-control col-sm-9"
                     :input-attrs="{ 'aria-describedby': 'tags-remove-on-delete-help' }"
                     :placeholder="$t('room.roomForm.roomNumbersPlaceholder')"
+                    :duplicate-tag-text="$t('room.roomForm.errors.duplicate')"
                     remove-on-delete
                 />
             </div>
@@ -187,6 +188,8 @@ export default {
                 if (this.roomExist) {
                     if (this.form.room_number == null || this.form.room_number === '') {
                         this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.missing'))
+                    } else if (isNaN(this.form.room_number)) {
+                        this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.invalidData'))
                     } else {
                         this.form.hotelId = this.$route.params.uuid
                         this.form.roomId = this.room.uuid
@@ -213,28 +216,39 @@ export default {
                     } else if (this.form.room_numbers.length !== this.form.images.length){
                         this.makeToast(this.$t('room.roomForm.errors.createTitle'), this.$t('room.roomForm.errors.image'))
                     } else {
-                        this.form.hotelId = this.$route.params.uuid
-                        this.$store.dispatch('room/createRoom', this.form)
-                            .then(() => {
-                                if (this.$store.getters['room/status'] === 'FAILED') {
-                                    let message = this.$store.getters['room/message']
-                                    if (localStorage.getItem("language") === "en") {
-                                        message = "Room number " + message + " already existed"
+                        let check = true
+                        for (let i=0; i<this.form.room_numbers.length; i++) {
+                            if (isNaN(this.form.room_numbers[i])) {
+                                check = false
+                                break
+                            }
+                        }
+                        if (check === false) {
+                            this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.invalidData'))
+                        } else {
+                            this.form.hotelId = this.$route.params.uuid
+                            this.$store.dispatch('room/createRoom', this.form)
+                                .then(() => {
+                                    if (this.$store.getters['room/status'] === 'FAILED') {
+                                        let message = this.$store.getters['room/message']
+                                        if (localStorage.getItem("language") === "en") {
+                                            message = "Room number " + message + " already existed"
+                                        } else {
+                                            message = "Số phòng " + message + " đã tồn tại"
+                                        }
+                                        // Alert for failed api calls
+                                        this.makeToast(this.$t('room.roomForm.errors.createTitle'), message)
                                     } else {
-                                        message = "Số phòng " + message + " đã tồn tại"
+                                        this.$bvToast.toast(this.$t('room.roomForm.success.message'), {
+                                            title: this.$t('room.roomForm.success.title'),
+                                            autoHideDelay: 2000,
+                                            variant: 'success'
+                                        })
+                                        // this.$bvModal.hide(`modal-create`)
+                                        setTimeout(location.reload.bind(location), 2000)
                                     }
-                                    // Alert for failed api calls
-                                    this.makeToast(this.$t('room.roomForm.errors.createTitle'), message)
-                                } else {
-                                    this.$bvToast.toast(this.$t('room.roomForm.success.message'), {
-                                        title: this.$t('room.roomForm.success.title'),
-                                        autoHideDelay: 2000,
-                                        variant: 'success'
-                                    })
-                                    // this.$bvModal.hide(`modal-create`)
-                                    setTimeout(location.reload.bind(location), 2000)
-                                }
-                            })
+                                })
+                        }
                     }
                 }
             }

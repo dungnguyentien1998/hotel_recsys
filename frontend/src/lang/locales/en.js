@@ -551,12 +551,13 @@ export default {
             },
             errors: {
                 title: 'Action failed',
-                invalidData: 'Invalid data',
+                invalidData: 'Wrong data type for room number',
                 createTitle: 'Create room failed',
                 updateTitle: 'Update room failed',
                 missing: 'You must fill all required information',
                 image: 'Room image is missing',
-                exceptionOccurred: 'An exception occurred'
+                exceptionOccurred: 'An exception occurred',
+                duplicate: 'Duplicate room numbers'
             }
         }
     }

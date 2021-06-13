@@ -14,4 +14,5 @@ export default {
     amenities: state => state.amenities,
     page: state => state.page,
     is_search: state => state.is_search,
+    new_count: state => state.new_count,
 }

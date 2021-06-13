@@ -74,7 +74,7 @@ class User(APIView):
         if request.GET.get('role'):
             params["role"] = request.GET.get('role')
 
-        users = models.User.objects.filter(**params, name__icontains=name, email__icontains=email)
+        users = models.User.objects.filter(**params, name__icontains=name, email__icontains=email).order_by('name')
         data = []
         nextPage = 1
         previousPage = 1

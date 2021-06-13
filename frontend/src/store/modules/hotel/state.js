@@ -13,5 +13,6 @@ export default {
     star: null,
     amenities: [],
     page: 1,
-    is_search: false
+    is_search: false,
+    new_count: 0
 }

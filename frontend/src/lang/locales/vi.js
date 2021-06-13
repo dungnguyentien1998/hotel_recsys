@@ -551,12 +551,13 @@ export default {
             },
             errors: {
                 title: 'Thao tác không thành công',
-                invalidData: 'Thông tin không chính xác',
+                invalidData: 'Sai kiểu dữ liệu cho số phòng',
                 createTitle: 'Tạo phòng không thành công',
                 updateTitle: 'Cập nhật không thành công',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
                 image: 'Ảnh phòng chưa được thêm đủ',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện',
+                duplicate: 'Số phòng không được trùng nhau'
             }
         }
     }

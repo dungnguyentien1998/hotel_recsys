@@ -175,7 +175,7 @@ export default {
     mixins: [validationMixin, roleUtil],
     computed: {
         count: function () {
-            return this.$store.getters['hotel/count']
+            return this.$store.getters['hotel/count'] + this.$store.getters['hotel/new_count']
         },
         notify_count: function() {
             return this.$store.getters['hotel/count_hotelier']

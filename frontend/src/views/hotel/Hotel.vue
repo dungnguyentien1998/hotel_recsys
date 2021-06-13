@@ -33,14 +33,14 @@
                         list="name-list-id"
                         type="search"
                     />
-                    <datalist id="name-list-id">
-                        <option
-                            v-for="hotel in hotels"
-                            :key="hotel.uuid"
-                        >
-                            {{ hotel.name }}
-                        </option>
-                    </datalist>
+                    <!--                    <datalist id="name-list-id">-->
+                    <!--                        <option-->
+                    <!--                            v-for="hotel in hotels"-->
+                    <!--                            :key="hotel.uuid"-->
+                    <!--                        >-->
+                    <!--                            {{ hotel.name }}-->
+                    <!--                        </option>-->
+                    <!--                    </datalist>-->
                 </b-form-group>
             </b-form>
             <div
@@ -136,60 +136,60 @@
                                     :options="wards"
                                 />
                             </b-form-group>
-                            <b-form-group
-                                id="amenities-group"
-                                :label="$t('hotel.hotelForm.amenities')"
-                                label-for="amenities"
-                                label-cols-sm="2"
-                                label-cols-lg="2"
-                                content-cols-sm="4"
-                                content-cols-lg="4"
-                            >
-                                <b-form-tags
-                                    id="amenities"
-                                    v-model="form.amenities"
-                                    add-on-change
-                                    no-outer-focus
-                                    size="lg"
-                                >
-                                    <template #default="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
-                                        <ul
-                                            v-if="tags.length > 0"
-                                            class="mb-2 list-inline d-inline-block"
-                                        >
-                                            <li
-                                                v-for="tag in tags"
-                                                :key="tag"
-                                                class="list-inline-item"
-                                            >
-                                                <b-form-tag
-                                                    :title="tag"
-                                                    variant="success"
-                                                    :disabled="disabled"
-                                                    @remove="removeTag(tag)"
-                                                >
-                                                    {{ tag }}
-                                                </b-form-tag>
-                                            </li>
-                                        </ul>
-                                        <b-form-select
-                                            v-bind="inputAttrs"
-                                            :options="availableOptions"
-                                            :disabled="disabled || availableOptions.length === 0"
-                                            v-on="inputHandlers"
-                                        >
-                                            <template #first>
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                >
-                                                    {{ $t('hotel.hotelForm.amenitiesPlaceholder') }}
-                                                </option>
-                                            </template>
-                                        </b-form-select>
-                                    </template>
-                                </b-form-tags>
-                            </b-form-group>
+                            <!--                            <b-form-group-->
+                            <!--                                id="amenities-group"-->
+                            <!--                                :label="$t('hotel.hotelForm.amenities')"-->
+                            <!--                                label-for="amenities"-->
+                            <!--                                label-cols-sm="2"-->
+                            <!--                                label-cols-lg="2"-->
+                            <!--                                content-cols-sm="4"-->
+                            <!--                                content-cols-lg="4"-->
+                            <!--                            >-->
+                            <!--                                <b-form-tags-->
+                            <!--                                    id="amenities"-->
+                            <!--                                    v-model="form.amenities"-->
+                            <!--                                    add-on-change-->
+                            <!--                                    no-outer-focus-->
+                            <!--                                    size="lg"-->
+                            <!--                                >-->
+                            <!--                                    <template #default="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">-->
+                            <!--                                        <ul-->
+                            <!--                                            v-if="tags.length > 0"-->
+                            <!--                                            class="mb-2 list-inline d-inline-block"-->
+                            <!--                                        >-->
+                            <!--                                            <li-->
+                            <!--                                                v-for="tag in tags"-->
+                            <!--                                                :key="tag"-->
+                            <!--                                                class="list-inline-item"-->
+                            <!--                                            >-->
+                            <!--                                                <b-form-tag-->
+                            <!--                                                    :title="tag"-->
+                            <!--                                                    variant="success"-->
+                            <!--                                                    :disabled="disabled"-->
+                            <!--                                                    @remove="removeTag(tag)"-->
+                            <!--                                                >-->
+                            <!--                                                    {{ tag }}-->
+                            <!--                                                </b-form-tag>-->
+                            <!--                                            </li>-->
+                            <!--                                        </ul>-->
+                            <!--                                        <b-form-select-->
+                            <!--                                            v-bind="inputAttrs"-->
+                            <!--                                            :options="availableOptions"-->
+                            <!--                                            :disabled="disabled || availableOptions.length === 0"-->
+                            <!--                                            v-on="inputHandlers"-->
+                            <!--                                        >-->
+                            <!--                                            <template #first>-->
+                            <!--                                                <option-->
+                            <!--                                                    value=""-->
+                            <!--                                                    disabled-->
+                            <!--                                                >-->
+                            <!--                                                    {{ $t('hotel.hotelForm.amenitiesPlaceholder') }}-->
+                            <!--                                                </option>-->
+                            <!--                                            </template>-->
+                            <!--                                        </b-form-select>-->
+                            <!--                                    </template>-->
+                            <!--                                </b-form-tags>-->
+                            <!--                            </b-form-group>-->
                         </b-form>
                     </b-card>
                 </b-collapse>
@@ -755,15 +755,54 @@ export default {
                 let user_id = this.$store.getters['user/user'].uuid
                 let owner_id = data.hotel.user
                 if (user_id === owner_id) {
-                    this.$store.commit('hotel/saveNotifyHotel', data)
+                    let new_uuid = data.hotel.uuid
+                    let check = true
+                    let notify_hotels = this.$store.getters['hotel/notify_hotels']
+                    for (let i=0; i<notify_hotels.length; i++) {
+                        let uuid = notify_hotels[i].uuid
+                        if (uuid === new_uuid) {
+                            check = false
+                            break
+                        }
+                    }
+                    if (check === true) {
+                        this.$store.commit('hotel/saveNotifyHotel', data)
+                    }
+                    // this.$store.commit('hotel/saveNotifyHotel', data)
                     if (data.hotel.status === 'active') {
-                        this.$store.commit('hotel/saveHotel', data)
+                        let new_uuid = data.hotel.uuid
+                        let check = true
+                        let hotels = this.$store.getters['hotel/hotels']
+                        for (let i=0; i<hotels.length; i++) {
+                            let uuid = hotels[i].uuid
+                            if (uuid === new_uuid) {
+                                check = false
+                                break
+                            }
+                        }
+                        if (check === true) {
+                            this.$store.commit('hotel/saveHotel', data)
+                        }
+                        // this.$store.commit('hotel/saveHotel', data)
                     }
                 }
                 let user = this.$store.getters['user/user']
                 if (user.role === 'user') {
                     if (data.hotel.status === 'active') {
-                        this.$store.commit('hotel/saveHotel', data)
+                        let new_uuid = data.hotel.uuid
+                        let check = true
+                        let hotels = this.$store.getters['hotel/hotels']
+                        for (let i=0; i<hotels.length; i++) {
+                            let uuid = hotels[i].uuid
+                            if (uuid === new_uuid) {
+                                check = false
+                                break
+                            }
+                        }
+                        if (check === true) {
+                            this.$store.commit('hotel/saveHotel', data)
+                        }
+                        // this.$store.commit('hotel/saveHotel', data)
                     }
                 }
                 let count = this.$store.getters['hotel/notify_hotels'].length

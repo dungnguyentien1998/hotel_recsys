@@ -141,7 +141,20 @@ export default {
                 let user_id = this.$store.getters['user/user'].uuid
                 let owner_id = data.hotel.user
                 if (user_id === owner_id) {
-                    this.$store.commit('hotel/saveNotifyHotel', data)
+                    let new_uuid = data.hotel.uuid
+                    let check = true
+                    let notify_hotels = this.$store.getters['hotel/notify_hotels']
+                    for (let i=0; i<notify_hotels.length; i++) {
+                        let uuid = notify_hotels[i].uuid
+                        if (uuid === new_uuid) {
+                            check = false
+                            break
+                        }
+                    }
+                    if (check === true) {
+                        this.$store.commit('hotel/saveNotifyHotel', data)
+                    }
+                    // this.$store.commit('hotel/saveNotifyHotel', data)
                 }
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 let old_count = this.$store.getters['hotel/old_count_hotelier']

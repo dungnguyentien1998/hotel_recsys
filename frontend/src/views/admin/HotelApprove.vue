@@ -23,14 +23,14 @@
                         list="name-list-id"
                         type="search"
                     />
-                    <datalist id="name-list-id">
-                        <option
-                            v-for="hotel in hotels"
-                            :key="hotel.uuid"
-                        >
-                            {{ hotel.name }}
-                        </option>
-                    </datalist>
+                    <!--                    <datalist id="name-list-id">-->
+                    <!--                        <option-->
+                    <!--                            v-for="hotel in hotels"-->
+                    <!--                            :key="hotel.uuid"-->
+                    <!--                        >-->
+                    <!--                            {{ hotel.name }}-->
+                    <!--                        </option>-->
+                    <!--                    </datalist>-->
                 </b-form-group>
             </b-form>
             <div>
@@ -69,6 +69,7 @@
                             >
                                 <b-form-rating
                                     v-model="$v.form.star.$model"
+                                    show-clear
                                     variant="warning"
                                     size="sm"
                                     inline
@@ -326,6 +327,7 @@ export default {
         //     this.subscribe()
         // })
         this.retrieveHotels()
+        this.$store.commit('hotel/resetNewCount')
     },
     methods: {
         getRequestParams(currentPage, perPage, name, city, district, ward, star) {
@@ -485,7 +487,22 @@ export default {
             pusher.subscribe('a_channel');
             pusher.bind('an_event', data => {
                 data = camelcaseKeys(data, {deep: true})
-                this.$store.commit('hotel/saveHotel', data)
+                let new_uuid = data.hotel.uuid
+                let check = true
+                let notify_hotels = this.$store.getters['hotel/notify_hotels']
+                for (let i=0; i<notify_hotels.length; i++) {
+                    let uuid = notify_hotels[i].uuid
+                    if (uuid === new_uuid) {
+                        check = false
+                        break
+                    }
+                }
+                if (check === true) {
+                    this.$store.commit('hotel/saveHotel', data)
+                    this.$store.commit('hotel/saveNewCount')
+                }
+                // this.$store.commit('hotel/saveHotel', data)
+                // this.$store.commit('hotel/saveNewCount')
             })
         }
     },
