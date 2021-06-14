@@ -15,4 +15,6 @@ export default {
     page: state => state.page,
     is_search: state => state.is_search,
     new_count: state => state.new_count,
+    names: state => state.names,
+    uuids: state => state.uuids,
 }

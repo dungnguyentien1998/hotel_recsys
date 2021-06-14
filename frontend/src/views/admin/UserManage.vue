@@ -229,7 +229,8 @@ export default {
             // User list for search function
             filterUsers: [],
             isSearch: false,
-            loading: false
+            loading: false,
+            uuids: []
         }
     },
     computed: {
@@ -303,6 +304,10 @@ export default {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
             this.subscribe()
+        })
+        this.$store.dispatch('hotel/listUuids').then(() => {
+            this.uuids = this.$store.getters['hotel/uuids']
+            // this.uuids.sort()
         })
     },
     methods: {
@@ -468,10 +473,10 @@ export default {
                 data = camelcaseKeys(data, {deep: true})
                 let new_uuid = data.hotel.uuid
                 let check = true
-                let notify_hotels = this.$store.getters['hotel/notify_hotels']
-                for (let i=0; i<notify_hotels.length; i++) {
-                    let uuid = notify_hotels[i].uuid
-                    if (uuid === new_uuid) {
+                // let hotels = this.$store.getters['hotel/hotels']
+                for (let i=0; i<this.uuids.length; i++) {
+                    // let uuid = hotels[i].uuid
+                    if (this.uuids[i] === new_uuid) {
                         check = false
                         break
                     }

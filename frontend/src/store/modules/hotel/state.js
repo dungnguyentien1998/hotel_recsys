@@ -14,5 +14,7 @@ export default {
     amenities: [],
     page: 1,
     is_search: false,
-    new_count: 0
+    new_count: 0,
+    names: [],
+    uuids: []
 }

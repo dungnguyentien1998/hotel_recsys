@@ -96,4 +96,10 @@ export default {
     resetNewCount: state => {
         state.new_count = 0
     },
+    listNames: (state, payload) => {
+        state.names = payload.data.names
+    },
+    listUuids: (state, payload) => {
+        state.uuids = payload.data.uuids
+    },
 }

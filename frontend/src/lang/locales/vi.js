@@ -126,7 +126,7 @@ export default {
             birthday: 'Ngày sinh',
             address: 'Địa chỉ',
             role: 'Vai trò',
-            action: 'Khóa/Mở khóa',
+            action: 'Thao tác',
             user: 'Người dùng',
             hotelier: 'Chủ khách sạn',
             admin: 'Quản trị viên',

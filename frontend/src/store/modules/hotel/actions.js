@@ -75,4 +75,16 @@ export default {
             context.commit('notifyHotels', res)
         })
     },
+    listNames: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get('hotels/name').then(res => {
+            context.commit('listNames', res)
+        })
+    },
+    listUuids: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get('hotels/uuid').then(res => {
+            context.commit('listUuids', res)
+        })
+    },
 }

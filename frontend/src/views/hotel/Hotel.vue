@@ -33,14 +33,14 @@
                         list="name-list-id"
                         type="search"
                     />
-                    <!--                    <datalist id="name-list-id">-->
-                    <!--                        <option-->
-                    <!--                            v-for="hotel in hotels"-->
-                    <!--                            :key="hotel.uuid"-->
-                    <!--                        >-->
-                    <!--                            {{ hotel.name }}-->
-                    <!--                        </option>-->
-                    <!--                    </datalist>-->
+                    <datalist id="name-list-id">
+                        <option
+                            v-for="name in names"
+                            :key="name"
+                        >
+                            {{ name }}
+                        </option>
+                    </datalist>
                 </b-form-group>
             </b-form>
             <div
@@ -335,7 +335,7 @@
                 </div>
             </div>
             <span
-                v-if="filterHotels.length === 0 && roleHotelier"
+                v-if="filterHotels.length === 0 && roleHotelier && !loading"
                 style="font-style: italic"
             >
                 {{ $t('hotel.hotel.noHotel') }}
@@ -483,7 +483,9 @@ export default {
             slide: 0,
             sliding: null,
             isSearch: false,
-            loading: false
+            loading: false,
+            names: [],
+            uuids: []
         }
     },
     computed: {
@@ -564,6 +566,10 @@ export default {
                 this.recommendationsLogin = this.$store.getters['recommendation/recommendationsLogin']
                 this.recommendationsLogin.sort(this.compare)
             })
+            this.$store.dispatch('hotel/listNames').then(() => {
+                this.names = this.$store.getters['hotel/names']
+                this.names.sort()
+            })
         }
         this.$store.dispatch('hotel/notifyHotels')
             .then(() => {
@@ -571,6 +577,10 @@ export default {
                 this.$store.commit('hotel/setOldHotelierCount', count)
                 this.subscribe()
             })
+        this.$store.dispatch('hotel/listUuids').then(() => {
+            this.uuids = this.$store.getters['hotel/uuids']
+            // this.uuids.sort()
+        })
         let user = this.$store.getters['user/user']
         if (user.role === 'hotelier') {
             this.subscribe_review()
@@ -791,10 +801,10 @@ export default {
                     if (data.hotel.status === 'active') {
                         let new_uuid = data.hotel.uuid
                         let check = true
-                        let hotels = this.$store.getters['hotel/hotels']
-                        for (let i=0; i<hotels.length; i++) {
-                            let uuid = hotels[i].uuid
-                            if (uuid === new_uuid) {
+                        // let hotels = this.$store.getters['hotel/hotels']
+                        for (let i=0; i<this.uuids.length; i++) {
+                            // let uuid = hotels[i].uuid
+                            if (this.uuids[i] === new_uuid) {
                                 check = false
                                 break
                             }

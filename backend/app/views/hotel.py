@@ -173,10 +173,34 @@ class HotelNotification(APIView):
         })
 
 
+class HotelUuid(APIView):
+    permission_classes = ()
+
+    def get(self, request):
+        user = request.user
+        params = {}
+        if user.role == models.Role.ADMIN:
+            params['status'] = models.Status.PENDING
+        else:
+            params['status'] = models.Status.ACTIVE
+
+        hotels = models.Hotel.objects.filter(**params).order_by('name')
+        if user.role == models.Role.HOTELIER:
+            hotels = models.Hotel.objects.filter(user_id=user.uuid, status=models.Status.ACTIVE)
+
+        uuids = []
+        for hotel in hotels:
+            uuids.append(hotel.uuid)
+
+        return Response({
+            'success': True,
+            'uuids': uuids
+        })
+
+
 class HotelName(APIView):
     permission_classes = ()
 
-    # List hotels
     def get(self, request):
         user = request.user
         params = {}

@@ -75,6 +75,7 @@ class HotelierBooking(APIView):
             params['code'] = request.GET.get('code')
             bookings = bookings.filter(code__icontains=request.GET.get('code'))
 
+        bookings = bookings.order_by('created')
         results = []
         if request.GET.get('status') == 'yes':
             params['status'] = True
