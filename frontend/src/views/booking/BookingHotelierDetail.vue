@@ -152,18 +152,36 @@
                             <template
                                 #cell(room_number)="data"
                             >
-                                <b-form-group>
-                                    <b-form-checkbox
-                                        v-for="option in getAvailableOptions(data.item.room_number)"
-                                        :key="option.value"
-                                        v-model="room_numbers[getIndex(data.item.type)]"
-                                        :value="option.value"
-                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option.value)"
-                                        inline
+                                <div class="test">
+                                    <ul
+                                        style="padding: 0; list-style-type: none"
                                     >
-                                        {{ option.text }}
-                                    </b-form-checkbox>
-                                </b-form-group>
+                                        <li
+                                            v-for="option in getAvailableOptions(data.item.room_number)"
+                                            :key="option.value"
+                                        >
+                                            <b-form-checkbox
+                                                v-model="room_numbers[getIndex(data.item.type)]"
+                                                :value="option.value"
+                                                :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option.value)"
+                                            >
+                                                {{ option.text }}
+                                            </b-form-checkbox>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--                                <b-form-group>-->
+                                <!--                                    <b-form-checkbox-->
+                                <!--                                        v-for="option in getAvailableOptions(data.item.room_number)"-->
+                                <!--                                        :key="option.value"-->
+                                <!--                                        v-model="room_numbers[getIndex(data.item.type)]"-->
+                                <!--                                        :value="option.value"-->
+                                <!--                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option.value)"-->
+                                <!--                                        inline-->
+                                <!--                                    >-->
+                                <!--                                        {{ option.text }}-->
+                                <!--                                    </b-form-checkbox>-->
+                                <!--                                </b-form-group>-->
                             </template>
                         </b-table>
                     </div>
@@ -312,10 +330,12 @@ export default {
                 {
                     key: 'type',
                     label: this.$t('booking.bookingForm.roomType'),
+                    thStyle: {width: '150px'}
                 },
                 {
                     key: 'amount',
                     label: this.$t('booking.bookingForm.rooms'),
+                    thStyle: {width: '150px'}
                 },
                 {
                     key: 'room_number',
@@ -528,4 +548,13 @@ li.number {
     margin-bottom: 5px;
 }
 //li.number:nth-child(4n) {clear: left}
+.test ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+.test ul li {
+    list-style: none;
+    flex: 0 0 10%;
+}
 </style>

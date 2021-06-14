@@ -14,4 +14,12 @@ export default {
     available_numbers: state => state.available_numbers,
     booking_id: state => state.booking_id,
     hotel_id: state => state.hotel_id,
+    user_name: state => state.user_name,
+    user_tel: state => state.user_tel,
+    user_email: state => state.user_email,
+    code: state => state.code,
+    is_processed: state => state.is_processed,
+    page: state => state.page,
+    is_search: state => state.is_search,
+    count: state => state.count,
 }

@@ -354,13 +354,6 @@ export default {
         retrieveUsers() {
             const params = this.getRequestParams(this.currentPage, this.perPage, this.form.role, this.form.name,
                 this.form.email)
-            // this.loading = true
-            // this.$store.dispatch('hotel/listHotels', params).then(() => {
-            //     this.hotels = this.$store.getters['hotel/hotels']
-            //     this.filterHotels = this.hotels
-            //     this.rows = this.$store.getters['hotel/count']
-            //     this.loading = false
-            // })
             this.loading = true
             this.$store.dispatch('user/users', params).then(() => {
                 this.users = this.$store.getters['user/users']

@@ -29,7 +29,16 @@ export default {
     },
     newListBookingsHotelier: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');
-        return api.get(`hotels/${payload}/bookings`).then(res => {
+        return api.get(`hotels/${payload.hotelId}/bookings`, {
+            params: {
+                page: payload.page,
+                user_name: payload.user_name,
+                user_tel: payload.user_tel,
+                user_email: payload.user_email,
+                code: payload.code,
+                is_processed: payload.is_processed
+            }
+        }).then(res => {
             context.commit('listBookings', res)
         })
     },

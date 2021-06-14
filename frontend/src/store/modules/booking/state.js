@@ -19,5 +19,13 @@ export default {
     available_numbers: [],
     hotel_id: '',
     // Show current booking, use in BookingHotelier and BookingHotelierDetail
-    booking_id: ''
+    booking_id: '',
+    page: 1,
+    user_name: null,
+    user_tel: null,
+    user_email: null,
+    code: null,
+    is_processed: null,
+    is_search: false,
+    count: 0,
 }

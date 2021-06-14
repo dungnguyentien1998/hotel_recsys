@@ -7,6 +7,7 @@ export default {
     // Save booking list
     listBookings: (state, payload) => {
         state.bookings = payload.data.bookings
+        state.count = payload.data.count
     },
     listNewBookings: (state, payload) => {
         state.new_bookings = payload.data.bookings
@@ -89,5 +90,26 @@ export default {
     },
     setHotelId: (state, payload) => {
         state.hotel_id = payload
+    },
+    setPage: (state, payload) => {
+        state.page = payload
+    },
+    setIsSearch: (state, payload) => {
+        state.is_search = payload
+    },
+    setUserName: (state, payload) => {
+        state.user_name = payload
+    },
+    setUserTel: (state, payload) => {
+        state.user_tel = payload
+    },
+    setUserEmail: (state, payload) => {
+        state.user_email = payload
+    },
+    setCode: (state, payload) => {
+        state.code = payload
+    },
+    setIsProcessed: (state, payload) => {
+        state.is_processed = payload
     },
 }

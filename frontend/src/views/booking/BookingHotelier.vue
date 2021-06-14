@@ -28,7 +28,7 @@
                         <b-form-input
                             v-model="$v.form.user_name.$model"
                             :placeholder="$t('booking.booking.customerNamePlaceholder')"
-                            type="text"
+                            type="search"
                         />
                     </b-form-group>
                     <b-form-group
@@ -43,7 +43,7 @@
                         <b-form-input
                             v-model="$v.form.user_tel.$model"
                             :placeholder="$t('booking.booking.customerTelPlaceholder')"
-                            type="text"
+                            type="search"
                         />
                     </b-form-group>
                     <b-form-group
@@ -58,7 +58,7 @@
                         <b-form-input
                             v-model="$v.form.user_email.$model"
                             :placeholder="$t('booking.booking.customerEmailPlaceholder')"
-                            type="text"
+                            type="search"
                         />
                     </b-form-group>
                     <b-form-group
@@ -73,13 +73,13 @@
                         <b-form-input
                             v-model="$v.form.code.$model"
                             :placeholder="$t('booking.booking.bookingCodePlaceholder')"
-                            type="text"
+                            type="search"
                         />
                     </b-form-group>
                     <b-form-group>
                         <label class="required">{{ $t('booking.booking.status') }}: </label>
                         <b-form-radio-group
-                            v-model="$v.form.status.$model"
+                            v-model="$v.form.is_processed.$model"
                         >
                             <b-form-radio value="yes">
                                 {{ $t('booking.booking.processed') }}
@@ -112,7 +112,7 @@
             :per-page="perPage"
         >
             <b-list-group-item
-                v-for="booking in filterBookings.slice((currentPage-1)*perPage, (currentPage-1)*perPage+perPage)"
+                v-for="booking in filterBookings"
                 :key="`${booking.uuid}`"
                 class="list-item"
             >
@@ -203,12 +203,13 @@
             {{ $t('booking.booking.noBooking') }}
         </span>
         <b-pagination
-            v-if="filterBookings.length > perPage"
+            v-if="rows > perPage"
             v-model="currentPage"
             :per-page="perPage"
             :total-rows="rows"
             pills
             aria-controls="bookings-list"
+            @change="handlePageChange"
         />
     </div>
 </template>
@@ -218,6 +219,11 @@ import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
+import {validationMixin} from "vuelidate";
+import roleUtil from "@/utils/role-utils"
+import dataUtil from "@/utils/data-view-utils"
+import formMixin from '@/mixin/form-mixin'
+import addressMixin from '@/mixin/address-mixin'
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -227,44 +233,48 @@ library.add(faSearch)
 
 export default {
     name: "BookingHotelier",
+    mixins: [validationMixin, formMixin, addressMixin, roleUtil, dataUtil],
     data: function () {
         return {
             // Booking data
             bookings: [],
             new_bookings: [],
             form: {
-                user_name: null,
-                user_tel: null,
-                user_email: null,
-                code: null,
-                status: null,
+                user_name: this.$store.getters['booking/user_name'],
+                user_tel: this.$store.getters['booking/user_tel'],
+                user_email: this.$store.getters['booking/user_email'],
+                code: this.$store.getters['booking/code'],
+                is_processed: this.$store.getters['booking/is_processed'],
             },
             filterBookings: [],
-            currentPage: 1,
+            currentPage: this.$store.getters['booking/page'],
             perPage: 10,
             rows: 0,
-            loading: false
+            loading: false,
+            isSearch: false,
         }
     },
     created() {
-        this.loading = true
-        this.$store.dispatch('booking/newListBookingsHotelier', this.$route.params.uuid)
-            .then(() => {
-                this.bookings = this.$store.getters['booking/bookings']
-                this.filterBookings = this.bookings
-                this.rows = this.filterBookings.length
-                this.filterBookings.sort(function (a,b) {
-                    return new Date(a.created) - new Date(b.created)
-                })
-                this.loading = false
-            })
-        this.$store.dispatch('booking/listNewBookings', this.$route.params.uuid)
-            .then(() => {
-                this.new_bookings = this.$store.getters['booking/new_bookings']
-                this.new_bookings.sort(function (a,b) {
-                    return new Date(a.created) - new Date(b.created)
-                })
-            })
+        // this.loading = true
+        // this.$store.dispatch('booking/newListBookingsHotelier', this.$route.params.uuid)
+        //     .then(() => {
+        //         this.bookings = this.$store.getters['booking/bookings']
+        //         this.filterBookings = this.bookings
+        //         this.rows = this.filterBookings.length
+        //         this.filterBookings.sort(function (a,b) {
+        //             return new Date(a.created) - new Date(b.created)
+        //         })
+        //         this.loading = false
+        //     })
+
+        // this.$store.dispatch('booking/listNewBookings', this.$route.params.uuid)
+        //     .then(() => {
+        //         this.new_bookings = this.$store.getters['booking/new_bookings']
+        //         this.new_bookings.sort(function (a,b) {
+        //             return new Date(a.created) - new Date(b.created)
+        //         })
+        //     })
+        this.retrieveBookings()
     },
     validations: {
         form: {
@@ -280,41 +290,130 @@ export default {
             code: {
 
             },
-            status: {
+            is_processed: {
 
             }
         }
     },
     methods: {
+        getRequestParams(currentPage, perPage, user_name, user_tel, user_email, code, is_processed) {
+            let params = []
+            if (currentPage) {
+                params["page"] = currentPage
+                this.$store.commit('booking/setPage', currentPage)
+            } else {
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    params["page"] = this.$store.getters['booking/page']
+                }
+            }
+            if (perPage) {
+                params["perPage"] = perPage
+            }
+            if (user_name) {
+                params["user_name"] = user_name
+                this.$store.commit('booking/setUserName', user_name)
+            } else {
+                this.$store.commit('booking/setUserName', user_name)
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    // params["user_name"] = this.$store.getters['booking/user_name']
+                    params["user_name"] = null
+                }
+            }
+            if (user_tel) {
+                params["user_tel"] = user_tel
+                this.$store.commit('booking/setUserTel', user_tel)
+            } else {
+                this.$store.commit('booking/setUserTel', user_tel)
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    // params["user_tel"] = this.$store.getters['booking/user_tel']
+                    params["user_tel"] = null
+                }
+            }
+            if (user_email) {
+                params["user_email"] = user_email
+                this.$store.commit('booking/setUserEmail', user_email)
+            } else {
+                this.$store.commit('booking/setUserEmail', user_email)
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    // params["user_email"] = this.$store.getters['booking/user_email']
+                    params["user_email"] = null
+                }
+            }
+            if (code) {
+                params["code"] = code
+                this.$store.commit('booking/setCode', code)
+            } else {
+                this.$store.commit('booking/setCode', code)
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    // params["code"] = this.$store.getters['booking/code']
+                    params["code"] = null
+                }
+            }
+            if (is_processed) {
+                params["is_processed"] = is_processed
+                this.$store.commit('booking/setIsProcessed', is_processed)
+            } else {
+                this.$store.commit('booking/setIsProcessed', is_processed)
+                if (this.isSearch || this.$store.getters['booking/is_search']) {
+                    // params["is_processed"] = this.$store.getters['booking/is_processed']
+                    params["is_processed"] = null
+                }
+            }
+            return params
+        },
+        retrieveBookings() {
+            const params = this.getRequestParams(this.currentPage, this.perPage, this.form.user_name, this.form.user_tel,
+                this.form.user_email, this.form.code, this.form.is_processed)
+            params["hotelId"] = this.$route.params.uuid
+            this.loading = true
+            this.$store.dispatch('booking/newListBookingsHotelier', params)
+                .then(() => {
+                    this.bookings = this.$store.getters['booking/bookings']
+                    this.filterBookings = this.bookings
+                    this.rows = this.$store.getters['booking/count']
+                    // this.filterBookings.sort(function (a,b) {
+                    //     return new Date(a.created) - new Date(b.created)
+                    // })
+                    this.loading = false
+                })
+        },
+        handlePageChange(value) {
+            this.currentPage = value
+            this.retrieveBookings()
+        },
         onSubmit: function () {
-            this.filterBookings = this.bookings
-
-            if (!!this.form.user_name) {
-                this.filterBookings = this.filterBookings.filter(booking =>
-                    booking.userName.toLowerCase().indexOf(this.form.user_name.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.user_tel) {
-                this.filterBookings = this.filterBookings.filter(booking =>
-                    booking.userTel.toLowerCase().indexOf(this.form.user_tel.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.user_email) {
-                this.filterBookings = this.filterBookings.filter(booking =>
-                    booking.userEmail.toLowerCase().indexOf(this.form.user_email.toLowerCase()) > -1
-                )
-            }
-            if (!!this.form.code) {
-                this.filterBookings = this.filterBookings.filter(booking =>
-                    booking.code.toLowerCase().indexOf(this.form.code.toLowerCase()) > -1
-                )
-            }
-
-            this.rows = this.filterBookings.length
-            if (this.filterBookings.length === 0) {
-                this.makeToast(this.$t('booking.booking.errors.search'), this.$t('booking.booking.noResultSearch'))
-                this.isSearch = true
-            }
+            // this.filterBookings = this.bookings
+            //
+            // if (!!this.form.user_name) {
+            //     this.filterBookings = this.filterBookings.filter(booking =>
+            //         booking.userName.toLowerCase().indexOf(this.form.user_name.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.user_tel) {
+            //     this.filterBookings = this.filterBookings.filter(booking =>
+            //         booking.userTel.toLowerCase().indexOf(this.form.user_tel.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.user_email) {
+            //     this.filterBookings = this.filterBookings.filter(booking =>
+            //         booking.userEmail.toLowerCase().indexOf(this.form.user_email.toLowerCase()) > -1
+            //     )
+            // }
+            // if (!!this.form.code) {
+            //     this.filterBookings = this.filterBookings.filter(booking =>
+            //         booking.code.toLowerCase().indexOf(this.form.code.toLowerCase()) > -1
+            //     )
+            // }
+            //
+            // this.rows = this.filterBookings.length
+            // if (this.filterBookings.length === 0) {
+            //     this.makeToast(this.$t('booking.booking.errors.search'), this.$t('booking.booking.noResultSearch'))
+            //     this.isSearch = true
+            // }
+            this.isSearch = true
+            this.$store.commit('booking/setIsSearch', true)
+            this.currentPage = 1
+            this.retrieveBookings()
         },
         isArrange(roomNumber) {
             return roomNumber.length > 0;

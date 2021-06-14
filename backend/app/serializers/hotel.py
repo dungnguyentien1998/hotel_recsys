@@ -1,5 +1,7 @@
-from app.models import Hotel
+from app.exceptions import ValidationError
+from app.models import Hotel, Status
 from rest_framework import serializers
+from django.db.models import Q
 
 
 # Hotel crud
@@ -11,6 +13,9 @@ class HotelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Get user id
+        hotels = Hotel.objects.filter(Q(status=Status.ACTIVE) | Q(status=Status.PENDING), email=validated_data['email'])
+        if len(hotels) > 0:
+            raise ValidationError('Email already exists')
         validated_data['user_id'] = self.context['request'].user.uuid
         # Create hotel
         hotel = Hotel(**validated_data)
@@ -19,6 +24,10 @@ class HotelSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Update hotel
+        if validated_data['email']:
+            hotels = Hotel.objects.filter(Q(status=Status.ACTIVE) | Q(status=Status.PENDING), email=validated_data['email'])
+            if len(hotels) > 0:
+                raise ValidationError('Email already exists')
         [setattr(instance, field, value) for field, value in validated_data.items()]
         instance.save()
 
