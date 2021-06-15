@@ -244,6 +244,13 @@ export default {
         })
     },
     created() {
+        this.$store.commit('hotel/setPage', 1)
+        this.$store.commit('hotel/setName', null)
+        this.$store.commit('hotel/setCity', null)
+        this.$store.commit('hotel/setDistrict', null)
+        this.$store.commit('hotel/setWard', null)
+        this.$store.commit('hotel/setStar', null)
+        this.$store.commit('hotel/setIsSearch', false)
         const dists = json.district
         this.districts = [
             {value: null, text: '-----'},

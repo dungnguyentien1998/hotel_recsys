@@ -6,6 +6,7 @@ export default {
     count_hotelier: 0,
     old_count_hotelier: 0,
     count: 0,
+    full_count: 0,
     name: null,
     city: null,
     district: null,

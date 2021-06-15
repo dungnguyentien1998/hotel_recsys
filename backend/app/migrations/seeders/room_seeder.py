@@ -10,7 +10,7 @@ from faker_enum import EnumProvider
 
 # Seed data for room
 class RoomSeeder(BaseSeeder):
-    OBJECT_NUMBER = 5
+    OBJECT_NUMBER = 10
     REQUIRED_SEEDERS = [HotelSeeder, TypeSeeder]
 
     def run(self, stdout, _):

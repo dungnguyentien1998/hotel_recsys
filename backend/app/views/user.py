@@ -76,8 +76,7 @@ class User(APIView):
 
         users = models.User.objects.filter(**params, name__icontains=name, email__icontains=email).order_by('name')
         data = []
-        nextPage = 1
-        previousPage = 1
+
         page = request.GET.get('page', 1)
         paginator = Paginator(users, 30)
         try:
@@ -87,18 +86,10 @@ class User(APIView):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
 
-        if data.has_next():
-            nextPage = data.next_page_number()
-        if data.has_previous():
-            previousPage = data.previous_page_number()
-
         return Response({
             'success': True,
             'users': UserSerializer(data, many=True).data,
             'count': paginator.count,
-            'numpages': paginator.num_pages,
-            'nextlink': '/api/admin/users?page=' + str(nextPage),
-            'previouslink': '/api/admin/users?page=' + str(previousPage),
         })
 
 

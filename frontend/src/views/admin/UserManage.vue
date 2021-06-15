@@ -287,27 +287,24 @@ export default {
         }
     },
     created() {
-        // Used for search function
-        // this.loading = true
-        // this.$store.dispatch('user/users')
-        //     .then(() => {
-        //         this.users = this.$store.getters['user/users']
-        //         this.filterUsers = this.users
-        //         this.rows = this.filterUsers.length
-        //         this.filterUsers.sort(this.compare)
-        //         this.loading = false
-        //     })
+        this.$store.commit('hotel/setPage', 1)
+        this.$store.commit('hotel/setName', null)
+        this.$store.commit('hotel/setCity', null)
+        this.$store.commit('hotel/setDistrict', null)
+        this.$store.commit('hotel/setWard', null)
+        this.$store.commit('hotel/setStar', null)
+        this.$store.commit('hotel/setIsSearch', false)
         this.retrieveUsers()
         // Repeat code in Hotel Manage
         const params = this.getHotelRequestParams(1, 6)
         this.$store.dispatch('hotel/listHotels', params).then(() => {
             this.hotels = this.$store.getters['hotel/hotels']
             this.filterHotels = this.hotels
+            this.$store.commit('hotel/setFullCount', this.$store.getters['hotel/count'])
             this.subscribe()
         })
         this.$store.dispatch('hotel/listUuids').then(() => {
             this.uuids = this.$store.getters['hotel/uuids']
-            // this.uuids.sort()
         })
     },
     methods: {
@@ -322,7 +319,7 @@ export default {
                 }
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             if (role) {
                 params["role"] = role
@@ -330,7 +327,6 @@ export default {
             } else {
                 this.$store.commit('user/setRole', role)
                 if (this.isSearch || this.$store.getters['user/is_search']) {
-                    // params["role"] = this.$store.getters['user/role']
                     params["role"] = null
                 }
             }
@@ -340,7 +336,6 @@ export default {
             } else {
                 this.$store.commit('user/setName', name)
                 if (this.isSearch || this.$store.getters['user/is_search']) {
-                    // params["name"] = this.$store.getters['user/name']
                     params["name"] = null
                 }
             }
@@ -350,7 +345,6 @@ export default {
             } else {
                 this.$store.commit('user/setEmailSearch', email)
                 if (this.isSearch || this.$store.getters['user/is_search']) {
-                    // params["email"] = this.$store.getters['user/email']
                     params["email"] = null
                 }
             }
@@ -364,7 +358,6 @@ export default {
                 this.users = this.$store.getters['user/users']
                 this.filterUsers = this.users
                 this.rows = this.$store.getters['user/count']
-                // this.filterUsers.sort(this.compare)
                 this.loading = false
             })
         },
@@ -383,7 +376,7 @@ export default {
                 }
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             return params
         },
@@ -393,27 +386,6 @@ export default {
         },
         // Search users by role
         onSubmit: function() {
-            // this.filterUsers = this.users
-            // if (!!this.form.role) {
-            //     this.filterUsers = this.filterUsers.filter(user =>
-            //         user.role === this.form.role
-            //     )
-            // }
-            // if (!!this.form.name) {
-            //     this.filterUsers = this.filterUsers.filter(user =>
-            //         user.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.email) {
-            //     this.filterUsers = this.filterUsers.filter(user =>
-            //         user.email.toLowerCase().indexOf(this.form.email.toLowerCase()) > -1
-            //     )
-            // }
-            // this.rows = this.filterUsers.length
-            // if (this.filterUsers.length === 0) {
-            //     this.makeToast(this.$t('user.user.errors.search'), this.$t('user.user.noResult'))
-            //     this.isSearch = true
-            // }
             this.isSearch = true
             this.$store.commit('user/setIsSearch', true)
             this.currentPage = 1
@@ -473,9 +445,7 @@ export default {
                 data = camelcaseKeys(data, {deep: true})
                 let new_uuid = data.hotel.uuid
                 let check = true
-                // let hotels = this.$store.getters['hotel/hotels']
                 for (let i=0; i<this.uuids.length; i++) {
-                    // let uuid = hotels[i].uuid
                     if (this.uuids[i] === new_uuid) {
                         check = false
                         break

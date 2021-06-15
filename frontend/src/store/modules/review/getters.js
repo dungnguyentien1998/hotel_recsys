@@ -5,4 +5,5 @@ export default {
     new_reviews: state => state.new_reviews,
     page: state => state.page,
     count: state => state.count,
+    new_count: state => state.new_count,
 }

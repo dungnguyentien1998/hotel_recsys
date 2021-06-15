@@ -26,8 +26,6 @@ import ChangePassword from "@/views/user/ChangePassword";
 import ActivateAccount from "@/views/user/ActivateAccount";
 import OrderSuccess from "@/components/OrderSuccess";
 import OrderCanceled from "@/components/OrderCanceled";
-import Reply from "@/views/reply/Reply";
-import ReplyDetail from "@/views/reply/ReplyDetail";
 import HotelNotification from "@/views/notification/HotelNotification";
 
 let routes = [
@@ -250,24 +248,6 @@ let routes = [
         component: BookingDetail,
         meta: {
             title: 'Bookings detail',
-            requireRoles: ['user']
-        }
-    },
-    {
-        path: '/replys',
-        name: 'replys',
-        component: Reply,
-        meta: {
-            title: 'Replies',
-            requireRoles: ['user']
-        }
-    },
-    {
-        path: '/replys/:uuid',
-        name: 'replysDetail',
-        component: ReplyDetail,
-        meta: {
-            title: 'Replies detail',
             requireRoles: ['user']
         }
     },

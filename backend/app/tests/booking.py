@@ -32,7 +32,6 @@ class BookingTestCase(APITestCase, URLPatternsTestCase):
         )
         self.type = Type.objects.create(
             name='test',
-            capacity=1,
             price=1,
             area=10,
             amenities=['personal care'],

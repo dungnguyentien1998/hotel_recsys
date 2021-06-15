@@ -24,10 +24,10 @@ class HotelSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # Update hotel
-        if validated_data['email']:
-            hotels = Hotel.objects.filter(Q(status=Status.ACTIVE) | Q(status=Status.PENDING), email=validated_data['email'])
-            if len(hotels) > 0:
-                raise ValidationError('Email already exists')
+        # if validated_data['email']:
+        #     hotels = Hotel.objects.filter(Q(status=Status.ACTIVE) | Q(status=Status.PENDING), email=validated_data['email'])
+        #     if len(hotels) > 0:
+        #         raise ValidationError('Email already exists')
         [setattr(instance, field, value) for field, value in validated_data.items()]
         instance.save()
 

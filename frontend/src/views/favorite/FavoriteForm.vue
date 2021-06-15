@@ -372,7 +372,6 @@ export default {
     lang="scss"
     scoped
 >
-//@import "https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css";
 .card-img {
     height: 50%;
     width: 50%;

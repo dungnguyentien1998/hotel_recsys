@@ -85,8 +85,7 @@ class HotelierBooking(APIView):
                     results.append(booking)
 
         data = []
-        nextPage = 1
-        previousPage = 1
+
         page = request.GET.get('page', 1)
         paginator = Paginator(results, 10)
         if not results:
@@ -98,18 +97,10 @@ class HotelierBooking(APIView):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
 
-        if data.has_next():
-            nextPage = data.next_page_number()
-        if data.has_previous():
-            previousPage = data.previous_page_number()
-
         return Response({
             'success': True,
             'bookings': BookingDetailSerializer(data, many=True).data,
             'count': paginator.count,
-            'numpages': paginator.num_pages,
-            'nextlink': '/api/hotels?page=' + str(nextPage),
-            'previouslink': '/api/hotels?page=' + str(previousPage),
         })
 
         # bookings = models.Booking.objects.filter(hotel_id=hotel_id)

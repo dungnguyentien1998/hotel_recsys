@@ -21,7 +21,6 @@ class RoomAmenity(models.TextChoices):
 
 class Type(BaseModel):
     name = models.CharField(blank=True, max_length=settings.CHAR_FIELD_MAX_LEN)
-    capacity = models.IntegerField(default=1)
     adult_number = models.IntegerField(default=1)
     children_number = models.IntegerField(default=0)
     price = models.IntegerField(blank=True)

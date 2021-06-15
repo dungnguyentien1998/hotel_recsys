@@ -106,17 +106,11 @@ export default {
         },
     },
     created() {
-        // this.loading = true
-        // this.$store.dispatch('review/listReviews', this.$route.params.uuid)
-        //     .then(() => {
-        //         this.reviews = this.$store.getters['review/reviews']
-        //         this.rows = this.reviews.length
-        //         this.reviews.sort(function (a,b) {
-        //             return new Date(b.created) - new Date(a.created)
-        //         })
-        //         this.loading = false
-        //     })
         this.retrieveReviews()
+        let user = this.$store.getters['user/user']
+        if (user.role === 'hotelier') {
+            this.subscribe_review()
+        }
     },
     methods: {
         getRequestParams(currentPage, perPage) {
@@ -125,13 +119,10 @@ export default {
                 params["page"] = currentPage
                 this.$store.commit('review/setPage', currentPage)
             } else {
-                // if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                //     params["page"] = this.$store.getters['hotel/page']
-                // }
                 params["page"] = this.$store.getters['review/page']
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             return params
         },
@@ -143,10 +134,8 @@ export default {
                 .then(() => {
                     this.reviews = this.$store.getters['review/reviews']
                     this.rows = this.$store.getters['review/count']
-                    // this.reviews.sort(function (a,b) {
-                    //     return new Date(b.created) - new Date(a.created)
-                    // })
                     this.loading = false
+                    this.$store.commit('review/resetNewCount')
                 })
         },
         handlePageChange(value) {
@@ -157,6 +146,20 @@ export default {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " " +
                 date.getHours() + ":" + date.getMinutes();
+        },
+        subscribe_review() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_1', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.review.owner_id) {
+                    this.$store.commit('review/saveReview', data)
+                    this.$store.commit('review/saveNewReview', data)
+                    this.$store.commit('review/saveNewCount')
+                }
+            })
         },
     }
 }

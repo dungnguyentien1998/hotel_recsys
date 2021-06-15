@@ -44,8 +44,8 @@ export default {
     .layout {
         flex-grow: 1;
         background: #3784aa;
-        background: -webkit-linear-gradient(to right, #ef8e38, #3784aa);
-        background: linear-gradient(to right, #ef8e38, #3784aa);
+        background: -webkit-linear-gradient(to right, #e77817, #3784aa);
+        background: linear-gradient(to right, #e77817, #3784aa);
 
         .form-layout {
             border-radius: 10px;

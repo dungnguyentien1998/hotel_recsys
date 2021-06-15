@@ -12,7 +12,7 @@ import datetime
 
 # Seed data for booking
 class BookingSeeder(BaseSeeder):
-    OBJECT_NUMBER = 500
+    OBJECT_NUMBER = 100
     REQUIRED_SEEDERS = [UserSeeder, HotelSeeder, TypeSeeder, RoomSeeder]
 
     def run(self, stdout, _):

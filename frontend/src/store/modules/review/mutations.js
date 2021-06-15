@@ -33,4 +33,10 @@ export default {
     setPage: (state, payload) => {
         state.page = payload
     },
+    saveNewCount: state => {
+        state.new_count = state.new_count + 1
+    },
+    resetNewCount: state => {
+        state.new_count = 0
+    },
 }

@@ -1,8 +1,4 @@
 export default {
-    // Change status
-    // submit: state => {
-    //     state.status = 'SUBMIT'
-    // },
     // Reset status
     resetStatus: state => {
         state.status = ''

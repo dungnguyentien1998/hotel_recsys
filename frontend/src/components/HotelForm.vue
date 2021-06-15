@@ -254,8 +254,8 @@ export default {
                 address: this.hotel.address,
                 image: null,
                 amenities: this.hotel.amenities,
-                // email: this.hotel.email,
-                // tel: this.hotel.tel
+                email: this.hotel.email,
+                tel: this.hotel.tel
             } : {
                 name: null,
                 star: null,

@@ -35,14 +35,6 @@
             </div>
         </b-form-group>
         <br>
-        <!--        <button-->
-        <!--            v-if="!showAvailable()"-->
-        <!--            class="btn btn-primary"-->
-        <!--            type="button"-->
-        <!--            @click="onGetAvailable"-->
-        <!--        >-->
-        <!--            {{ $t('booking.bookingForm.getAvailable') }}-->
-        <!--        </button>-->
         <br>
         <div>
             <!--      Users table         -->
@@ -192,7 +184,6 @@ export default {
             room_types: room_types,
             // available rooms for each type
             availables: availables,
-            stripe: null
         }
     },
     computed: {
@@ -229,10 +220,6 @@ export default {
                     label: this.$t('booking.bookingForm.amenities'),
                     thStyle: {width: '450px'}
                 },
-                // {
-                //     key: 'available',
-                //     label: this.$t('booking.bookingForm.available'),
-                // },
                 {
                     key: 'rooms',
                     label: this.$t('booking.bookingForm.rooms'),
@@ -242,7 +229,7 @@ export default {
         }
     },
     created() {
-        this.getStripePublishableKey();
+        // this.getStripePublishableKey();
         this.$store.dispatch('type/listTypes', this.$route.params.uuid).then(() => {
             this.types = this.$store.getters['type/types']
         })
@@ -294,33 +281,33 @@ export default {
         formatPrice(price) {
             return this.getFormatPrice(price)
         },
-        getStripePublishableKey() {
-            fetch('http://localhost:8000/api/config')
-                .then((result) => result.json())
-                .then((data) => {
-
-                    this.stripe = Stripe(data.publicKey);
-                });
-        },
-        purchase(bookingId) {
-
-            fetch('http://localhost:8000/api/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ booking_id: bookingId }),
-            })
-                .then((result) => result.json())
-                .then((data) => {
-                    console.log(data);
-
-                    return this.stripe.redirectToCheckout({ sessionId: data.sessionId });
-                })
-                .then((res) => {
-                    console.log(res);
-                });
-        },
+        // getStripePublishableKey() {
+        //     fetch('http://localhost:8000/api/config')
+        //         .then((result) => result.json())
+        //         .then((data) => {
+        //
+        //             this.stripe = Stripe(data.publicKey);
+        //         });
+        // },
+        // purchase(bookingId) {
+        //
+        //     fetch('http://localhost:8000/api/create-checkout-session', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({ booking_id: bookingId }),
+        //     })
+        //         .then((result) => result.json())
+        //         .then((data) => {
+        //             console.log(data);
+        //
+        //             return this.stripe.redirectToCheckout({ sessionId: data.sessionId });
+        //         })
+        //         .then((res) => {
+        //             console.log(res);
+        //         });
+        // },
         getIndex: function(room_type) {
             let index = 0
             const types = this.$store.getters['type/types']
@@ -468,8 +455,6 @@ export default {
                         } else {
                             // Alert for success
                             this.$store.commit('booking/resetSave')
-                            let bookingId = this.$store.getters['booking/booking'].uuid
-                            // this.purchase(bookingId)
                             this.$bvToast.toast(this.$t('booking.bookingForm.success.message'), {
                                 title: this.$t('booking.bookingForm.success.title'),
                                 autoHideDelay: 2000,

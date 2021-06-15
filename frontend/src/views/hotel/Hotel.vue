@@ -35,8 +35,8 @@
                     />
                     <datalist id="name-list-id">
                         <option
-                            v-for="name in names"
-                            :key="name"
+                            v-for="(name, index) in names"
+                            :key="`${name}-${index}`"
                         >
                             {{ name }}
                         </option>
@@ -136,60 +136,6 @@
                                     :options="wards"
                                 />
                             </b-form-group>
-                            <!--                            <b-form-group-->
-                            <!--                                id="amenities-group"-->
-                            <!--                                :label="$t('hotel.hotelForm.amenities')"-->
-                            <!--                                label-for="amenities"-->
-                            <!--                                label-cols-sm="2"-->
-                            <!--                                label-cols-lg="2"-->
-                            <!--                                content-cols-sm="4"-->
-                            <!--                                content-cols-lg="4"-->
-                            <!--                            >-->
-                            <!--                                <b-form-tags-->
-                            <!--                                    id="amenities"-->
-                            <!--                                    v-model="form.amenities"-->
-                            <!--                                    add-on-change-->
-                            <!--                                    no-outer-focus-->
-                            <!--                                    size="lg"-->
-                            <!--                                >-->
-                            <!--                                    <template #default="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">-->
-                            <!--                                        <ul-->
-                            <!--                                            v-if="tags.length > 0"-->
-                            <!--                                            class="mb-2 list-inline d-inline-block"-->
-                            <!--                                        >-->
-                            <!--                                            <li-->
-                            <!--                                                v-for="tag in tags"-->
-                            <!--                                                :key="tag"-->
-                            <!--                                                class="list-inline-item"-->
-                            <!--                                            >-->
-                            <!--                                                <b-form-tag-->
-                            <!--                                                    :title="tag"-->
-                            <!--                                                    variant="success"-->
-                            <!--                                                    :disabled="disabled"-->
-                            <!--                                                    @remove="removeTag(tag)"-->
-                            <!--                                                >-->
-                            <!--                                                    {{ tag }}-->
-                            <!--                                                </b-form-tag>-->
-                            <!--                                            </li>-->
-                            <!--                                        </ul>-->
-                            <!--                                        <b-form-select-->
-                            <!--                                            v-bind="inputAttrs"-->
-                            <!--                                            :options="availableOptions"-->
-                            <!--                                            :disabled="disabled || availableOptions.length === 0"-->
-                            <!--                                            v-on="inputHandlers"-->
-                            <!--                                        >-->
-                            <!--                                            <template #first>-->
-                            <!--                                                <option-->
-                            <!--                                                    value=""-->
-                            <!--                                                    disabled-->
-                            <!--                                                >-->
-                            <!--                                                    {{ $t('hotel.hotelForm.amenitiesPlaceholder') }}-->
-                            <!--                                                </option>-->
-                            <!--                                            </template>-->
-                            <!--                                        </b-form-select>-->
-                            <!--                                    </template>-->
-                            <!--                                </b-form-tags>-->
-                            <!--                            </b-form-group>-->
                         </b-form>
                     </b-card>
                 </b-collapse>
@@ -268,27 +214,21 @@
                         <!--                            v-if="roleHotelier"-->
                         <!--                            variant="primary"-->
                         <!--                        >-->
-                        <!--                            {{ hotel.numRooms }} {{ $tc('hotel.hotel.room', hotel.numRooms) }}-->
+                        <!--                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}-->
                         <!--                        </b-badge>-->
-                        <b-badge
-                            v-if="roleHotelier"
-                            variant="primary"
-                        >
-                            {{ hotel.numNewBookings }} {{ $tc('hotel.hotel.new_bookings', hotel.numNewBookings) }}
-                        </b-badge>
-                        <b-badge
-                            v-if="roleHotelier"
-                            class="mx-2"
-                            variant="success"
-                        >
-                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}
-                        </b-badge>
-                        <b-badge
-                            v-if="roleHotelier"
-                            variant="danger"
-                        >
-                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}
-                        </b-badge>
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            class="mx-2"-->
+                        <!--                            variant="success"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numReviews }} {{ $tc('hotel.hotel.review', hotel.numReviews) }}-->
+                        <!--                        </b-badge>-->
+                        <!--                        <b-badge-->
+                        <!--                            v-if="roleHotelier"-->
+                        <!--                            variant="danger"-->
+                        <!--                        >-->
+                        <!--                            {{ hotel.numComplaints }} {{ $tc('hotel.hotel.complaint', hotel.numComplaints) }}-->
+                        <!--                        </b-badge>-->
                         <div class="mt-2">
                             <b-button
                                 v-if="roleHotelier"
@@ -523,17 +463,6 @@ export default {
         }
     },
     created() {
-        // this.loading = true
-        // this.$store.dispatch('hotel/listHotels').then(() => {
-        //     this.hotels = this.$store.getters['hotel/hotels']
-        //     this.filterHotels = this.hotels
-        //     this.rows = this.filterHotels.length
-        //     this.filterHotels.sort(function (a, b){
-        //         return a.name.localeCompare(b.name) || b.star - a.star
-        //     })
-        //     this.loading = false
-        // })
-        // this.$store.commit('hotel/setIsSearch', false)
         this.retrieveHotels()
         if (this.isSearch || this.$store.getters['hotel/is_search']) {
             const dists = json.district
@@ -579,14 +508,13 @@ export default {
             })
         this.$store.dispatch('hotel/listUuids').then(() => {
             this.uuids = this.$store.getters['hotel/uuids']
-            // this.uuids.sort()
         })
-        let user = this.$store.getters['user/user']
-        if (user.role === 'hotelier') {
-            this.subscribe_review()
-            this.subscribe_complaint()
-            this.subscribe_booking()
-        }
+        // let user = this.$store.getters['user/user']
+        // if (user.role === 'hotelier') {
+        //     this.subscribe_review()
+        //     this.subscribe_complaint()
+        //     this.subscribe_booking()
+        // }
         this.subscribe_user()
     },
     methods: {
@@ -601,7 +529,7 @@ export default {
                 }
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             if (name) {
                 params["name"] = name
@@ -609,7 +537,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setName', name)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["name"] = this.$store.getters['hotel/name']
                     params["name"] = null
                 }
             }
@@ -620,7 +547,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setCity', city)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["city"] = getProvinces().filter(option => option.code === this.$store.getters['hotel/city'])[0].name
                     params["city"] = null
                 }
             }
@@ -631,7 +557,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setDistrict', district)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["district"] = getDistrictsByProvinceCode(city).filter(option => option.code === this.$store.getters['hotel/district'])[0].name
                     params["district"] = null
                 }
             }
@@ -642,7 +567,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setWard', ward)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["ward"] = getWardsByDistrictCode(district).filter(option => option.code === this.$store.getters['hotel/ward'])[0].name
                     params["ward"] = null
                 }
             }
@@ -652,7 +576,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setStar', star)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["star"] = this.$store.getters['hotel/star']
                     params["star"] = null
                 }
             }
@@ -682,45 +605,6 @@ export default {
         },
         // Handle search function
         onSubmit: function () {
-            // this.filterHotels = this.hotels
-            // // Filter by name city district ward and amenities
-            // if (!!this.form.name) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.city) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
-            //     )
-            // }
-            // if (!!this.form.district) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
-            //     )
-            // }
-            // if (!!this.form.ward) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
-            //     )
-            // }
-            // if (!!this.form.amenities) {
-            //     const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         amenities_list.every(amenity => hotel.amenities.includes(amenity))
-            //     )
-            // }
-            // if (!!this.form.star) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.star === this.form.star
-            //     )
-            // }
-            // this.form.star = null
-            // this.rows = this.filterHotels.length
-            // if (this.filterHotels.length === 0) {
-            //     this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
-            //     this.isSearch = true
-            // }
             this.isSearch = true
             this.$store.commit('hotel/setIsSearch', true)
             this.currentPage = 1
@@ -830,6 +714,7 @@ export default {
                 if (user.role === 'hotelier' && user.uuid === data.review.owner_id) {
                     this.$store.commit('review/saveReview', data)
                     this.$store.commit('review/saveNewReview', data)
+                    this.$store.commit('review/saveNewCount')
                 }
             })
         },
@@ -843,6 +728,7 @@ export default {
                 if (user.role === 'hotelier' && user.uuid === data.complaint.owner_id) {
                     this.$store.commit('complaint/saveComplaint', data)
                     this.$store.commit('complaint/saveNewComplaint', data)
+                    this.$store.commit('complaint/saveNewCount')
                 }
             })
         },

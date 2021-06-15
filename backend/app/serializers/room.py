@@ -53,7 +53,6 @@ class RoomSerializer(serializers.ModelSerializer):
 
 class RoomDetailSerializer(serializers.ModelSerializer):
     room_type = serializers.ReadOnlyField()
-    capacity = serializers.ReadOnlyField()
     price = serializers.ReadOnlyField()
     amenities = serializers.ReadOnlyField()
     adult_number = serializers.ReadOnlyField()
@@ -62,5 +61,5 @@ class RoomDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = [*Room.get_fields(), 'room_type', 'capacity', 'price', 'amenities', 'adult_number',
+        fields = [*Room.get_fields(), 'room_type', 'price', 'amenities', 'adult_number',
                   'children_number', 'area']

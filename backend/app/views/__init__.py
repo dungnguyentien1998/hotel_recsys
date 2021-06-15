@@ -9,4 +9,3 @@ from .recommendation import *
 from .type import *
 from .booking_room import BookingRoomDetail, BookingRoom
 from .payment import stripe_config, create_checkout_session
-from .reply import *

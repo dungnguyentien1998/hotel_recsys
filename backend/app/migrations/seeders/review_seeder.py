@@ -46,37 +46,3 @@ class ReviewSeeder(BaseSeeder):
                             user_id=user.uuid, hotel_id=hotel.uuid, created=created, updated=created)
             review.save()
             stdout.write(str(review))
-
-    # def run(self, stdout, _):
-    #     filename = 'data/ua.base.txt'
-    #     ratings = pd.read_csv(filename, sep='\t', names=['user_id', 'hotel_id', 'rating', 'unix_timestamp'])
-    #     ratings_train = ratings.to_numpy()
-    #
-    #     users = User.objects.all()
-    #     hotels = Hotel.objects.all()
-    #
-    #     users_ids = dict()
-    #     hotels_ids = dict()
-    #     count = 0
-    #     for user in users:
-    #         count = count + 1
-    #         users_ids[count] = user.uuid
-    #
-    #     count = 0
-    #     for hotel in hotels:
-    #         count = count + 1
-    #         hotels_ids[count] = hotel.uuid
-    #
-    #     faker = Faker()
-    #     faker.add_provider(EnumProvider)
-    #     rows, cols = ratings_train.shape
-    #     for i in range(rows):
-    #         hotel = random.choice(hotels)
-    #         user_uuid = users_ids[ratings_train[i][0]]
-    #         hotel_uuid = hotels_ids[ratings_train[i][1]]
-    #         rating = ratings_train[i][2]
-    #         created = faker.date_time_between(hotel.created, 'now')
-    #         review = Review(title=faker.paragraph(), content=faker.text(), rating=rating,
-    #                         user_id=user_uuid, hotel_id=hotel_uuid, created=created, updated=created)
-    #         review.save()
-    #         stdout.write(str(review))

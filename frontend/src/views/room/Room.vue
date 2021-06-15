@@ -14,57 +14,6 @@
         </div>
         <hr>
         <b-form>
-            <!--            <b-form-group-->
-            <!--                id="capacity-group"-->
-            <!--                :label="$t('room.room.minCapacity')"-->
-            <!--                label-for="capacity"-->
-            <!--                label-cols-sm="2"-->
-            <!--                label-cols-lg="2"-->
-            <!--                content-cols-sm="7"-->
-            <!--                content-cols-lg="7"-->
-            <!--            >-->
-            <!--                <b-form-input-->
-            <!--                    id="capacity"-->
-            <!--                    v-model="$v.form.capacity.$model"-->
-            <!--                    :state="validateState('capacity')"-->
-            <!--                    :placeholder="$t('room.room.capacityPlaceholder')"-->
-            <!--                    type="text"-->
-            <!--                />-->
-            <!--            </b-form-group>-->
-            <!--            <b-form-group-->
-            <!--                id="min-price-group"-->
-            <!--                :label="$t('room.room.minPrice')"-->
-            <!--                label-for="min-price"-->
-            <!--                label-cols-sm="2"-->
-            <!--                label-cols-lg="2"-->
-            <!--                content-cols-sm="7"-->
-            <!--                content-cols-lg="7"-->
-            <!--            >-->
-            <!--                <b-form-input-->
-            <!--                    id="min-price"-->
-            <!--                    v-model="$v.form.min_price.$model"-->
-            <!--                    :state="validateState('min_price')"-->
-            <!--                    :placeholder="$t('room.room.minPrice')"-->
-            <!--                    type="text"-->
-            <!--                />-->
-            <!--            </b-form-group>-->
-            <!--            <b-form-group-->
-            <!--                id="max-price-group"-->
-            <!--                :label="$t('room.room.maxPrice')"-->
-            <!--                label-for="max-price"-->
-            <!--                label-cols-sm="2"-->
-            <!--                label-cols-lg="2"-->
-            <!--                content-cols-sm="7"-->
-            <!--                content-cols-lg="7"-->
-            <!--            >-->
-            <!--                <b-form-input-->
-            <!--                    id="max-price"-->
-            <!--                    v-model="$v.form.max_price.$model"-->
-            <!--                    :state="validateState('max_price')"-->
-            <!--                    :placeholder="$t('room.room.maxPrice')"-->
-            <!--                    type="text"-->
-            <!--                />-->
-            <!--            </b-form-group>-->
             <b-form-group
                 id="type-group"
                 :label="$t('room.room.roomType')"
@@ -199,14 +148,6 @@
                                                             {{ room.roomType }}
                                                         </span>
                                                     </p>
-                                                    <!--                                                <p>-->
-                                                    <!--                                                    <span class="font-weight-bolder">-->
-                                                    <!--                                                        {{ $t('room.room.capacity') }}:-->
-                                                    <!--                                                    </span>-->
-                                                    <!--                                                    <span class="text-secondary">-->
-                                                    <!--                                                        {{ room.capacity }} -->
-                                                    <!--                                                    </span>-->
-                                                    <!--                                                </p>-->
                                                     <p>
                                                         <span class="font-weight-bolder">
                                                             {{ $t('room.room.adultNumber') }}:
@@ -355,11 +296,9 @@ export default {
             perPage: 6,
             rows: 0,
             form: {
-                capacity: null,
                 min_price: null,
                 max_price: null,
                 room_type: null,
-                // amenities: []
             },
             isSearch: false,
             loading: false
@@ -390,9 +329,6 @@ export default {
     // Form validate
     validations: {
         form: {
-            capacity: {
-
-            },
             min_price: {
 
             },
@@ -402,9 +338,6 @@ export default {
             room_type: {
 
             },
-            amenities: {
-
-            }
         }
     },
     created() {
@@ -443,11 +376,6 @@ export default {
         // Handle search room
         onSubmit: function () {
             this.filterRooms = this.rooms
-            if (!!this.form.capacity) {
-                this.filterRooms = this.filterRooms.filter(room =>
-                    room.capacity >= this.form.capacity
-                )
-            }
             if (!!this.form.min_price) {
                 this.filterRooms = this.filterRooms.filter(room =>
                     room.price >= this.form.min_price

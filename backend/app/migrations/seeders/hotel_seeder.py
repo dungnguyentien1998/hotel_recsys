@@ -4,11 +4,12 @@ from app.migrations.seeders.user_seeder import UserSeeder
 from app.utils.seeder_maker import BaseSeeder
 from faker import Faker
 import exrex
+import json
 
 
 # Seed data for hotel
 class HotelSeeder(BaseSeeder):
-    OBJECT_NUMBER = 1000
+    OBJECT_NUMBER = 100
     REQUIRED_SEEDERS = [UserSeeder]
 
     def run(self, stdout, _):
@@ -20,7 +21,10 @@ class HotelSeeder(BaseSeeder):
                      {'city': 'Thành phố Hà Nội', 'district': 'Quận Hai Bà Trưng', 'ward': 'Phường Bạch Đằng', 'address': ''},
                      {'city': 'Thành phố Hà Nội', 'district': 'Quận Đống Đa', 'ward': 'Phường Văn Miếu', 'address': ''},
                      ]
-
+        cities = [{'01': 'Thành phố Hà Nội'}, {'79': 'Thành phố Hồ Chí Minh'}, {'31': 'Thành phố Hải Phòng'},
+                  {'48': 'Thành phố Đà Nẵng'}, {'92': 'Thành phố Cần Thơ'}]
+        f = open('data/db_vi.txt', )
+        data = json.load(f)
         for i in range(self.OBJECT_NUMBER):
             email = faker.email()
             while Hotel.objects.filter(email=email):
@@ -29,9 +33,17 @@ class HotelSeeder(BaseSeeder):
             # while hotelier.hotels.count() > 5:
             #     hotelier = random.choice(hoteliers)
             created = faker.date_time_between(hotelier.created, 'now')
+            city = random.choice(cities)
+            city_code, city_name = city.items()
+            district = random.choice([d for d in data['district'] if d['idProvince'] == city_code])
+            district_code = district['idDistrict']
+            district_name = district['name']
+            ward = random.choice([w for w in data['commune'] if w['idDistrict'] == district_code])
+            ward_name = ward['name']
+
             address = random.choice(addresses)
-            hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=address['city'],
-                          district=address['district'], ward=address['ward'], address=address['address'],
+            hotel = Hotel(name=faker.name(), star=random.randrange(2, 5) + 1, city=city_name,
+                          district=district_name, ward=ward_name, address='',
                           amenities=[amenity[0] for amenity in
                                      random.sample(HotelAmenity.choices, k=random.randrange(5, len(HotelAmenity.choices)) + 1)],
                           user_id=hotelier.uuid, created=created, updated=created,

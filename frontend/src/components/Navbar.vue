@@ -56,14 +56,6 @@
                     >
                         {{ $t('navbar.booking') }}
                     </b-nav-item>
-                    <!--                    <b-nav-item-->
-                    <!--                        v-if="loggedIn && roleUser"-->
-                    <!--                        id="reply"-->
-                    <!--                        style="margin:5px; font-weight: bold"-->
-                    <!--                        href="/replys"-->
-                    <!--                    >-->
-                    <!--                        {{ $t('navbar.reply') }}-->
-                    <!--                    </b-nav-item>-->
                     <b-nav-item
                         v-if="loggedIn && roleHotelier"
                         id="notification"
@@ -175,7 +167,7 @@ export default {
     mixins: [validationMixin, roleUtil],
     computed: {
         count: function () {
-            return this.$store.getters['hotel/count'] + this.$store.getters['hotel/new_count']
+            return this.$store.getters['hotel/full_count'] + this.$store.getters['hotel/new_count']
         },
         notify_count: function() {
             return this.$store.getters['hotel/count_hotelier']

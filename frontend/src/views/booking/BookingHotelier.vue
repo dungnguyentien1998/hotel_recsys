@@ -1,8 +1,5 @@
 <template>
     <div>
-        <!--        <h3>-->
-        <!--            {{ $t('booking.booking.newTitle') }}-->
-        <!--        </h3>-->
         <b-button
             v-b-toggle.collapse-1
             variant="secondary"
@@ -76,19 +73,19 @@
                             type="search"
                         />
                     </b-form-group>
-                    <b-form-group>
-                        <label class="required">{{ $t('booking.booking.status') }}: </label>
-                        <b-form-radio-group
-                            v-model="$v.form.is_processed.$model"
-                        >
-                            <b-form-radio value="yes">
-                                {{ $t('booking.booking.processed') }}
-                            </b-form-radio>
-                            <b-form-radio value="no">
-                                {{ $t('booking.booking.notProcess') }}
-                            </b-form-radio>
-                        </b-form-radio-group>
-                    </b-form-group>
+                    <!--                    <b-form-group>-->
+                    <!--                        <label class="required">{{ $t('booking.booking.status') }}: </label>-->
+                    <!--                        <b-form-radio-group-->
+                    <!--                            v-model="$v.form.is_processed.$model"-->
+                    <!--                        >-->
+                    <!--                            <b-form-radio value="yes">-->
+                    <!--                                {{ $t('booking.booking.processed') }}-->
+                    <!--                            </b-form-radio>-->
+                    <!--                            <b-form-radio value="no">-->
+                    <!--                                {{ $t('booking.booking.notProcess') }}-->
+                    <!--                            </b-form-radio>-->
+                    <!--                        </b-form-radio-group>-->
+                    <!--                    </b-form-group>-->
                 </b-form>
                 <button
                     class="btn btn-sm btn-primary"
@@ -224,6 +221,8 @@ import roleUtil from "@/utils/role-utils"
 import dataUtil from "@/utils/data-view-utils"
 import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
+import Pusher from "pusher-js";
+import camelcaseKeys from "camelcase-keys";
 
 library.add(faHotel)
 library.add(faCalendar)
@@ -255,26 +254,8 @@ export default {
         }
     },
     created() {
-        // this.loading = true
-        // this.$store.dispatch('booking/newListBookingsHotelier', this.$route.params.uuid)
-        //     .then(() => {
-        //         this.bookings = this.$store.getters['booking/bookings']
-        //         this.filterBookings = this.bookings
-        //         this.rows = this.filterBookings.length
-        //         this.filterBookings.sort(function (a,b) {
-        //             return new Date(a.created) - new Date(b.created)
-        //         })
-        //         this.loading = false
-        //     })
-
-        // this.$store.dispatch('booking/listNewBookings', this.$route.params.uuid)
-        //     .then(() => {
-        //         this.new_bookings = this.$store.getters['booking/new_bookings']
-        //         this.new_bookings.sort(function (a,b) {
-        //             return new Date(a.created) - new Date(b.created)
-        //         })
-        //     })
         this.retrieveBookings()
+        this.subscribe_booking()
     },
     validations: {
         form: {
@@ -307,7 +288,7 @@ export default {
                 }
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             if (user_name) {
                 params["user_name"] = user_name
@@ -315,7 +296,6 @@ export default {
             } else {
                 this.$store.commit('booking/setUserName', user_name)
                 if (this.isSearch || this.$store.getters['booking/is_search']) {
-                    // params["user_name"] = this.$store.getters['booking/user_name']
                     params["user_name"] = null
                 }
             }
@@ -325,7 +305,6 @@ export default {
             } else {
                 this.$store.commit('booking/setUserTel', user_tel)
                 if (this.isSearch || this.$store.getters['booking/is_search']) {
-                    // params["user_tel"] = this.$store.getters['booking/user_tel']
                     params["user_tel"] = null
                 }
             }
@@ -335,7 +314,6 @@ export default {
             } else {
                 this.$store.commit('booking/setUserEmail', user_email)
                 if (this.isSearch || this.$store.getters['booking/is_search']) {
-                    // params["user_email"] = this.$store.getters['booking/user_email']
                     params["user_email"] = null
                 }
             }
@@ -345,7 +323,6 @@ export default {
             } else {
                 this.$store.commit('booking/setCode', code)
                 if (this.isSearch || this.$store.getters['booking/is_search']) {
-                    // params["code"] = this.$store.getters['booking/code']
                     params["code"] = null
                 }
             }
@@ -355,7 +332,6 @@ export default {
             } else {
                 this.$store.commit('booking/setIsProcessed', is_processed)
                 if (this.isSearch || this.$store.getters['booking/is_search']) {
-                    // params["is_processed"] = this.$store.getters['booking/is_processed']
                     params["is_processed"] = null
                 }
             }
@@ -371,9 +347,6 @@ export default {
                     this.bookings = this.$store.getters['booking/bookings']
                     this.filterBookings = this.bookings
                     this.rows = this.$store.getters['booking/count']
-                    // this.filterBookings.sort(function (a,b) {
-                    //     return new Date(a.created) - new Date(b.created)
-                    // })
                     this.loading = false
                 })
         },
@@ -382,34 +355,6 @@ export default {
             this.retrieveBookings()
         },
         onSubmit: function () {
-            // this.filterBookings = this.bookings
-            //
-            // if (!!this.form.user_name) {
-            //     this.filterBookings = this.filterBookings.filter(booking =>
-            //         booking.userName.toLowerCase().indexOf(this.form.user_name.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.user_tel) {
-            //     this.filterBookings = this.filterBookings.filter(booking =>
-            //         booking.userTel.toLowerCase().indexOf(this.form.user_tel.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.user_email) {
-            //     this.filterBookings = this.filterBookings.filter(booking =>
-            //         booking.userEmail.toLowerCase().indexOf(this.form.user_email.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.code) {
-            //     this.filterBookings = this.filterBookings.filter(booking =>
-            //         booking.code.toLowerCase().indexOf(this.form.code.toLowerCase()) > -1
-            //     )
-            // }
-            //
-            // this.rows = this.filterBookings.length
-            // if (this.filterBookings.length === 0) {
-            //     this.makeToast(this.$t('booking.booking.errors.search'), this.$t('booking.booking.noResultSearch'))
-            //     this.isSearch = true
-            // }
             this.isSearch = true
             this.$store.commit('booking/setIsSearch', true)
             this.currentPage = 1
@@ -418,13 +363,6 @@ export default {
         isArrange(roomNumber) {
             return roomNumber.length > 0;
         },
-        // visibleNewBookings(){
-        //     return this.new_bookings.length > 0;
-        // },
-        // visibleOldBookings(){
-        //     const old_bookings = this.getOldBookings()
-        //     return old_bookings.length > 0;
-        // },
         // Get date from datetime
         toDate: function (datetime) {
             let date = new Date(datetime);
@@ -434,22 +372,6 @@ export default {
             this.$store.commit('booking/setBookingId', booking_id)
             this.$router.push({name: 'bookingsHotelierDetail', params: {uuid: this.$route.params.uuid}})
         },
-        // IsNotArrange: function (uuid) {
-        //     this.$store.dispatch('booking/listBookingRooms', {hotelId: this.$route.params.uuid, bookingId: uuid})
-        //         .then(() => {
-        //             const booking_rooms = this.$store.getters['booking/booking_rooms']
-        //             return booking_rooms.length === 0;
-        //         })
-        // },
-        // getOldBookings: function () {
-        //     let bookings = this.$store.getters['booking/bookings']
-        //     let new_bookings = this.$store.getters['booking/new_bookings']
-        //     let old_bookings = bookings.filter(o => !new_bookings.some(i => i.uuid === o.uuid))
-        //     old_bookings.sort(function (a,b) {
-        //         return new Date(a.created) - new Date(b.created)
-        //     })
-        //     return old_bookings
-        // },
         isNotNull: function(tel) {
             return tel != null && tel !== "";
         },
@@ -464,7 +386,21 @@ export default {
                         window.location.reload()
                     }
                 })
-        }
+        },
+        subscribe_booking() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_3', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.booking.hotel_owner_id) {
+                    data = camelcaseKeys(data, {deep: true})
+                    this.$store.commit('booking/saveBooking', data)
+                    this.$store.commit('booking/saveNewBooking', data)
+                }
+            })
+        },
     }
 }
 </script>

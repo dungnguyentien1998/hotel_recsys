@@ -12,9 +12,6 @@
                             {{ $t('booking.booking.userName') }}: {{ booking.userName }}
                         </h5>
                         <p>
-                            <!--                        <span class="font-weight-bolder">-->
-                            <!--                            {{ $t('booking.booking.userTel') }}:-->
-                            <!--                        </span>-->
                             <img
                                 v-if="isNotNull(booking.userTel)"
                                 src="../../assets/phone.png"
@@ -27,9 +24,6 @@
                             >
                                 -
                             </span>
-                            <!--                        <span class="font-weight-bolder">-->
-                            <!--                            {{ $t('booking.booking.userEmail') }}:-->
-                            <!--                        </span>-->
                             <img
                                 src="../../assets/email.png"
                                 alt="email"
@@ -78,56 +72,6 @@
                         ({{ $t('booking.booking.description') }})
                     </div>
                     <br>
-                    <!--                    <div>-->
-                    <!--                        <b-form-group>-->
-                    <!--                            <div-->
-                    <!--                                v-for="(item, index) in getItem()"-->
-                    <!--                                :key="`${item}-${index}`"-->
-                    <!--                            >-->
-                    <!--                                <label>-->
-                    <!--                                    {{ item.type }}-->
-                    <!--                                </label>-->
-                    <!--                            </div>-->
-                    <!--                        </b-form-group>-->
-                    <!--                    </div>-->
-                    <!--                    <div-->
-                    <!--                        v-if="!showTableAfter()"-->
-                    <!--                    >-->
-                    <!--                        <hr>-->
-                    <!--                        <h3>-->
-                    <!--                            {{ $t('booking.bookingForm.title') }}-->
-                    <!--                        </h3>-->
-                    <!--                        <br>-->
-                    <!--                        <ul style="padding: 0; list-style-type: none">-->
-                    <!--                            <li-->
-                    <!--                                v-for="(item, index) in getItem()"-->
-                    <!--                                :key="`number-${index}`"-->
-                    <!--                                style="list-style-type: none"-->
-                    <!--                            >-->
-                    <!--                                <span class="font-weight-bolder">-->
-                    <!--                                    {{ $t('booking.bookingForm.roomType') }}-->
-                    <!--                                </span>-->
-                    <!--                                : {{ item.type }}-->
-                    <!--                                - -->
-                    <!--                                <span>-->
-                    <!--                                    ({{ $t('booking.bookingForm.description') }}: {{ item.amount }})-->
-                    <!--                                </span>-->
-                    <!--                                <br>-->
-                    <!--                                <b-form-group>-->
-                    <!--                                    <b-form-checkbox-->
-                    <!--                                        v-for="option in getAvailableOptions(item.room_number)"-->
-                    <!--                                        :key="option.value"-->
-                    <!--                                        v-model="room_numbers[getIndex(item.type)]"-->
-                    <!--                                        :value="option.value"-->
-                    <!--                                        :disabled="onDisable(room_numbers[getIndex(item.type)], item.amount, option)"-->
-                    <!--                                        inline-->
-                    <!--                                    >-->
-                    <!--                                        {{ option.text }}-->
-                    <!--                                    </b-form-checkbox>-->
-                    <!--                                </b-form-group>-->
-                    <!--                            </li>-->
-                    <!--                        </ul>-->
-                    <!--                    </div>-->
                     <div
                         v-if="!showTableAfter()"
                     >
@@ -170,18 +114,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <!--                                <b-form-group>-->
-                                <!--                                    <b-form-checkbox-->
-                                <!--                                        v-for="option in getAvailableOptions(data.item.room_number)"-->
-                                <!--                                        :key="option.value"-->
-                                <!--                                        v-model="room_numbers[getIndex(data.item.type)]"-->
-                                <!--                                        :value="option.value"-->
-                                <!--                                        :disabled="onDisable(room_numbers[getIndex(data.item.type)], data.item.amount, option.value)"-->
-                                <!--                                        inline-->
-                                <!--                                    >-->
-                                <!--                                        {{ option.text }}-->
-                                <!--                                    </b-form-checkbox>-->
-                                <!--                                </b-form-group>-->
                             </template>
                         </b-table>
                     </div>
@@ -195,25 +127,6 @@
                         >
                             {{ $t('hotel.hotel.submit') }}
                         </button>
-                        <!--                        <b-button-->
-                        <!--                            href="#"-->
-                        <!--                            variant="danger"-->
-                        <!--                            style="margin: 20px"-->
-                        <!--                            size="sm"-->
-                        <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                        <!--                        </b-button>-->
-                        <!--                        <b-modal-->
-                        <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                        <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                        <!--                            size="lg"-->
-                        <!--                            :ok-title="$t('button.submit')"-->
-                        <!--                            :cancel-title="$t('button.unsubmit')"-->
-                        <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                        <!--                        </b-modal>-->
                     </div>
                     <div
                         v-if="showTableAfter()"
@@ -266,28 +179,6 @@
                             </template>
                         </b-table>
                     </div>
-                    <!--                    <div-->
-                    <!--                        v-if="showTableAfter()"-->
-                    <!--                    >-->
-                    <!--                        <b-button-->
-                    <!--                            href="#"-->
-                    <!--                            variant="danger"-->
-                    <!--                            size="sm"-->
-                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                        </b-button>-->
-                    <!--                        <b-modal-->
-                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                    <!--                            size="lg"-->
-                    <!--                            :ok-title="$t('button.submit')"-->
-                    <!--                            :cancel-title="$t('button.unsubmit')"-->
-                    <!--                            @ok="deleteBookingHotelier(booking.uuid)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                    <!--                        </b-modal>-->
-                    <!--                    </div>-->
                 </b-form>
             </div>
         </template>

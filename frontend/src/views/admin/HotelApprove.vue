@@ -25,8 +25,8 @@
                     />
                     <datalist id="name-list-id">
                         <option
-                            v-for="name in names"
-                            :key="name"
+                            v-for="(name, index) in names"
+                            :key="`${name}-${index}`"
                         >
                             {{ name }}
                         </option>
@@ -266,6 +266,7 @@ export default {
             // Hotel data for search form
             filterHotels: [],
             // Pagination data
+            isSearch: false,
             currentPage: this.$store.getters['hotel/page'],
             perPage: 6,
             rows: 0,
@@ -283,7 +284,7 @@ export default {
             },
             slide: 0,
             sliding: null,
-            isSearch: false,
+
             loading: false,
             names: [],
             uuids: []
@@ -317,26 +318,13 @@ export default {
         }
     },
     created() {
-        // this.loading = true
-        // this.$store.dispatch('hotel/listHotels').then(() => {
-        //     this.hotels = this.$store.getters['hotel/hotels']
-        //     this.filterHotels = this.hotels
-        //     this.rows = this.filterHotels.length
-        //     this.filterHotels.sort(function (a,b) {
-        //         return new Date(b.created) - new Date(a.created)
-        //     })
-        //     this.loading = false
-        //     this.subscribe()
-        // })
         this.retrieveHotels()
-        this.$store.commit('hotel/resetNewCount')
         this.$store.dispatch('hotel/listNames').then(() => {
             this.names = this.$store.getters['hotel/names']
             this.names.sort()
         })
         this.$store.dispatch('hotel/listUuids').then(() => {
             this.uuids = this.$store.getters['hotel/uuids']
-            // this.uuids.sort()
         })
     },
     methods: {
@@ -351,7 +339,7 @@ export default {
                 }
             }
             if (perPage) {
-                params["perPage"] = perPage
+                params["per_page"] = perPage
             }
             if (name) {
                 params["name"] = name
@@ -359,7 +347,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setName', name)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["name"] = this.$store.getters['hotel/name']
                     params["name"] = null
                 }
             }
@@ -370,7 +357,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setCity', city)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["city"] = getProvinces().filter(option => option.code === this.$store.getters['hotel/city'])[0].name
                     params["city"] = null
                 }
             }
@@ -381,7 +367,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setDistrict', district)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["district"] = getDistrictsByProvinceCode(city).filter(option => option.code === this.$store.getters['hotel/district'])[0].name
                     params["district"] = null
                 }
             }
@@ -392,7 +377,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setWard', ward)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["ward"] = getWardsByDistrictCode(district).filter(option => option.code === this.$store.getters['hotel/ward'])[0].name
                     params["ward"] = null
                 }
             }
@@ -402,7 +386,6 @@ export default {
             } else {
                 this.$store.commit('hotel/setStar', star)
                 if (this.isSearch || this.$store.getters['hotel/is_search']) {
-                    // params["star"] = this.$store.getters['hotel/star']
                     params["star"] = null
                 }
             }
@@ -416,7 +399,11 @@ export default {
                 this.hotels = this.$store.getters['hotel/hotels']
                 this.filterHotels = this.hotels
                 this.rows = this.$store.getters['hotel/count']
+                if (!this.isSearch && !this.$store.getters['hotel/is_search']) {
+                    this.$store.commit('hotel/setFullCount', this.$store.getters['hotel/count'])
+                }
                 this.loading = false
+                this.$store.commit('hotel/resetNewCount')
                 this.subscribe()
             })
         },
@@ -437,45 +424,6 @@ export default {
 
         // Handle search function
         onSubmit: function () {
-            // this.filterHotels = this.hotels
-            // // Filter by name city district ward and amenities
-            // if (!!this.form.name) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.name.toLowerCase().indexOf(this.form.name.toLowerCase()) > -1
-            //     )
-            // }
-            // if (!!this.form.city) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.city === getProvinces().filter(option => option.code === this.form.city)[0].name
-            //     )
-            // }
-            // if (!!this.form.district) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.district === getDistrictsByProvinceCode(this.form.city).filter(option => option.code === this.form.district)[0].name
-            //     )
-            // }
-            // if (!!this.form.ward) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.ward === getWardsByDistrictCode(this.form.district).filter(option => option.code === this.form.ward)[0].name
-            //     )
-            // }
-            // if (!!this.form.amenities) {
-            //     const amenities_list = this.form.amenities.map(amenity => amenity.toLowerCase())
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         amenities_list.every(amenity => hotel.amenities.includes(amenity))
-            //     )
-            // }
-            // if (!!this.form.star) {
-            //     this.filterHotels = this.filterHotels.filter(hotel =>
-            //         hotel.star === this.form.star
-            //     )
-            // }
-            // this.form.star = null
-            // this.rows = this.filterHotels.length
-            // if (this.filterHotels.length === 0) {
-            //     this.makeToast(this.$t('hotel.hotel.errors.search'), this.$t('hotel.hotel.noResult'))
-            //     this.isSearch = true
-            // }
             this.isSearch = true
             this.$store.commit('hotel/setIsSearch', true)
             this.currentPage = 1
@@ -499,9 +447,7 @@ export default {
                 data = camelcaseKeys(data, {deep: true})
                 let new_uuid = data.hotel.uuid
                 let check = true
-                // let hotels = this.$store.getters['hotel/hotels']
                 for (let i=0; i<this.uuids.length; i++) {
-                    // let uuid = hotels[i].uuid
                     if (this.uuids[i] === new_uuid) {
                         check = false
                         break

@@ -29,4 +29,10 @@ export default {
             state.status = 'FAILED'
         }
     },
+    saveNewCount: state => {
+        state.new_count = state.new_count + 1
+    },
+    resetNewCount: state => {
+        state.new_count = 0
+    },
 }

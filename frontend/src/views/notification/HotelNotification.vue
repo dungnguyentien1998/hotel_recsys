@@ -88,6 +88,7 @@ import Layout from "@/components/layouts/Layout";
 import Pusher from 'pusher-js'
 import dataUtil from "@/utils/data-view-utils"
 import {validationMixin} from "vuelidate";
+import camelcaseKeys from "camelcase-keys";
 
 export default {
     name: "Hotelier",
@@ -112,7 +113,7 @@ export default {
                 let count = this.$store.getters['hotel/notify_hotels'].length
                 this.$store.commit('hotel/setHotelierCount', 0)
                 this.$store.commit('hotel/setOldHotelierCount', count)
-                // this.subscribe()
+                this.subscribe()
             })
     },
     methods: {
@@ -138,6 +139,7 @@ export default {
             });
             pusher.subscribe('a_channel_1');
             pusher.bind('an_event_1', data => {
+                data = camelcaseKeys(data, {deep: true})
                 let user_id = this.$store.getters['user/user'].uuid
                 let owner_id = data.hotel.user
                 if (user_id === owner_id) {

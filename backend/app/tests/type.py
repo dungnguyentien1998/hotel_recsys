@@ -31,7 +31,6 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
         )
         self.type = Type.objects.create(
             name='test',
-            capacity=1,
             price=1,
             area=10,
             amenities=['personal care'],
@@ -47,7 +46,6 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
         url = reverse('app:type', args=[Hotel.objects.get(name='test').uuid])
         type_data = {
             'room_type': 'test1',
-            'capacity': 2,
             'price': 2,
             'area': 10,
             'amenities': 'personal care'
@@ -66,7 +64,6 @@ class TypeTestCase(APITestCase, URLPatternsTestCase):
         url = reverse('app:type.detail', args=[Hotel.objects.get(name='test').uuid, Type.objects.get(name='test').uuid])
         type_data = {
             'room_type': 'new_test',
-            'capacity': 3,
             'price': 3,
             'area': 10,
             'amenities': 'personal care'

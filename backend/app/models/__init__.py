@@ -9,7 +9,7 @@ from .recommendation import Recommendation
 from .type import Type, RoomAmenity
 from .booking_room import BookingRoom
 from .booking_type import BookingType
-from .reply import Reply
+
 # from app.models.booking import Booking
 # from app.models.complaint import Complaint
 # from app.models.hotel import Hotel, HotelAmenity

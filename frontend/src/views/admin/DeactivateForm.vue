@@ -6,15 +6,6 @@
             style="padding: 0"
         >
             <div>
-                <!--                <div class="form-row">-->
-                <!--                    <label class="required col-sm-3 col-form-label">{{ $t('user.register.email') }}</label>-->
-                <!--                    <b-form-input-->
-                <!--                        id="email"-->
-                <!--                        :value="user.email"-->
-                <!--                        class="form-control col-sm-9"-->
-                <!--                        type="email"-->
-                <!--                        disabled-->
-                <!--                    />-->
                 <span class="font-weight-bolder">
                     {{ $t('user.register.email') }}
                 </span>
@@ -29,15 +20,6 @@
             style="padding: 0"
         >
             <div>
-                <!--                <div class="form-row">-->
-                <!--                    <label class="required col-sm-3 col-form-label">{{ $t('user.register.name') }}</label>-->
-                <!--                    <b-form-input-->
-                <!--                        id="name"-->
-                <!--                        :value="user.name"-->
-                <!--                        class="form-control col-sm-9"-->
-                <!--                        type="text"-->
-                <!--                        disabled-->
-                <!--                    />-->
                 <span class="font-weight-bolder">
                     {{ $t('user.register.name') }}
                 </span>
@@ -52,15 +34,6 @@
             style="padding: 0"
         >
             <div>
-                <!--                <div class="form-row">-->
-                <!--                    <label class="required col-sm-3 col-form-label">{{ $t('user.register.tel') }}</label>-->
-                <!--                    <b-form-input-->
-                <!--                        id="tel"-->
-                <!--                        :value="user.tel"-->
-                <!--                        class="form-control col-sm-9"-->
-                <!--                        type="text"-->
-                <!--                        disabled-->
-                <!--                    />-->
                 <span class="font-weight-bolder">
                     {{ $t('user.register.tel') }}
                 </span>
@@ -75,15 +48,6 @@
             style="padding: 0"
         >
             <div>
-                <!--                <div class="form-row">-->
-                <!--                    <label class="required col-sm-3 col-form-label">{{ $t('user.register.role') }}</label>-->
-                <!--                    <b-form-select-->
-                <!--                        id="role"-->
-                <!--                        :value="user.role"-->
-                <!--                        class="form-control col-sm-9"-->
-                <!--                        :options="roles"-->
-                <!--                        disabled-->
-                <!--                    />-->
                 <span class="font-weight-bolder">
                     {{ $t('user.register.role') }}
                 </span>

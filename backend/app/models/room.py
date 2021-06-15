@@ -15,10 +15,6 @@ class Room(BaseModel):
     type = models.ForeignKey(Type, related_name='rooms', on_delete=models.DO_NOTHING, null=True)
 
     @property
-    def capacity(self):
-        return self.type.capacity
-
-    @property
     def adult_number(self):
         return self.type.adult_number
 

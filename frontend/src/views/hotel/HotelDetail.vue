@@ -70,13 +70,6 @@
                         >
                             {{ $t('hotel.hotelDetail.title') }}
                         </b-nav-item>
-                        <!--                        <b-nav-item-->
-                        <!--                            :to="{name: 'dashboardTypes'}"-->
-                        <!--                            class="b-nav-item"-->
-                        <!--                            exact-active-class="active"-->
-                        <!--                        >-->
-                        <!--                            {{ $t('hotel.hotelDetail.types') }}-->
-                        <!--                        </b-nav-item>-->
                         <b-nav-item
                             :to="{name: 'dashboardRooms'}"
                             class="b-nav-item"

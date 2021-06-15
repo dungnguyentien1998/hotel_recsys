@@ -31,7 +31,7 @@ class TypeSeeder(BaseSeeder):
         for hotel in hotels:
             created = faker.date_time_between(hotel.created, 'now')
             for key in capacity:
-                room_type = Type(name=key, capacity=capacity[key], price=price[key], amenities=amenities[key],
+                room_type = Type(name=key, price=price[key], amenities=amenities[key],
                                  hotel_id=hotel.uuid, created=created, updated=created,
                                  children_number=children_number[key], adult_number=adult_number[key], area=area[key])
                 room_type.save()

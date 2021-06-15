@@ -17,8 +17,7 @@ class Review(APIView):
         hotel = models.Hotel.objects.get(uuid=hotel_id)
         reviews = models.Review.objects.filter(hotel_id=hotel.uuid).order_by('-created')
         data = []
-        nextPage = 1
-        previousPage = 1
+
         page = request.GET.get('page', 1)
         paginator = Paginator(reviews, 30)
         try:
@@ -28,18 +27,10 @@ class Review(APIView):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
 
-        if data.has_next():
-            nextPage = data.next_page_number()
-        if data.has_previous():
-            previousPage = data.previous_page_number()
-
         return Response({
             'success': True,
             'reviews': ReviewDetailSerializer(data, many=True).data,
             'count': paginator.count,
-            'numpages': paginator.num_pages,
-            'nextlink': '/api/admin/users?page=' + str(nextPage),
-            'previouslink': '/api/admin/users?page=' + str(previousPage),
         })
 
     # Create review

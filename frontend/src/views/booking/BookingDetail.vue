@@ -113,25 +113,6 @@
                             </template>
                         </b-table>
                     </div>
-                    <!--                    <div>-->
-                    <!--                        <b-button-->
-                    <!--                            href="#"-->
-                    <!--                            variant="danger"-->
-                    <!--                            @click="$bvModal.show(`modal-${booking.uuid}-delete`)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.cancelBtn') }}-->
-                    <!--                        </b-button>-->
-                    <!--                        <b-modal-->
-                    <!--                            :id="`modal-${booking.uuid}-delete`"-->
-                    <!--                            :title="$t('booking.booking.cancelTitle')"-->
-                    <!--                            size="lg"-->
-                    <!--                            :ok-title="$t('button.submit')"-->
-                    <!--                            :cancel-title="$t('button.unsubmit')"-->
-                    <!--                            @ok="deleteBooking(booking.uuid)"-->
-                    <!--                        >-->
-                    <!--                            {{ $t('booking.booking.confirmDelete') }}-->
-                    <!--                        </b-modal>-->
-                    <!--                    </div>-->
                 </b-form>
             </div>
         </template>
@@ -170,14 +151,6 @@ export default {
                     key: 'type',
                     label: this.$t('booking.bookingForm.roomType'),
                 },
-                // {
-                //     key: 'capacity',
-                //     label: this.$t('booking.bookingForm.capacity'),
-                // },
-                // {
-                //     key: 'price',
-                //     label: this.$t('booking.bookingForm.price'),
-                // },
                 {
                     key: 'amenities',
                     label: this.$t('booking.bookingForm.amenities'),
@@ -210,29 +183,23 @@ export default {
             let date = new Date(datetime);
             return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
         },
-        onlyUnique: function (value, index, self) {
-            return self.indexOf(value) === index
-        },
         testDetails: function() {
             const types = this.booking.roomType
             const amounts = this.booking.roomAmount
-            // let unique_types = types.filter(this.onlyUnique)
             let temp = []
             for (let j=0; j<types.length; j++) {
 
                 let count = amounts[j]
-                let capacity = 0
                 let price = 0
                 let amenities = []
                 for (let i=0; i< this.types.length; i++) {
                     if (this.types[i].name === types[j]) {
-                        capacity = this.types[i].capacity
                         price = this.types[i].price
                         amenities = this.types[i].amenities
                         break
                     }
                 }
-                temp.push({'type' : types[j], 'amount': count, 'capacity': capacity, 'price': price, 'amenities': amenities})
+                temp.push({'type' : types[j], 'amount': count, 'price': price, 'amenities': amenities})
             }
             return temp
         },

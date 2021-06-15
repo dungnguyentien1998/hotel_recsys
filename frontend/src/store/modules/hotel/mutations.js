@@ -1,8 +1,4 @@
 export default {
-    // Change status
-    // submit: state => {
-    //     state.status = 'SUBMIT'
-    // },
     // Reset status
     resetStatus: state => {
         state.status = ''
@@ -75,14 +71,14 @@ export default {
     },
     saveHotel: (state, payload) => {
         if (payload.success) {
-            state.hotels.push(payload.hotel)
+            state.hotels.unshift(payload.hotel)
         } else {
             state.status = 'FAILED'
         }
     },
     saveNotifyHotel: (state, payload) => {
         if (payload.success) {
-            state.notify_hotels.push(payload.hotel)
+            state.notify_hotels.unshift(payload.hotel)
         } else {
             state.status = 'FAILED'
         }
@@ -101,5 +97,8 @@ export default {
     },
     listUuids: (state, payload) => {
         state.uuids = payload.data.uuids
+    },
+    setFullCount: (state, payload) => {
+        state.full_count = payload
     },
 }

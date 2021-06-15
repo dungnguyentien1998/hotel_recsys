@@ -31,34 +31,6 @@
                             {{ $t('complaint.complaint.status') }}
                         </b-form-checkbox>
                     </div>
-                    <!--                    <b-button-->
-                    <!--                        class="position-absolute"-->
-                    <!--                        variant="outline-secondary"-->
-                    <!--                        style="right: 20px"-->
-                    <!--                        @click="mailtoUrl(complaint.email)"-->
-                    <!--                    >-->
-                    <!--                        {{ $t('complaint.complaint.sendEmail') }}-->
-                    <!--                        <font-awesome-icon-->
-                    <!--                            :icon="['fas', 'envelope-open']"-->
-                    <!--                        />-->
-                    <!--                    </b-button>-->
-                    <!--                    <b-button-->
-                    <!--                        class="position-absolute"-->
-                    <!--                        variant="outline-secondary"-->
-                    <!--                        style="right: 20px"-->
-                    <!--                        size="sm"-->
-                    <!--                        @click="$bvModal.show(`modal-${complaint.uuid}-create`)"-->
-                    <!--                    >-->
-                    <!--                        {{ $t('reply.reply.sendReply') }}-->
-                    <!--                    </b-button>-->
-                    <!--                    <b-modal-->
-                    <!--                        :id="`modal-${complaint.uuid}-create`"-->
-                    <!--                        :title="$t('reply.reply.createTitle')"-->
-                    <!--                        size="lg"-->
-                    <!--                        hide-footer-->
-                    <!--                    >-->
-                    <!--                        <reply-form :complaint="complaint" />-->
-                    <!--                    </b-modal>-->
                 </div>
                 <div>
                     <p
@@ -105,14 +77,13 @@
 <script>
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons'
-import ReplyForm from "@/views/reply/ReplyForm";
+import Pusher from "pusher-js";
 
 
 library.add(faEnvelopeOpen)
 
 export default {
     name: "Complaint",
-    // components: {ReplyForm},
     data: function () {
         return {
             // Complaint data
@@ -133,7 +104,9 @@ export default {
                 this.complaints.sort(function (a,b) {
                     return new Date(b.created) - new Date(a.created)
                 })
+                this.$store.commit('complaint/resetNewCount')
             })
+        this.subscribe_complaint()
     },
     methods: {
         isNotNull: function (image) {
@@ -164,7 +137,21 @@ export default {
                     this.makeToast(this.$t('complaint.complaintForm.errors.createTitle'), this.$t('complaint.complaintForm.errors.exceptionOccurred'))
                 }
             })
-        }
+        },
+        subscribe_complaint() {
+            let pusher = new Pusher('5d873d3e35474aa76004', {
+                cluster: 'ap1'
+            });
+            pusher.subscribe('a_channel');
+            pusher.bind('an_event_2', data => {
+                let user = this.$store.getters['user/user']
+                if (user.role === 'hotelier' && user.uuid === data.complaint.owner_id) {
+                    this.$store.commit('complaint/saveComplaint', data)
+                    this.$store.commit('complaint/saveNewComplaint', data)
+                    this.$store.commit('complaint/saveNewCount')
+                }
+            })
+        },
     }
 }
 </script>
