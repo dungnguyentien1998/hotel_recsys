@@ -1,5 +1,5 @@
 import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from 'sub-vn'
-import json from './data/db_en.json'
+import json from './trans/db_en.json'
 
 // Handle address, city, district, ward in Vietnam
 export default {

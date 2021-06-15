@@ -5,6 +5,7 @@ from app.utils.seeder_maker import BaseSeeder
 from faker import Faker
 import exrex
 import json
+import pandas as pd
 
 
 # Seed data for hotel
@@ -25,7 +26,13 @@ class HotelSeeder(BaseSeeder):
                   {'48': 'Thành phố Đà Nẵng'}, {'92': 'Thành phố Cần Thơ'}]
         f = open('data/db_vi.txt', )
         data = json.load(f)
+
+        filename = 'data/data.csv'
+        dataset = pd.read_csv(filename)
+        data_len = dataset.shape[0]
         for i in range(self.OBJECT_NUMBER):
+            row = random.randrange(2, data_len + 1)
+            name = dataset.iloc[row]['reviews.name']
             email = faker.email()
             while Hotel.objects.filter(email=email):
                 email = faker.email()

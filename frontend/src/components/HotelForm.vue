@@ -217,7 +217,7 @@ import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import {required} from 'vuelidate/lib/validators';
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
-import json from '../mixin/data/db_en.json'
+import json from '../mixin/trans/db_en.json'
 
 export default {
     name: "HotelForm",

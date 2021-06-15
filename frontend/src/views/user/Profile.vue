@@ -188,7 +188,7 @@ import addressMixin from '@/mixin/address-mixin';
 import {minLength, required} from 'vuelidate/lib/validators';
 import Layout from '@/components/layouts/Layout';
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
-import json from '../../mixin/data/db_en.json'
+import json from '../../mixin/trans/db_en.json'
 
 export default {
     name: "Profile",

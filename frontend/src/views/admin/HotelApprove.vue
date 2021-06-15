@@ -244,7 +244,7 @@ import addressMixin from '@/mixin/address-mixin'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faSearch} from '@fortawesome/free-solid-svg-icons'
-import json from '../../mixin/data/db_en.json'
+import json from '../../mixin/trans/db_en.json'
 import Pusher from 'pusher-js'
 import ApproveForm from "@/views/admin/ApproveForm";
 import camelcaseKeys from "camelcase-keys";

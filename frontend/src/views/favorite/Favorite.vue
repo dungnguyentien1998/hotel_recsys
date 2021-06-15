@@ -80,7 +80,7 @@
 
 <script>
 import Layout from "@/components/layouts/Layout";
-import json from '../../mixin/data/db_en.json'
+import json from '../../mixin/trans/db_en.json'
 import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import dataUtil from "@/utils/data-view-utils"
 import {validationMixin} from "vuelidate";

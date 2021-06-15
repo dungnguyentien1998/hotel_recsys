@@ -1,5 +1,5 @@
 import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from "sub-vn";
-import json from "../mixin/data/db_en.json";
+import json from "../mixin/trans/db_en.json";
 
 export default {
     methods: {
