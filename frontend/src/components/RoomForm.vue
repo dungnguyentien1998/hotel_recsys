@@ -223,8 +223,17 @@ export default {
                                 break
                             }
                         }
+                        let new_check = true
+                        for (let i=0; i<this.form.images.length; i++) {
+                            if (this.form.images[i] == null) {
+                                new_check = false
+                                break
+                            }
+                        }
                         if (check === false) {
                             this.makeToast(this.$t('room.roomForm.errors.updateTitle'), this.$t('room.roomForm.errors.invalidData'))
+                        } else if (new_check === false) {
+                            this.makeToast(this.$t('room.roomForm.errors.createTitle'), this.$t('room.roomForm.errors.image'))
                         } else {
                             this.form.hotelId = this.$route.params.uuid
                             this.$store.dispatch('room/createRoom', this.form)

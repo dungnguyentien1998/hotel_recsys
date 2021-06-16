@@ -472,10 +472,17 @@ export default {
                     let trans_text = district.name
                     if (localStorage.getItem("language") === "en") {
                         let dist = dists.filter(option => option.idDistrict === district.code)[0]
+                        if (dist) {
+                            trans_text = dist.name
+                        } else {
+                            trans_text = ''
+                        }
                         trans_text = dist.name
                     }
-                    return {value: district.code, text: trans_text}
-                })
+                    if (trans_text !== '') {
+                        return {value: district.code, text: trans_text}
+                    }
+                }).filter(temp => temp !== undefined)
             ]
             const communes = json.commune
             this.wards = [
@@ -484,10 +491,16 @@ export default {
                     let trans_text = ward.name
                     if (localStorage.getItem("language") === "en") {
                         let commune = communes.filter(option => option.idCoummune === ward.code)[0]
-                        trans_text = commune.name
+                        if (commune) {
+                            trans_text = commune.name
+                        } else {
+                            trans_text = ''
+                        }
                     }
-                    return {value: ward.code, text: trans_text}
-                })
+                    if (trans_text !== '') {
+                        return {value: ward.code, text: trans_text}
+                    }
+                }).filter(temp => temp !== undefined)
             ]
         }
         if (this.$store.getters['user/user'].role === 'user') {
@@ -646,6 +659,7 @@ export default {
             });
             pusher.subscribe('a_channel_1');
             pusher.bind('an_event_1', data => {
+                data = camelcaseKeys(data, {deep: true})
                 let user_id = this.$store.getters['user/user'].uuid
                 let owner_id = data.hotel.user
                 if (user_id === owner_id) {
@@ -686,9 +700,10 @@ export default {
                         let new_uuid = data.hotel.uuid
                         let check = true
                         // let hotels = this.$store.getters['hotel/hotels']
-                        for (let i=0; i<this.uuids.length; i++) {
+                        let uuids = this.$store.getters['hotel/uuids']
+                        for (let i=0; i<uuids.length; i++) {
                             // let uuid = hotels[i].uuid
-                            if (this.uuids[i] === new_uuid) {
+                            if (uuids[i] === new_uuid) {
                                 check = false
                                 break
                             }
@@ -696,6 +711,7 @@ export default {
                         if (check === true) {
                             this.$store.commit('hotel/saveHotel', data)
                         }
+                        this.$store.commit('hotel/saveUuid', data.hotel.uuid)
                         // this.$store.commit('hotel/saveHotel', data)
                     }
                 }

@@ -112,4 +112,10 @@ export default {
     setIsProcessed: (state, payload) => {
         state.is_processed = payload
     },
+    listUuids: (state, payload) => {
+        state.uuids = payload.data.uuids
+    },
+    saveUuid: (state, payload) => {
+        state.uuids.unshift(payload)
+    },
 }

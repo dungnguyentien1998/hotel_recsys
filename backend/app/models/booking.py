@@ -106,7 +106,7 @@ class Booking(BaseModel):
         booking_types = BookingType.objects.filter(booking_id=self.uuid)
         for booking_type in booking_types:
             room_type = Type.objects.get(uuid=booking_type.type_id)
-            price.append(room_type.price * delta.days)
+            price.append(room_type.price * delta.days * booking_type.count)
         return price
 
     @property

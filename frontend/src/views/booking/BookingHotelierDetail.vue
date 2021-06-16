@@ -359,17 +359,17 @@ export default {
             if (check_higher !== '') {
                 let failed_message = ''
                 if (localStorage.getItem("language") === "en") {
-                    failed_message = 'The number of ' + check_higher + ' rooms that you choose is greater than the number of rooms that customer books'
+                    failed_message = 'The number of rooms that you choose is greater than the number of rooms that customer books'
                 } else {
-                    failed_message = 'Số lượng phòng ' + check_higher + ' mà bạn chọn lớn hơn số lượng phòng mà khách hàng đặt'
+                    failed_message = 'Số lượng phòng mà bạn chọn lớn hơn số lượng phòng mà khách hàng đặt'
                 }
                 this.makeToast(this.$t('booking.booking.errors.title'), failed_message)
             } else if (check_lower !== '') {
                 let failed_message = ''
                 if (localStorage.getItem("language") === "en") {
-                    failed_message = 'The number of ' + check_lower + ' rooms that you choose is smaller than the number of rooms that customer books'
+                    failed_message = 'The number of rooms that you choose is smaller than the number of rooms that customer books'
                 } else {
-                    failed_message = 'Số lượng phòng ' + check_higher + ' mà bạn chọn nhỏ hơn số lượng phòng mà khách hàng đặt'
+                    failed_message = 'Số lượng phòng mà bạn chọn nhỏ hơn số lượng phòng mà khách hàng đặt'
                 }
                 this.makeToast(this.$t('booking.booking.errors.title'), failed_message)
             } else {

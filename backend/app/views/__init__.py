@@ -1,4 +1,4 @@
-from .booking import Booking, BookingDetail, HotelierBooking, HotelierBookingDetail
+from .booking import Booking, BookingDetail, HotelierBooking, HotelierBookingDetail, BookingUuid
 from .complaint import *
 from .hotel import *
 from .review import *

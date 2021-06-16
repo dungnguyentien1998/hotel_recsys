@@ -88,4 +88,10 @@ export default {
                 context.commit('arrangeRoom', res)
             })
     },
+    listUuids: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get(`hotels/${payload}/bookings/uuid`).then(res => {
+            context.commit('listUuids', res)
+        })
+    },
 }

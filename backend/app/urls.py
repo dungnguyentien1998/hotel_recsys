@@ -35,6 +35,7 @@ urlpatterns = [
     path('bookings', Booking.as_view(), name='booking'),
     path('bookings/<booking_id>', BookingDetail.as_view(), name='booking.detail'),
     path('hotels/<hotel_id>/bookings', HotelierBooking.as_view(), name='hotel.bookings'),
+    path('hotels/<hotel_id>/bookings/uuid', BookingUuid.as_view(), name='booking.uuid'),
     path('hotels/<hotel_id>/bookings/<booking_id>', HotelierBookingDetail.as_view(), name='hotel.booking'),
     path('hotels/<hotel_id>/arrange_room', BookingRoomDetail.as_view(), name='hotel.arrange_room'),
     path('hotels/<hotel_id>/new_bookings', BookingRoom.as_view(), name='hotel.new_bookings'),

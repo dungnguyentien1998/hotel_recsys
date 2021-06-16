@@ -28,4 +28,5 @@ export default {
     is_processed: null,
     is_search: false,
     count: 0,
+    uuids: []
 }

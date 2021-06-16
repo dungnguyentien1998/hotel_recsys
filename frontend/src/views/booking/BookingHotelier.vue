@@ -251,11 +251,15 @@ export default {
             rows: 0,
             loading: false,
             isSearch: false,
+            uuids: []
         }
     },
     created() {
         this.retrieveBookings()
         this.subscribe_booking()
+        this.$store.dispatch('booking/listUuids', this.$route.params.uuid).then(() => {
+            this.uuids = this.$store.getters['booking/uuids']
+        })
     },
     validations: {
         form: {
@@ -396,8 +400,20 @@ export default {
                 let user = this.$store.getters['user/user']
                 if (user.role === 'hotelier' && user.uuid === data.booking.hotel_owner_id) {
                     data = camelcaseKeys(data, {deep: true})
-                    this.$store.commit('booking/saveBooking', data)
-                    this.$store.commit('booking/saveNewBooking', data)
+                    let new_uuid = data.booking.uuid
+                    let check = true
+                    let uuids = this.$store.getters['booking/uuids']
+                    for (let i=0; i<uuids.length; i++) {
+                        if (uuids[i] === new_uuid) {
+                            check = false
+                            break
+                        }
+                    }
+                    if (check === true) {
+                        this.$store.commit('booking/saveBooking', data)
+                        this.$store.commit('booking/saveNewBooking', data)
+                    }
+                    this.$store.commit('booking/saveUuid', data.booking.uuid)
                 }
             })
         },

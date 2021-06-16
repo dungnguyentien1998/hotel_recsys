@@ -98,6 +98,9 @@ export default {
     listUuids: (state, payload) => {
         state.uuids = payload.data.uuids
     },
+    saveUuid: (state, payload) => {
+        state.uuids.unshift(payload)
+    },
     setFullCount: (state, payload) => {
         state.full_count = payload
     },

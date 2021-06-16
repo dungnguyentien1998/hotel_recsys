@@ -58,7 +58,7 @@
                             </span>
                         </p>
                         <p
-                            v-if="showReason(hotel.rejectReason)"
+                            v-if="showReason(hotel.rejectReason, hotel.status)"
                         >
                             <span class="font-weight-bolder">
                                 {{ $t('hotel.hotel.reasonTitle') }}:
@@ -127,8 +127,10 @@ export default {
                 return this.$t('hotel.hotel.rejectStatus')
             }
         },
-        showReason: function(reason) {
-            return !(reason == null || reason === '' || reason === "null");
+        showReason: function(reason, status) {
+            let first = !(reason == null || reason === '' || reason === "null");
+            let second = !(status === "active")
+            return first && second
         },
         getAddress: function (address, ward, district, city) {
             return this.getTransAddress(address, ward, district, city)

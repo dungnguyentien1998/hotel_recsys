@@ -22,4 +22,5 @@ export default {
     page: state => state.page,
     is_search: state => state.is_search,
     count: state => state.count,
+    uuids: state => state.uuids,
 }

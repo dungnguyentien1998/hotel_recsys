@@ -447,8 +447,9 @@ export default {
                 data = camelcaseKeys(data, {deep: true})
                 let new_uuid = data.hotel.uuid
                 let check = true
-                for (let i=0; i<this.uuids.length; i++) {
-                    if (this.uuids[i] === new_uuid) {
+                let uuids = this.$store.getters['hotel/uuids']
+                for (let i=0; i<uuids.length; i++) {
+                    if (uuids[i] === new_uuid) {
                         check = false
                         break
                     }
@@ -457,6 +458,7 @@ export default {
                     this.$store.commit('hotel/saveHotel', data)
                     this.$store.commit('hotel/saveNewCount')
                 }
+                this.$store.commit('hotel/saveUuid', data.hotel.uuid)
                 // this.$store.commit('hotel/saveHotel', data)
                 // this.$store.commit('hotel/saveNewCount')
             })

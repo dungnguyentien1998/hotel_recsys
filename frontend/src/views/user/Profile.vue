@@ -258,10 +258,16 @@ export default {
                 let trans_text = district.name
                 if (localStorage.getItem("language") === "en") {
                     let dist = dists.filter(option => option.idDistrict === district.code)[0]
-                    trans_text = dist.name
+                    if (dist) {
+                        trans_text = dist.name
+                    } else {
+                        trans_text = ''
+                    }
                 }
-                return {value: district.code, text: trans_text}
-            })
+                if (trans_text !== '') {
+                    return {value: district.code, text: trans_text}
+                }
+            }).filter(temp => temp !== undefined)
         ]
         const communes = json.commune
         this.wards = [
@@ -270,10 +276,16 @@ export default {
                 let trans_text = ward.name
                 if (localStorage.getItem("language") === "en") {
                     let commune = communes.filter(option => option.idCoummune === ward.code)[0]
-                    trans_text = commune.name
+                    if (commune) {
+                        trans_text = commune.name
+                    } else {
+                        trans_text = ''
+                    }
                 }
-                return {value: ward.code, text: trans_text}
-            })
+                if (trans_text !== '') {
+                    return {value: ward.code, text: trans_text}
+                }
+            }).filter(temp => temp !== undefined)
         ]
     },
     // Form validate

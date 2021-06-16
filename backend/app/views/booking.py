@@ -147,6 +147,9 @@ class HotelierBookingDetail(APIView):
                 if room.room_type == room_type.name:
                     temp_dict['room_booked'].append(room.room_number)
 
+            temp_dict['room_number'].sort(key=int)
+            temp_dict['room_booked'].sort(key=int)
+
             room_types.append(temp_dict)
 
         return Response({
@@ -168,4 +171,20 @@ class HotelierBookingDetail(APIView):
         return Response({
             'success': True,
             'booking': response_data
+        })
+
+
+class BookingUuid(APIView):
+    permission_classes = ()
+
+    def get(self, request, hotel_id):
+        bookings = models.Booking.objects.filter(hotel_id=hotel_id)
+
+        uuids = []
+        for booking in bookings:
+            uuids.append(booking.uuid)
+
+        return Response({
+            'success': True,
+            'uuids': uuids
         })
