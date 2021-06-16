@@ -78,6 +78,7 @@
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faEnvelopeOpen} from '@fortawesome/free-solid-svg-icons'
 import Pusher from "pusher-js";
+import camelcaseKeys from "camelcase-keys";
 
 
 library.add(faEnvelopeOpen)
@@ -146,9 +147,25 @@ export default {
             pusher.bind('an_event_2', data => {
                 let user = this.$store.getters['user/user']
                 if (user.role === 'hotelier' && user.uuid === data.complaint.owner_id) {
-                    this.$store.commit('complaint/saveComplaint', data)
-                    this.$store.commit('complaint/saveNewComplaint', data)
-                    this.$store.commit('complaint/saveNewCount')
+                    data = camelcaseKeys(data, {deep: true})
+                    let new_uuid = data.complaint.uuid
+                    let check = true
+                    let uuids = this.$store.getters['complaint/uuids']
+                    for (let i=0; i<uuids.length; i++) {
+                        if (uuids[i] === new_uuid) {
+                            check = false
+                            break
+                        }
+                    }
+                    if (check === true) {
+                        this.$store.commit('complaint/saveComplaint', data)
+                        this.$store.commit('complaint/saveNewComplaint', data)
+                        this.$store.commit('complaint/saveNewCount')
+                    }
+                    this.$store.commit('complaint/saveUuid', data.complaint.uuid)
+                    // this.$store.commit('complaint/saveComplaint', data)
+                    // this.$store.commit('complaint/saveNewComplaint', data)
+                    // this.$store.commit('complaint/saveNewCount')
                 }
             })
         },

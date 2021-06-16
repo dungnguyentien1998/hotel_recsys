@@ -4,4 +4,5 @@ export default {
     complaints: [],
     new_complaints: [],
     new_count: 0,
+    uuids: []
 }

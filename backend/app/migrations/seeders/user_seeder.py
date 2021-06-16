@@ -9,7 +9,7 @@ from faker_enum import EnumProvider
 # Seed data for user
 class UserSeeder(BaseSeeder):
     OBJECT_NUMBER = 1000
-    ROLE_SEEDING_WEIGHTS = [0.7, 0.2, 0.1]
+    ROLE_SEEDING_WEIGHTS = [0.7, 0.29, 0.01]
     REQUIRED_SEEDERS = []
 
     def run(self, stdout, _):

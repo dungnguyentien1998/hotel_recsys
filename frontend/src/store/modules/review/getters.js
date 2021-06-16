@@ -6,4 +6,5 @@ export default {
     page: state => state.page,
     count: state => state.count,
     new_count: state => state.new_count,
+    uuids: state => state.uuids,
 }

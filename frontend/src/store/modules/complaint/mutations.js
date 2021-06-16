@@ -35,4 +35,10 @@ export default {
     resetNewCount: state => {
         state.new_count = 0
     },
+    listUuids: (state, payload) => {
+        state.uuids = payload.data.uuids
+    },
+    saveUuid: (state, payload) => {
+        state.uuids.unshift(payload)
+    },
 }

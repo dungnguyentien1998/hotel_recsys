@@ -83,7 +83,7 @@ export default {
             district: 'Quận/huyện:',
             ward: 'Xã/phường:',
             address: 'Địa chỉ:',
-            addressPlaceholder: 'Nhập địa chỉ',
+            addressPlaceholder: 'Nhập địa chỉ (Số ..., đường ...)',
             role: 'Vai trò:',
             user: 'Người dùng',
             hotelier: 'Chủ khách sạn',
@@ -310,8 +310,8 @@ export default {
             confirmDelete: 'Bạn có muốn hủy đặt phòng này?',
             description: 'Thanh toán khi nhận phòng',
             success: {
-                message: 'Thành công',
-                title: 'Bạn đã gán phòng cho khách sạn này',
+                message: 'Bạn đã gán phòng cho yêu cầu đặt phòng này',
+                title: 'Thành công',
                 deleteMessage: 'Bạn đã hủy yêu cầu đặt phòng này',
                 deleteTitle: 'Thành công'
             },
@@ -492,7 +492,7 @@ export default {
                 createTitle: 'Tạo kiểu phòng không thành công',
                 updateTitle: 'Cập nhật không thành công',
                 missing: 'Bạn phải điền đủ các thông tin bắt buộc',
-                exceptionOccurred: 'Có lỗi xảy ra trong quá trình cập nhật'
+                exceptionOccurred: 'Có lỗi xảy ra trong quá trình thực hiện'
             }
         }
     },

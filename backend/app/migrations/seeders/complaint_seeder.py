@@ -29,5 +29,5 @@ class ComplaintSeeder(BaseSeeder):
             complaint = Complaint(title=faker.paragraph(), content=faker.text(),
                                   user_id=user.uuid, hotel_id=hotel.uuid, created=created, updated=created)
             complaint.save()
-            self.image_maker(name=f'{faker.word()}.png', obj=complaint)
+            self.image_maker(name=f'{faker.word()}.png', obj=complaint, folder='complaint')
             stdout.write(str(complaint))

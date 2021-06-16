@@ -148,6 +148,7 @@ export default {
                 // Alert for form validate
                 this.makeToast(this.$t('user.login.errors.title'), this.$t('user.login.errors.missing'));
             } else {
+                this.$store.dispatch('user/resetStatus')
                 this.$store.dispatch('user/login', snakecaseKeys(this.form)).then(() => {
                     if (this.$store.getters['user/status'] === 'FAILED') {
                         // Alert for failed login api

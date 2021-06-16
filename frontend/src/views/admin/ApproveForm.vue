@@ -67,8 +67,6 @@
 import {validationMixin} from 'vuelidate';
 import formMixin from '@/mixin/form-mixin'
 import {required} from 'vuelidate/lib/validators';
-import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from "sub-vn";
-import json from "../../mixin/trans/db_en.json";
 import dataUtil from "@/utils/data-view-utils"
 
 export default {

@@ -27,11 +27,12 @@ class ReviewSeeder(BaseSeeder):
         users = User.objects.filter(role=Role.USER, is_active=True)
 
         for i in range(self.OBJECT_NUMBER):
-            row = random.randrange(2, data_len + 1)
-            while regex.search(str(dataset.iloc[row]['reviews.title'])) is None \
+            row = random.randrange(2, data_len - 1)
+            while str(dataset.iloc[row]['reviews.title']) == 'nan' or str(dataset.iloc[row]['reviews.text']) == 'nan'\
+                    or regex.search(str(dataset.iloc[row]['reviews.title'])) is None \
                     or regex.search(str(dataset.iloc[row]['reviews.text'])) is None \
                     or math.isnan(dataset.iloc[row]['reviews.rating']):
-                row = random.randrange(2, data_len + 1)
+                row = random.randrange(2, data_len - 1)
             title = dataset.iloc[row]['reviews.title']
             content = dataset.iloc[row]['reviews.text']
             rating = int(dataset.iloc[row]['reviews.rating'])

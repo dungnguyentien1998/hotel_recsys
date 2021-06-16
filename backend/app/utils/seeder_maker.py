@@ -18,6 +18,8 @@ class BaseSeeder(ABC):
             images_folder = '/home/tiendung/Downloads/room_images'
         elif folder == 'user':
             images_folder = '/home/tiendung/Downloads/user_images'
+        elif folder == 'complaint':
+            images_folder = '/home/tiendung/Downloads/room_test'
 
         # Get random image and save
         with open(os.path.join(images_folder, random.choice(os.listdir(images_folder))), 'rb') as file:

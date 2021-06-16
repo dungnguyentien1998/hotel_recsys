@@ -220,8 +220,6 @@ import formMixin from '@/mixin/form-mixin'
 import addressMixin from '@/mixin/address-mixin'
 import mapboxgl from "mapbox-gl";
 import mapboxSdk from "@mapbox/mapbox-sdk/umd/mapbox-sdk";
-import json from '../../mixin/trans/db_en.json'
-import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import roleUtil from "@/utils/role-utils"
 import dataUtil from "@/utils/data-view-utils"
 

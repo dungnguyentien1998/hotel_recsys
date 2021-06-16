@@ -86,6 +86,7 @@ import Pusher from "pusher-js";
 import roleUtil from "@/utils/role-utils"
 import {validationMixin} from "vuelidate";
 import {getDistrictsByProvinceCode, getProvinces, getWardsByDistrictCode} from "sub-vn";
+import camelcaseKeys from "camelcase-keys";
 
 export default {
     name: "Review",
@@ -155,9 +156,25 @@ export default {
             pusher.bind('an_event_1', data => {
                 let user = this.$store.getters['user/user']
                 if (user.role === 'hotelier' && user.uuid === data.review.owner_id) {
-                    this.$store.commit('review/saveReview', data)
-                    this.$store.commit('review/saveNewReview', data)
-                    this.$store.commit('review/saveNewCount')
+                    data = camelcaseKeys(data, {deep: true})
+                    let new_uuid = data.review.uuid
+                    let check = true
+                    let uuids = this.$store.getters['review/uuids']
+                    for (let i=0; i<uuids.length; i++) {
+                        if (uuids[i] === new_uuid) {
+                            check = false
+                            break
+                        }
+                    }
+                    if (check === true) {
+                        this.$store.commit('review/saveReview', data)
+                        this.$store.commit('review/saveNewReview', data)
+                        this.$store.commit('review/saveNewCount')
+                    }
+                    this.$store.commit('review/saveUuid', data.review.uuid)
+                    // this.$store.commit('review/saveReview', data)
+                    // this.$store.commit('review/saveNewReview', data)
+                    // this.$store.commit('review/saveNewCount')
                 }
             })
         },

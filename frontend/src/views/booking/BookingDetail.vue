@@ -124,8 +124,6 @@ import {faHotel, faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {faAddressBook, faCalendar, faMoneyBillAlt} from '@fortawesome/free-regular-svg-icons'
 import Layout from "@/components/layouts/Layout";
-import json from '../../mixin/trans/db_en.json'
-import {getDistrictsByProvinceCode, getWardsByDistrictCode, getProvinces} from 'sub-vn';
 import dataUtil from "@/utils/data-view-utils"
 import {validationMixin} from "vuelidate";
 

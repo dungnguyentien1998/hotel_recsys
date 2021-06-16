@@ -83,7 +83,7 @@ export default {
             district: 'District:',
             ward: 'Ward:',
             address: 'Address:',
-            addressPlaceholder: 'Enter address',
+            addressPlaceholder: 'Enter address (No and street)',
             role: 'Role:',
             user: 'User',
             hotelier: 'Hotelier',
@@ -310,8 +310,8 @@ export default {
             confirmDelete: 'Are you sure to cancel this booking?',
             description: 'Pay when check-in',
             success: {
-                message: 'Action success',
-                title: 'You have assigned for this booking',
+                message: 'You have assigned for this booking',
+                title: 'Action success',
                 deleteMessage: 'You have canceled this booking',
                 deleteTitle: 'Action success'
             },

@@ -7,7 +7,7 @@ from scipy import sparse
 from sklearn.metrics.pairwise import cosine_similarity
 import subprocess
 import shlex
-from app.models import Role
+from app.models import Role, Status
 from surprise import Reader, Dataset, KNNBasic
 
 
@@ -124,7 +124,7 @@ def demo_task():
 @background(schedule=60)
 def calculate_sim():
     # Get user and hotel list
-    hotels = models.Hotel.objects.all()
+    hotels = models.Hotel.objects.filter(status=Status.ACTIVE)
     users = models.User.objects.filter(role=Role.USER)
     # Create dicts to mapping uuid to positive integer number
     hotels_ids = dict()
@@ -205,7 +205,6 @@ def calculate_sim():
             normalized_data[r, 1] = key_hotels_ids[pos]
 
         new_ratings = pd.DataFrame(normalized_data, columns=['user_id', 'item_id', 'rating'])
-        # Add for calculate pearson using cosine
 
         reader = Reader()
 

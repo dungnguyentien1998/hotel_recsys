@@ -22,8 +22,8 @@ class HotelSeeder(BaseSeeder):
                      {'city': 'Thành phố Hà Nội', 'district': 'Quận Hai Bà Trưng', 'ward': 'Phường Bạch Đằng', 'address': ''},
                      {'city': 'Thành phố Hà Nội', 'district': 'Quận Đống Đa', 'ward': 'Phường Văn Miếu', 'address': ''},
                      ]
-        cities = [{'01': 'Thành phố Hà Nội'}, {'79': 'Thành phố Hồ Chí Minh'}, {'31': 'Thành phố Hải Phòng'},
-                  {'48': 'Thành phố Đà Nẵng'}, {'92': 'Thành phố Cần Thơ'}]
+        cities_code = ['01', '79', '92']
+        cities_name = ['Thành phố Hà Nội', 'Thành phố Hồ Chí Minh', 'Thành phố Cần Thơ']
         f = open('data/db_vi.txt', )
         data = json.load(f)
 
@@ -31,8 +31,8 @@ class HotelSeeder(BaseSeeder):
         dataset = pd.read_csv(filename)
         data_len = dataset.shape[0]
         for i in range(self.OBJECT_NUMBER):
-            row = random.randrange(2, data_len + 1)
-            name = dataset.iloc[row]['reviews.name']
+            row = random.randrange(2, data_len - 1)
+            name = dataset.iloc[row]['name']
             email = faker.email()
             while Hotel.objects.filter(email=email):
                 email = faker.email()
@@ -40,8 +40,9 @@ class HotelSeeder(BaseSeeder):
             # while hotelier.hotels.count() > 5:
             #     hotelier = random.choice(hoteliers)
             created = faker.date_time_between(hotelier.created, 'now')
-            city = random.choice(cities)
-            city_code, city_name = city.items()
+            index = random.randrange(0, 3)
+            city_code = cities_code[index]
+            city_name = cities_name[index]
             district = random.choice([d for d in data['district'] if d['idProvince'] == city_code])
             district_code = district['idDistrict']
             district_name = district['name']
