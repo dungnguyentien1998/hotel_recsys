@@ -4,7 +4,7 @@ export default {
         state.status = ''
         state.message = ''
     },
-    // Save booking list
+
     listBookings: (state, payload) => {
         let success = payload.data.success
         if (success) {
@@ -41,7 +41,7 @@ export default {
             state.status = 'FAILED'
         }
     },
-    // Delete booking from list
+
     deleteBooking: (state, payload) => {
         if (payload.data.success) {
             let booking = payload.data.booking
@@ -54,6 +54,8 @@ export default {
         let success = payload.data.success
         if (success) {
             state.types = payload.data.types
+        } else {
+            state.types = []
         }
     },
     listBookingRooms: (state, payload) => {

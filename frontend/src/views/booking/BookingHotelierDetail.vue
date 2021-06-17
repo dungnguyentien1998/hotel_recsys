@@ -210,6 +210,7 @@ export default {
             booking_types: [],
             booking: this.$store.getters['booking/bookings'].filter(booking => (booking.uuid === bookingId))[0],
             room_numbers: [],
+            booking_rooms: [],
             form: {
 
             }
