@@ -17,5 +17,6 @@ export default {
     is_search: false,
     new_count: 0,
     names: [],
-    uuids: []
+    uuids: [],
+    hotel: null
 }

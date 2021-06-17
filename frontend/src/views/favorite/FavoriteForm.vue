@@ -231,7 +231,7 @@ export default {
     data: function () {
         return {
             myToggle: false,
-            hotel: this.$store.getters['hotel/hotels'].filter(hotel => hotel.uuid === this.$route.params.uuid)[0],
+            hotel: null,
 
             favorites: [],
             favorite: [],
@@ -293,6 +293,9 @@ export default {
     },
     created() {
         // Handle toggle data
+        this.$store.dispatch('hotel/getHotel', this.$route.params.uuid).then(() => {
+            this.hotel = this.$store.getters['hotel/hotel']
+        })
         this.$store.dispatch('favorite/listFavorites', this.$route.params.uuid)
             .then(() => {
                 this.favorites = this.$store.getters['favorite/favorites']

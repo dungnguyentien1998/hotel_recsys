@@ -23,6 +23,12 @@ export default {
             context.commit('listHotels', res)
         })
     },
+    getHotel: (context, payload) => {
+        api.defaults.headers.common.Authorization = localStorage.getItem('token');
+        return api.get(`hotels/${payload}`).then(res => {
+            context.commit('getHotel', res)
+        })
+    },
     // Api create hotel
     createHotel: (context, payload) => {
         api.defaults.headers.common.Authorization = localStorage.getItem('token');

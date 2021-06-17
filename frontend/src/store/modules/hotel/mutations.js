@@ -104,4 +104,7 @@ export default {
     setFullCount: (state, payload) => {
         state.full_count = payload
     },
+    getHotel: (state, payload) => {
+        state.hotel = payload.data.hotel
+    }
 }

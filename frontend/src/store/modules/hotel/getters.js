@@ -18,4 +18,5 @@ export default {
     new_count: state => state.new_count,
     names: state => state.names,
     uuids: state => state.uuids,
+    hotel: state => state.hotel
 }
