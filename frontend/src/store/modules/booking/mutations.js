@@ -6,8 +6,11 @@ export default {
     },
     // Save booking list
     listBookings: (state, payload) => {
-        state.bookings = payload.data.bookings
-        state.count = payload.data.count
+        let success = payload.data.success
+        if (success) {
+            state.bookings = payload.data.bookings
+            state.count = payload.data.count
+        }
     },
     listNewBookings: (state, payload) => {
         state.new_bookings = payload.data.bookings
@@ -48,10 +51,16 @@ export default {
         }
     },
     listTypes: (state, payload) => {
-        state.types = payload.data.types
+        let success = payload.data.success
+        if (success) {
+            state.types = payload.data.types
+        }
     },
     listBookingRooms: (state, payload) => {
-        state.booking_rooms = payload.data.bookingRooms
+        let success = payload.data.success
+        if (success) {
+            state.booking_rooms = payload.data.bookingRooms
+        }
     },
     arrangeRoom: (state, payload) => {
         let success = payload.data.success

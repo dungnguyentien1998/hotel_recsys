@@ -6,8 +6,8 @@ from django.conf import settings
 
 
 class BookingType(BaseModel):
-    booking = models.ForeignKey(Booking, on_delete=models.DO_NOTHING, null=True)
-    type = models.ForeignKey(Type, on_delete=models.DO_NOTHING, null=True)
+    booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, null=True)
+    type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True)
     count = models.IntegerField(blank=True)
 
     class Meta:

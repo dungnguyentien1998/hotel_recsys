@@ -11,6 +11,9 @@ export default {
             return `${process.env.VUE_APP_PUBLIC_URL}${uri}`
         },
         getFormatPrice(price) {
+            if (!price) {
+                return price
+            }
             let temp = price.toString()
             let result = ''
             for (let i=temp.length - 1; i>=0; i--) {

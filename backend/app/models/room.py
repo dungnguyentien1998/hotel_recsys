@@ -12,7 +12,7 @@ class Room(BaseModel):
     # hotel = models.ForeignKey(Hotel, related_name='rooms', on_delete=models.SET_NULL, null=True)
     # type = models.ForeignKey(Type, related_name='rooms', on_delete=models.SET_NULL, null=True)
     hotel = models.ForeignKey(Hotel, related_name='rooms', on_delete=models.DO_NOTHING, null=True)
-    type = models.ForeignKey(Type, related_name='rooms', on_delete=models.DO_NOTHING, null=True)
+    type = models.ForeignKey(Type, related_name='rooms', on_delete=models.SET_NULL, null=True)
 
     @property
     def adult_number(self):

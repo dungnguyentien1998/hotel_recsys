@@ -6,8 +6,8 @@ from django.conf import settings
 
 
 class BookingRoom(BaseModel):
-    booking = models.ForeignKey(Booking, on_delete=models.DO_NOTHING, null=True)
-    room = models.ForeignKey(Room, on_delete=models.DO_NOTHING, null=True)
+    booking = models.ForeignKey(Booking, on_delete=models.SET_NULL, null=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
 
     # @property
     # def booking_id(self):

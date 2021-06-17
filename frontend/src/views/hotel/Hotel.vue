@@ -404,7 +404,7 @@ export default {
         return {
             // Amenities options
             options: ['fitness center', 'breakfast', 'free parking', 'swimming pool', 'bar', 'spa',
-                'room service', 'non smoking icon'],
+                'room service', 'non smoking room'],
             hotels: [],
             filterHotels: [],
 

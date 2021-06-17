@@ -259,7 +259,7 @@ export default {
         return {
             // Amenities options
             options: ['fitness center', 'breakfast', 'free parking', 'swimming pool', 'bar', 'spa',
-                'room service', 'non smoking icon'],
+                'room service', 'non smoking room'],
             // Hotel data
             hotels: [],
             // Hotel data for search form
