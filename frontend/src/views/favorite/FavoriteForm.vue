@@ -231,7 +231,7 @@ export default {
     data: function () {
         return {
             myToggle: false,
-            hotel: null,
+            hotel: {},
 
             favorites: [],
             favorite: [],

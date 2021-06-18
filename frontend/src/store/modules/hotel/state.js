@@ -18,5 +18,5 @@ export default {
     new_count: 0,
     names: [],
     uuids: [],
-    hotel: null
+    hotel: {}
 }
