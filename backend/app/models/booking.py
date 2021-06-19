@@ -31,10 +31,12 @@ class Booking(BaseModel):
 
     @property
     def hotel_name(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.name
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.name
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.name
 
     @property
     def room_number(self):
@@ -42,41 +44,53 @@ class Booking(BaseModel):
         room_number = []
         booking_rooms = BookingRoom.objects.filter(booking_id=self.uuid)
         for booking_room in booking_rooms:
-            room = Room.objects.get(uuid=booking_room.room_id)
-            room_number.append(room.room_number)
+            if booking_room.room_id is not None:
+                room = Room.objects.get(uuid=booking_room.room_id)
+                room_number.append(room.room_number)
         return room_number
 
     @property
     def address(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-
-        if (not room_type.hotel.address) or room_type.hotel.address == "":
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        #
+        # if (not room_type.hotel.address) or room_type.hotel.address == "":
+        #     return ''
+        # else:
+        #     return room_type.hotel.address
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        if (not hotel.address) or hotel.address == "":
             return ''
         else:
-            return room_type.hotel.address
+            return hotel.address
 
     @property
     def city(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.city
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.city
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.city
 
     @property
     def district(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.district
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.district
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.district
 
     @property
     def ward(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.ward
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.ward
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.ward
 
     @property
     def room_type(self):
@@ -84,8 +98,9 @@ class Booking(BaseModel):
         room_type = []
         booking_types = BookingType.objects.filter(booking_id=self.uuid)
         for booking_type in booking_types:
-            temp_room_type = Type.objects.get(uuid=booking_type.type_id)
-            room_type.append(temp_room_type.name)
+            if booking_type.type_id is not None:
+                temp_room_type = Type.objects.get(uuid=booking_type.type_id)
+                room_type.append(temp_room_type.name)
         return room_type
 
     def room_amount(self):
@@ -100,28 +115,31 @@ class Booking(BaseModel):
     def price(self):
         from app.models.booking_type import BookingType
         price = []
-        first_date = datetime.datetime.date(self.check_in_time)
-        last_date = datetime.datetime.date(self.check_out_time)
-        delta = last_date - first_date
-        booking_types = BookingType.objects.filter(booking_id=self.uuid)
-        for booking_type in booking_types:
-            room_type = Type.objects.get(uuid=booking_type.type_id)
-            price.append(room_type.price * delta.days * booking_type.count)
+        # first_date = datetime.datetime.date(self.check_in_time)
+        # last_date = datetime.datetime.date(self.check_out_time)
+        # delta = last_date - first_date
+        # booking_types = BookingType.objects.filter(booking_id=self.uuid)
+        # for booking_type in booking_types:
+        #     room_type = Type.objects.get(uuid=booking_type.type_id)
+        #     price.append(room_type.price * delta.days * booking_type.count)
         return price
 
     @property
     def image(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.image.url
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.image.url
+        hotel = Hotel.objects.get(uuid=self.hotel_id)
+        return hotel.image.url
 
     @property
     def hotelid(self):
-        from app.models.booking_type import BookingType
-        booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
-        room_type = Type.objects.get(uuid=booking_type.type_id)
-        return room_type.hotel.uuid
+        # from app.models.booking_type import BookingType
+        # booking_type = BookingType.objects.filter(booking_id=self.uuid)[0]
+        # room_type = Type.objects.get(uuid=booking_type.type_id)
+        # return room_type.hotel.uuid
+        return self.hotel_id
 
     @property
     def user_email(self):

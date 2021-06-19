@@ -118,7 +118,7 @@
                         </b-table>
                     </div>
                     <div
-                        v-if="!showTableAfter()"
+                        v-if="!showTableAfter() && getItem().length > 0"
                     >
                         <button
                             class="btn btn-sm btn-success"
@@ -312,12 +312,13 @@ export default {
             return temp
         },
         totalPrice: function () {
-            let total_price = 0
-            const prices = this.booking.price
-
-            for (let i=0; i< prices.length; i++) {
-                total_price += prices[i]
-            }
+            // let total_price = 0
+            // const prices = this.booking.price
+            //
+            // for (let i=0; i< prices.length; i++) {
+            //     total_price += prices[i]
+            // }
+            let total_price = this.booking.totalPrice
             return this.formatPrice(total_price)
         },
         formatPrice(price) {
