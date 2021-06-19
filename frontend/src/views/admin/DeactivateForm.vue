@@ -122,22 +122,28 @@ export default {
             }
         },
         onSubmit: function (uuid) {
-            this.$store.dispatch('user/resetStatus')
-            this.form.is_active = false
-            this.form.uuid = uuid
-            this.$store.dispatch('user/updateUser', this.form).then(() => {
-                if (this.$store.getters['user/status'] === 'FAILED') {
-                    // Alert for failed api calls
-                    this.makeToast(this.$t('user.user.errors.lockTitle'), this.$t('user.user.errors.exceptionOccurred'))
-                } else {
-                    this.$bvToast.toast(this.$t('user.user.success.lockMessage'), {
-                        title: this.$t('user.user.success.lockTitle'),
-                        autoHideDelay: 2000,
-                        variant: 'success'
-                    })
-                    setTimeout(location.reload.bind(location), 2000)
-                }
-            })
+            this.$v.form.$touch();
+            if (this.$v.form.$anyError) {
+                // Alert for form validation
+                this.makeToast('', this.$t('user.register.errors.missing'))
+            } else {
+                this.$store.dispatch('user/resetStatus')
+                this.form.is_active = false
+                this.form.uuid = uuid
+                this.$store.dispatch('user/updateUser', this.form).then(() => {
+                    if (this.$store.getters['user/status'] === 'FAILED') {
+                        // Alert for failed api calls
+                        this.makeToast(this.$t('user.user.errors.lockTitle'), this.$t('user.user.errors.exceptionOccurred'))
+                    } else {
+                        this.$bvToast.toast(this.$t('user.user.success.lockMessage'), {
+                            title: this.$t('user.user.success.lockTitle'),
+                            autoHideDelay: 2000,
+                            variant: 'success'
+                        })
+                        setTimeout(location.reload.bind(location), 2000)
+                    }
+                })
+            }
         }
     }
 }

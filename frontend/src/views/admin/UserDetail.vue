@@ -41,6 +41,7 @@
                 </div>
             </b-form-group>
             <b-form-group
+                v-if="user.birthday !== null"
                 id="birthday-group"
                 class="col-12"
             >
@@ -54,6 +55,7 @@
                 </div>
             </b-form-group>
             <b-form-group
+                v-if="user.city !== null && user.district !== null && user.ward !== null"
                 id="address-group"
                 class="col-12"
             >

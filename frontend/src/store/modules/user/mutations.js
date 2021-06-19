@@ -40,7 +40,9 @@ export default {
     },
     // Clear storage
     logout: () => {
+        let lang = localStorage.getItem("language")
         localStorage.clear()
+        localStorage.setItem("language", lang)
     },
     // Save user
     account: (state, payload) => {

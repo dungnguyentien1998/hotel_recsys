@@ -61,6 +61,7 @@ export default {
             }
         },
         register: {
+            noInfo: 'No information',
             activateAccount: 'Activate account',
             tokenPlaceholder: 'Enter token from email to activate account',
             title: 'Register',
