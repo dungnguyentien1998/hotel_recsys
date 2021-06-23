@@ -52,7 +52,7 @@
                     <span class="font-weight-bolder">
                         {{ data.item.name }}
                     </span>
-                    <div>{{ $t('booking.bookingForm.area') }}: {{ data.item.area }} m2</div>
+                    <div>{{ $t('booking.bookingForm.area') }}: {{ data.item.area }} ㎡</div>
                     <div>
                         <b-link
                             :href="hotelImage(data.item.images[0])"

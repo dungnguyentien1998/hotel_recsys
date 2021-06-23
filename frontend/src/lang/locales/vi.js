@@ -474,7 +474,7 @@ export default {
             childrenPlaceholder: 'Nhập số lượng trẻ em:',
             price: 'Giá phòng (VND):',
             pricePlaceholder: 'Nhập giá phòng',
-            area: 'Diện tích (m2):',
+            area: 'Diện tích (㎡):',
             areaPlaceholder: 'Nhập diện tích',
             amenities: 'Tiện nghi:',
             amenitiesPlaceholder: 'Nhập tiện nghi',

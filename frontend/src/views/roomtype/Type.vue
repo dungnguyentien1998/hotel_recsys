@@ -122,7 +122,7 @@
                             {{ $t('type.type.area') }}:
                         </span>
                         <span class="text-secondary">
-                            {{ type.area }} m2
+                            {{ type.area }} ㎡
                         </span>
                     </p>
 

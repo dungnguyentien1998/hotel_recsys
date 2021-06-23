@@ -169,7 +169,7 @@
                                                             {{ $t('room.room.area') }}:
                                                         </span>
                                                         <span class="text-secondary">
-                                                            {{ room.area }} m2
+                                                            {{ room.area }} ㎡
                                                         </span>
                                                     </p>
                                                     <p>

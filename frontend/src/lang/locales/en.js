@@ -475,7 +475,7 @@ export default {
             childrenPlaceholder: 'Enter number of children:',
             price: 'Price (VND):',
             pricePlaceholder: 'Enter room price',
-            area: 'Area (m2):',
+            area: 'Area (㎡):',
             areaPlaceholder: 'Enter area',
             amenities: 'Amenities:',
             amenitiesPlaceholder: 'Select amenities',
