@@ -173,26 +173,26 @@ def calculate_sim():
             normalized_data[r, 2] = float(train_data[r, 2])
 
         # User mean, for adjust cosine
-        # users = train_data[:, 0]
-        # n_users = int(np.max(train_data[:, 0]))
-        # mean_rating_matrix = np.zeros((n_users + 1,))
-        # for u in range(1, n_users + 1):
-        #     indices = np.where(users == u)[0].astype(np.int32)
-        #     temp_ratings = train_data[indices, 2]
-        #     # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
-        #     mean_rating_matrix[u] = np.mean(temp_ratings) if indices.size > 0 else 0
-        #     normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[u]
-
-        # Item mean, for pearson
-        items = train_data[:, 1]
-        n_items = int(np.max(train_data[:, 1]))
-        mean_rating_matrix = np.zeros((n_items + 1,))
-        for i in range(1, n_items + 1):
-            indices = np.where(items == i)[0].astype(np.int32)
+        users = train_data[:, 0]
+        n_users = int(np.max(train_data[:, 0]))
+        mean_rating_matrix = np.zeros((n_users + 1,))
+        for u in range(1, n_users + 1):
+            indices = np.where(users == u)[0].astype(np.int32)
             temp_ratings = train_data[indices, 2]
             # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
-            mean_rating_matrix[i] = np.mean(temp_ratings) if indices.size > 0 else 0
-            normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[i]
+            mean_rating_matrix[u] = np.mean(temp_ratings) if indices.size > 0 else 0
+            normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[u]
+
+        # Item mean, for pearson
+        # items = train_data[:, 1]
+        # n_items = int(np.max(train_data[:, 1]))
+        # mean_rating_matrix = np.zeros((n_items + 1,))
+        # for i in range(1, n_items + 1):
+        #     indices = np.where(items == i)[0].astype(np.int32)
+        #     temp_ratings = train_data[indices, 2]
+        #     # temp_ratings = [float(temp) for temp in train_data[indices, 2]]
+        #     mean_rating_matrix[i] = np.mean(temp_ratings) if indices.size > 0 else 0
+        #     normalized_data[indices, 2] = temp_ratings - mean_rating_matrix[i]
 
         key_hotels_ids = list(hotels_ids.keys())
         val_hotels_ids = list(hotels_ids.values())
